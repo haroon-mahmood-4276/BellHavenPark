@@ -11,10 +11,8 @@ class Booking extends Model
 {
     use HasFactory, LogsActivity;
 
-    protected $fillable = ['name', 'text'];
-
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()->logFillable();
     }
 }
