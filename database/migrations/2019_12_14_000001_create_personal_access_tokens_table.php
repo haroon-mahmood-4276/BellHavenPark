@@ -21,7 +21,8 @@ return new class extends Migration
             $table->text('abilities')->nullable();
             $table->timestamp('last_used_at')->nullable();
             $table->timestamp('expires_at')->nullable();
-            $table->timestamps();
+            $table->unsignedInteger('created_at')->nullable();
+            $table->unsignedInteger('updated_at')->nullable();
         });
     }
 

@@ -26,7 +26,8 @@ return new class extends Migration
             $table->json('responsive_images');
             $table->unsignedInteger('order_column')->nullable()->index();
 
-            $table->nullableTimestamps();
+            $table->unsignedInteger('created_at')->nullable();
+            $table->unsignedInteger('updated_at')->nullable();
         });
     }
 };

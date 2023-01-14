@@ -22,7 +22,7 @@ return new class extends Migration
                     ->nullable();
 
             if (Fortify::confirmsTwoFactorAuthentication()) {
-                $table->timestamp('two_factor_confirmed_at')
+                $table->unsignedInteger('two_factor_confirmed_at')
                         ->after('two_factor_recovery_codes')
                         ->nullable();
             }
