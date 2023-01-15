@@ -16,24 +16,23 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->integer('haven_cabin_id')->nullable()->default(0);
-            $table->integer('haven_customer_id')->nullable()->default(0);
-            $table->dateTime('booking_from')->nullable();
-            $table->dateTime('booking_to')->nullable();
-            $table->integer('haven_booking_source_id')->nullable()->default(0);
-            $table->integer('daily_rate')->nullable()->default(0);
-            $table->integer('daily_less_booking_percentage')->nullable()->default(0);
-            $table->integer('weekly_rate')->nullable()->default(0);
-            $table->integer('weekly_rate_less_booking_percentage')->nullable()->default(0);
-            $table->integer('four_weekly_rate')->nullable()->default(0);
-            $table->integer('four_weekly_less_booking_percentage')->nullable()->default(0);
-            $table->boolean('electricity_included')->nullable();
+            $table->foreignUuid('cabin_id')->nullable()->constrained();
+            $table->foreignUuid('customer_id')->nullable()->constrained();
+            $table->unsignedInteger('booking_from')->default(0);
+            $table->unsignedInteger('booking_to')->default(0);
+            $table->foreignUuid('booking_source_id')->nullable()->constrained();
+            $table->float('daily_rate')->nullable()->default(0);
+            $table->float('daily_less_booking_percentage')->default(0);
+            $table->float('weekly_rate')->default(0);
+            $table->float('weekly_rate_less_booking_percentage')->default(0);
+            $table->float('four_weekly_rate')->default(0);
+            $table->float('four_weekly_less_booking_percentage')->default(0);
+            $table->boolean('electricity_included');
             $table->string('check_in', 10)->nullable();
-            $table->dateTime('check_in_date')->nullable();
-            $table->dateTime('check_out_date')->nullable();
+            $table->integer('check_in_date')->default(0);
+            $table->integer('check_out_date')->default(0);
             $table->float('tax_percentage')->nullable();
             $table->float('tax_rate')->nullable();
-            $table->integer('booking_source')->nullable()->default(0);
             $table->string('status', 30)->nullable();
             $table->text('comments')->nullable();
             $table->string('payment', 5)->nullable();

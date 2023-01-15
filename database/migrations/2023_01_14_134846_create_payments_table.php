@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->tinyInteger('haven_user_id')->nullable()->default(0);
-            $table->tinyInteger('haven_booking_id')->nullable()->default(0);
-            $table->tinyInteger('haven_customer_id')->nullable()->default(0);
+            $table->foreignUuid('user_id')->nullable()->constrained();
+            $table->foreignUuid('booking_id')->nullable()->constrained();
+            $table->foreignUuid('customer_id')->nullable()->constrained();
             $table->double('payment_credit', 8)->nullable()->default(0);
             $table->double('payment_debit', 8)->nullable()->default(0);
             $table->double('payment_balance', 8)->nullable()->default(0);

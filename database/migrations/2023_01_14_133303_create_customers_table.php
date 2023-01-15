@@ -23,9 +23,9 @@ return new class extends Migration
             $table->string('email', 150)->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('telephone', 20)->nullable();
-            $table->foreignId('haven_international_id_id')->constrained();
-            $table->string('haven_international_id_details')->nullable();
-            $table->string('haven_international_id_address')->nullable();
+            $table->foreignUuid('international_id_id')->constrained();
+            $table->string('international_details')->nullable();
+            $table->string('international_address')->nullable();
             $table->text('comments')->nullable();
             $table->text('tenants')->nullable();
             $table->string('referenced_by')->nullable();
