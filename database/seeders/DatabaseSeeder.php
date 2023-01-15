@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             BookingSourceSeeder::class,
             CabinStatusSeeder::class,
             CabinTypeSeeder::class,
+            CabinSeeder::class,
         ]);
     }
 }

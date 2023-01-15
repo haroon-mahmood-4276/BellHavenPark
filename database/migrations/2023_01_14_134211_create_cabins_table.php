@@ -16,10 +16,12 @@ return new class extends Migration
         Schema::create('cabins', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
+            $table->foreignUuid('cabin_type_id')->constrained()->onDelete('no action')->onUpdate('no action');
+            $table->foreignUuid('cabin_status_id')->constrained()->onDelete('no action')->onUpdate('no action');
             $table->string('name', 50)->nullable();
-            $table->boolean('long_term')->nullable();
-            $table->boolean('electric_meter')->nullable();
-            $table->dateTime('till')->nullable();
+            $table->boolean('long_term')->default(false);
+            $table->boolean('electric_meter')->default(false);
+            $table->unsignedInteger('till')->nullable();
             $table->float('daily_rate')->default(0);
             $table->float('weekly_rate')->default(0);
             $table->float('electric_daily_rate')->default(0);
