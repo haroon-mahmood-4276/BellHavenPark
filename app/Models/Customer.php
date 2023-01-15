@@ -13,6 +13,6 @@ class Customer extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logFillable();
+        return LogOptions::defaults()->useLogName(self::class)->logFillable();
     }
 }

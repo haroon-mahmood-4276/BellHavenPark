@@ -1,4 +1,4 @@
-@extends('admin.auth.layout')
+@extends('auth.layout')
 
 @section('content')
     <div class="d-flex col-12 col-lg-5 align-items-center p-sm-5 p-4">
@@ -25,11 +25,11 @@
 
             <h3 class="mb-1 fw-bold">Welcome to Vuexy! 👋</h3>
             <p class="mb-4">Please sign-in to your account and start the adventure</p>
-            <form id="formAuthentication" class="mb-3" action="{{ route('admin.login.post') }}" method="POST">
+            <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="POST">
 
                 @csrf
 
-                {{ view('admin.app.layout.alerts') }}
+                {{ view('layout.alerts') }}
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email or Username</label>
