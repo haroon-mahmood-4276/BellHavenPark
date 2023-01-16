@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
-<html class="light-style layout-navbar-fixed layout-menu-fixed" lang="{{ LaravelLocalization::getCurrentLocale() }}"
-    dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}" data-theme="theme-default"
+<html class="light-style layout-navbar-fixed layout-menu-fixed" lang="en"
+    dir="ltr" data-theme="theme-default"
     data-assets-path="{{ asset('assets') }}/" data-template="vertical-menu-template">
 
 <head>
@@ -62,21 +62,21 @@
         <div class="layout-container">
 
             <!-- Menu -->
-            {{ view('admin.app.layout.leftbar') }}
+            {{ view('layout.leftbar') }}
             <!-- End Menu -->
 
             <!-- Layout container -->
             <div class="layout-page">
 
                 <!-- TopBar -->
-                {{ view('admin.app.layout.topbar') }}
+                {{ view('layout.topbar') }}
                 <!-- End TopBar -->
 
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        {{ view('admin.app.layout.alerts') }}
+                        {{ view('layout.alerts') }}
 
                         @yield('breadcrumbs')
 
@@ -85,7 +85,7 @@
                     <!-- End Content -->
 
                     <!-- Footer -->
-                    {{ view('admin.app.layout.footer') }}
+                    {{ view('layout.footer') }}
                     <!-- End Footer -->
 
                     <div class="content-backdrop fade"></div>

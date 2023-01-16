@@ -85,9 +85,9 @@
             </li>
             <!--/ Style Switcher -->
 
-            @can('admin.cache.flush')
+            @can('cache.flush')
                 <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="{{ route('admin.cache.flush') }}" data-bs-toggle="tooltip"
+                    <a class="nav-link" href="{{ route('cache.flush') }}" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" title="Click to clear cache (Automatically resets in 10 minutes)">
                         <i class="ti ti-refresh ti-md"></i>
                     </a>
@@ -488,7 +488,7 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ route('admin.logout') }}">
+                        <a class="dropdown-item" href="{{ route('logout') }}">
                             <i class="ti ti-logout me-2 ti-sm"></i>
                             <span class="align-middle">Log Out</span>
                         </a>

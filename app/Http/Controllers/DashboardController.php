@@ -10,4 +10,15 @@ class DashboardController extends Controller
     {
         return view('dashboard');
     }
+
+    public function logout(Request $request)
+    {
+        auth()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
+    }
 }

@@ -29,22 +29,22 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : null }}">
-            <a href="{{ route('admin.dashboard') }}" class="menu-link">
+        <li class="menu-item {{ request()->routeIs('dashboard.index') ? 'active' : null }}">
+            <a href="{{ route('dashboard.index') }}" class="menu-link">
                 <i class="fa-solid fa-home menu-icon"></i>
-                <div>{{ __('lang.leftbar.dashboard') }}</div>
+                <div>Dashboard</div>
             </a>
         </li>
 
-        @if (Auth::user()->can('admin.permissions.index') || Auth::user()->can('admin.roles.index'))
+        @if (Auth::user()->can('permissions.index') || Auth::user()->can('roles.index'))
             <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">{{ __('lang.leftbar.administration') }}</span>
             </li>
         @endif
 
         {{-- Roles & Permissions --}}
-        @canany(['admin.permissions.index', 'admin.roles.index'])
-            <li class="menu-item {{ in_array(request()->route()->getName(), ['admin.roles.index', 'admin.permissions.index']) ? 'open active' : null }}">
+        @canany(['permissions.index', 'roles.index'])
+            <li class="menu-item {{ in_array(request()->route()->getName(), ['roles.index', 'permissions.index']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-lock menu-icon"></i>
                     <div>{{ __('lang.leftbar.roles_and_permissions') }}</div>
@@ -52,17 +52,17 @@
                 </a>
                 <ul class="menu-sub">
 
-                    @can('admin.roles.index')
-                        <li class="menu-item {{ request()->routeIs('admin.roles.index') ? 'active' : null }}">
-                            <a href="{{ route('admin.roles.index') }}" class="menu-link">
+                    @can('roles.index')
+                        <li class="menu-item {{ request()->routeIs('roles.index') ? 'active' : null }}">
+                            <a href="{{ route('roles.index') }}" class="menu-link">
                                 <div>{{ __('lang.leftbar.roles') }}</div>
                             </a>
                         </li>
                     @endcan
 
-                    @can('admin.permissions.index')
-                        <li class="menu-item {{ request()->routeIs('admin.permissions.index') ? 'active' : null }}">
-                            <a href="{{ route('admin.permissions.index') }}" class="menu-link">
+                    @can('permissions.index')
+                        <li class="menu-item {{ request()->routeIs('permissions.index') ? 'active' : null }}">
+                            <a href="{{ route('permissions.index') }}" class="menu-link">
                                 <div>{{ __('lang.leftbar.permissions') }}</div>
                             </a>
                         </li>
@@ -75,10 +75,10 @@
             <span class="menu-header-text">Others</span>
         </li>
 
-        @can('admin.sites.configurations.configView')
+        @can('sites.configurations.configView')
             <li
                 class="menu-item {{ request()->routeIs('sites.configurations.configView', ['id' => encryptParams($site_id)]) ? 'active' : null }}">
-                <a href="{{ route('admin.sites.configurations.configView', ['id' => encryptParams($site_id)]) }}"
+                <a href="{{ route('sites.configurations.configView', ['id' => encryptParams($site_id)]) }}"
                     class="menu-link">
                     <i class="menu-icon tf-icons ti ti-smart-home"></i>
                     <div>Site Configurations</div>
@@ -86,54 +86,26 @@
             </li>
         @endcan
 
-        @canany(['admin.subscriptions.index', 'admin.subscriptions.create'])
+        @canany(['subscriptions.index', 'subscriptions.create'])
 
-            <li class="menu-item {{ in_array(request()->route()->getName(), ['admin.subscriptions.index', 'admin.subscriptions.create']) ? 'open active' : null }}">
+            <li class="menu-item {{ in_array(request()->route()->getName(), ['subscriptions.index', 'subscriptions.create']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-bolt menu-icon"></i>
                     <div>Subscriptions</div>
                 </a>
                 <ul class="menu-sub">
 
-                    @can('admin.subscriptions.index')
-                        <li class="menu-item {{ request()->routeIs('admin.subscriptions.index') ? 'active' : null }}">
-                            <a href="{{ route('admin.subscriptions.index') }}" class="menu-link">
+                    @can('subscriptions.index')
+                        <li class="menu-item {{ request()->routeIs('subscriptions.index') ? 'active' : null }}">
+                            <a href="{{ route('subscriptions.index') }}" class="menu-link">
                                 <div>View All</div>
                             </a>
                         </li>
                     @endcan
 
-                    @can('admin.subscriptions.create')
-                        <li class="menu-item {{ request()->routeIs('admin.subscriptions.create') ? 'active' : null }}">
-                            <a href="{{ route('admin.subscriptions.create') }}" class="menu-link">
-                                <div>Add New</div>
-                            </a>
-                        </li>
-                    @endcan
-                </ul>
-            </li>
-        @endcanany
-
-        @canany(['admin.hall-owners.index', 'admin.hall-owners.create'])
-            <li class="menu-item {{ in_array(request()->route()->getName(), ['admin.hall-owners.index', 'admin.hall-owners.create']) ? 'open active' : null }}">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="fa-brands fa-mizuni menu-icon"></i>
-                    <div>Hall Owners</div>
-                </a>
-                <ul class="menu-sub">
-
-                    @can('admin.hall-owners.index')
-                        <li class="menu-item {{ request()->routeIs('admin.hall-owners.index') ? 'active' : null }}">
-                            <a href="{{ route('admin.hall-owners.index') }}" class="menu-link">
-                                <div>View All</div>
-                            </a>
-                        </li>
-                    @endcan
-
-
-                    @can('admin.hall-owners.create')
-                        <li class="menu-item {{ request()->routeIs('admin.hall-owners.create') ? 'active' : null }}">
-                            <a href="{{ route('admin.hall-owners.create') }}" class="menu-link">
+                    @can('subscriptions.create')
+                        <li class="menu-item {{ request()->routeIs('subscriptions.create') ? 'active' : null }}">
+                            <a href="{{ route('subscriptions.create') }}" class="menu-link">
                                 <div>Add New</div>
                             </a>
                         </li>

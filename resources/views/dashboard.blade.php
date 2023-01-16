@@ -1,7 +1,7 @@
-@extends('admin.app.layout.layout')
+@extends('layout.layout')
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'admin.dashboard') }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'dashboard') }}
 @endsection
 
 @section('page-title', 'Dashboard')
@@ -18,7 +18,7 @@
 @endsection
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'admin.dashboard') }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'dashboard') }}
 @endsection
 
 @section('content')
