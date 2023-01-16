@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,6 +18,8 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::truncate();
+        $role = (new Role())->first();
+
         $data = [
             [
                 'name' => 'Admin',
@@ -29,7 +32,8 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($data as $key => $user) {
-            (new User())->create($user);
+            $user = (new User())->create($user);
+            $user->assignRole($role);
         }
     }
 }

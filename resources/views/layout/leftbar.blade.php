@@ -86,26 +86,25 @@
             </li>
         @endcan
 
-        @canany(['subscriptions.index', 'subscriptions.create'])
-
-            <li class="menu-item {{ in_array(request()->route()->getName(), ['subscriptions.index', 'subscriptions.create']) ? 'open active' : null }}">
+        @canany(['payment-methods.index', 'payment-methods.create'])
+            <li class="menu-item {{ in_array(request()->route()->getName(), ['payment-methods.index', 'payment-methods.create']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-bolt menu-icon"></i>
-                    <div>Subscriptions</div>
+                    <div>Payment Methods</div>
                 </a>
                 <ul class="menu-sub">
 
-                    @can('subscriptions.index')
-                        <li class="menu-item {{ request()->routeIs('subscriptions.index') ? 'active' : null }}">
-                            <a href="{{ route('subscriptions.index') }}" class="menu-link">
+                    @can('payment-methods.index')
+                        <li class="menu-item {{ request()->routeIs('payment-methods.index') ? 'active' : null }}">
+                            <a href="{{ route('payment-methods.index') }}" class="menu-link">
                                 <div>View All</div>
                             </a>
                         </li>
                     @endcan
 
-                    @can('subscriptions.create')
-                        <li class="menu-item {{ request()->routeIs('subscriptions.create') ? 'active' : null }}">
-                            <a href="{{ route('subscriptions.create') }}" class="menu-link">
+                    @can('payment-methods.create')
+                        <li class="menu-item {{ request()->routeIs('payment-methods.create') ? 'active' : null }}">
+                            <a href="{{ route('payment-methods.create') }}" class="menu-link">
                                 <div>Add New</div>
                             </a>
                         </li>
