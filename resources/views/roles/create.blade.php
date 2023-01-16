@@ -1,7 +1,7 @@
-@extends('admin.app.layout.layout')
+@extends('layout.layout')
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'admin.roles.create') }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'roles.create') }}
 @endsection
 
 @section('page-title', 'Create Role')
@@ -18,18 +18,18 @@
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
         <h2 class="content-header-title float-start mb-0 mx-3">Create Role</h2>
-        {{ Breadcrumbs::render('admin.roles.create') }}
+        {{ Breadcrumbs::render('roles.create') }}
     </div>
 @endsection
 
 @section('content')
-    <form class="form form-vertical" action="{{ route('admin.roles.store') }}" method="POST" enctype="multipart/form-data">
+    <form class="form form-vertical" action="{{ route('roles.store') }}" method="POST" enctype="multipart/form-data">
 
         <div class="row g-3">
             <div class="col-lg-9 col-md-9 col-sm-12 position-relative">
 
                 @csrf
-                {{ view('admin.app.roles.form-fields', ['roles' => $roles]) }}
+                {{ view('roles.form-fields', ['roles' => $roles]) }}
 
             </div>
 
@@ -45,9 +45,9 @@
                                     </button>
                                 </div>
                                 <div class="col-md-12">
-                                    <a href="{{ route('admin.roles.index') }}" class="btn btn-danger w-100 ">
+                                    <a href="{{ route('roles.index') }}" class="btn btn-danger w-100 ">
                                         <i class="fa-solid fa-xmark icon mx-2"></i>
-                                        {{ __('lang.commons.cancel') }}
+                                        Cancel
                                     </a>
                                 </div>
                             </div>

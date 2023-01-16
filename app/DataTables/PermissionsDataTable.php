@@ -232,4 +232,3 @@ class PermissionsDataTable extends DataTable
         return $pdf->download($this->filename() . '.pdf');
     }
 }
-// onchange=\'changeRolePermission(\'' . $role['id'] . '\', \"" + data.permission_id + "\")\'

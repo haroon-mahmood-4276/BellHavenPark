@@ -38,7 +38,7 @@
 
         @if (Auth::user()->can('permissions.index') || Auth::user()->can('roles.index'))
             <li class="menu-header small text-uppercase">
-                <span class="menu-header-text">{{ __('lang.leftbar.administration') }}</span>
+                <span class="menu-header-text">Administration</span>
             </li>
         @endif
 
@@ -47,7 +47,7 @@
             <li class="menu-item {{ in_array(request()->route()->getName(), ['roles.index', 'permissions.index']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-lock menu-icon"></i>
-                    <div>{{ __('lang.leftbar.roles_and_permissions') }}</div>
+                    <div>Roles & Permissions</div>
                     {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
                 </a>
                 <ul class="menu-sub">
@@ -55,7 +55,7 @@
                     @can('roles.index')
                         <li class="menu-item {{ request()->routeIs('roles.index') ? 'active' : null }}">
                             <a href="{{ route('roles.index') }}" class="menu-link">
-                                <div>{{ __('lang.leftbar.roles') }}</div>
+                                <div>Roles</div>
                             </a>
                         </li>
                     @endcan
@@ -63,7 +63,7 @@
                     @can('permissions.index')
                         <li class="menu-item {{ request()->routeIs('permissions.index') ? 'active' : null }}">
                             <a href="{{ route('permissions.index') }}" class="menu-link">
-                                <div>{{ __('lang.leftbar.permissions') }}</div>
+                                <div>Permissions</div>
                             </a>
                         </li>
                     @endcan

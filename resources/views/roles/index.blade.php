@@ -1,13 +1,13 @@
-@extends('admin.app.layout.layout')
+@extends('layout.layout')
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'admin.roles.index') }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'roles.index') }}
 @endsection
 
-@section('page-title', __('lang.roles.role_plural'))
+@section('page-title', 'Roles')
 
 @section('page-vendor')
-    {{ view('admin.app.layout.datatables.css') }}
+    {{ view('layout.datatables.css') }}
 @endsection
 
 @section('page-css')
@@ -19,7 +19,7 @@
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
         <h2 class="content-header-title float-start mb-0 mx-3">Roles</h2>
-        {{ Breadcrumbs::render('admin.roles.index') }}
+        {{ Breadcrumbs::render('roles.index') }}
     </div>
 @endsection
 
@@ -66,7 +66,7 @@
                         <div class="d-flex justify-content-between align-items-end mt-1">
                             <div class="role-heading">
                                 <h4 class="mb-1">{{ $role->name }}</h4>
-                                <a href="{{ route('admin.roles.edit', ['id' => $role->id]) }}"
+                                <a href="{{ route('roles.edit', ['id' => $role->id]) }}"
                                     class="role-edit-modal"><span>Edit Role</span></a>
                             </div>
                             {{-- <a href="javascript:void(0);" class="text-muted"><i class="ti ti-copy ti-md"></i></a> --}}
@@ -77,7 +77,7 @@
         @empty
         @endforelse
 
-        @can('admin.roles.create')
+        @can('roles.create')
             <div class="col-xl-4 col-lg-6 col-md-6">
                 <div class="card h-100">
                     <div class="row h-100">
@@ -104,7 +104,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('admin.roles.destroy') }}" id="roles-table-form" method="get">
+                    <form action="{{ route('roles.destroy') }}" id="roles-table-form" method="get">
                         {{ $dataTable->table() }}
                     </form>
                 </div>
@@ -114,7 +114,7 @@
 @endsection
 
 @section('vendor-js')
-    {{ view('admin.app.layout.datatables.js') }}
+    {{ view('layout.datatables.js') }}
 @endsection
 
 @section('page-js')
@@ -130,10 +130,10 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Warning',
-                    text: '{{ __('lang.commons.are_you_sure_you_want_to_delete_the_selected_items') }}',
+                    text: 'Are you sure you want to delete the selected items?',
                     showCancelButton: true,
-                    cancelButtonText: '{{ __('lang.commons.no_cancel') }}',
-                    confirmButtonText: '{{ __('lang.commons.yes_delete') }}',
+                    cancelButtonText: 'No',
+                    confirmButtonText: 'Yes',
                     confirmButtonClass: 'btn-danger',
                     buttonsStyling: false,
                     customClass: {
@@ -149,7 +149,7 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Warning',
-                    text: '{{ __('lang.commons.please_select_at_least_one_item') }}',
+                    text: 'Please select at least one item!',
                     buttonsStyling: false,
                     customClass: {
                         confirmButton: 'btn btn-danger  me-1',
@@ -160,7 +160,7 @@
         }
 
         function addNew() {
-            location.href = "{{ route('admin.roles.create') }}";
+            location.href = "{{ route('roles.create') }}";
         }
     </script>
 @endsection

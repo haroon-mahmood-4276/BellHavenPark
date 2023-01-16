@@ -34,7 +34,7 @@ class RolesDataTable extends DataTable
                 return editDateColumn($role->updated_at);
             })
             ->editColumn('actions', function ($role) {
-                return view('admin.app.roles.actions', ['id' => $role->id]);
+                return view('roles.actions', ['id' => $role->id]);
             })
             ->editColumn('check', function ($role) {
                 return $role;
@@ -58,7 +58,7 @@ class RolesDataTable extends DataTable
     {
         $buttons = [];
 
-        // if (auth()->user()->can('admin.roles.create')) {
+        // if (auth()->user()->can('roles.create')) {
         //     $buttons[] = Button::raw('delete-selected')
         //         ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
         //         ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New')
@@ -67,7 +67,7 @@ class RolesDataTable extends DataTable
         //         ]);
         // }
 
-        if (auth()->user()->can('admin.roles.export')) {
+        if (auth()->user()->can('roles.export')) {
             $buttons[] = Button::make('export')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1')
                 ->buttons([
@@ -84,7 +84,7 @@ class RolesDataTable extends DataTable
             Button::make('reload')->addClass('btn btn-primary waves-effect waves-float waves-light m-1'),
         ]);
 
-        if (auth()->user()->can('admin.roles.destroy')) {
+        if (auth()->user()->can('roles.destroy')) {
             $buttons[] = Button::raw('delete-selected')
                 ->addClass('btn btn-danger waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-minus"></i>&nbsp;&nbsp;Delete Selected')
@@ -116,7 +116,7 @@ class RolesDataTable extends DataTable
                     'responsivePriority' => 3,
                     'render' => "function (data, type, full, setting) {
                         var role = JSON.parse(data);
-                        return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"chkRole[]\" id=\"chkRole_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
+                        return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
                     }",
                     'checkboxes' => [
                         'selectAllRender' =>  '<div class="form-check"> <input class="form-check-input" onchange="changeAllTableRowColor()" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>',
@@ -140,7 +140,7 @@ class RolesDataTable extends DataTable
     {
 
         $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60);
-        if (auth()->user()->can('admin.roles.destroy')) {
+        if (auth()->user()->can('roles.destroy')) {
             $checkColumn->addClass('disabled');
         }
 
