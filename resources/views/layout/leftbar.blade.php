@@ -60,7 +60,7 @@
                         </li>
                     @endcan
 
-                    @can('permissions.index')
+                    @can('permissions.index1')
                         <li class="menu-item {{ request()->routeIs('permissions.index') ? 'active' : null }}">
                             <a href="{{ route('permissions.index') }}" class="menu-link">
                                 <div>Permissions</div>
