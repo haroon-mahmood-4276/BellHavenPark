@@ -38,3 +38,20 @@ Breadcrumbs::for('permissions.edit', function (BreadcrumbTrail $trail, $permissi
     $trail->parent('permissions.index');
     $trail->push('Edit Permission',  route('permissions.edit', ['id' => $permission_id]));
 });
+
+
+// Payment Methods Breadcrumbs
+Breadcrumbs::for('payment-methods.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Payment Methods', route('payment-methods.index'));
+});
+
+Breadcrumbs::for('payment-methods.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('payment-methods.index');
+    $trail->push('Create Payment Method', route('payment-methods.create'));
+});
+
+Breadcrumbs::for('payment-methods.edit', function (BreadcrumbTrail $trail, $payment_method_id) {
+    $trail->parent('payment-methods.index');
+    $trail->push('Edit Payment Method',  route('payment-methods.edit', ['id' => $payment_method_id]));
+});

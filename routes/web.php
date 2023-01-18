@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\RoleController;
+use App\Http\Controllers\{
+    DashboardController,
+    PaymentMethodController,
+    PermissionController,
+    RoleController,
+};
 use Illuminate\Support\Facades\Route;
 
 /*
