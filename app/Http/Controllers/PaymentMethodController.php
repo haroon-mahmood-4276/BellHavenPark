@@ -134,6 +134,13 @@ class PaymentMethodController extends Controller
         }
     }
 
+    /**
+     * Delete the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Request $request)
     {
         abort_if(request()->ajax(), 403);

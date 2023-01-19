@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\Roles\{RoleInterface, RoleService};
 use App\Services\PaymentMethods\{PaymentMethodInterface, PaymentMethodService};
+use App\Services\InternationalIds\{InternationalIdInterface, InternationalIdService};
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(RoleInterface::class, RoleService::class);
         // $this->app->bind(PermissionInterface::class, PermissionService::class);
         $this->app->bind(PaymentMethodInterface::class, PaymentMethodService::class);
+        $this->app->bind(InternationalIdInterface::class, InternationalIdService::class);
     }
 
     /**

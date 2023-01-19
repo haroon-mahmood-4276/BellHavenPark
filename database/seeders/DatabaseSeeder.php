@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             CabinStatusSeeder::class,
             CabinTypeSeeder::class,
             CabinSeeder::class,
+            InternationalIdSeeder::class,
+            PaymentMethodSeeder::class,
         ]);
     }
 }

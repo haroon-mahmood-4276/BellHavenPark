@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\{
     DashboardController,
+    InternationalIdController,
     PaymentMethodController,
     PermissionController,
     RoleController,
@@ -77,27 +78,34 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
+    // International Ids Routes
+    Route::group(['prefix' => 'international-ids', 'as' => 'international-ids.'], function () {
+        Route::get('/', [InternationalIdController::class, 'index'])->middleware('permission:international-ids.index')->name('index');
 
+        Route::group(['middleware' => 'permission:international-ids.create'], function () {
+            Route::get('create', [InternationalIdController::class, 'create'])->name('create');
+            Route::post('store', [InternationalIdController::class, 'store'])->name('store');
+        });
 
+        Route::get('delete', [InternationalIdController::class, 'destroy'])->name('destroy');
 
-
-
-
-
-
-
-
-
-    // International IDs Routes
-    Route::group(['prefix' => 'international-ids', 'as' => 'internationalids.'], function () {
-        Route::get('/', [InternationalIdController::class, 'index'])->name('index');
-        Route::get('/create', [InternationalIdController::class, 'create'])->name('create');
-        Route::post('/', [InternationalIdController::class, 'store'])->name('store');
-        Route::get('/{internationalid}/show', [InternationalIdController::class, 'show'])->name('show');
-        Route::get('/{internationalid}/edit', [InternationalIdController::class, 'edit'])->name('edit');
-        Route::put('/{internationalid}', [InternationalIdController::class, 'update'])->name('update');
-        Route::delete('/{internationalid}', [InternationalIdController::class, 'destroy'])->name('destroy');
+        Route::group(['prefix' => '/{id}', 'middleware' => 'permission:international-ids.edit'], function () {
+            Route::get('edit', [InternationalIdController::class, 'edit'])->name('edit');
+            Route::put('update', [InternationalIdController::class, 'update'])->name('update');
+        });
     });
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Customers Routes
     Route::group(['prefix' => 'customers', 'as' => 'customers.'], function () {

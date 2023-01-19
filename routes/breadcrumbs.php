@@ -39,7 +39,6 @@ Breadcrumbs::for('permissions.edit', function (BreadcrumbTrail $trail, $permissi
     $trail->push('Edit Permission',  route('permissions.edit', ['id' => $permission_id]));
 });
 
-
 // Payment Methods Breadcrumbs
 Breadcrumbs::for('payment-methods.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
@@ -54,4 +53,20 @@ Breadcrumbs::for('payment-methods.create', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('payment-methods.edit', function (BreadcrumbTrail $trail, $payment_method_id) {
     $trail->parent('payment-methods.index');
     $trail->push('Edit Payment Method',  route('payment-methods.edit', ['id' => $payment_method_id]));
+});
+
+// International Id Breadcrumbs
+Breadcrumbs::for('international-ids.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('International Id', route('international-ids.index'));
+});
+
+Breadcrumbs::for('international-ids.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('international-ids.index');
+    $trail->push('Create International Id', route('international-ids.create'));
+});
+
+Breadcrumbs::for('international-ids.edit', function (BreadcrumbTrail $trail, $international_id) {
+    $trail->parent('international-ids.index');
+    $trail->push('Edit International Id',  route('international-ids.edit', ['id' => $international_id]));
 });

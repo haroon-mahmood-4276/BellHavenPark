@@ -30,4 +30,14 @@ return new class extends Migration
             $table->unsignedInteger('updated_at')->nullable();
         });
     }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('media');
+    }
 };

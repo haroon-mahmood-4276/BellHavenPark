@@ -20,20 +20,14 @@ class CabinStatusSeeder extends Seeder
             [
                 'name' => 'Occupied',
                 'description' => 'Occupied',
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
                 'name' => 'Vacant',
                 'description' => 'Vacant',
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
                 'name' => 'Closed',
                 'description' => 'Closed',
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
         ];
 

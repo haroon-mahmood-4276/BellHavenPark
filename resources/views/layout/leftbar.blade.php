@@ -44,7 +44,8 @@
 
         {{-- Roles & Permissions --}}
         @canany(['permissions.index', 'roles.index'])
-            <li class="menu-item {{ in_array(request()->route()->getName(), ['roles.index', 'permissions.index']) ? 'open active' : null }}">
+            <li
+                class="menu-item {{ in_array(request()->route()->getName(),['roles.index', 'permissions.index'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-lock menu-icon"></i>
                     <div>Roles & Permissions</div>
@@ -87,7 +88,8 @@
         @endcan
 
         @canany(['payment-methods.index', 'payment-methods.create'])
-            <li class="menu-item {{ in_array(request()->route()->getName(), ['payment-methods.index', 'payment-methods.create']) ? 'open active' : null }}">
+            <li
+                class="menu-item {{ in_array(request()->route()->getName(),['payment-methods.index', 'payment-methods.create'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-bolt menu-icon"></i>
                     <div>Payment Methods</div>
@@ -105,6 +107,34 @@
                     @can('payment-methods.create')
                         <li class="menu-item {{ request()->routeIs('payment-methods.create') ? 'active' : null }}">
                             <a href="{{ route('payment-methods.create') }}" class="menu-link">
+                                <div>Add New</div>
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+            </li>
+        @endcanany
+
+        @canany(['international-ids.index', 'international-ids.create'])
+            <li
+                class="menu-item {{ in_array(request()->route()->getName(),['international-ids.index', 'international-ids.create'])? 'open active': null }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="fa-solid fa-bolt menu-icon"></i>
+                    <div>International Ids</div>
+                </a>
+                <ul class="menu-sub">
+
+                    @can('international-ids.index')
+                        <li class="menu-item {{ request()->routeIs('international-ids.index') ? 'active' : null }}">
+                            <a href="{{ route('international-ids.index') }}" class="menu-link">
+                                <div>View All</div>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('international-ids.create')
+                        <li class="menu-item {{ request()->routeIs('international-ids.create') ? 'active' : null }}">
+                            <a href="{{ route('international-ids.create') }}" class="menu-link">
                                 <div>Add New</div>
                             </a>
                         </li>

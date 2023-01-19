@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\DataTables\Admin\PermissionsDataTable;
+use App\DataTables\PermissionsDataTable;
 use App\Services\Admin\Permissions\PermissionInterface;
 use Spatie\Permission\Models\{Role, Permission};
 use Illuminate\Http\Request;

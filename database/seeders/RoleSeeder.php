@@ -16,13 +16,11 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-
+        Role::truncate();
         $AdminRole = (new Role())->create([
             'name' => 'Admin',
             'guard_name' => 'web',
             'parent_id' => null,
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
         $data = [
@@ -30,8 +28,6 @@ class RoleSeeder extends Seeder
                 'name' => 'Users',
                 'guard_name' => 'web',
                 'parent_id' => $AdminRole->id,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
         ];
 
