@@ -18,51 +18,51 @@ class CabinTypeSeeder extends Seeder
         $data = [
             [
                 'name' => 'Standard Cabin',
-                'rate' => 0,
+                // 'rate' => 1,
             ],
             [
                 'name' => 'Ensuite Cabin',
-                'rate' => 0,
+                // 'rate' => 1,
             ],
             [
                 'name' => 'Caravan',
-                'rate' => 0,
+                // 'rate' => 1,
             ],
             [
                 'name' => 'Caravan & Annex',
-                'rate' => 0,
+                // 'rate' => 1,
             ],
             [
                 'name' => 'Cutomer Owned',
-                'rate' => 0,
+                // 'rate' => 1,
             ],
             [
                 'name' => 'Vacant Site',
-                'rate' => 0,
+                // 'rate' => 1,
             ],
             [
                 'name' => 'Drive Through',
-                'rate' => 0,
+                // 'rate' => 1,
             ],
             [
                 'name' => 'Tent Site',
-                'rate' => 0,
+                // 'rate' => 1,
             ],
             [
                 'name' => 'UnPoweredSites',
-                'rate' => 0,
+                // 'rate' => 1,
             ],
             [
                 'name' => 'Spare',
-                'rate' => 0,
+                // 'rate' => 1,
             ],
             [
                 'name' => 'Ensuite Villa',
-                'rate' => 0,
+                // 'rate' => 1,
             ],
             [
                 'name' => 'Inv-Sale',
-                'rate' => 0,
+                // 'rate' => 1,
             ],
         ];
 

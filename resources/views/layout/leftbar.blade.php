@@ -142,5 +142,33 @@
                 </ul>
             </li>
         @endcanany
+
+        @canany(['cabin-types.index', 'cabin-types.create'])
+            <li
+                class="menu-item {{ in_array(request()->route()->getName(),['cabin-types.index', 'cabin-types.create'])? 'open active': null }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="fa-solid fa-bolt menu-icon"></i>
+                    <div>Cabin Types</div>
+                </a>
+                <ul class="menu-sub">
+
+                    @can('cabin-types.index')
+                        <li class="menu-item {{ request()->routeIs('cabin-types.index') ? 'active' : null }}">
+                            <a href="{{ route('cabin-types.index') }}" class="menu-link">
+                                <div>View All</div>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('cabin-types.create')
+                        <li class="menu-item {{ request()->routeIs('cabin-types.create') ? 'active' : null }}">
+                            <a href="{{ route('cabin-types.create') }}" class="menu-link">
+                                <div>Add New</div>
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+            </li>
+        @endcanany
     </ul>
 </aside>

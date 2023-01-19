@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{
+    CabinTypeController,
     DashboardController,
     InternationalIdController,
     PaymentMethodController,
@@ -95,6 +96,23 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
+    // Cabin Types Routes
+    Route::group(['prefix' => 'cabin-types', 'as' => 'cabin-types.'], function () {
+        Route::get('/', [CabinTypeController::class, 'index'])->middleware('permission:cabin-types.index')->name('index');
+
+        Route::group(['middleware' => 'permission:cabin-types.create'], function () {
+            Route::get('create', [CabinTypeController::class, 'create'])->name('create');
+            Route::post('store', [CabinTypeController::class, 'store'])->name('store');
+        });
+
+        Route::get('delete', [CabinTypeController::class, 'destroy'])->name('destroy');
+
+        Route::group(['prefix' => '/{id}', 'middleware' => 'permission:cabin-types.edit'], function () {
+            Route::get('edit', [CabinTypeController::class, 'edit'])->name('edit');
+            Route::put('update', [CabinTypeController::class, 'update'])->name('update');
+        });
+    });
+
 
 
 
@@ -116,17 +134,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{customer}/edit', [CustomerController::class, 'edit'])->name('edit');
         Route::put('/{customer}', [CustomerController::class, 'update'])->name('update');
         Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
-    });
-
-    // Cabin Type Routes
-    Route::group(['prefix' => 'cabin-types', 'as' => 'cabin_types.'], function () {
-        Route::get('/', [CabinTypeController::class, 'index'])->name('index');
-        Route::get('/create', [CabinTypeController::class, 'create'])->name('create');
-        Route::post('/', [CabinTypeController::class, 'store'])->name('store');
-        Route::get('/{cabin_type}/show', [CabinTypeController::class, 'show'])->name('show');
-        Route::get('/{cabin_type}/edit', [CabinTypeController::class, 'edit'])->name('edit');
-        Route::put('/{cabin_type}', [CabinTypeController::class, 'update'])->name('update');
-        Route::delete('/{cabin_type}', [CabinTypeController::class, 'destroy'])->name('destroy');
     });
 
     // Cabin Status Routes

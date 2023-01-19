@@ -11,13 +11,20 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class CabinType extends Model
 {
-    use HasFactory, LogsActivity, HasUuids, SoftDeletes;
+    use HasFactory, LogsActivity, SoftDeletes, HasUuids;
 
     protected $dateFormat = 'U';
 
     protected $fillable = [
         'name',
-        'rate',
+        // 'rate'
+    ];
+
+    protected $hidden = [];
+
+    public $rule = [
+        'name' => 'required|string|min:1|max:30',
+        // 'rate' => 'required|numeric|gt:0',
     ];
 
     public function getActivitylogOptions(): LogOptions

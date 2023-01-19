@@ -70,3 +70,19 @@ Breadcrumbs::for('international-ids.edit', function (BreadcrumbTrail $trail, $in
     $trail->parent('international-ids.index');
     $trail->push('Edit International Id',  route('international-ids.edit', ['id' => $international_id]));
 });
+
+// Cabin Types Breadcrumbs
+Breadcrumbs::for('cabin-types.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Cabin Types', route('cabin-types.index'));
+});
+
+Breadcrumbs::for('cabin-types.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('cabin-types.index');
+    $trail->push('Create Cabin Types', route('cabin-types.create'));
+});
+
+Breadcrumbs::for('cabin-types.edit', function (BreadcrumbTrail $trail, $cabin_type) {
+    $trail->parent('cabin-types.index');
+    $trail->push('Edit Cabin Types',  route('cabin-types.edit', ['id' => $cabin_type]));
+});

@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\PaymentMethod;
+use App\Models\CabinType;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -10,9 +10,8 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Str;
 
-class PaymentMethodsDataTable extends DataTable
+class CabinTypesDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -25,17 +24,17 @@ class PaymentMethodsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->setRowId('id')
-            ->editColumn('created_at', function ($payment_method) {
-                return editDateColumn($payment_method->created_at);
+            ->editColumn('created_at', function ($cabinType) {
+                return editDateColumn($cabinType->created_at);
             })
-            ->editColumn('updated_at', function ($payment_method) {
-                return editDateColumn($payment_method->updated_at);
+            ->editColumn('updated_at', function ($cabinType) {
+                return editDateColumn($cabinType->updated_at);
             })
-            ->editColumn('actions', function ($payment_method) {
-                return view('payment-methods.actions', ['id' => $payment_method->id]);
+            ->editColumn('actions', function ($cabinType) {
+                return view('cabin-types.actions', ['id' => $cabinType->id]);
             })
-            ->editColumn('check', function ($payment_method) {
-                return $payment_method;
+            ->editColumn('check', function ($cabinType) {
+                return $cabinType;
             })
             ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
@@ -44,10 +43,10 @@ class PaymentMethodsDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\PaymentMethod $model
+     * @param \App\Models\CabinType $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(PaymentMethod $model): QueryBuilder
+    public function query(CabinType $model): QueryBuilder
     {
         return $model->newQuery()->latest();
     }
@@ -56,7 +55,7 @@ class PaymentMethodsDataTable extends DataTable
     {
         $buttons = [];
 
-        if (auth()->user()->can('payment-methods.create')) {
+        if (auth()->user()->can('cabin-types.create')) {
             $buttons[] = Button::raw('delete-selected')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New')
@@ -65,7 +64,7 @@ class PaymentMethodsDataTable extends DataTable
                 ]);
         }
 
-        if (auth()->user()->can('payment-methods.export')) {
+        if (auth()->user()->can('cabin-types.export')) {
             $buttons[] = Button::make('export')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1')
                 ->buttons([
@@ -82,7 +81,7 @@ class PaymentMethodsDataTable extends DataTable
             Button::make('reload')->addClass('btn btn-primary waves-effect waves-float waves-light m-1'),
         ]);
 
-        if (auth()->user()->can('payment-methods.destroy')) {
+        if (auth()->user()->can('cabin-types.destroy')) {
             $buttons[] = Button::raw('delete-selected')
                 ->addClass('btn btn-danger waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-minus"></i>&nbsp;&nbsp;Delete Selected')
@@ -92,7 +91,7 @@ class PaymentMethodsDataTable extends DataTable
         }
 
         return $this->builder()
-            ->setTableId('payment-method-table')
+            ->setTableId('cabin-types-table')
             ->addTableClass('table-borderless table-striped table-hover')
             ->columns($this->getColumns())
             ->minifiedAjax()
@@ -136,13 +135,13 @@ class PaymentMethodsDataTable extends DataTable
     {
         $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowarp');
 
-        if (auth()->user()->can('payment-methods.destroy')) {
+        if (auth()->user()->can('cabin-types.destroy')) {
             $checkColumn->addClass('disabled');
         }
 
         $columns = [
             $checkColumn,
-            Column::make('name')->title('Payment Method')->addClass('text-nowarp'),
+            Column::make('name')->title('Cabin Types')->addClass('text-nowarp'),
             Column::make('created_at')->addClass('text-nowarp'),
             Column::make('updated_at')->addClass('text-nowarp'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
@@ -157,7 +156,7 @@ class PaymentMethodsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'PaymentMethods_' . date('YmdHis');
+        return 'CabinTypes_' . date('YmdHis');
     }
 
     /**

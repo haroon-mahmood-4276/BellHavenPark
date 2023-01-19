@@ -199,6 +199,43 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'show_name' => 'Can Export Roles',
             ],
+
+            // Cabin Types Routes
+            [
+                'name' => 'cabin-types.index',
+                'guard_name' => 'web',
+                'show_name' => 'Can View Roles',
+            ],
+            [
+                'name' => 'cabin-types.create',
+                'guard_name' => 'web',
+                'show_name' => 'Can Create Role',
+            ],
+            [
+                'name' => 'cabin-types.store',
+                'guard_name' => 'web',
+                'show_name' => 'Can Store Role',
+            ],
+            [
+                'name' => 'cabin-types.edit',
+                'guard_name' => 'web',
+                'show_name' => 'Can Edit Role',
+            ],
+            [
+                'name' => 'cabin-types.update',
+                'guard_name' => 'web',
+                'show_name' => 'Can Update Role',
+            ],
+            [
+                'name' => 'cabin-types.destroy',
+                'show_name' => 'Can Destroy Role',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'cabin-types.export',
+                'guard_name' => 'web',
+                'show_name' => 'Can Export Roles',
+            ],
         ];
 
         $role = (new Role())->first();

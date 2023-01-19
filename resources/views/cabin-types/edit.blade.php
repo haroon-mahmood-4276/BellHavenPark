@@ -1,10 +1,10 @@
 @extends('layout.layout')
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'international-ids.edit', encryptParams($international_id->id)) }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'cabin-types.edit', encryptParams($cabin_type->id)) }}
 @endsection
 
-@section('page-title', 'Edit ID')
+@section('page-title', 'Edit Cabin Type')
 
 @section('page-vendor')
 @endsection
@@ -17,13 +17,13 @@
 
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
-        <h2 class="content-header-title float-start mb-0 mx-3">Edit ID</h2>
-        {{ Breadcrumbs::render('international-ids.edit', encryptParams($international_id->id)) }}
+        <h2 class="content-header-title float-start mb-0 mx-3">Edit Cabin Type</h2>
+        {{ Breadcrumbs::render('cabin-types.edit', encryptParams($cabin_type->id)) }}
     </div>
 @endsection
 
 @section('content')
-    <form class="form form-vertical" action="{{ route('international-ids.update', ['id' => encryptParams($international_id->id)]) }}"
+    <form class="form form-vertical" action="{{ route('cabin-types.update', ['id' => encryptParams($cabin_type->id)]) }}"
         method="POST" enctype="multipart/form-data">
 
         <div class="row g-3">
@@ -32,7 +32,7 @@
                 @csrf
                 @method('PUT')
 
-                {{ view('international-ids.form-fields', ['international_id' => $international_id]) }}
+                {{ view('cabin-types.form-fields', ['cabin_type' => $cabin_type]) }}
 
             </div>
 
@@ -44,11 +44,11 @@
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-success w-100  buttonToBlockUI me-1">
                                         <i class="fa-solid fa-floppy-disk icon me-2"></i>
-                                        Update ID
+                                        Update Cabin Type
                                     </button>
                                 </div>
                                 <div class="col-md-12">
-                                    <a href="{{ route('international-ids.index') }}" class="btn btn-danger w-100 ">
+                                    <a href="{{ route('cabin-types.index') }}" class="btn btn-danger w-100 ">
                                         <i class="fa-solid fa-xmark icon me-2"></i>
                                         Cancel
                                     </a>

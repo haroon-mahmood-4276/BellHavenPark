@@ -1,10 +1,10 @@
 @extends('layout.layout')
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'international-ids.edit', encryptParams($international_id->id)) }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'cabin-types.create') }}
 @endsection
 
-@section('page-title', 'Edit ID')
+@section('page-title', 'Create Cabin Type')
 
 @section('page-vendor')
 @endsection
@@ -17,22 +17,19 @@
 
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
-        <h2 class="content-header-title float-start mb-0 mx-3">Edit ID</h2>
-        {{ Breadcrumbs::render('international-ids.edit', encryptParams($international_id->id)) }}
+        <h2 class="content-header-title float-start mb-0 mx-3">Create Cabin Type</h2>
+        {{ Breadcrumbs::render('cabin-types.create') }}
     </div>
 @endsection
 
 @section('content')
-    <form class="form form-vertical" action="{{ route('international-ids.update', ['id' => encryptParams($international_id->id)]) }}"
-        method="POST" enctype="multipart/form-data">
+    <form class="form form-vertical" action="{{ route('cabin-types.store') }}" method="POST" enctype="multipart/form-data">
 
         <div class="row g-3">
             <div class="col-lg-9 col-md-9 col-sm-12 position-relative">
 
                 @csrf
-                @method('PUT')
-
-                {{ view('international-ids.form-fields', ['international_id' => $international_id]) }}
+                {{ view('cabin-types.form-fields') }}
 
             </div>
 
@@ -43,13 +40,13 @@
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-success w-100  buttonToBlockUI me-1">
-                                        <i class="fa-solid fa-floppy-disk icon me-2"></i>
-                                        Update ID
+                                        <i class="fa-solid fa-floppy-disk icon mx-2"></i>
+                                        Save Cabin Type
                                     </button>
                                 </div>
                                 <div class="col-md-12">
-                                    <a href="{{ route('international-ids.index') }}" class="btn btn-danger w-100 ">
-                                        <i class="fa-solid fa-xmark icon me-2"></i>
+                                    <a href="{{ route('cabin-types.index') }}" class="btn btn-danger w-100 ">
+                                        <i class="fa-solid fa-xmark icon mx-2"></i>
                                         Cancel
                                     </a>
                                 </div>
@@ -67,7 +64,7 @@
                                     <span class="text-danger">**</span> means required field and must be unique.
                                 </div>
                                 {{-- <button type="button" class="btn-close" data-bs-dismiss="alert"
-                        aria-label="Close"></button> --}}
+                            aria-label="Close"></button> --}}
                             </div>
                         </div>
                     </div>
@@ -84,4 +81,5 @@
 @endsection
 
 @section('custom-js')
+
 @endsection

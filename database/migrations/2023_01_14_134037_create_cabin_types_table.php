@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
 
             $table->string('name', 50)->nullable();
-            $table->float('rate')->default(0);
+            // $table->float('rate')->default(0);
 
             $table->unsignedInteger('created_at')->nullable();
             $table->unsignedInteger('updated_at')->nullable();

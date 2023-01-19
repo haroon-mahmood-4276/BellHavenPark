@@ -51,7 +51,7 @@ class RolesDataTable extends DataTable
      */
     public function query(Role $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->latest();
     }
 
     public function html(): HtmlBuilder

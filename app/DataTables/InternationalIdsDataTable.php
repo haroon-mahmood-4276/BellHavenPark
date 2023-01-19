@@ -48,7 +48,7 @@ class InternationalIdsDataTable extends DataTable
      */
     public function query(InternationalId $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->latest();
     }
 
     public function html(): HtmlBuilder
@@ -103,7 +103,7 @@ class InternationalIdsDataTable extends DataTable
             ->lengthMenu([10, 20, 30, 50, 70, 100])
             ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
-            ->rowGroupDataSrc('parent_id')
+            // ->rowGroupDataSrc('parent_id')
             ->columnDefs([
                 [
                     'targets' => 0,
