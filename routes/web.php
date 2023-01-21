@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{
+    CabinController,
     CabinTypeController,
     DashboardController,
     InternationalIdController,
@@ -113,6 +114,23 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
+    // Cabin Routes
+    Route::group(['prefix' => 'cabins', 'as' => 'cabins.'], function () {
+        Route::get('/', [CabinController::class, 'index'])->middleware('permission:cabins.index')->name('index');
+
+        Route::group(['middleware' => 'permission:cabins.create'], function () {
+            Route::get('create', [CabinController::class, 'create'])->name('create');
+            Route::post('store', [CabinController::class, 'store'])->name('store');
+        });
+
+        Route::get('delete', [CabinController::class, 'destroy'])->name('destroy');
+
+        Route::group(['prefix' => '/{id}', 'middleware' => 'permission:cabins.edit'], function () {
+            Route::get('edit', [CabinController::class, 'edit'])->name('edit');
+            Route::put('update', [CabinController::class, 'update'])->name('update');
+        });
+    });
+
 
 
 
@@ -134,28 +152,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{customer}/edit', [CustomerController::class, 'edit'])->name('edit');
         Route::put('/{customer}', [CustomerController::class, 'update'])->name('update');
         Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
-    });
-
-    // Cabin Status Routes
-    Route::group(['prefix' => 'cabin-statuses', 'as' => 'cabin_statuses.'], function () {
-        Route::get('/', [CabinStatusController::class, 'index'])->name('index');
-        Route::get('/create', [CabinStatusController::class, 'create'])->name('create');
-        Route::post('/', [CabinStatusController::class, 'store'])->name('store');
-        Route::get('/{cabin_status}/show', [CabinStatusController::class, 'show'])->name('show');
-        Route::get('/{cabin_status}/edit', [CabinStatusController::class, 'edit'])->name('edit');
-        Route::put('/{cabin_status}', [CabinStatusController::class, 'update'])->name('update');
-        Route::delete('/{cabin_status}', [CabinStatusController::class, 'destroy'])->name('destroy');
-    });
-
-    // Cabin Routes
-    Route::group(['prefix' => 'cabins', 'as' => 'cabins.'], function () {
-        Route::get('/', [CabinController::class, 'index'])->name('index');
-        Route::get('/create', [CabinController::class, 'create'])->name('create');
-        Route::post('/', [CabinController::class, 'store'])->name('store');
-        Route::get('/{cabin}/show', [CabinController::class, 'show'])->name('show');
-        Route::get('/{cabin}/edit', [CabinController::class, 'edit'])->name('edit');
-        Route::put('/{cabin}', [CabinController::class, 'update'])->name('update');
-        Route::delete('/{cabin}', [CabinController::class, 'destroy'])->name('destroy');
     });
 
     // BookingSource Routes

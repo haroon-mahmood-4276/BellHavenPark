@@ -13,7 +13,11 @@
                     @endforeach
                 </select>
                 @error('parent_id')
-                    <span class="text-danger">{{ $message }}</span>
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @else
+                    <p class="m-0">
+                        <small class="text-muted">Enter parent role.</small>
+                    </p>
                 @enderror
             </div>
         </div>

@@ -21,11 +21,9 @@ return new class extends Migration
             $table->string('name', 50)->nullable();
             $table->boolean('long_term')->default(false);
             $table->boolean('electric_meter')->default(false);
-            $table->unsignedInteger('till')->nullable();
             $table->float('daily_rate')->default(0);
             $table->float('weekly_rate')->default(0);
-            $table->float('electric_daily_rate')->default(0);
-            $table->float('electric_weekly_rate')->default(0);
+            $table->float('monthly_rate')->default(0);
 
             $table->unsignedInteger('created_at')->nullable();
             $table->unsignedInteger('updated_at')->nullable();

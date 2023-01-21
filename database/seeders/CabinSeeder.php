@@ -27,11 +27,9 @@ class CabinSeeder extends Seeder
                 'name' => 'Cabin ' . ($key + 1),
                 'long_term' => true,
                 'electric_meter' => true,
-                'till' => 0,
                 'daily_rate' => 0,
                 'weekly_rate' => 0,
-                'electric_daily_rate' => 0,
-                'electric_weekly_rate' => 0,
+                'monthly_rate' => 0,
             ]);
         }
     }

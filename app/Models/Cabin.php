@@ -17,13 +17,24 @@ class Cabin extends Model
 
     protected $fillable = [
         'name',
+        'cabin_type_id',
+        'cabin_status_id',
         'long_term',
         'electric_meter',
-        'till',
         'daily_rate',
         'weekly_rate',
-        'electric_daily_rate',
-        'electric_weekly_rate',
+        'monthly_rate',
+    ];
+
+    public $rule = [
+        'name' => 'required|string|between:3,50',
+        'cabin_type' => 'required|uuid',
+        'cabin_status' => 'required|uuid',
+        'long_term' => 'required|boolean',
+        'electric_meter' => 'required|boolean',
+        'daily_rate' => 'required|numeric|gt:-1',
+        'weekly_rate' => 'required|numeric|gt:-1',
+        'monthly_rate' => 'required|numeric|gt:-1',
     ];
 
     public function getActivitylogOptions(): LogOptions

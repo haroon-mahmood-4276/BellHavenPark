@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\CabinType;
+use App\Models\Cabin;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -11,7 +11,7 @@ use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class CabinTypesDataTable extends DataTable
+class CabinsDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -24,17 +24,17 @@ class CabinTypesDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->setRowId('id')
-            ->editColumn('created_at', function ($cabinType) {
-                return editDateColumn($cabinType->created_at);
+            ->editColumn('created_at', function ($cabins) {
+                return editDateColumn($cabins->created_at);
             })
-            ->editColumn('updated_at', function ($cabinType) {
-                return editDateColumn($cabinType->updated_at);
+            ->editColumn('updated_at', function ($cabins) {
+                return editDateColumn($cabins->updated_at);
             })
-            ->editColumn('actions', function ($cabinType) {
-                return view('cabin-types.actions', ['id' => $cabinType->id]);
+            ->editColumn('actions', function ($cabins) {
+                return view('cabins.actions', ['id' => $cabins->id]);
             })
-            ->editColumn('check', function ($cabinType) {
-                return $cabinType;
+            ->editColumn('check', function ($cabins) {
+                return $cabins;
             })
             ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
@@ -43,10 +43,10 @@ class CabinTypesDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\CabinType $model
+     * @param \App\Models\Cabin $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(CabinType $model): QueryBuilder
+    public function query(Cabin $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -55,7 +55,7 @@ class CabinTypesDataTable extends DataTable
     {
         $buttons = [];
 
-        if (auth()->user()->can('cabin-types.create')) {
+        if (auth()->user()->can('cabins.create')) {
             $buttons[] = Button::raw('delete-selected')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New')
@@ -64,7 +64,7 @@ class CabinTypesDataTable extends DataTable
                 ]);
         }
 
-        if (auth()->user()->can('cabin-types.export')) {
+        if (auth()->user()->can('cabins.export')) {
             $buttons[] = Button::make('export')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1')
                 ->buttons([
@@ -81,7 +81,7 @@ class CabinTypesDataTable extends DataTable
             Button::make('reload')->addClass('btn btn-primary waves-effect waves-float waves-light m-1'),
         ]);
 
-        if (auth()->user()->can('cabin-types.destroy')) {
+        if (auth()->user()->can('cabins.destroy')) {
             $buttons[] = Button::raw('delete-selected')
                 ->addClass('btn btn-danger waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-minus"></i>&nbsp;&nbsp;Delete Selected')
@@ -91,7 +91,7 @@ class CabinTypesDataTable extends DataTable
         }
 
         return $this->builder()
-            ->setTableId('cabin-types-table')
+            ->setTableId('cabins-table')
             ->addTableClass('table-borderless table-striped table-hover')
             ->columns($this->getColumns())
             ->minifiedAjax()
@@ -135,7 +135,7 @@ class CabinTypesDataTable extends DataTable
     {
         $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowarp');
 
-        if (auth()->user()->can('cabin-types.destroy')) {
+        if (auth()->user()->can('cabins.destroy')) {
             $checkColumn->addClass('disabled');
         }
 
@@ -156,7 +156,7 @@ class CabinTypesDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'CabinTypes_' . date('YmdHis');
+        return 'Cabins_' . date('YmdHis');
     }
 
     /**

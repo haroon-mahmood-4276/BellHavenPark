@@ -1,161 +1,119 @@
 @extends('layout.layout')
 
-@section('title', 'Add New Cabin')
+@section('seo-breadcrumb')
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'cabins.create') }}
+@endsection
 
-@section('content-header')
-    <div class="content-header row my-1">
-        <div class="content-header-left col-md-9 col-12 mb-2">
-            <div class="row breadcrumbs-top">
-                <div class="col-12">
-                    <h2 class="content-header-title float-start mb-0">Add New Cabin</h2>
-                    <div class="breadcrumb-wrapper">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a>
-                            </li>
-                            <li class="breadcrumb-item"><a href="{{ route('cabins.index') }}">Cabins</a>
-                            </li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0);">Add New Cabin</a>
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
+@section('page-title', 'Create Cabins')
+
+@section('page-vendor')
+@endsection
+
+@section('page-css')
+@endsection
+
+@section('custom-css')
+@endsection
+
+@section('breadcrumbs')
+    <div class="d-flex justify-content-start align-items-center mb-3">
+        <h2 class="content-header-title float-start mb-0 mx-3">Create Cabins</h2>
+        {{ Breadcrumbs::render('cabins.create') }}
     </div>
 @endsection
 
 @section('content')
-    <div class="content-body">
-        <div class="card">
-            <div class="card-body">
-                <form action="{{ route('cabins.store') }}" method="POST">
-                    @csrf
+    <form class="form form-vertical" action="{{ route('cabins.store') }}" method="POST" enctype="multipart/form-data">
 
-                    <div class="row mb-1">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="cabin_type">Cabin Type *</label>
-                            <select class="select2-size-lg form-select @error('cabin_type') is-invalid @enderror"
-                                id="cabin_type" name="cabin_type">
-                                <option value="" selected>Select Cabin Type</option>
-                                @foreach ($cabin_types as $cabin_type)
-                                    <option value="{{ $cabin_type->id }}"
-                                        {{ old('cabin_type') == $cabin_type->id ? 'selected' : '' }}>
-                                        {{ $loop->index + 1 }}) {{ $cabin_type->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('cabin_type')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+        <div class="row g-3">
+            <div class="col-lg-9 col-md-9 col-sm-12 position-relative">
 
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="cabin_status">Cabin Status *</label>
-                            <select class="select2-size-lg form-select @error('cabin_status') is-invalid @enderror"
-                                id="cabin_status" name="cabin_status">
-                                <option value="" selected>Select Cabin Status</option>
-                                @foreach ($cabin_statuses as $cabin_status)
-                                    <option value="{{ $cabin_status->id }}"
-                                        {{ old('cabin_status') == $cabin_status->id ? 'selected' : '' }}>
-                                        {{ $loop->index + 1 }}) {{ $cabin_status->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('cabin_status')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
+                @csrf
+                {{ view('cabins.form-fields', ['cabin_types' => $cabin_types, 'cabin_statuses' => $cabin_statuses]) }}
 
-                    <div class="row mb-1">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="name">Cabin Name *</label>
-                            <input type="text" id="name" name="name"
-                                class="form-control form-control-lg @error('name') is-invalid @enderror"
-                                placeholder="Cabin Name" aria-label="Cabin Name" value="{{ old('name') }}" minlength="3"
-                                maxlength="50" />
-                            @error('name')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+            </div>
 
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div class="row">
-                                <div class="col-xl-6 xol-lg-6 col-md-6 col-sm-12">
-                                    <label class="form-label" style="font-size: 15px" for="daily_rate">Daily Rate
-                                        *</label>
-                                    <input type="text" id="daily_rate" name="daily_rate" value="0"
-                                        oninput="validaitonNumber(this);"  class="form-control form-control-lg @error('daily_rate') is-invalid @enderror"
-                                        placeholder="Daily Rate" aria-label="Daily Rate" value="{{ old('daily_rate') }}"
-                                        minlength="3" maxlength="50" />
-                                    @error('daily_rate')
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
+            <div class="col-lg-3 col-md-3 col-sm-12 position-relative">
+                <div class="sticky-md-top top-lg-100px top-md-100px top-sm-0px" style="z-index: auto;">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-success w-100  buttonToBlockUI me-1">
+                                        <i class="fa-solid fa-floppy-disk icon mx-2"></i>
+                                        Save Cabin
+                                    </button>
                                 </div>
-
-                                <div class="col-xl-6 xol-lg-6 col-md-6 col-sm-12">
-                                    <label class="form-label" style="font-size: 15px" for="weekly_rate">Weekly Rate
-                                        *</label>
-                                    <input type="text" id="weekly_rate" name="weekly_rate" value="0"
-                                        oninput="validaitonNumber(this);" class="form-control form-control-lg @error('weekly_rate') is-invalid @enderror"
-                                        placeholder="Weekly Rate" aria-label="Weekly Rate"
-                                        value="{{ old('weekly_rate') }}" minlength="3" maxlength="50" />
-                                    @error('weekly_rate')
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
+                                <div class="col-md-12">
+                                    <a href="{{ route('cabins.index') }}" class="btn btn-danger w-100 ">
+                                        <i class="fa-solid fa-xmark icon mx-2"></i>
+                                        Cancel
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row mb-1">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="long_term">Long Term</label>
-                            <div class="form-check form-switch form-check-primary">
-                                <input type="hidden" name="long_term" value="0" />
-                                <input type="checkbox" class="form-check-input" id="long_term" name="long_term" value="1"
-                                    {{ old('long_term') == '1' ? 'checked' : '' }} />
-                                <label class="form-check-label" for="long_term">
-                                    <span class="switch-icon-left"><i data-feather="check"></i></span>
-                                    <span class="switch-icon-right"><i data-feather="x"></i></span>
-                                </label>
-                            </div>
-                            @error('long_term')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                                <h4 class="alert-heading"><i data-feather="info" class="me-50"></i>Information!</h4>
+                                <div class="alert-body">
 
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="electric_meter">Electric
-                                Meter</label>
-                            <div class="form-check form-switch form-check-primary">
-                                <input type="hidden" name="electric_meter" value="0" />
-                                <input type="checkbox" class="form-check-input" id="electric_meter" name="electric_meter"
-                                    value="1" {{ old('electric_meter') == '1' ? 'checked' : '' }} />
-                                <label class="form-check-label" for="electric_meter">
-                                    <span class="switch-icon-left"><i data-feather="check"></i></span>
-                                    <span class="switch-icon-right"><i data-feather="x"></i></span>
-                                </label>
+                                    <span class="text-danger">*</span> means required field. <br>
+                                    <span class="text-danger">**</span> means required field and must be unique.
+                                </div>
+                                {{-- <button type="button" class="btn-close" data-bs-dismiss="alert"
+                            aria-label="Close"></button> --}}
                             </div>
-                            @error('electric_meter')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
                         </div>
                     </div>
-
-
-
-                    <div class="d-flex justify-content-end">
-                        <button type="reset" class="btn btn-relief-outline-danger me-1">
-                            <i data-feather='x-circle' class="me-25"></i>
-                            <span>Reset</span>
-                        </button>
-                        <button type="submit" class="btn btn-relief-outline-primary">
-                            <i data-feather='check-circle' class="me-25"></i>
-                            <span>Save</span>
-                        </button>
-                    </div>
-
-                </form>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
+@endsection
+
+@section('vendor-js')
+@endsection
+
+@section('page-js')
+@endsection
+
+@section('custom-js')
+<script>
+    $(document).ready(function() {
+        cabin_type = $("#cabin_type");
+        cabin_type.wrap('<div class="position-relative"></div>');
+        cabin_type.select2({
+            dropdownAutoWidth: !0,
+            dropdownParent: cabin_type.parent(),
+            width: "100%",
+            containerCssClass: "select-lg",
+            templateResult: c,
+            templateSelection: c,
+            escapeMarkup: function(cabin_type) {
+                return cabin_type
+            }
+        });
+
+        cabin_status = $("#cabin_status");
+        cabin_status.wrap('<div class="position-relative"></div>');
+        cabin_status.select2({
+            dropdownAutoWidth: !0,
+            dropdownParent: cabin_status.parent(),
+            width: "100%",
+            containerCssClass: "select-lg",
+            templateResult: c,
+            templateSelection: c,
+            escapeMarkup: function(cabin_status) {
+                return cabin_status
+            }
+        });
+    });
+
+    function c(e) {
+        return e.id ? "<i class='" + $(e.element).data("icon") + " me-2'></i>" + e.text : e.text
+    }
+</script>
 @endsection

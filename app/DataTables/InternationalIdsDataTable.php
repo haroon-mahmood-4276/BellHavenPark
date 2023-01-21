@@ -48,7 +48,7 @@ class InternationalIdsDataTable extends DataTable
      */
     public function query(InternationalId $model): QueryBuilder
     {
-        return $model->newQuery()->latest();
+        return $model->newQuery();
     }
 
     public function html(): HtmlBuilder

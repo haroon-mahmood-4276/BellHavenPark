@@ -170,5 +170,33 @@
                 </ul>
             </li>
         @endcanany
+
+        @canany(['cabins.index', 'cabins.create'])
+            <li
+                class="menu-item {{ in_array(request()->route()->getName(),['cabins.index', 'cabins.create'])? 'open active': null }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="fa-solid fa-bolt menu-icon"></i>
+                    <div>Cabins</div>
+                </a>
+                <ul class="menu-sub">
+
+                    @can('cabins.index')
+                        <li class="menu-item {{ request()->routeIs('cabins.index') ? 'active' : null }}">
+                            <a href="{{ route('cabins.index') }}" class="menu-link">
+                                <div>View All</div>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('cabins.create')
+                        <li class="menu-item {{ request()->routeIs('cabins.create') ? 'active' : null }}">
+                            <a href="{{ route('cabins.create') }}" class="menu-link">
+                                <div>Add New</div>
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+            </li>
+        @endcanany
     </ul>
 </aside>

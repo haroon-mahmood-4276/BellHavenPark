@@ -82,7 +82,23 @@ Breadcrumbs::for('cabin-types.create', function (BreadcrumbTrail $trail) {
     $trail->push('Create Cabin Types', route('cabin-types.create'));
 });
 
-Breadcrumbs::for('cabin-types.edit', function (BreadcrumbTrail $trail, $cabin_type) {
+Breadcrumbs::for('cabin-types.edit', function (BreadcrumbTrail $trail, $cabin_type_id) {
     $trail->parent('cabin-types.index');
-    $trail->push('Edit Cabin Types',  route('cabin-types.edit', ['id' => $cabin_type]));
+    $trail->push('Edit Cabin Types',  route('cabin-types.edit', ['id' => $cabin_type_id]));
+});
+
+// Cabin Breadcrumbs
+Breadcrumbs::for('cabins.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Cabins', route('cabins.index'));
+});
+
+Breadcrumbs::for('cabins.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('cabins.index');
+    $trail->push('Create Cabin', route('cabins.create'));
+});
+
+Breadcrumbs::for('cabins.edit', function (BreadcrumbTrail $trail, $cabin_id) {
+    $trail->parent('cabins.index');
+    $trail->push('Edit Cabin',  route('cabins.edit', ['id' => $cabin_id]));
 });

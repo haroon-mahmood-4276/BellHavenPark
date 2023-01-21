@@ -49,7 +49,7 @@ class PaymentMethodsDataTable extends DataTable
      */
     public function query(PaymentMethod $model): QueryBuilder
     {
-        return $model->newQuery()->latest();
+        return $model->newQuery();
     }
 
     public function html(): HtmlBuilder

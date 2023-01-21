@@ -6,7 +6,11 @@
                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                     name="name" placeholder="Name" value="{{ isset($paymentMethod) ? $paymentMethod->name : old('name') }}" minlength="3" maxlength="50" />
                 @error('name')
-                    <div class="invalid-tooltip">{{ $message }}</div>
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @else
+                    <p class="m-0">
+                        <small class="text-muted">Enter payment method name.</small>
+                    </p>
                 @enderror
             </div>
         </div>
