@@ -12,7 +12,7 @@ class CabinTypeService implements CabinTypeInterface
         return new CabinType();
     }
 
-    public function getAll($ignore = null, $with_tree = false)
+    public function getAll($ignore = null)
     {
         $cabin_type = $this->model();
         if (is_array($ignore)) {
@@ -21,9 +21,6 @@ class CabinTypeService implements CabinTypeInterface
             $cabin_type = $cabin_type->where('id', '!=', $ignore);
         }
         $cabin_type = $cabin_type->get();
-        if ($with_tree) {
-            return getTreeData(collect($cabin_type), $this->model());
-        }
         return $cabin_type;
     }
 
