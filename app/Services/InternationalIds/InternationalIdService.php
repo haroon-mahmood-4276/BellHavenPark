@@ -21,9 +21,6 @@ class InternationalIdService implements InternationalIdInterface
             $international_id = $international_id->where('id', '!=', $ignore);
         }
         $international_id = $international_id->get();
-        if ($with_tree) {
-            return getTreeData(collect($international_id), $this->model());
-        }
         return $international_id;
     }
 
