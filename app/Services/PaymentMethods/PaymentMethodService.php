@@ -12,7 +12,7 @@ class PaymentMethodService implements PaymentMethodInterface
         return new PaymentMethod();
     }
 
-    public function getAll($ignore = null, $with_tree = false)
+    public function getAll($ignore = null)
     {
         $payment_method = $this->model();
         if (is_array($ignore)) {
@@ -21,9 +21,6 @@ class PaymentMethodService implements PaymentMethodInterface
             $payment_method = $payment_method->where('id', '!=', $ignore);
         }
         $payment_method = $payment_method->get();
-        if ($with_tree) {
-            return getTreeData(collect($payment_method), $this->model());
-        }
         return $payment_method;
     }
 

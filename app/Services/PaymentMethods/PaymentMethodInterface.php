@@ -4,7 +4,7 @@ namespace App\Services\PaymentMethods;
 
 interface PaymentMethodInterface
 {
-    public function getAll($ignore = null, $with_tree = false);
+    public function getAll($ignore = null);
 
     public function getById($id);
 
