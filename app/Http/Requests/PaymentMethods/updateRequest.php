@@ -24,6 +24,6 @@ class updateRequest extends FormRequest
      */
     public function rules()
     {
-        return (new PaymentMethod())->rule;
+        return (new PaymentMethod())->rules;
     }
 }

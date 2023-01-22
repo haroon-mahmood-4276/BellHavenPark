@@ -22,7 +22,7 @@ class CabinType extends Model
 
     protected $hidden = [];
 
-    public $rule = [
+    public $rules = [
         'name' => 'required|string|min:1|max:30',
         // 'rate' => 'required|numeric|gt:0',
     ];

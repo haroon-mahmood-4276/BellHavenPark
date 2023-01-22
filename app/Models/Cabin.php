@@ -26,7 +26,7 @@ class Cabin extends Model
         'monthly_rate',
     ];
 
-    public $rule = [
+    public $rules = [
         'name' => 'required|string|between:3,50',
         'cabin_type' => 'required|uuid',
         'cabin_status' => 'required|uuid',

@@ -24,6 +24,6 @@ class updateRequest extends FormRequest
      */
     public function rules()
     {
-        return (new CabinType())->rule;
+        return (new CabinType())->rules;
     }
 }

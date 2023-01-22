@@ -24,7 +24,7 @@ class Role extends SpatieRole
         'guard_name',
     ];
 
-    public $rule = [
+    public $rules = [
         'parent_id' => 'required|uuid',
         'name' => 'required|string|between:1,254',
         'guard_name' => 'required|string|between:1,254',

@@ -24,6 +24,6 @@ class storeRequest extends FormRequest
      */
     public function rules()
     {
-        return (new InternationalId())->rule;
+        return (new InternationalId())->rules;
     }
 }

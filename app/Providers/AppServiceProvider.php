@@ -8,6 +8,7 @@ use App\Services\InternationalIds\{InternationalIdInterface, InternationalIdServ
 use App\Services\CabinTypes\{CabinTypeInterface, CabinTypeService};
 use App\Services\CabinStatuses\{CabinStatusInterface, CabinStatusService};
 use App\Services\Cabins\{CabinInterface, CabinService};
+use App\Services\BookingSources\{BookingSourceInterface, BookingSourceService};
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CabinTypeInterface::class, CabinTypeService::class);
         $this->app->bind(CabinStatusInterface::class, CabinStatusService::class);
         $this->app->bind(CabinInterface::class, CabinService::class);
+        $this->app->bind(BookingSourceInterface::class, BookingSourceService::class);
     }
 
     /**

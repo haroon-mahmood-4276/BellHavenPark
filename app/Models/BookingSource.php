@@ -20,6 +20,11 @@ class BookingSource extends Model
         'description',
     ];
 
+    public $rules = [
+        'name' => "required|string|between:1,50",
+        'description' => "nullable|string|between:1,254",
+    ];
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->useLogName(self::class)->logFillable();

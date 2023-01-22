@@ -21,7 +21,7 @@ class InternationalId extends Model
 
     protected $hidden = [];
 
-    public $rule = [
+    public $rules = [
         'name' => 'required|string|min:1|max:30',
     ];
 

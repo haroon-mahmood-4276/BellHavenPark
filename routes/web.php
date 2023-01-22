@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{
+    BookingSourceController,
     CabinController,
     CabinTypeController,
     DashboardController,
@@ -131,6 +132,23 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
+    // Booking Sources Routes
+    Route::group(['prefix' => 'booking-sources', 'as' => 'booking-sources.'], function () {
+        Route::get('/', [BookingSourceController::class, 'index'])->middleware('permission:booking-sources.index')->name('index');
+
+        Route::group(['middleware' => 'permission:booking-sources.create'], function () {
+            Route::get('create', [BookingSourceController::class, 'create'])->name('create');
+            Route::post('store', [BookingSourceController::class, 'store'])->name('store');
+        });
+
+        Route::get('delete', [BookingSourceController::class, 'destroy'])->name('destroy');
+
+        Route::group(['prefix' => '/{id}', 'middleware' => 'permission:booking-sources.edit'], function () {
+            Route::get('edit', [BookingSourceController::class, 'edit'])->name('edit');
+            Route::put('update', [BookingSourceController::class, 'update'])->name('update');
+        });
+    });
+
 
 
 
@@ -152,17 +170,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{customer}/edit', [CustomerController::class, 'edit'])->name('edit');
         Route::put('/{customer}', [CustomerController::class, 'update'])->name('update');
         Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
-    });
-
-    // BookingSource Routes
-    Route::group(['prefix' => 'booking-sources', 'as' => 'booking_sources.'], function () {
-        Route::get('/', [BookingSourceController::class, 'index'])->name('index');
-        Route::get('/create', [BookingSourceController::class, 'create'])->name('create');
-        Route::post('/', [BookingSourceController::class, 'store'])->name('store');
-        Route::get('/{booking_source}/show', [BookingSourceController::class, 'show'])->name('show');
-        Route::get('/{booking_source}/edit', [BookingSourceController::class, 'edit'])->name('edit');
-        Route::put('/{booking_source}', [BookingSourceController::class, 'update'])->name('update');
-        Route::delete('/{booking_source}', [BookingSourceController::class, 'destroy'])->name('destroy');
     });
 
     // Booking Routes
