@@ -141,7 +141,7 @@ class CabinsDataTable extends DataTable
 
         $columns = [
             $checkColumn,
-            Column::make('name')->title('Cabin Types')->addClass('text-nowarp'),
+            Column::make('name')->title('Cabins')->addClass('text-nowarp'),
             Column::make('created_at')->addClass('text-nowarp'),
             Column::make('updated_at')->addClass('text-nowarp'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
