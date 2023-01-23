@@ -11,7 +11,7 @@ use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class BookingSourceDataTable extends DataTable
+class BookingSourcesDataTable extends DataTable
 {
     /**
      * Build DataTable class.
