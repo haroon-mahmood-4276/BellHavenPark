@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\BookingSourceDataTable;
+use App\DataTables\BookingSourcesDataTable;
 use App\Exceptions\GeneralException;
 use App\Http\Requests\BookingSources\{storeRequest, updateRequest};
 use App\Services\BookingSources\BookingSourceInterface;
@@ -23,7 +23,7 @@ class BookingSourceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(BookingSourceDataTable $dataTable)
+    public function index(BookingSourcesDataTable $dataTable)
     {
         if (request()->ajax()) {
             return $dataTable->ajax();
