@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('first_name', 50)->nullable();
             $table->string('last_name', 50)->nullable();
             $table->text('address')->nullable();
-            $table->dateTime('dob')->nullable();
+            $table->integer('dob')->nullable();
             $table->string('email', 150)->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('telephone', 20)->nullable();
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('international_details')->nullable();
             $table->string('international_address')->nullable();
             $table->text('comments')->nullable();
-            $table->text('tenants')->nullable();
+            $table->json('tenants')->nullable();
             $table->string('referenced_by')->nullable();
 
             $table->unsignedInteger('created_at')->nullable();

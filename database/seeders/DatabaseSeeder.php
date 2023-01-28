@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             CabinSeeder::class,
             InternationalIdSeeder::class,
             PaymentMethodSeeder::class,
+            CustomerSeeder::class,
         ]);
     }
 }

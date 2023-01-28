@@ -310,6 +310,43 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'show_name' => 'Can Export Booking Sources',
             ],
+
+            // Customers Routes
+            [
+                'name' => 'customers.index',
+                'guard_name' => 'web',
+                'show_name' => 'Can View Customers',
+            ],
+            [
+                'name' => 'customers.create',
+                'guard_name' => 'web',
+                'show_name' => 'Can Create Customer',
+            ],
+            [
+                'name' => 'customers.store',
+                'guard_name' => 'web',
+                'show_name' => 'Can Store Customer',
+            ],
+            [
+                'name' => 'customers.edit',
+                'guard_name' => 'web',
+                'show_name' => 'Can Edit Customer',
+            ],
+            [
+                'name' => 'customers.update',
+                'guard_name' => 'web',
+                'show_name' => 'Can Update Customer',
+            ],
+            [
+                'name' => 'customers.destroy',
+                'show_name' => 'Can Destroy Customer',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'customers.export',
+                'guard_name' => 'web',
+                'show_name' => 'Can Export Customers',
+            ],
         ];
 
         $role = (new Role())->first();

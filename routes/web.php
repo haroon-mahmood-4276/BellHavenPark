@@ -4,6 +4,7 @@ use App\Http\Controllers\{
     BookingSourceController,
     CabinController,
     CabinTypeController,
+    CustomerController,
     DashboardController,
     InternationalIdController,
     PaymentMethodController,
@@ -149,28 +150,25 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
     // Customers Routes
     Route::group(['prefix' => 'customers', 'as' => 'customers.'], function () {
-        Route::get('/', [CustomerController::class, 'index'])->name('index');
-        Route::get('/create', [CustomerController::class, 'create'])->name('create');
-        Route::post('/', [CustomerController::class, 'store'])->name('store');
-        Route::get('/{customer}/show', [CustomerController::class, 'show'])->name('show');
-        Route::get('/{customer}/edit', [CustomerController::class, 'edit'])->name('edit');
-        Route::put('/{customer}', [CustomerController::class, 'update'])->name('update');
-        Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
+        Route::get('/', [CustomerController::class, 'index'])->middleware('permission:customers.index')->name('index');
+
+        Route::group(['middleware' => 'permission:customers.create'], function () {
+            Route::get('create', [CustomerController::class, 'create'])->name('create');
+            Route::post('store', [CustomerController::class, 'store'])->name('store');
+        });
+
+        Route::get('delete', [CustomerController::class, 'destroy'])->name('destroy');
+
+        Route::group(['prefix' => '/{id}', 'middleware' => 'permission:customers.edit'], function () {
+            Route::get('edit', [CustomerController::class, 'edit'])->name('edit');
+            Route::put('update', [CustomerController::class, 'update'])->name('update');
+        });
     });
+
+
+
 
     // Booking Routes
     Route::group(['prefix' => 'bookings', 'as' => 'bookings.'], function () {

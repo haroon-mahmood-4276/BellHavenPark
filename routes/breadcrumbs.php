@@ -118,3 +118,19 @@ Breadcrumbs::for('booking-sources.edit', function (BreadcrumbTrail $trail, $book
     $trail->parent('booking-sources.index');
     $trail->push('Edit Booking Source',  route('booking-sources.edit', ['id' => $booking_source_id]));
 });
+
+// Customers Breadcrumbs
+Breadcrumbs::for('customers.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Customers', route('customers.index'));
+});
+
+Breadcrumbs::for('customers.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('customers.index');
+    $trail->push('Create Customer', route('customers.create'));
+});
+
+Breadcrumbs::for('customers.edit', function (BreadcrumbTrail $trail, $customer_id) {
+    $trail->parent('customers.index');
+    $trail->push('Edit Customer',  route('customers.edit', ['id' => $customer_id]));
+});
