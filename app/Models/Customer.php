@@ -42,20 +42,20 @@ class Customer extends Model
     protected $appends = ['name'];
 
     public $rules = [
-        'first_name' => 'required|string|min:3,max:50',
-        'last_name' => 'required|string|min:3,max:50',
-        'email' => 'nullable|email|min:1,max:250|unique',
+        'first_name' => 'required|string|min:3|max:50',
+        'last_name' => 'required|string|min:3|max:50',
+        'email' => 'nullable|email|min:1|max:250',
         'dob' => 'required|date',
         'phone' => 'nullable|numeric|min_digits:3|max_digits:20',
         'telephone' => 'nullable|numeric|min_digits:3|max_digits:20',
         'international_id' => 'nullable|uuid',
-        'international_details' => 'nullable|string|min:3,max:50',
-        'international_address' => 'nullable|string|min:3,max:50',
+        'international_details' => 'nullable|string|min:3|max:50',
+        'international_address' => 'nullable|string|min:3|max:50',
         'comments' => 'nullable|string|min:3,max:250',
         'address' => 'nullable|string|min:3,max:250',
-        'referenced_by' => 'nullable|string|min:3,max:50',
+        'referenced_by' => 'nullable|string|min:3|max:50',
         'tenants' => 'nullable|array',
-        'tenants.*.tenant_name' => 'sometimes|string|min:3,max:50',
+        'tenants.*.tenant_name' => 'sometimes|string|min:3|max:50',
         'tenants.*.tenant_phone' => 'sometimes|numeric|min_digits:3|max_digits:20',
         'tenants.*.tenant_dob' => 'sometimes|date',
     ];

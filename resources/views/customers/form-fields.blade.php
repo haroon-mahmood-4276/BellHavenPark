@@ -56,7 +56,8 @@
                         class="text-danger">*</span></label>
                 <input type="text" class="form-control @error('dob') is-invalid @enderror" id="dob"
                     name="dob" placeholder="Date of birth"
-                    value="{{ isset($customer) ? $customer->dob : old('dob') }}" minlength="3" maxlength="50" />
+                    value="{{ (isset($customer) ? $customer->dob->format('F j, Y') : old('dob')) ?? now()->format('F j, Y') }}"
+                    minlength="3" maxlength="50" />
                 @error('dob')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @else
@@ -158,9 +159,8 @@
         <div class="row mb-3">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                 <label class="form-label" style="font-size: 15px" for="comments">Comments</label>
-                <textarea type="text" id="comments" name="comments"
-                    class="form-control form-control-lg @error('comments') is-invalid @enderror" placeholder="Comments"
-                    aria-label="comments" rows="5" minlength="3" maxlength="250">{{ isset($customer) ? $customer->comments : old('comments') }}</textarea>
+                <textarea type="text" id="comments" name="comments" class="form-control @error('comments') is-invalid @enderror"
+                    placeholder="Comments" aria-label="comments" rows="5" minlength="3" maxlength="250">{{ isset($customer) ? $customer->comments : old('comments') }}</textarea>
                 @error('comments')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @else
@@ -171,9 +171,8 @@
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                 <label class="form-label" style="font-size: 15px" for="address">Address </label>
-                <textarea type="text" id="address" name="address"
-                    class="form-control form-control-lg @error('address') is-invalid @enderror" placeholder="Address"
-                    aria-label="address" rows="5" minlength="3" maxlength="250">{{ isset($customer) ? $customer->address : old('address') }}</textarea>
+                <textarea type="text" id="address" name="address" class="form-control @error('address') is-invalid @enderror"
+                    placeholder="Address" aria-label="address" rows="5" minlength="3" maxlength="250">{{ isset($customer) ? $customer->address : old('address') }}</textarea>
                 @error('address')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @else
@@ -213,46 +212,88 @@
                 </div>
                 <div class="form-repeater">
                     <div data-repeater-list="tenants">
-                        <div data-repeater-item>
-                            <div class="row">
-                                <div class="col-xl-4 col-lg-6 col-12 position-relative">
-                                    <label class="form-label" style="font-size: 15px" for="tenant_name">Tenant Name
-                                        <span class="text-danger">*</span></label>
-                                    <input type="text"
-                                        class="form-control @error('tenant_name') is-invalid @enderror"
-                                        id="tenant_name" name="tenant_name" placeholder="Tenant Name"
-                                        value="{{ isset($customer) ? $customer->tenant_name : old('tenant_name') }}"
-                                        minlength="3" maxlength="50" />
+
+                        @forelse ($customer->tenants ?? [] as $tenant)
+                            <div data-repeater-item>
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px" for="tenant_name">Tenant
+                                            Name
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_name') is-invalid @enderror"
+                                            id="tenant_name" name="tenants[{{ $loop->index }}][tenant_name]" placeholder="Tenant Name"
+                                            value="{{ $tenant['tenant_name'] }}" minlength="3" maxlength="50" />
+                                    </div>
+                                    <div class="col-xl-3 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px" for="tenant_phone">Tenant
+                                            Mobile
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_phone') is-invalid @enderror"
+                                            id="tenant_phone" name="tenants[{{ $loop->index }}][tenant_phone]" placeholder="Tenant Mobile"
+                                            value="{{ $tenant['tenant_phone'] }}" min="1" max="20"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                                    </div>
+                                    <div class="col-xl-3 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px" for="tenant_dob">Date of
+                                            birth <span class="text-danger">*</span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_dob') is-invalid @enderror"
+                                            id="tenant_dob" name="tenants[{{ $loop->index }}][tenant_dob]" placeholder="Date of birth"
+                                            value="{{ Carbon\Carbon::parse($tenant['tenant_dob'])->format('F j, Y') }}" minlength="3"
+                                            maxlength="50" />
+                                    </div>
+                                    <div class="col-xl-2 col-lg-12 col-12 d-flex align-items-center">
+                                        <button class="btn btn-label-danger mt-4" type="button" data-repeater-delete>
+                                            <i class="ti ti-x ti-xs me-1"></i>
+                                            <span class="align-middle">Delete</span>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-xl-3 col-lg-6 col-12 position-relative">
-                                    <label class="form-label" style="font-size: 15px" for="tenant_phone">Tenant
-                                        Mobile
-                                        <span class="text-danger">*</span></label>
-                                    <input type="text"
-                                        class="form-control @error('tenant_phone') is-invalid @enderror"
-                                        id="tenant_phone" name="tenant_phone" placeholder="Tenant Mobile"
-                                        value="{{ isset($customer) ? $customer->tenant_phone : old('tenant_phone') }}"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '');" min="1"
-                                        max="20" />
-                                </div>
-                                <div class="col-xl-3 col-lg-6 col-12 position-relative">
-                                    <label class="form-label" style="font-size: 15px" for="tenant_dob">Date of birth
-                                        <span class="text-danger">*</span></label>
-                                    <input type="text"
-                                        class="form-control @error('tenant_dob') is-invalid @enderror"
-                                        id="tenant_dob" name="tenant_dob" placeholder="Date of birth"
-                                        value="{{ isset($customer) ? $customer->tenant_dob : old('tenant_dob') }}"
-                                        minlength="3" maxlength="50" />
-                                </div>
-                                <div class="col-xl-2 col-lg-12 col-12 d-flex align-items-center">
-                                    <button class="btn btn-label-danger mt-4" type="button" data-repeater-delete>
-                                        <i class="ti ti-x ti-xs me-1"></i>
-                                        <span class="align-middle">Delete</span>
-                                    </button>
-                                </div>
+                                <hr>
                             </div>
-                            <hr>
-                        </div>
+                        @empty
+                            <div data-repeater-item>
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px" for="tenant_name">Tenant
+                                            Name
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_name') is-invalid @enderror"
+                                            id="tenant_name" name="tenant_name" placeholder="Tenant Name"
+                                            minlength="3" maxlength="50" />
+                                    </div>
+                                    <div class="col-xl-3 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px" for="tenant_phone">Tenant
+                                            Mobile
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_phone') is-invalid @enderror"
+                                            id="tenant_phone" name="tenant_phone" placeholder="Tenant Mobile"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');" min="1"
+                                            max="20" />
+                                    </div>
+                                    <div class="col-xl-3 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px" for="tenant_dob">Date of
+                                            birth
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_dob') is-invalid @enderror"
+                                            id="tenant_dob" name="tenant_dob" placeholder="Date of birth"
+                                            minlength="3" maxlength="50" />
+                                    </div>
+                                    <div class="col-xl-2 col-lg-12 col-12 d-flex align-items-center">
+                                        <button class="btn btn-label-danger mt-4" type="button" data-repeater-delete>
+                                            <i class="ti ti-x ti-xs me-1"></i>
+                                            <span class="align-middle">Delete</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        @endforelse
                     </div>
                     <div class="row">
                         <div class="col-2">

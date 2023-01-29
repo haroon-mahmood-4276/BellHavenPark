@@ -92,13 +92,11 @@ class CustomerController extends Controller
         abort_if(request()->ajax(), 403);
 
         try {
-            $cabin = $this->customerInterface->getById(decryptParams($id));
-
-            if ($cabin && !empty($cabin)) {
+            $customer = $this->customerInterface->getById(decryptParams($id));
+            if ($customer && !empty($customer)) {
                 $data = [
-                    'cabin_types' => $this->cabinTypeInterface->getAll(),
-                    'cabin_statuses' => $this->cabinStatusInterface->getAll(),
-                    'cabin' => $cabin,
+                    'international_ids' => $this->internationalIdInterface->getAll(),
+                    'customer' => $this->customerInterface->getById($customer->id),
                 ];
 
                 return view('customers.edit', $data);

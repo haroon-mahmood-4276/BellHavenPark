@@ -4,6 +4,7 @@ namespace App\Http\Requests\Customers;
 
 use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class storeRequest extends FormRequest
 {
@@ -24,7 +25,10 @@ class storeRequest extends FormRequest
      */
     public function rules()
     {
-        return (new Customer())->rules;
+        $rules = (new Customer())->rules;
+        $rules['email'] = explode('|', $rules['email']);
+        $rules['email'][] = Rule::unique(Customer::class);
+        return $rules;
     }
 
     /**

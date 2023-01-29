@@ -1,10 +1,10 @@
 @extends('layout.layout')
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'cabins.edit', encryptParams($cabin->id)) }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'customers.edit', encryptParams($customer->id)) }}
 @endsection
 
-@section('page-title', 'Edit Cabin')
+@section('page-title', 'Edit Customer')
 
 @section('page-vendor')
 @endsection
@@ -17,22 +17,22 @@
 
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
-        <h2 class="content-header-title float-start mb-0 mx-3">Edit Cabin</h2>
-        {{ Breadcrumbs::render('cabins.edit', encryptParams($cabin->id)) }}
+        <h2 class="content-header-title float-start mb-0 mx-3">Edit Customer</h2>
+        {{ Breadcrumbs::render('customers.edit', encryptParams($customer->id)) }}
     </div>
 @endsection
 
 @section('content')
-    <form class="form form-vertical" action="{{ route('cabins.update', ['id' => encryptParams($cabin->id)]) }}"
-        method="POST" enctype="multipart/form-data">
+    <form class="form form-vertical create-customer-form"
+        action="{{ route('customers.update', ['id' => encryptParams($customer->id)]) }}" method="POST"
+        enctype="multipart/form-data">
 
         <div class="row g-3">
             <div class="col-lg-9 col-md-9 col-sm-12 position-relative">
 
                 @csrf
                 @method('PUT')
-
-                {{ view('cabins.form-fields', ['cabin_types' => $cabin_types, 'cabin_statuses' => $cabin_statuses, 'cabin' => $cabin]) }}
+                {{ view('customers.form-fields', ['international_ids' => $international_ids, 'customer' => $customer]) }}
 
             </div>
 
@@ -42,14 +42,14 @@
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-success w-100 buttonToBlockUI me-1">
-                                        <i class="fa-solid fa-floppy-disk icon me-2"></i>
-                                        Update Cabin
+                                    <button type="submit" class="btn btn-success w-100  buttonToBlockUI me-1">
+                                        <i class="fa-solid fa-floppy-disk icon mx-2"></i>
+                                        Update Customer
                                     </button>
                                 </div>
                                 <div class="col-md-12">
-                                    <a href="{{ route('cabins.index') }}" class="btn btn-danger w-100 ">
-                                        <i class="fa-solid fa-xmark icon me-2"></i>
+                                    <a href="{{ route('customers.index') }}" class="btn btn-danger w-100 ">
+                                        <i class="fa-solid fa-xmark icon mx-2"></i>
                                         Cancel
                                     </a>
                                 </div>
@@ -67,7 +67,7 @@
                                     <span class="text-danger">**</span> means required field and must be unique.
                                 </div>
                                 {{-- <button type="button" class="btn-close" data-bs-dismiss="alert"
-                        aria-label="Close"></button> --}}
+                            aria-label="Close"></button> --}}
                             </div>
                         </div>
                     </div>
@@ -81,7 +81,82 @@
 @endsection
 
 @section('page-js')
+    <script src="{{ asset('assets') }}/vendor/libs/feligx/datedropper/datedropper-jquery.js"></script>
+    <script src="{{ asset('assets') }}/vendor/libs/jquery-repeater/jquery-repeater.js"></script>
 @endsection
 
 @section('custom-js')
+    <script>
+        $(document).ready(function() {
+
+            $('#dob').dateDropper({
+                large: true,
+                startFromMonday: true,
+                autoIncrease: true,
+                format: 'F j, Y',
+                defaultDate: '{{ isset($customer) ? $customer->dob : now() }}',
+                maxDate: "{{ now()->subYears(1)->format('m/d/Y') }}",
+            });
+
+            international_id = $("#international_id");
+            international_id.wrap('<div class="position-relative"></div>');
+            international_id.select2({
+                dropdownAutoWidth: !0,
+                dropdownParent: international_id.parent(),
+                width: "100%",
+                containerCssClass: "select-lg",
+                templateResult: c,
+                templateSelection: c,
+                escapeMarkup: function(international_id) {
+                    return international_id
+                }
+            });
+
+
+            $(".create-customer-form").repeater({
+                show: function() {
+                    $(this).slideDown();
+                    InitializeDateDropper();
+                },
+                hide: function(e) {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        customClass: {
+                            confirmButton: 'btn btn-danger me-1',
+                            cancelButton: 'btn btn-success me-1'
+                        },
+                        buttonsStyling: false
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $(this).slideUp(e);
+                        }
+                    });
+                }
+            });
+        });
+
+        function c(e) {
+            return e.id ? "<i class='" + $(e.element).data("icon") + " me-2'></i>" + e.text : e.text
+        }
+        InitializeDateDropper();
+
+        function InitializeDateDropper() {
+            debugger;
+            $("[name^='tenants['][name$='][tenant_dob]']").each(function() {
+                console.log($(this).attr('name'))
+                $(this).dateDropper({
+                    large: true,
+                    startFromMonday: true,
+                    autoIncrease: true,
+                    format: 'F j, Y',
+                    defaultDate: moment($(this).val()).format('MM-DD-YYYY'),
+                    maxDate: "{{ now()->subYears(1)->format('m/d/Y') }}",
+                });
+            });
+        }
+    </script>
 @endsection
