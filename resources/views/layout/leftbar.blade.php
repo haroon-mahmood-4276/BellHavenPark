@@ -76,31 +76,79 @@
             <span class="menu-header-text">Booking & Customers</span>
         </li>
 
-        @canany(['booking-sources.index', 'booking-sources.create'])
+        @canany(['bookings.index', 'bookings.create'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['booking-sources.index', 'booking-sources.create'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(),['bookings.index', 'bookings.create'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-bolt menu-icon"></i>
-                    <div>Booking Sources</div>
+                    <div>Bookings</div>
                 </a>
                 <ul class="menu-sub">
 
-                    @can('booking-sources.index')
-                        <li class="menu-item {{ request()->routeIs('booking-sources.index') ? 'active' : null }}">
-                            <a href="{{ route('booking-sources.index') }}" class="menu-link">
+                    @can('bookings.index')
+                        <li class="menu-item {{ request()->routeIs('bookings.index') ? 'active' : null }}">
+                            <a href="{{ route('bookings.index') }}" class="menu-link">
                                 <div>View All</div>
                             </a>
                         </li>
                     @endcan
 
-                    @can('booking-sources.create')
-                        <li class="menu-item {{ request()->routeIs('booking-sources.create') ? 'active' : null }}">
-                            <a href="{{ route('booking-sources.create') }}" class="menu-link">
+                    @can('bookings.create')
+                        <li class="menu-item {{ request()->routeIs('bookings.create') ? 'active' : null }}">
+                            <a href="{{ route('bookings.create') }}" class="menu-link">
                                 <div>Add New</div>
                             </a>
                         </li>
                     @endcan
+
+                    @canany(['booking-sources.index', 'booking-sources.create'])
+                        <li
+                            class="menu-item {{ in_array(request()->route()->getName(),['booking-sources.index', 'booking-sources.create'])? 'open active': null }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class="fa-solid fa-bolt menu-icon"></i>
+                                <div>Booking Sources</div>
+                            </a>
+                            <ul class="menu-sub">
+
+                                @can('booking-sources.index')
+                                    <li class="menu-item {{ request()->routeIs('booking-sources.index') ? 'active' : null }}">
+                                        <a href="{{ route('booking-sources.index') }}" class="menu-link">
+                                            <div>View All</div>
+                                        </a>
+                                    </li>
+                                @endcan
+
+                                @can('booking-sources.create')
+                                    <li class="menu-item {{ request()->routeIs('booking-sources.create') ? 'active' : null }}">
+                                        <a href="{{ route('booking-sources.create') }}" class="menu-link">
+                                            <div>Add New</div>
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcanany
                 </ul>
+            </li>
+        @endcanany
+
+        @canany(['bookings.checkin.index'])
+            <li
+                class="menu-item {{ in_array(request()->route()->getName(),['bookings.checkin.index'])? 'open active': null }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="fa-solid fa-bolt menu-icon"></i>
+                    <div>Check In</div>
+                </a>
+            </li>
+        @endcanany
+
+        @canany(['bookings.checkout.index'])
+            <li
+                class="menu-item {{ in_array(request()->route()->getName(),['bookings.checkout.index'])? 'open active': null }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="fa-solid fa-bolt menu-icon"></i>
+                    <div>Check Out</div>
+                </a>
             </li>
         @endcanany
 
