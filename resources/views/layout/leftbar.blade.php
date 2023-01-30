@@ -76,58 +76,30 @@
             <span class="menu-header-text">Booking & Customers</span>
         </li>
 
-        @canany(['cabins.index', 'cabins.create', 'booking-sources.index', 'booking-sources.create'])
+        @canany(['booking-sources.index', 'booking-sources.create'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['cabins.index', 'cabins.create', 'booking-sources.index', 'booking-sources.create'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(),['booking-sources.index', 'booking-sources.create'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="fa-solid fa-dollar-sign menu-icon"></i>
-                    <div>Cabins</div>
+                    <i class="fa-solid fa-bolt menu-icon"></i>
+                    <div>Booking Sources</div>
                 </a>
                 <ul class="menu-sub">
 
-                    @can('cabins.index')
-                        <li class="menu-item {{ request()->routeIs('cabins.index') ? 'active' : null }}">
-                            <a href="{{ route('cabins.index') }}" class="menu-link">
+                    @can('booking-sources.index')
+                        <li class="menu-item {{ request()->routeIs('booking-sources.index') ? 'active' : null }}">
+                            <a href="{{ route('booking-sources.index') }}" class="menu-link">
                                 <div>View All</div>
                             </a>
                         </li>
                     @endcan
 
-                    @can('cabins.create')
-                        <li class="menu-item {{ request()->routeIs('cabins.create') ? 'active' : null }}">
-                            <a href="{{ route('cabins.create') }}" class="menu-link">
+                    @can('booking-sources.create')
+                        <li class="menu-item {{ request()->routeIs('booking-sources.create') ? 'active' : null }}">
+                            <a href="{{ route('booking-sources.create') }}" class="menu-link">
                                 <div>Add New</div>
                             </a>
                         </li>
                     @endcan
-
-                    @canany(['booking-sources.index', 'booking-sources.create'])
-                        <li
-                            class="menu-item {{ in_array(request()->route()->getName(),['booking-sources.index', 'booking-sources.create'])? 'open active': null }}">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="fa-solid fa-bolt menu-icon"></i>
-                                <div>Booking Sources</div>
-                            </a>
-                            <ul class="menu-sub">
-
-                                @can('booking-sources.index')
-                                    <li class="menu-item {{ request()->routeIs('booking-sources.index') ? 'active' : null }}">
-                                        <a href="{{ route('booking-sources.index') }}" class="menu-link">
-                                            <div>View All</div>
-                                        </a>
-                                    </li>
-                                @endcan
-
-                                @can('booking-sources.create')
-                                    <li class="menu-item {{ request()->routeIs('booking-sources.create') ? 'active' : null }}">
-                                        <a href="{{ route('booking-sources.create') }}" class="menu-link">
-                                            <div>Add New</div>
-                                        </a>
-                                    </li>
-                                @endcan
-                            </ul>
-                        </li>
-                    @endcanany
                 </ul>
             </li>
         @endcanany
@@ -136,7 +108,7 @@
             <li
                 class="menu-item {{ in_array(request()->route()->getName(),['customers.index', 'customers.create'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="fa-solid fa-bolt menu-icon"></i>
+                    <i class="fa-solid fa-user menu-icon"></i>
                     <div>Customers</div>
                 </a>
                 <ul class="menu-sub">
@@ -168,7 +140,7 @@
             <li
                 class="menu-item {{ in_array(request()->route()->getName(),['payment-methods.index', 'payment-methods.create'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="fa-solid fa-bolt menu-icon"></i>
+                    <i class="fa-solid fa-dollar-sign menu-icon"></i>
                     <div>Payment Methods</div>
                 </a>
                 <ul class="menu-sub">
@@ -196,7 +168,7 @@
             <li
                 class="menu-item {{ in_array(request()->route()->getName(),['international-ids.index', 'international-ids.create'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="fa-solid fa-bolt menu-icon"></i>
+                    <i class="fa-solid fa-id-card menu-icon"></i>
                     <div>International Ids</div>
                 </a>
                 <ul class="menu-sub">
@@ -224,7 +196,7 @@
             <li
                 class="menu-item {{ in_array(request()->route()->getName(),['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="fa-solid fa-layer-group menu-icon"></i>
+                    <i class="fa-solid fa-door-open menu-icon"></i>
                     <div>Cabins</div>
                 </a>
                 <ul class="menu-sub">
