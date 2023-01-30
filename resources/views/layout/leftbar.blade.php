@@ -224,7 +224,7 @@
             <li
                 class="menu-item {{ in_array(request()->route()->getName(),['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="fa-solid fa-dollar-sign menu-icon"></i>
+                    <i class="fa-solid fa-layer-group menu-icon"></i>
                     <div>Cabins</div>
                 </a>
                 <ul class="menu-sub">
