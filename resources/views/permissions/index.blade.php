@@ -61,8 +61,8 @@
                     confirmButtonClass: 'btn-danger',
                     buttonsStyling: false,
                     customClass: {
-                        confirmButton: 'btn btn-danger  me-1',
-                        cancelButton: 'btn btn-success  me-1'
+                        confirmButton: 'btn btn-danger me-1',
+                        cancelButton: 'btn btn-success me-1'
                     },
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -76,8 +76,8 @@
                     text: '{{ __('lang.commons.please_select_at_least_one_item') }}',
                     buttonsStyling: false,
                     customClass: {
-                        confirmButton: 'btn btn-danger  me-1',
-                        cancelButton: 'btn btn-success  me-1'
+                        confirmButton: 'btn btn-danger me-1',
+                        cancelButton: 'btn btn-success me-1'
                     },
                 });
             }

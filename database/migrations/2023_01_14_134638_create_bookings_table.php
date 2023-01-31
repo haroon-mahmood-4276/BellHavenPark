@@ -25,12 +25,12 @@ return new class extends Migration
             $table->float('daily_less_booking_percentage')->default(0);
             $table->float('weekly_rate')->default(0);
             $table->float('weekly_rate_less_booking_percentage')->default(0);
-            $table->float('four_weekly_rate')->default(0);
-            $table->float('four_weekly_less_booking_percentage')->default(0);
-            $table->boolean('electricity_included');
+            $table->float('monthly_rate')->default(0);
+            $table->float('monthly_less_booking_percentage')->default(0);
+            $table->boolean('electricity_included')->default(false);
             $table->string('check_in', 10)->nullable();
-            $table->integer('check_in_date')->default(0);
-            $table->integer('check_out_date')->default(0);
+            $table->unsignedInteger('check_in_date')->default(0);
+            $table->unsignedInteger('check_out_date')->default(0);
             $table->float('tax_percentage')->nullable();
             $table->float('tax_rate')->nullable();
             $table->string('status', 30)->nullable();

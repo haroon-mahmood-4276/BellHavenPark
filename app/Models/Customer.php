@@ -101,13 +101,4 @@ class Customer extends Model
             }
         );
     }
-
-    // public function setTenantsAttribute($value)
-    // {
-    //     dd();
-    //     $this->attributes['tenants'] = array_map(function ($tenant) {
-    //         $tenant['tenant_dob'] = strtotime($tenant['tenant_dob']);
-    //         return $tenant;
-    //     }, $value);
-    // }
 }

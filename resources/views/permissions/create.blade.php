@@ -51,7 +51,7 @@
             </div>
 
             <div class="card-footer d-flex align-items-center justify-content-end">
-                <button type="submit" class="btn btn-success  me-1">
+                <button type="submit" class="btn btn-success me-1">
                     <i data-feather='save'></i>
                     Save Permission
                 </button>

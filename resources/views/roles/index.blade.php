@@ -137,8 +137,8 @@
                     confirmButtonClass: 'btn-danger',
                     buttonsStyling: false,
                     customClass: {
-                        confirmButton: 'btn btn-danger  me-1',
-                        cancelButton: 'btn btn-success  me-1'
+                        confirmButton: 'btn btn-danger me-1',
+                        cancelButton: 'btn btn-success me-1'
                     },
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -152,8 +152,8 @@
                     text: 'Please select at least one item!',
                     buttonsStyling: false,
                     customClass: {
-                        confirmButton: 'btn btn-danger  me-1',
-                        cancelButton: 'btn btn-success  me-1'
+                        confirmButton: 'btn btn-danger me-1',
+                        cancelButton: 'btn btn-success me-1'
                     },
                 });
             }
