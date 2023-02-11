@@ -23,7 +23,6 @@ class CabinTypesDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->setRowId('id')
             ->editColumn('created_at', function ($cabinType) {
                 return editDateColumn($cabinType->created_at);
             })

@@ -2,7 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Models\Customer;
+use App\Models\Cabin;
+use App\Services\Bookings\BookingInterface;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -10,9 +11,18 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
-class CustomersDataTable extends DataTable
+class BookingCabinsDataTable extends DataTable
 {
+
+    private $bookingInterface;
+
+    public function __construct(BookingInterface $bookingInterface)
+    {
+        $this->bookingInterface = $bookingInterface;
+    }
+
     /**
      * Build DataTable class.
      *
@@ -23,17 +33,15 @@ class CustomersDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->editColumn('created_at', function ($customers) {
-                return editDateColumn($customers->created_at);
+            ->addIndexColumn()
+            ->editColumn('created_at', function ($cabin) {
+                return editDateColumn($cabin->created_at);
             })
-            ->editColumn('updated_at', function ($customers) {
-                return editDateColumn($customers->updated_at);
+            ->editColumn('updated_at', function ($cabin) {
+                return editDateColumn($cabin->updated_at);
             })
-            ->editColumn('actions', function ($customers) {
-                return view('customers.actions', ['id' => $customers->id]);
-            })
-            ->editColumn('check', function ($customers) {
-                return $customers;
+            ->editColumn('actions', function ($cabin) {
+                return view('bookings.cabins.actions', ['id' => $cabin->id]);
             })
             ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
@@ -42,19 +50,28 @@ class CustomersDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Customer $model
+     * @param \App\Models\Cabin $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Customer $model): QueryBuilder
+    public function query(Cabin $model): QueryBuilder
     {
-        return $model->newQuery();
+        $bookings = $this->bookingInterface->getBookedCabinsWithinDates($this->booking_from, $this->booking_to)->toArray();
+        $bookings = array_column($bookings, 'cabin_id');
+
+        $cabins = $model->newQuery()
+            // ->select('cabins.*')
+            ->with(['cabin_type', 'cabin_status'])
+            ->whereNotIn('cabins.id', $bookings)
+            ->orderBy('cabins.id');
+
+        return $cabins;
     }
 
     public function html(): HtmlBuilder
     {
         $buttons = [];
 
-        if (auth()->user()->can('customers.create')) {
+        if (auth()->user()->can('bookings.create')) {
             $buttons[] = Button::raw('delete-selected')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New')
@@ -63,7 +80,7 @@ class CustomersDataTable extends DataTable
                 ]);
         }
 
-        if (auth()->user()->can('customers.export')) {
+        if (auth()->user()->can('bookings.export')) {
             $buttons[] = Button::make('export')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1')
                 ->buttons([
@@ -80,7 +97,7 @@ class CustomersDataTable extends DataTable
             Button::make('reload')->addClass('btn btn-primary waves-effect waves-float waves-light m-1'),
         ]);
 
-        if (auth()->user()->can('customers.destroy')) {
+        if (auth()->user()->can('bookings.destroy')) {
             $buttons[] = Button::raw('delete-selected')
                 ->addClass('btn btn-danger waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-minus"></i>&nbsp;&nbsp;Delete Selected')
@@ -90,7 +107,7 @@ class CustomersDataTable extends DataTable
         }
 
         return $this->builder()
-            ->setTableId('customers-table')
+            ->setTableId('booking-table')
             ->addTableClass('table-borderless table-striped table-hover')
             ->columns($this->getColumns())
             ->minifiedAjax()
@@ -101,28 +118,11 @@ class CustomersDataTable extends DataTable
             ->scrollX()
             ->lengthMenu([10, 20, 30, 50, 70, 100])
             ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
-            ->buttons($buttons)
-            // ->rowGroupDataSrc('parent_id')
-            ->columnDefs([
-                [
-                    'targets' => 0,
-                    'className' => 'text-center text-primary',
-                    'width' => '10%',
-                    'orderable' => false,
-                    'searchable' => false,
-                    'responsivePriority' => 3,
-                    'render' => "function (data, type, full, setting) {
-                        var role = JSON.parse(data);
-                        return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
-                    }",
-                    'checkboxes' => [
-                        'selectAllRender' =>  '<div class="form-check"> <input class="form-check-input" onchange="changeAllTableRowColor()" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>',
-                    ]
-                ],
-            ])
-            ->orders([
-                [3, 'asc'],
-            ]);
+            ->buttons($buttons);
+        // ->rowGroupDataSrc('parent_id')
+        // ->orders([
+        //     [3, 'asc'],
+        // ]);
     }
 
     /**
@@ -134,13 +134,16 @@ class CustomersDataTable extends DataTable
     {
         $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowarp');
 
-        if (auth()->user()->can('customers.destroy')) {
+        if (auth()->user()->can('bookings.destroy')) {
             $checkColumn->addClass('disabled');
         }
 
         $columns = [
-            $checkColumn,
-            Column::make('name')->title('Customers')->addClass('text-nowarp'),
+            // $checkColumn,
+            Column::computed('DT_RowIndex')->title('#'),
+            Column::make('name')->addClass('text-nowarp'),
+            Column::make('cabin_status.name')->title('Cabin Status')->addClass('text-nowarp'),
+            Column::make('cabin_type.name')->title('Cabin Type')->addClass('text-nowarp'),
             Column::make('created_at')->addClass('text-nowarp'),
             Column::make('updated_at')->addClass('text-nowarp'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
@@ -155,7 +158,7 @@ class CustomersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Customers_' . date('YmdHis');
+        return 'BookingCabins_' . date('YmdHis');
     }
 
     /**

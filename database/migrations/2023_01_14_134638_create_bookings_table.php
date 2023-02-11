@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->integer('booking_id')->unique();
 
             $table->foreignUuid('cabin_id')->nullable()->constrained();
             $table->foreignUuid('customer_id')->nullable()->constrained();
@@ -27,15 +28,13 @@ return new class extends Migration
             $table->float('weekly_rate_less_booking_percentage')->default(0);
             $table->float('monthly_rate')->default(0);
             $table->float('monthly_less_booking_percentage')->default(0);
-            $table->boolean('electricity_included')->default(false);
             $table->string('check_in', 10)->nullable();
             $table->unsignedInteger('check_in_date')->default(0);
             $table->unsignedInteger('check_out_date')->default(0);
-            $table->float('tax_percentage')->nullable();
-            $table->float('tax_rate')->nullable();
-            $table->string('status', 30)->nullable();
+            $table->float('tax')->nullable();
             $table->text('comments')->nullable();
             $table->string('payment', 5)->nullable();
+            $table->string('status', 30)->nullable();
 
             $table->unsignedInteger('created_at')->nullable();
             $table->unsignedInteger('updated_at')->nullable();

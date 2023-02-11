@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{
+    BookingController,
     BookingSourceController,
     CabinController,
     CabinTypeController,
@@ -167,42 +168,45 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
-
-
-
     // Booking Routes
     Route::group(['prefix' => 'bookings', 'as' => 'bookings.'], function () {
 
-        Route::get('/', [BookingsController::class, 'index'])->name('index');
+        Route::get('/', [BookingController::class, 'index'])->middleware('permission:bookings.index')->name('index');
 
-        Route::get('cabins', [BookingsController::class, 'cabinsList'])->name('cabins');
-
-        Route::get('/create', [BookingsController::class, 'create'])->name('create');
-        Route::get('/create/{cabin_id}/modal', [BookingsController::class, 'createModal'])->name('create.modal');
-
-        Route::post('/', [BookingsController::class, 'store'])->name('store');
-
-        Route::get('/calender', [BookingsController::class, 'calenderView'])->name('calenderView');
-
-        Route::get('/{booking}/show', [BookingsController::class, 'show'])->name('show');
-
-        Route::get('/{booking}/edit', [BookingsController::class, 'edit'])->name('edit');
-        Route::put('/{booking}', [BookingsController::class, 'update'])->name('update');
-
-        Route::delete('/{booking}', [BookingsController::class, 'destroy'])->name('destroy');
-
-        Route::get('/check-in', [BookingsController::class, 'CheckInIndex'])->name('checkin.index');
-        Route::get('/check-in/{booking}', [BookingsController::class, 'CheckInStore'])->name('checkin.store');
-
-        Route::get('/check-out', [BookingsController::class, 'CheckOutIndex'])->name('checkout.index');
-        Route::get('/check-out/{booking}', [BookingsController::class, 'CheckOutStore'])->name('checkout.store');
-
-
-        // Payments Routes
-        Route::group(['prefix' => '/{booking}', 'as' => 'payments.'], function () {
-            Route::get('/payments', [PaymentController::class, 'index'])->name('index');
-            Route::get('/payments/create', [PaymentController::class, 'create'])->name('create');
+        Route::group(['middleware' => 'permission:customers.edit'], function () {
+            Route::get('/create', [BookingController::class, 'create'])->name('create');
+            Route::get('/create/modal', [BookingController::class, 'createModal'])->name('create.modal');
         });
+
+        Route::post('/store', [BookingController::class, 'store'])->name('store');
+
+
+
+
+
+        // Route::post('/', [BookingsController::class, 'store'])->name('store');
+
+        // Route::get('/calender', [BookingsController::class, 'calenderView'])->name('calenderView');
+
+        // Route::get('/{booking}/show', [BookingsController::class, 'show'])->name('show');
+
+        // Route::get('/{booking}/edit', [BookingsController::class, 'edit'])->name('edit');
+        // Route::put('/{booking}', [BookingsController::class, 'update'])->name('update');
+
+        // Route::delete('/{booking}', [BookingsController::class, 'destroy'])->name('destroy');
+
+        // Route::get('/check-in', [BookingsController::class, 'CheckInIndex'])->name('checkin.index');
+        // Route::get('/check-in/{booking}', [BookingsController::class, 'CheckInStore'])->name('checkin.store');
+
+        // Route::get('/check-out', [BookingsController::class, 'CheckOutIndex'])->name('checkout.index');
+        // Route::get('/check-out/{booking}', [BookingsController::class, 'CheckOutStore'])->name('checkout.store');
+
+
+        // // Payments Routes
+        // Route::group(['prefix' => '/{booking}', 'as' => 'payments.'], function () {
+        //     Route::get('/payments', [PaymentController::class, 'index'])->name('index');
+        //     Route::get('/payments/create', [PaymentController::class, 'create'])->name('create');
+        // });
     });
 
     // Settings Routes

@@ -143,10 +143,5 @@ Breadcrumbs::for('bookings.index', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('bookings.create', function (BreadcrumbTrail $trail) {
     $trail->parent('bookings.index');
-    $trail->push('Create Booking', route('bookings.create'));
-});
-
-Breadcrumbs::for('bookings.edit', function (BreadcrumbTrail $trail, $customer_id) {
-    $trail->parent('bookings.index');
-    $trail->push('Edit Booking',  route('bookings.edit', ['id' => $customer_id]));
+    $trail->push('Cabins List', route('bookings.create'));
 });

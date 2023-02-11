@@ -8,6 +8,8 @@ interface BookingInterface
 
     public function getById($id);
 
+    public function getBookedCabinsWithinDates($start_date, $end_date);
+
     public function store($inputs);
 
     public function update($id, $inputs);

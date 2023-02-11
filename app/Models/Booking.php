@@ -27,12 +27,10 @@ class Booking extends Model
         'weekly_rate_less_booking_percentage',
         'monthly_rate',
         'monthly_less_booking_percentage',
-        'electricity_included',
         'check_in',
         'check_in_date',
         'check_out_date',
-        'tax_percentage',
-        'tax_rate',
+        'tax',
         'status',
         'comments',
         'payment',
@@ -50,12 +48,10 @@ class Booking extends Model
         'weekly_rate_less_booking_percentage' => 'float',
         'monthly_rate' => 'float',
         'monthly_less_booking_percentage' => 'float',
-        'electricity_included' => 'boolean',
         'check_in' => 'string',
         'check_in_date' => 'integer',
         'check_out_date' => 'integer',
-        'tax_percentage' => 'float',
-        'tax_rate' => 'float',
+        'tax' => 'float',
         'status' => 'boolean',
         'comments' => 'string',
         'payment' => 'string',
@@ -66,26 +62,22 @@ class Booking extends Model
     protected $appends = ['name'];
 
     public $rules = [
-        'cabin_id' => 'nullable|uuid',
-        'customer_id' => 'nullable|uuid',
-        'booking_from' => 'nullable|date',
-        'booking_to' => 'nullable|date',
+        'cabin_id' => 'required|uuid',
+        'customer' => 'required|uuid',
+        'booking_from' => 'required|integer',
+        'booking_to' => 'required|integer',
         'booking_source_id' => 'nullable|uuid',
-        'daily_rate' => 'nullable|float',
-        'daily_less_booking_percentage' => 'nullable|float',
-        'weekly_rate' => 'nullable|float',
-        'weekly_rate_less_booking_percentage' => 'nullable|float',
-        'monthly_rate' => 'nullable|float',
-        'monthly_less_booking_percentage' => 'nullable|float',
-        'electricity_included' => 'nullable|boolean',
-        'check_in' => 'string',
-        'check_in_date' => 'nullable|date',
-        'check_out_date' => 'nullable|date',
-        'tax_percentage' => 'nullable|float',
-        'tax_rate' => 'nullable|float',
-        'status' => 'boolean',
-        'comments' => 'string',
-        'payment' => 'string|min:3|max:5',
+        'daily_rate' => 'nullable|numeric',
+        'daily_less_booking_percentage' => 'nullable|numeric',
+        'weekly_rate' => 'nullable|numeric',
+        'weekly_less_booking_percentage' => 'nullable|numeric',
+        'monthly_rate' => 'nullable|numeric',
+        'monthly_less_booking_percentage' => 'nullable|numeric',
+        'booking_tax' => 'nullable|integer',
+        'check_in' => 'required|in:now,later',
+        'payment' => 'required|in:now,later',
+        'advance_payment' => 'required_if:payment,now|integer|gt:-1',
+        'comments' => 'nullable|text'
     ];
 
     public $rulesMessages = [];
@@ -97,17 +89,17 @@ class Booking extends Model
         return LogOptions::defaults()->useLogName(self::class)->logFillable();
     }
 
-    public function cabins()
+    public function cabin()
     {
         return $this->hasOne(Cabin::class);
     }
 
-    public function customers()
+    public function customer()
     {
         return $this->hasOne(Customer::class);
     }
 
-    public function booking_sources()
+    public function booking_source()
     {
         return $this->hasOne(BookingSource::class);
     }

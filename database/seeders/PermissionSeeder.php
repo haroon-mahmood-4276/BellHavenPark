@@ -46,8 +46,8 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'name' => 'roles.destroy',
-                'show_name' => 'Can Destroy Role',
                 'guard_name' => 'web',
+                'show_name' => 'Can Delete Role',
             ],
             [
                 'name' => 'roles.export',
@@ -89,27 +89,27 @@ class PermissionSeeder extends Seeder
             // [
             //     'name' => 'permissions.destroy',
             //     'guard_name' => 'web',
-            //     'show_name' => 'Can Destroy Permission',
+            //     'show_name' => 'Can Delete Permission',
             // ],
             // [
             //     'name' => 'permissions.destroy',
             //     'guard_name' => 'web',
-            //     'show_name' => 'Can Destroy Selected Permissions',
+            //     'show_name' => 'Can Delete Selected Permissions',
             // ],
             [
                 'name' => 'permissions.assign-permission',
-                'show_name' => 'Can Assign Permission',
                 'guard_name' => 'web',
+                'show_name' => 'Can Assign Permission',
             ],
             [
                 'name' => 'permissions.revoke-permission',
-                'show_name' => 'Can Revoke Permission',
                 'guard_name' => 'web',
+                'show_name' => 'Can Revoke Permission',
             ],
             [
                 'name' => 'permissions.edit-own-permission',
-                'show_name' => 'Can Edit Own Permission',
                 'guard_name' => 'web',
+                'show_name' => 'Can Edit Own Permission',
             ],
 
             // Sites Routes
@@ -154,8 +154,8 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'name' => 'payment-methods.destroy',
-                'show_name' => 'Can Destroy Payment Method',
                 'guard_name' => 'web',
+                'show_name' => 'Can Delete Payment Method',
             ],
             [
                 'name' => 'payment-methods.export',
@@ -191,8 +191,8 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'name' => 'international-ids.destroy',
-                'show_name' => 'Can Destroy International Id',
                 'guard_name' => 'web',
+                'show_name' => 'Can Delete International Id',
             ],
             [
                 'name' => 'international-ids.export',
@@ -228,8 +228,8 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'name' => 'cabin-types.destroy',
-                'show_name' => 'Can Destroy Cabin Type',
                 'guard_name' => 'web',
+                'show_name' => 'Can Delete Cabin Type',
             ],
             [
                 'name' => 'cabin-types.export',
@@ -265,8 +265,8 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'name' => 'cabins.destroy',
-                'show_name' => 'Can Destroy Cabin',
                 'guard_name' => 'web',
+                'show_name' => 'Can Delete Cabin',
             ],
             [
                 'name' => 'cabins.export',
@@ -302,8 +302,8 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'name' => 'booking-sources.destroy',
-                'show_name' => 'Can Destroy Booking Source',
                 'guard_name' => 'web',
+                'show_name' => 'Can Delete Booking Source',
             ],
             [
                 'name' => 'booking-sources.export',
@@ -339,14 +339,31 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'name' => 'customers.destroy',
-                'show_name' => 'Can Destroy Customer',
                 'guard_name' => 'web',
+                'show_name' => 'Can Delete Customer',
             ],
             [
                 'name' => 'customers.export',
                 'guard_name' => 'web',
                 'show_name' => 'Can Export Customers',
             ],
+
+            // Bookings Routes
+            [
+                'name' => 'bookings.index',
+                'guard_name' => 'web',
+                'show_name' => 'Can View Bookings',
+            ],
+            [
+                'name' => 'bookings.create',
+                'guard_name' => 'web',
+                'show_name' => 'Can Create Booking',
+            ],
+            // [
+            //     'name' => 'bookings.destroy',
+            //     'show_name' => 'Can Delete Bookings',
+            //     'guard_name' => 'web',
+            // ],
         ];
 
         $role = (new Role())->first();

@@ -41,4 +41,14 @@ class Cabin extends Model
     {
         return LogOptions::defaults()->useLogName(self::class)->logFillable();
     }
+
+    public function cabin_type()
+    {
+        return $this->belongsTo(CabinType::class);
+    }
+
+    public function cabin_status()
+    {
+        return $this->belongsTo(CabinStatus::class);
+    }
 }

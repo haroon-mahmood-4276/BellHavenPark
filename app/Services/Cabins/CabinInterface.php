@@ -4,6 +4,9 @@ namespace App\Services\Cabins;
 
 interface CabinInterface
 {
+
+    public function model();
+
     public function getAll($ignore = null);
 
     public function getById($id);

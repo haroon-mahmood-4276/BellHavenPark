@@ -12,6 +12,7 @@ namespace PHPSTORM_META {
     override(new \Illuminate\Contracts\Container\Container, map([
         '' => '@',
             'App\Services\BookingSources\BookingSourceInterface' => \App\Services\BookingSources\BookingSourceService::class,
+            'App\Services\Bookings\BookingInterface' => \App\Services\Bookings\BookingService::class,
             'App\Services\CabinStatuses\CabinStatusInterface' => \App\Services\CabinStatuses\CabinStatusService::class,
             'App\Services\CabinTypes\CabinTypeInterface' => \App\Services\CabinTypes\CabinTypeService::class,
             'App\Services\Cabins\CabinInterface' => \App\Services\Cabins\CabinService::class,
@@ -266,6 +267,7 @@ namespace PHPSTORM_META {
     override(\Illuminate\Container\Container::makeWith(0), map([
         '' => '@',
             'App\Services\BookingSources\BookingSourceInterface' => \App\Services\BookingSources\BookingSourceService::class,
+            'App\Services\Bookings\BookingInterface' => \App\Services\Bookings\BookingService::class,
             'App\Services\CabinStatuses\CabinStatusInterface' => \App\Services\CabinStatuses\CabinStatusService::class,
             'App\Services\CabinTypes\CabinTypeInterface' => \App\Services\CabinTypes\CabinTypeService::class,
             'App\Services\Cabins\CabinInterface' => \App\Services\Cabins\CabinService::class,
@@ -520,6 +522,7 @@ namespace PHPSTORM_META {
     override(\Illuminate\Contracts\Container\Container::get(0), map([
         '' => '@',
             'App\Services\BookingSources\BookingSourceInterface' => \App\Services\BookingSources\BookingSourceService::class,
+            'App\Services\Bookings\BookingInterface' => \App\Services\Bookings\BookingService::class,
             'App\Services\CabinStatuses\CabinStatusInterface' => \App\Services\CabinStatuses\CabinStatusService::class,
             'App\Services\CabinTypes\CabinTypeInterface' => \App\Services\CabinTypes\CabinTypeService::class,
             'App\Services\Cabins\CabinInterface' => \App\Services\Cabins\CabinService::class,
@@ -774,6 +777,7 @@ namespace PHPSTORM_META {
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
             'App\Services\BookingSources\BookingSourceInterface' => \App\Services\BookingSources\BookingSourceService::class,
+            'App\Services\Bookings\BookingInterface' => \App\Services\Bookings\BookingService::class,
             'App\Services\CabinStatuses\CabinStatusInterface' => \App\Services\CabinStatuses\CabinStatusService::class,
             'App\Services\CabinTypes\CabinTypeInterface' => \App\Services\CabinTypes\CabinTypeService::class,
             'App\Services\Cabins\CabinInterface' => \App\Services\Cabins\CabinService::class,
@@ -1028,6 +1032,7 @@ namespace PHPSTORM_META {
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
             'App\Services\BookingSources\BookingSourceInterface' => \App\Services\BookingSources\BookingSourceService::class,
+            'App\Services\Bookings\BookingInterface' => \App\Services\Bookings\BookingService::class,
             'App\Services\CabinStatuses\CabinStatusInterface' => \App\Services\CabinStatuses\CabinStatusService::class,
             'App\Services\CabinTypes\CabinTypeInterface' => \App\Services\CabinTypes\CabinTypeService::class,
             'App\Services\Cabins\CabinInterface' => \App\Services\Cabins\CabinService::class,
@@ -1282,6 +1287,7 @@ namespace PHPSTORM_META {
     override(\App::get(0), map([
         '' => '@',
             'App\Services\BookingSources\BookingSourceInterface' => \App\Services\BookingSources\BookingSourceService::class,
+            'App\Services\Bookings\BookingInterface' => \App\Services\Bookings\BookingService::class,
             'App\Services\CabinStatuses\CabinStatusInterface' => \App\Services\CabinStatuses\CabinStatusService::class,
             'App\Services\CabinTypes\CabinTypeInterface' => \App\Services\CabinTypes\CabinTypeService::class,
             'App\Services\Cabins\CabinInterface' => \App\Services\Cabins\CabinService::class,
@@ -1536,6 +1542,7 @@ namespace PHPSTORM_META {
     override(\App::make(0), map([
         '' => '@',
             'App\Services\BookingSources\BookingSourceInterface' => \App\Services\BookingSources\BookingSourceService::class,
+            'App\Services\Bookings\BookingInterface' => \App\Services\Bookings\BookingService::class,
             'App\Services\CabinStatuses\CabinStatusInterface' => \App\Services\CabinStatuses\CabinStatusService::class,
             'App\Services\CabinTypes\CabinTypeInterface' => \App\Services\CabinTypes\CabinTypeService::class,
             'App\Services\Cabins\CabinInterface' => \App\Services\Cabins\CabinService::class,
@@ -1790,6 +1797,7 @@ namespace PHPSTORM_META {
     override(\App::makeWith(0), map([
         '' => '@',
             'App\Services\BookingSources\BookingSourceInterface' => \App\Services\BookingSources\BookingSourceService::class,
+            'App\Services\Bookings\BookingInterface' => \App\Services\Bookings\BookingService::class,
             'App\Services\CabinStatuses\CabinStatusInterface' => \App\Services\CabinStatuses\CabinStatusService::class,
             'App\Services\CabinTypes\CabinTypeInterface' => \App\Services\CabinTypes\CabinTypeService::class,
             'App\Services\Cabins\CabinInterface' => \App\Services\Cabins\CabinService::class,
@@ -2044,6 +2052,7 @@ namespace PHPSTORM_META {
     override(\app(0), map([
         '' => '@',
             'App\Services\BookingSources\BookingSourceInterface' => \App\Services\BookingSources\BookingSourceService::class,
+            'App\Services\Bookings\BookingInterface' => \App\Services\Bookings\BookingService::class,
             'App\Services\CabinStatuses\CabinStatusInterface' => \App\Services\CabinStatuses\CabinStatusService::class,
             'App\Services\CabinTypes\CabinTypeInterface' => \App\Services\CabinTypes\CabinTypeService::class,
             'App\Services\Cabins\CabinInterface' => \App\Services\Cabins\CabinService::class,
@@ -2298,6 +2307,7 @@ namespace PHPSTORM_META {
     override(\resolve(0), map([
         '' => '@',
             'App\Services\BookingSources\BookingSourceInterface' => \App\Services\BookingSources\BookingSourceService::class,
+            'App\Services\Bookings\BookingInterface' => \App\Services\Bookings\BookingService::class,
             'App\Services\CabinStatuses\CabinStatusInterface' => \App\Services\CabinStatuses\CabinStatusService::class,
             'App\Services\CabinTypes\CabinTypeInterface' => \App\Services\CabinTypes\CabinTypeService::class,
             'App\Services\Cabins\CabinInterface' => \App\Services\Cabins\CabinService::class,
@@ -2552,6 +2562,7 @@ namespace PHPSTORM_META {
     override(\Psr\Container\ContainerInterface::get(0), map([
         '' => '@',
             'App\Services\BookingSources\BookingSourceInterface' => \App\Services\BookingSources\BookingSourceService::class,
+            'App\Services\Bookings\BookingInterface' => \App\Services\Bookings\BookingService::class,
             'App\Services\CabinStatuses\CabinStatusInterface' => \App\Services\CabinStatuses\CabinStatusService::class,
             'App\Services\CabinTypes\CabinTypeInterface' => \App\Services\CabinTypes\CabinTypeService::class,
             'App\Services\Cabins\CabinInterface' => \App\Services\Cabins\CabinService::class,

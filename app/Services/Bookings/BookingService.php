@@ -3,6 +3,7 @@
 namespace App\Services\Bookings;
 
 use App\Models\Booking;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class BookingService implements BookingInterface
@@ -27,6 +28,16 @@ class BookingService implements BookingInterface
     public function getById($id)
     {
         return $this->model()->find($id);
+    }
+
+    public function getBookedCabinsWithinDates($start_date, $end_date)
+    {
+        $model = $this->model()->select('cabin_id')
+            ->where('booking_to', '>=', (new Carbon())->parse($start_date)->timestamp)
+            ->where('booking_from', '<=', (new Carbon())->parse($end_date)->timestamp)
+            ->where('status', '!=', 'checked_out');
+
+        return $model->get();
     }
 
     public function store($inputs)

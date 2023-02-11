@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class CabinService implements CabinInterface
 {
-    private function model()
+    public function model()
     {
         return new Cabin();
     }

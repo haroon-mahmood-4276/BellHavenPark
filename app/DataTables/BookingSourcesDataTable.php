@@ -23,7 +23,6 @@ class BookingSourcesDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->setRowId('id')
             ->editColumn('created_at', function ($bookingSource) {
                 return editDateColumn($bookingSource->created_at);
             })

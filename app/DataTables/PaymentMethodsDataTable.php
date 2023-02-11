@@ -24,7 +24,6 @@ class PaymentMethodsDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->setRowId('id')
             ->editColumn('created_at', function ($payment_method) {
                 return editDateColumn($payment_method->created_at);
             })

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
-<html class="light-style layout-navbar-fixed layout-menu-fixed" lang="en"
-    dir="ltr" data-theme="theme-default"
+<html class="light-style layout-navbar-fixed layout-menu-fixed" lang="en" dir="ltr" data-theme="theme-default"
     data-assets-path="{{ asset('assets') }}/" data-template="vertical-menu-template">
 
 <head>
@@ -33,9 +32,10 @@
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/fonts/flag-icons.css" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="{{ asset('assets') }}/vendor/css/rtl/core.min.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{ asset('assets') }}/vendor/css/rtl/core.min.css"
+        class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/css/rtl/theme-default.css"
-    class="template-customizer-theme-css" />
+        class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('assets') }}/css/demo.css" />
 
     <!-- Vendors CSS -->
@@ -46,6 +46,7 @@
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/sweetalert2/sweetalert2.css" />
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/select2/select2.css" />
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/flatpickr/flatpickr.css" />
+    <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/load-awesome/fire.min.css">
     @yield('page-vendor')
 
     <script src="{{ asset('assets') }}/vendor/js/helpers.js"></script>
@@ -118,6 +119,7 @@
     <script src="{{ asset('assets') }}/vendor/libs/sweetalert2/sweetalert2.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/select2/select2.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/moment/moment.js"></script>
+    <script src="{{ asset('assets') }}/vendor/libs/moment/moment-timezone.min.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/flatpickr/flatpickr.js"></script>
     @yield('vendor-js')
 
@@ -128,6 +130,7 @@
     @yield('page-js')
 
     <script>
+        moment.tz.setDefault("{{ Config::get('app.timezone') }}");
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -148,13 +151,20 @@
 
         function showBlockUI(element = null) {
             blockUIOptions = {
-                message: '<div class="spinner-grow text-primary" role="status"></div>',
+                message: `
+            <div class="d-flex justify-content-center flex-column align-items-center">
+                <div class="la-fire la-3x text-primary">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <p class="mt-2 text-primary">Please wait...</p>
+            </div>`,
                 css: {
                     backgroundColor: 'transparent',
                     border: '0'
                 },
                 overlayCSS: {
-                    backgroundColor: '#fff',
                     opacity: 0.8
                 }
             };

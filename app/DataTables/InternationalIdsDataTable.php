@@ -23,7 +23,6 @@ class InternationalIdsDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->setRowId('id')
             ->editColumn('created_at', function ($international_id) {
                 return editDateColumn($international_id->created_at);
             })

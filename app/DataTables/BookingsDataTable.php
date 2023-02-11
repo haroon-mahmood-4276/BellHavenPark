@@ -23,7 +23,9 @@ class BookingsDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->setRowId('id')
+            ->editColumn('customer_id', function ($booking) {
+                return $booking->customer->name;
+            })
             ->editColumn('created_at', function ($booking) {
                 return editDateColumn($booking->created_at);
             })
@@ -141,7 +143,8 @@ class BookingsDataTable extends DataTable
 
         $columns = [
             $checkColumn,
-            Column::make('name')->title('Booking Source')->addClass('text-nowarp'),
+            Column::make('booking_id')->title('ID')->addClass('text-nowarp'),
+            Column::computed('customer_id')->name('customers.name')->addClass('text-nowarp'),
             Column::make('created_at')->addClass('text-nowarp'),
             Column::make('updated_at')->addClass('text-nowarp'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
