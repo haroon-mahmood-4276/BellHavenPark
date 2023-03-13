@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "455e386969fa9df51cf006f55139fdc7",
+    "content-hash": "f3459fa53d11efa1e5b433ecc530a7d0",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1402,6 +1402,102 @@
                 }
             ],
             "time": "2022-10-26T14:07:24+00:00"
+        },
+        {
+            "name": "haroon-mahmood-4276/laravel-commands-history",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/haroon-mahmood-4276/laravel-commands-history.git",
+                "reference": "ccccf28197b2dcdfab1dfb399d44e981e81162a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/haroon-mahmood-4276/laravel-commands-history/zipball/ccccf28197b2dcdfab1dfb399d44e981e81162a0",
+                "reference": "ccccf28197b2dcdfab1dfb399d44e981e81162a0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "HaroonMahmood4276\\LaravelCommandsHistory\\CommandHistoryServiceProvider",
+                        "HaroonMahmood4276\\LaravelCommandsHistory\\CommandEventServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HaroonMahmood4276\\LaravelCommandsHistory\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "haroon-mahmood-4276",
+                    "email": "haroon.mahmood.4276@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This package is to store command history in the database",
+            "support": {
+                "issues": "https://github.com/haroon-mahmood-4276/laravel-commands-history/issues",
+                "source": "https://github.com/haroon-mahmood-4276/laravel-commands-history/tree/v1.0.0"
+            },
+            "time": "2023-02-11T04:53:49+00:00"
+        },
+        {
+            "name": "haroon-mahmood-4276/laravel-service-pattern",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/haroon-mahmood-4276/laravel-service-pattern.git",
+                "reference": "9b26ce593fcc865709a30883d50fb0ce78e9aa27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/haroon-mahmood-4276/laravel-service-pattern/zipball/9b26ce593fcc865709a30883d50fb0ce78e9aa27",
+                "reference": "9b26ce593fcc865709a30883d50fb0ce78e9aa27",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "HaroonMahmood4276\\LaravelServicePattern\\PatternServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HaroonMahmood4276\\LaravelServicePattern\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "haroon-mahmood-4276",
+                    "email": "haroon.mahmood.4276@gmail.com"
+                }
+            ],
+            "description": "This package will implement service design pattern in laravel application.",
+            "support": {
+                "issues": "https://github.com/haroon-mahmood-4276/laravel-service-pattern/issues",
+                "source": "https://github.com/haroon-mahmood-4276/laravel-service-pattern/tree/v1.0.0"
+            },
+            "time": "2023-02-10T20:55:20+00:00"
         },
         {
             "name": "intervention/image",

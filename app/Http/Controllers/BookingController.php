@@ -15,10 +15,11 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    private $bookingSourceInterface, $cabinInterface, $customerInterface;
+    private $bookingInterface, $bookingSourceInterface, $cabinInterface, $customerInterface;
 
     public function __construct(BookingInterface $bookingInterface, CabinInterface $cabinInterface, CustomerInterface $customerInterface, BookingSourceInterface $bookingSourceInterface)
     {
+        $this->bookingInterface = $bookingInterface;
         $this->cabinInterface = $cabinInterface;
         $this->customerInterface = $customerInterface;
         $this->bookingSourceInterface = $bookingSourceInterface;
@@ -90,26 +91,12 @@ class BookingController extends Controller
         try {
             $inputs = $request->validated();
             dd($inputs);
-            // $record = $this->cabinTypesInterface->store($inputs);
-            return redirect()->route('cabin-types.index')->withSuccess('Data saved!');
+            $record = $this->bookingInterface->store($inputs);
+            return redirect()->route('bookings.index.index')->withSuccess('Data saved!');
         } catch (GeneralException $ex) {
-            return redirect()->route('cabin-types.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+            return redirect()->route('bookings.index.index')->withDanger('Something went wrong! ' . $ex->getMessage());
         } catch (Exception $ex) {
-            return redirect()->route('cabin-types.index')->withDanger('Something went wrong!');
+            return redirect()->route('bookings.index.index')->withDanger('Something went wrong!');
         }
     }
-
-
-    // public function store(Request $request)
-    // {
-    //     // dd($request->all());
-    //     if (!request()->ajax()) {
-    //         $result = $this->bookingInterface->store($request);
-    //         if (is_a($result, 'Exception')) {
-    //             Log::error('Booking Store => Error Code: ' . $result->getCode() . ' Error Message: ' . $result->getMessage());
-    //             return redirect()->route('bookings.create')->withDanger('Something went wrong!');
-    //         }
-    //         return redirect()->route('bookings.create')->withSuccess('Booking Saved!');
-    //     }
-    // }
 }

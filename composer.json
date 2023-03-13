@@ -9,6 +9,8 @@
         "barryvdh/laravel-dompdf": "^2.0",
         "diglactic/laravel-breadcrumbs": "^8.0",
         "guzzlehttp/guzzle": "^7.2",
+        "haroon-mahmood-4276/laravel-commands-history": "^1.0",
+        "haroon-mahmood-4276/laravel-service-pattern": "^1.0",
         "laravel/fortify": "^1.16",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
