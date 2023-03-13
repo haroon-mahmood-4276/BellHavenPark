@@ -50,7 +50,7 @@
     @yield('page-vendor')
 
     <script src="{{ asset('assets') }}/vendor/js/helpers.js"></script>
-    <script src="{{ asset('assets') }}/vendor/js/template-customizer.min.js"></script>
+    {{-- <script src="{{ asset('assets') }}/vendor/js/template-customizer.min.js"></script> --}}
     <script src="{{ asset('assets') }}/js/config.js"></script>
     @yield('page-css')
 
