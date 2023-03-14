@@ -11,7 +11,7 @@
 @endsection
 
 @section('page-css')
-    <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/css/formValidation.min.css"></script>
+    {{-- <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/css/formValidation.min.css"></script> --}}
 @endsection
 
 @section('custom-css')
@@ -35,7 +35,7 @@
                                 <label class="form-label" style="font-size: 15px" for="booking_date_range">Booking Dates
                                 </label>
                                 <input type="text" id="booking_date_range" name="booking_date_range" class="form-control"
-                                    value="{{ now()->format('F j, Y') }} - {{ now()->format('F j, Y') }}"
+                                    value="{{ $booking_from->format('F j, Y') }} - {{ $booking_to->format('F j, Y') }}"
                                     placeholder="Month Date, Year - Month Date, Year" />
                             </div>
                             <div class="colxlg-3 col-lg-3 col-md-3">
@@ -79,8 +79,8 @@
 
 @section('page-js')
     <script src="{{ asset('assets') }}/vendor/libs/feligx/datedropper/datedropper-jquery.js"></script>
-    <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script>
-    <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
+    {{-- <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script> --}}
+    {{-- <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script> --}}
 @endsection
 
 @section('custom-js')
@@ -147,7 +147,7 @@
             large: true,
             startFromMonday: true,
             autoIncrease: true,
-            minDate: '{{ now()->subDays(1) }}',
+            minDate: '{{ now() }}',
             format: 'F j, Y',
         });
 

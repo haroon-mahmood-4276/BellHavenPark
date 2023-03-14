@@ -144,8 +144,8 @@ class BookingCabinsDataTable extends DataTable
             Column::make('name')->addClass('text-nowarp'),
             Column::make('cabin_status.name')->title('Cabin Status')->addClass('text-nowarp'),
             Column::make('cabin_type.name')->title('Cabin Type')->addClass('text-nowarp'),
-            Column::make('created_at')->addClass('text-nowarp'),
-            Column::make('updated_at')->addClass('text-nowarp'),
+            // Column::make('created_at')->addClass('text-nowarp'),
+            // Column::make('updated_at')->addClass('text-nowarp'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
         ];
         return $columns;

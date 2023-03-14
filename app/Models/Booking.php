@@ -11,13 +11,14 @@ use Spatie\Activitylog\LogOptions;
 
 class Booking extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes, HasUuids;
+    use LogsActivity, SoftDeletes, HasUuids;
 
     protected $dateFormat = 'U';
 
     protected $fillable = [
         'cabin_id',
         'customer_id',
+        'booking_number',
         'booking_from',
         'booking_to',
         'booking_source_id',
@@ -37,11 +38,9 @@ class Booking extends Model
     ];
 
     protected $casts = [
-        'cabin_id' => 'uuid',
-        'customer_id' => 'uuid',
+        'booking_number' => 'integer',
         'booking_from' => 'date',
         'booking_to' => 'date',
-        'booking_source_id' => 'uuid',
         'daily_rate' => 'float',
         'daily_less_booking_percentage' => 'float',
         'weekly_rate' => 'float',
@@ -59,14 +58,12 @@ class Booking extends Model
 
     protected $hidden = [];
 
-    protected $appends = ['name'];
-
     public $rules = [
         'cabin_id' => 'required|uuid',
         'customer' => 'required|uuid',
         'booking_from' => 'required|integer',
         'booking_to' => 'required|integer',
-        'booking_source_id' => 'nullable|uuid',
+        'booking_source' => 'nullable|uuid',
         'daily_rate' => 'nullable|numeric',
         'daily_less_booking_percentage' => 'nullable|numeric',
         'weekly_rate' => 'nullable|numeric',
@@ -91,16 +88,16 @@ class Booking extends Model
 
     public function cabin()
     {
-        return $this->hasOne(Cabin::class);
+        return $this->belongsTo(Cabin::class);
     }
 
     public function customer()
     {
-        return $this->hasOne(Customer::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function booking_source()
     {
-        return $this->hasOne(BookingSource::class);
+        return $this->belongsTo(BookingSource::class);
     }
 }

@@ -86,6 +86,10 @@ class Customer extends Model
     {
         return Attribute::make(
             get: fn ($value, $attributes) => ucfirst($attributes['first_name']) . ' ' . ucfirst($attributes['last_name']),
+            set: function ($value, $attributes) {
+                $attributes['first_name'] = $value;
+                $attributes['last_name'] = $value;
+            },
         );
     }
 

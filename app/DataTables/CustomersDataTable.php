@@ -23,6 +23,10 @@ class CustomersDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
+            ->filterColumn('name', function($query, $keyword) {
+                $sql = "CONCAT(first_name, ' ', last_name) like ?";
+                $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
             ->editColumn('created_at', function ($customers) {
                 return editDateColumn($customers->created_at);
             })

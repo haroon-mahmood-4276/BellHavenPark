@@ -41,7 +41,7 @@ class BookingController extends Controller
             $dates = explode('-', $request->booking_date_range);
             $data = [
                 'booking_from' => trim($dates[0]),
-                'booking_to' => trim(isset($dates[2]) ? $dates[2] : $dates[0]),
+                'booking_to' => trim(isset($dates[1]) ? $dates[1] : $dates[0]),
             ];
         } else {
             $data = [
@@ -88,15 +88,15 @@ class BookingController extends Controller
     {
         abort_if(request()->ajax(), 403);
 
-        try {
+        // try {
             $inputs = $request->validated();
-            dd($inputs);
+            // dd($inputs);
             $record = $this->bookingInterface->store($inputs);
-            return redirect()->route('bookings.index.index')->withSuccess('Data saved!');
-        } catch (GeneralException $ex) {
-            return redirect()->route('bookings.index.index')->withDanger('Something went wrong! ' . $ex->getMessage());
-        } catch (Exception $ex) {
-            return redirect()->route('bookings.index.index')->withDanger('Something went wrong!');
-        }
+            return redirect()->route('bookings.index')->withSuccess('Data saved!');
+        // } catch (GeneralException $ex) {
+        //     return redirect()->route('bookings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+        // } catch (Exception $ex) {
+        //     return redirect()->route('bookings.index')->withDanger('Something went wrong!');
+        // }
     }
 }

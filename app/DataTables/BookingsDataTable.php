@@ -23,9 +23,7 @@ class BookingsDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->editColumn('customer_id', function ($booking) {
-                return $booking->customer->name;
-            })
+
             ->editColumn('created_at', function ($booking) {
                 return editDateColumn($booking->created_at);
             })
@@ -48,9 +46,9 @@ class BookingsDataTable extends DataTable
      * @param \App\Models\Booking $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Booking $model): QueryBuilder
+    public function query(Booking $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['customer']);
     }
 
     public function html(): HtmlBuilder
@@ -93,7 +91,7 @@ class BookingsDataTable extends DataTable
         }
 
         return $this->builder()
-            ->setTableId('booking-sources-table')
+            ->setTableId('booking-table')
             ->addTableClass('table-borderless table-striped table-hover')
             ->columns($this->getColumns())
             ->minifiedAjax()
@@ -143,8 +141,8 @@ class BookingsDataTable extends DataTable
 
         $columns = [
             $checkColumn,
-            Column::make('booking_id')->title('ID')->addClass('text-nowarp'),
-            Column::computed('customer_id')->name('customers.name')->addClass('text-nowarp'),
+            Column::make('booking_number')->title('ID')->addClass('text-nowarp'),
+            Column::make('customer.name')->addClass('text-nowarp'),
             Column::make('created_at')->addClass('text-nowarp'),
             Column::make('updated_at')->addClass('text-nowarp'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
