@@ -1,5 +1,5 @@
 /*!
- * FilePond 4.30.3
+ * FilePond 4.30.4
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit https://pqina.nl/filepond/ for details.
  */
@@ -1875,7 +1875,7 @@
     var getUniqueId = function getUniqueId() {
         return Math.random()
             .toString(36)
-            .substr(2, 9);
+            .substring(2, 11);
     };
 
     function _typeof(obj) {
@@ -3905,7 +3905,7 @@
         files: [[], Type.ARRAY],
 
         // show support by displaying credits
-        // credits: [['https://pqina.nl/', 'Powered by PQINA'], Type.ARRAY],
+        credits: [['https://pqina.nl/', 'Powered by PQINA'], Type.ARRAY],
     };
 
     var getItemByQuery = function getItemByQuery(items, query) {
@@ -5624,7 +5624,7 @@
     };
 
     var getFilenameWithoutExtension = function getFilenameWithoutExtension(name) {
-        return name.substr(0, name.lastIndexOf('.')) || name;
+        return name.substring(0, name.lastIndexOf('.')) || name;
     };
 
     var createFileStub = function createFileStub(source) {
@@ -10837,20 +10837,20 @@
         }
 
         // add credits
-        // var credits = root.query('GET_CREDITS');
-        // var hasCredits = credits.length === 2;
-        // if (hasCredits) {
-        //     var frag = document.createElement('a');
-        //     frag.className = 'filepond--credits';
-        //     frag.setAttribute('aria-hidden', 'true');
-        //     frag.href = credits[0];
-        //     frag.tabindex = -1;
-        //     frag.target = '_blank';
-        //     frag.rel = 'noopener noreferrer';
-        //     frag.textContent = credits[1];
-        //     root.element.appendChild(frag);
-        //     root.ref.credits = frag;
-        // }
+        var credits = root.query('GET_CREDITS');
+        var hasCredits = credits.length === 2;
+        if (hasCredits) {
+            var frag = document.createElement('a');
+            frag.className = 'filepond--credits';
+            frag.setAttribute('aria-hidden', 'true');
+            frag.href = credits[0];
+            frag.tabindex = -1;
+            frag.target = '_blank';
+            frag.rel = 'noopener noreferrer';
+            frag.textContent = credits[1];
+            root.element.appendChild(frag);
+            root.ref.credits = frag;
+        }
     };
 
     var write$9 = function write(_ref3) {
@@ -10871,7 +10871,7 @@
             .map(function(_ref4) {
                 var type = _ref4.type,
                     data = _ref4.data;
-                var name = toCamels(type.substr(8).toLowerCase(), '_');
+                var name = toCamels(type.substring(8).toLowerCase(), '_');
                 root.element.dataset[name] = data.value;
                 root.invalidateLayout();
             });
@@ -11087,8 +11087,8 @@
         }
 
         // move credits to bottom
-        // if (root.ref.credits && panel.heightCurrent)
-        //     root.ref.credits.style.transform = 'translateY(' + panel.heightCurrent + 'px)';
+        if (root.ref.credits && panel.heightCurrent)
+            root.ref.credits.style.transform = 'translateY(' + panel.heightCurrent + 'px)';
     };
 
     var calculateListItemMargin = function calculateListItemMargin(root) {
@@ -11187,11 +11187,21 @@
 
         // if does not allow multiple items and dragging more than one item
         if (!allowMultiple && totalBrowseItems > 1) {
+            root.dispatch('DID_THROW_MAX_FILES', {
+                source: items,
+                error: createResponse('warning', 0, 'Max files'),
+            });
+
             return true;
         }
 
         // limit max items to one if not allowed to drop multiple items
-        maxItems = allowMultiple ? maxItems : allowReplace ? maxItems : 1;
+        maxItems = allowMultiple ? maxItems : 1;
+
+        if (!allowMultiple && allowReplace) {
+            // There is only one item, so there is room to replace or add an item
+            return false;
+        }
 
         // no more room?
         var hasMaxItems = isInt(maxItems);
