@@ -99,7 +99,11 @@ class InternationalIdsDataTable extends DataTable
             ->deferRender()
             ->dom('BlfrtipC')
             ->scrollX()
-            ->lengthMenu([10, 20, 30, 50, 70, 100])
+            ->pagingType('full_numbers')
+            ->lengthMenu([
+                [30, 50, 70, 100, 120, 150, -1],
+                [30, 50, 70, 100, 120, 150, "All"],
+            ])
             ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
             // ->rowGroupDataSrc('parent_id')
