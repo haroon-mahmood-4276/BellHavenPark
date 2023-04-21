@@ -376,11 +376,31 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'show_name' => 'Can Create Booking Payment',
             ],
-            // [
-            //     'name' => 'bookings.destroy',
-            //     'show_name' => 'Can Delete Bookings',
-            //     'guard_name' => 'web',
-            // ],
+            [
+                'name' => 'bookings.payments.store',
+                'guard_name' => 'web',
+                'show_name' => 'Can Store Payment',
+            ],
+            [
+                'name' => 'bookings.payments.edit',
+                'guard_name' => 'web',
+                'show_name' => 'Can Edit Payment',
+            ],
+            [
+                'name' => 'bookings.payments.update',
+                'guard_name' => 'web',
+                'show_name' => 'Can Update Payment',
+            ],
+            [
+                'name' => 'bookings.payments.destroy',
+                'guard_name' => 'web',
+                'show_name' => 'Can Delete Payment',
+            ],
+            [
+                'name' => 'bookings.payments.export',
+                'guard_name' => 'web',
+                'show_name' => 'Can Export Payments',
+            ],
         ];
 
         $role = (new Role())->first();

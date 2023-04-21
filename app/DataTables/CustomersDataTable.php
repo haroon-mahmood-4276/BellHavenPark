@@ -59,7 +59,7 @@ class CustomersDataTable extends DataTable
         $buttons = [];
 
         if (auth()->user()->can('customers.create')) {
-            $buttons[] = Button::raw('delete-selected')
+            $buttons[] = Button::raw('add-new')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New')
                 ->attr([

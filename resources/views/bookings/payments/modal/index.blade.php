@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel1">Add Payments - {{ $cabin->name }}</h4>
+                <h4 class="modal-title" id="myModalLabel1">Add Payments - {{ $booking->cabin->name }}</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -24,12 +24,12 @@
 
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
 
-                            <input type="hidden" name="payment[customer_id]" value="{{ $customer->id }}">
+                            <input type="hidden" name="payment[customer_id]" value="{{ $booking->customer->id }}">
 
                             <label class="form-label" style="font-size: 15px" for="customer">Customer</label>
                             <input type="text" id="customer" class="form-control form-control-lg"
                                 placeholder="Customer" aria-label="Customer" disabled
-                                value="{{ $customer->full_name }}" />
+                                value="{{ $booking->customer->full_name }}" />
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">

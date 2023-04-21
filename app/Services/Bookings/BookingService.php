@@ -25,9 +25,15 @@ class BookingService implements BookingInterface
         return $booking;
     }
 
-    public function getById($id)
+    public function getById($id, $relationships = [])
     {
-        return $this->model()->find($id);
+        $brand = $this->model();
+
+        if(count($relationships) > 0) {
+            $brand = $brand->with($relationships);
+        }
+
+        return $brand->find($id);
     }
 
     public function getBookedCabinsWithinDates($start_date, $end_date)

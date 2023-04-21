@@ -6,7 +6,7 @@ interface BookingInterface
 {
     public function getAll($ignore = null);
 
-    public function getById($id);
+    public function getById($id, $relationships = []);
 
     public function getBookedCabinsWithinDates($start_date, $end_date);
 

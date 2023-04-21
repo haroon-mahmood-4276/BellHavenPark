@@ -36,6 +36,7 @@
             </div>
         </div>
     </div>
+    <div id="modalPlace"></div>
 @endsection
 
 @section('vendor-js')
@@ -82,8 +83,7 @@
             }
         }
 
-        function addBookingPayment(id) {
-            showBlockUI();
+        function addNew() {
 
             const data = {
                 'prevModal': '',
@@ -93,10 +93,14 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 },
-                url: "{{ route('bookings.payments.create', ['id' => ':id']) }}".replace(':id', id),
+                url: "{{ route('bookings.payments.create', ['id' => ':id']) }}".replace(':id',
+                    '{{ $booking_id }}'),
                 data: data,
                 type: 'GET',
                 cache: false,
+                beforeSend: function() {
+                    showBlockUI();
+                },
                 success: function(data) {
                     if (data.status) {
                         $('#add_booking_' + id).prop('disabled', false);
@@ -104,10 +108,10 @@
                         $('#' + data.prevModal).modal('hide');
                         $('#' + data.modalPlace).html(data.modal);
                         $('#' + data.currentModal).modal('show');
-                        hideBlockUI();
                     }
                 },
                 error: function(jqXhr, json, errorThrown) {
+                    hideBlockUI();
                     $('#add_booking_' + id).prop('disabled', false);
 
                     var errors = jqXhr.responseJSON;
@@ -117,8 +121,10 @@
                         errorsHtml += "<span class='badge rounded-pill bg-danger p-3 m-3'>" + index +
                             " -> " + value + "</span>";
                     });
+                },
+                complete: function() {
                     hideBlockUI();
-                }
+                },
             });
 
         }

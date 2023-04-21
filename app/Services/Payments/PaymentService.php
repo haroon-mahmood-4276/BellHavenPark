@@ -3,6 +3,7 @@
 namespace App\Services\Payments;
 
 use App\Models\Payment;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class PaymentService implements PaymentInterface
@@ -24,9 +25,24 @@ class PaymentService implements PaymentInterface
         return $payment_method;
     }
 
-    public function getById($id)
+    public function getById($id, $relationships = [])
     {
-        return $this->model()->find($id);
+        $brand = $this->model();
+
+        if (count($relationships) > 0) {
+            $brand = $brand->with($relationships);
+        }
+
+        return $brand->find($id);
+    }
+
+    public function getAdvancedPaymentBookingId($booking_id)
+    {
+        $booking_id = decryptParams($booking_id);
+        if ($advancedPayment = $this->model()->where(['booking_id' => $booking_id, 'type' => 'advanced'])->first()) {
+            return $advancedPayment->payment_credit;
+        }
+        return 0;
     }
 
     public function store($inputs)
