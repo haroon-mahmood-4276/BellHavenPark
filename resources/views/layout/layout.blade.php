@@ -36,7 +36,7 @@
         class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/css/rtl/theme-default.css"
         class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="{{ asset('assets') }}/css/demo.css" />
+    <link rel="stylesheet" href="{{ asset('assets') }}/css/demo.min.css" />
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
@@ -118,7 +118,7 @@
     <!-- Vendors JS -->
     <script src="{{ asset('assets') }}/vendor/libs/sweetalert2/sweetalert2.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/select2/select2.js"></script>
-    <script src="{{ asset('assets') }}/vendor/libs/moment/moment.js"></script>
+    <script src="{{ asset('assets') }}/vendor/libs/moment/moment.min.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/moment/moment-timezone.min.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/flatpickr/flatpickr.js"></script>
     @yield('vendor-js')

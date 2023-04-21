@@ -1,45 +1,51 @@
 @extends('layout.layout')
 
-@section('title', 'Booking Payments')
+@section('seo-breadcrumb')
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'bookings.payments.index') }}
+@endsection
 
-@section('content-header')
-    <div class="content-header row my-1">
-        <div class="content-header-left col-md-9 col-12 mb-2">
-            <div class="row breadcrumbs-top">
-                <div class="col-12">
-                    <h2 class="content-header-title float-start mb-0">Payments</h2>
-                    <div class="breadcrumb-wrapper">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('dashboard.index') }}">Dashboard</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('bookings.index') }}">Bookings</a>
-                            </li>
-                            <li class="breadcrumb-item active">
-                                <a href="javascript:void(0);">Payments</a>
-                            </li>
-                        </ol>
-                    </div>
+@section('page-title', 'Booking Payments')
+
+@section('page-vendor')
+    {{ view('layout.datatables.css') }}
+@endsection
+
+@section('page-css')
+@endsection
+
+@section('custom-css')
+@endsection
+
+@section('breadcrumbs')
+    <div class="d-flex justify-content-start align-items-center mb-3">
+        <h2 class="content-header-title float-start mb-0 mx-3">Booking Payments</h2>
+        {{ Breadcrumbs::render('bookings.payments.index') }}
+    </div>
+@endsection
+
+@section('content')
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form action="#" id="bookings-table-form" method="get">
+                        {{-- <form action="{{ route('bookings.destroy') }}" id="bookings-table-form" method="get"> --}}
+                        {{ $dataTable->table() }}
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 @endsection
 
-
-@section('content')
-    <div class="card">
-        <div class="card-body">
-            <form action="#" id="bookings-payment-table-form" method="get">
-                {{ $dataTable->table() }}
-            </form>
-            <div id="modalPlace"></div>
-        </div>
-    </div>
+@section('vendor-js')
+    {{ view('layout.datatables.js') }}
 @endsection
 
-@section('PageJS')
+@section('page-js')
+@endsection
+
+@section('custom-js')
     {{ $dataTable->scripts() }}
     <script>
         function deleteSelected() {
@@ -87,7 +93,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 },
-                url: "{{ route('bookings.payments.create', ['booking' => ':id']) }}".replace(':id', id),
+                url: "{{ route('bookings.payments.create', ['id' => ':id']) }}".replace(':id', id),
                 data: data,
                 type: 'GET',
                 cache: false,

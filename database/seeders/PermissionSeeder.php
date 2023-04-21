@@ -364,6 +364,23 @@ class PermissionSeeder extends Seeder
             //     'show_name' => 'Can Delete Bookings',
             //     'guard_name' => 'web',
             // ],
+
+            // Booking Payments Routes
+            [
+                'name' => 'bookings.payments.index',
+                'guard_name' => 'web',
+                'show_name' => 'Can View Bookings Payment List',
+            ],
+            [
+                'name' => 'bookings.payments.create',
+                'guard_name' => 'web',
+                'show_name' => 'Can Create Booking Payment',
+            ],
+            // [
+            //     'name' => 'bookings.destroy',
+            //     'show_name' => 'Can Delete Bookings',
+            //     'guard_name' => 'web',
+            // ],
         ];
 
         $role = (new Role())->first();

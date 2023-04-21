@@ -33,8 +33,8 @@ class BookingService implements BookingInterface
     public function getBookedCabinsWithinDates($start_date, $end_date)
     {
         $model = $this->model()->select('cabin_id')
-            ->where('booking_to', '>=', (new Carbon())->parse($start_date)->timestamp)
-            ->where('booking_from', '<=', (new Carbon())->parse($end_date)->timestamp)
+            ->where('booking_to', '>=', $start_date->timestamp)
+            ->where('booking_from', '<=', $end_date->timestamp)
             ->where('status', '!=', 'checked_out');
 
         return $model->get();

@@ -2,8 +2,9 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="exampleModalLabel1">Create Booking</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    id="basicModal-close"></button>
             </div>
             <div class="modal-body mb-0">
                 <form action="{{ route('bookings.store') }}" method="POST" id="booking_store">
@@ -324,6 +325,18 @@
                 $('#advance_payment').val(0);
                 $('#advance_payment').attr('readonly', true);
             }
+        });
+
+        $('#basicModal-close').on('click', function() {
+            console.log('close button clicked', "{{ route('bookings.create') }}");
+            let pageState = {
+                cabin_id: '',
+                booking_from: '',
+                booking_to: '',
+                prevModal: 'modalPlace',
+            };
+
+            history.replaceState(pageState, '', "{{ route('bookings.create') }}");
         });
 
         // $('#booking_store').validate({

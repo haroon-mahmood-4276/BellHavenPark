@@ -197,6 +197,8 @@ return [
         HaroonMahmood4276\LaravelCommandsHistory\CommandHistoryServiceProvider::class,
         HaroonMahmood4276\LaravelCommandsHistory\CommandEventServiceProvider::class,
         HaroonMahmood4276\LaravelServicePattern\PatternServiceProvider::class,
+        PrettyRoutes\ServiceProvider::class,
+
         /*
          * Application Service Providers...
          */

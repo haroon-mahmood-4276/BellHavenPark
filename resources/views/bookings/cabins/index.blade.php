@@ -30,7 +30,7 @@
             <div class="card">
                 <div class="card-body">
                     <form action="javascript:void(0);" method="GET">
-                        <div class="row">
+                        <div class="row g-3">
                             <div class="col-xl-9 col-lg-9 col-md-9">
                                 <label class="form-label" style="font-size: 15px" for="booking_date_range">Booking Dates
                                 </label>
@@ -38,7 +38,7 @@
                                     value="{{ $booking_from->format('F j, Y') }} - {{ $booking_to->format('F j, Y') }}"
                                     placeholder="Month Date, Year - Month Date, Year" />
                             </div>
-                            <div class="colxlg-3 col-lg-3 col-md-3">
+                            <div class="col-xl-3 col-lg-3 col-md-3">
                                 <div class="row h-100">
                                     <div class="col-6 d-flex justify-content-center align-items-end">
                                         <button class="btn btn-primary text-nowrap" id="apply_filter" type="button">
@@ -78,7 +78,7 @@
 @endsection
 
 @section('page-js')
-    <script src="{{ asset('assets') }}/vendor/libs/feligx/datedropper/datedropper-jquery.js"></script>
+    <script src="{{ asset('assets') }}/vendor/libs/feligx/datedropper/datedropper.min.js"></script>
     {{-- <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script> --}}
     {{-- <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script> --}}
 @endsection
@@ -92,63 +92,52 @@
             booking_to: '',
             prevModal: 'modalPlace',
         };
-        history.pushState(pageState, "", '');
 
-        window.addEventListener("popstate", function(event) {
-            let params = new URLSearchParams(window.location.search);
+        history.replaceState(pageState, "", '');
 
-            if (params.get('cabin_id') !== null && params.get('booking_from') !== null && params.get(
-                    'booking_to') !== null) {
+        ['popstate', 'hashchange', 'load'].forEach(function(e) {
+            window.addEventListener(e, function(event) {
+                console.log(e);
+                let params = new URLSearchParams(window.location.search);
 
-                if (isUUID(params.get('cabin_id')) && params.get('booking_from') >=
-                    {{ now()->startOfDay()->timestamp }} &&
-                    params.get('booking_to') >= {{ now()->startOfDay()->timestamp }}) {
+                if (params.get('cabin_id') !== null && params.get('booking_from') !== null && params.get(
+                        'booking_to') !== null) {
 
-                    addBooking(params.get('cabin_id'), params.get('booking_from'), params.get('booking_to'));
+                    if (isUUID(params.get('cabin_id')) && params.get('booking_from') >=
+                        {{ now()->startOfDay()->timestamp }} &&
+                        params.get('booking_to') >= {{ now()->startOfDay()->timestamp }}) {
 
+                        addBooking(params.get('cabin_id'), params.get('booking_from'), params.get(
+                            'booking_to'));
+
+                    }
+                } else {
+                    $('#basicModal').modal('hide');
                 }
-            }
+            });
         });
 
-        window.addEventListener("hashchange", function(event) {
-            let params = new URLSearchParams(window.location.search);
-
-            if (params.get('cabin_id') !== null && params.get('booking_from') !== null && params.get(
-                    'booking_to') !== null) {
-
-                if (isUUID(params.get('cabin_id')) && params.get('booking_from') >=
-                    {{ now()->startOfDay()->timestamp }} &&
-                    params.get('booking_to') >= {{ now()->startOfDay()->timestamp }}) {
-
-                    addBooking(params.get('cabin_id'), params.get('booking_from'), params.get('booking_to'));
-
-                }
-            }
-        });
-
-        window.addEventListener("load", function(event) {
-            let params = new URLSearchParams(window.location.search);
-
-            if (params.get('cabin_id') !== null && params.get('booking_from') !== null && params.get(
-                    'booking_to') !== null) {
-
-                if (isUUID(params.get('cabin_id')) && params.get('booking_from') >=
-                    {{ now()->startOfDay()->timestamp }} &&
-                    params.get('booking_to') >= {{ now()->startOfDay()->timestamp }}) {
-
-                    addBooking(params.get('cabin_id'), params.get('booking_from'), params.get('booking_to'));
-
-                }
-            }
-        });
-
-        $('#booking_date_range').dateDropper({
-            roundtrip: true,
-            large: true,
+        new dateDropper({
+            // overlay: true,
+            // expandable: true,
+            // expandedDefault: true,
+            // doubleView: true,
+            expandedOnly: true,
+            selector: '#booking_date_range',
+            format: 'MM dd, y',
             startFromMonday: true,
-            autoIncrease: true,
-            minDate: '{{ now() }}',
-            format: 'F j, Y',
+            minDate: '{{ now()->subDays(1)->toDateString() }}',
+            defaultDate: '{{ now()->toDateString() }}',
+            range: true,
+            onRangeSet: function(range) {
+                $('#booking_date_range').val(range.a.string + ' - ' + range.b.string);
+            },
+            onDropdownOpen: function(res) {
+                console.log('focused');
+            },
+            onDropdownExit: function(res) {
+                res.trigger.classList.remove('focused');
+            }
         });
 
         $('#apply_filter').on('click', function() {
@@ -195,7 +184,7 @@
                 prevModal: 'modalPlace',
             };
 
-            history.pushState(pageState, "Create Booking Modal", '?cabin_id=' + pageState.cabin_id + '&booking_from=' +
+            history.pushState(pageState, "", '?cabin_id=' + pageState.cabin_id + '&booking_from=' +
                 pageState.booking_from + '&booking_to=' + pageState.booking_to);
 
             $('#add_booking_' + cabin_id).prop('disabled', true);

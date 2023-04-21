@@ -36,12 +36,11 @@ class BookingController extends Controller
 
     public function create(Request $request, BookingCabinsDataTable $dataTable)
     {
-
         if ($request->has('booking_date_range') && !is_null($request->booking_date_range) && !empty($request->booking_date_range)) {
             $dates = explode('-', $request->booking_date_range);
             $data = [
-                'booking_from' => trim($dates[0]),
-                'booking_to' => trim(isset($dates[1]) ? $dates[1] : $dates[0]),
+                'booking_from' => Carbon::parse(trim($dates[0])),
+                'booking_to' => Carbon::parse(trim(isset($dates[1]) ? $dates[1] : $dates[0])),
             ];
         } else {
             $data = [

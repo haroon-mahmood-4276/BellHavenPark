@@ -8,9 +8,11 @@ use App\Http\Controllers\{
     CustomerController,
     DashboardController,
     InternationalIdController,
+    PaymentController,
     PaymentMethodController,
     PermissionController,
     RoleController,
+    SettingController,
 };
 use Illuminate\Support\Facades\Route;
 
@@ -169,22 +171,21 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     // Booking Routes
-    Route::group(['prefix' => 'bookings', 'as' => 'bookings.'], function () {
+    Route::as('bookings.')->prefix('bookings')->controller(BookingController::class)->group(function () {
 
-        Route::get('/', [BookingController::class, 'index'])->middleware('permission:bookings.index')->name('index');
+        Route::get('/', 'index')->middleware('permission:bookings.index')->name('index');
 
         Route::group(['middleware' => 'permission:customers.edit'], function () {
-            Route::get('/create', [BookingController::class, 'create'])->name('create');
-            Route::get('/create/modal', [BookingController::class, 'createModal'])->name('create.modal');
+            Route::get('/create', 'create')->name('create');
+            Route::get('/create/modal', 'createModal')->name('create.modal');
         });
 
-        Route::post('/store', [BookingController::class, 'store'])->name('store');
+        Route::post('/store', 'store')->name('store');
 
-
-
-
-
-        // Route::post('/', [BookingsController::class, 'store'])->name('store');
+        Route::as('payments.')->prefix('/{id}')->controller(PaymentController::class)->group(function () {
+            Route::get('/payments', 'index')->name('index');
+            Route::get('/payments/create', 'create')->name('create');
+        });
 
         // Route::get('/calender', [BookingsController::class, 'calenderView'])->name('calenderView');
 
