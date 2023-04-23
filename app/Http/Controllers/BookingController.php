@@ -97,4 +97,66 @@ class BookingController extends Controller
             return redirect()->route('bookings.index')->withDanger('Something went wrong!');
         }
     }
+
+    public function CheckInIndex(BookingsDataTable $dataTable)
+    {
+        $data = [
+            'filter' => 'checkin',
+        ];
+
+        if (request()->ajax()) {
+            return $dataTable->with($data)->ajax();
+        }
+        return $dataTable->with($data)->render('bookings.index');
+    }
+
+    public function CheckInStore(Request $request, $booking_id)
+    {
+        abort_if(request()->ajax(), 403);
+
+        try {
+            $record = $this->bookingInterface->storeCheckIn($booking_id);
+            return redirect()->route('bookings.index')->withSuccess('Data saved!');
+        } catch (GeneralException $ex) {
+            return redirect()->route('bookings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+        } catch (Exception $ex) {
+            return redirect()->route('bookings.index')->withDanger('Something went wrong!');
+        }
+    }
+
+    public function CheckOutIndex(BookingsDataTable $dataTable)
+    {
+        $data = [
+            'filter' => 'checkout',
+        ];
+
+        if (request()->ajax()) {
+            return $dataTable->with($data)->ajax();
+        }
+        return $dataTable->with($data)->render('bookings.index');
+    }
+
+    public function CheckOutStore(Request $request, $booking_id)
+    {
+        abort_if(request()->ajax(), 403);
+
+        try {
+            $record = $this->bookingInterface->storeCheckOut($booking_id);
+            return redirect()->route('bookings.index')->withSuccess('Data saved!');
+        } catch (GeneralException $ex) {
+            return redirect()->route('bookings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+        } catch (Exception $ex) {
+            return redirect()->route('bookings.index')->withDanger('Something went wrong!');
+        }
+    }
+
+    public function calenderView(Request $request)
+    {
+        if (!request()->ajax()) {
+
+            return view('bookings.calender');
+        } else {
+            abort(403);
+        }
+    }
 }

@@ -182,12 +182,22 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('/store', 'store')->name('store');
 
+        Route::get('/check-in', 'checkInIndex')->name('checkin.index');
+        Route::get('/check-out', 'checkOutIndex')->name('checkout.index');
+
+        Route::group(['prefix' => '/{id}'], function () {
+            Route::post('/check-in', 'checkInStore')->name('checkin.store');
+
+            Route::post('/check-out', 'checkOutStore')->name('checkout.store');
+        });
+
         Route::as('payments.')->prefix('/{id}')->controller(PaymentController::class)->group(function () {
             Route::get('/payments', 'index')->name('index');
 
             Route::get('/payments/create', 'create')->name('create');
             Route::post('store', 'store')->name('store');
         });
+
 
         // Route::get('/calender', [BookingsController::class, 'calenderView'])->name('calenderView');
 
@@ -198,11 +208,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Route::delete('/{booking}', [BookingsController::class, 'destroy'])->name('destroy');
 
-        // Route::get('/check-in', [BookingsController::class, 'CheckInIndex'])->name('checkin.index');
-        // Route::get('/check-in/{booking}', [BookingsController::class, 'CheckInStore'])->name('checkin.store');
-
-        // Route::get('/check-out', [BookingsController::class, 'CheckOutIndex'])->name('checkout.index');
-        // Route::get('/check-out/{booking}', [BookingsController::class, 'CheckOutStore'])->name('checkout.store');
     });
 
     // Settings Routes

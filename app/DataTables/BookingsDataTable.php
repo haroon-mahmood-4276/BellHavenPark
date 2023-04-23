@@ -31,7 +31,7 @@ class BookingsDataTable extends DataTable
                 return editDateColumn($booking->updated_at);
             })
             ->editColumn('actions', function ($booking) {
-                return view('bookings.actions', ['id' => $booking->id]);
+                return view('bookings.actions', ['id' => $booking->id, 'filter' => $this->filter]);
             })
             ->editColumn('check', function ($booking) {
                 return $booking;
@@ -48,7 +48,14 @@ class BookingsDataTable extends DataTable
      */
     public function query(Booking $model)
     {
-        return $model->newQuery()->with(['customer']);
+        $modelQuery = $model->newQuery()->with(['customer']);
+        if (!is_null($this->filter) && $this->filter == 'checkin') {
+            $modelQuery->where('check_in_date', 0);
+        }
+        if (!is_null($this->filter) && $this->filter == 'checkout') {
+            $modelQuery->where('check_in_date', '>', 0)->where('check_out_date', 0);
+        }
+        return $modelQuery;
     }
 
     public function html(): HtmlBuilder

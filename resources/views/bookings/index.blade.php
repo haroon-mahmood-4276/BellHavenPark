@@ -28,10 +28,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="#" id="bookings-table-form" method="get">
+                    {{-- <form action="#" id="bookings-table-form" method="get"> --}}
                     {{-- <form action="{{ route('bookings.destroy') }}" id="bookings-table-form" method="get"> --}}
                         {{ $dataTable->table() }}
-                    </form>
+                    {{-- </form> --}}
                 </div>
             </div>
         </div>

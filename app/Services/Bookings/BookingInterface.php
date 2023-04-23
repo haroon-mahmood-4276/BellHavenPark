@@ -12,6 +12,10 @@ interface BookingInterface
 
     public function store($inputs);
 
+    public function storeCheckIn($id);
+
+    public function storeCheckout($id);
+
     public function update($id, $inputs);
 
     public function destroy($inputs);

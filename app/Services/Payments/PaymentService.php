@@ -3,6 +3,7 @@
 namespace App\Services\Payments;
 
 use App\Models\Payment;
+use App\Utils\Enums\PaymentStatus;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -40,7 +41,7 @@ class PaymentService implements PaymentInterface
     public function getAdvancedPaymentBookingId($booking_id)
     {
         $booking_id = decryptParams($booking_id);
-        if ($advancedPayment = $this->model()->where(['booking_id' => $booking_id, 'type' => 'advanced'])->first()) {
+        if ($advancedPayment = $this->model()->where(['booking_id' => $booking_id, 'type' => PaymentStatus::ADVANCE])->first()) {
             return $advancedPayment->credit;
         }
         return 0;
@@ -74,7 +75,7 @@ class PaymentService implements PaymentInterface
                 'balance' => 0,
                 'status' => 'credit',
                 'payment_type' => $inputs['rate_type'],
-                'type' => null,
+                'type' => PaymentStatus::RECEIVED,
                 'comments' => $inputs['comments'],
             ];
 

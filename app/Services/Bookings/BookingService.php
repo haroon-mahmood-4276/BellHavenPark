@@ -3,6 +3,8 @@
 namespace App\Services\Bookings;
 
 use App\Models\Booking;
+use App\Models\Payment;
+use App\Utils\Enums\PaymentStatus;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -29,7 +31,7 @@ class BookingService implements BookingInterface
     {
         $brand = $this->model();
 
-        if(count($relationships) > 0) {
+        if (count($relationships) > 0) {
             $brand = $brand->with($relationships);
         }
 
@@ -86,16 +88,44 @@ class BookingService implements BookingInterface
 
             if ($inputs['payment'] == 'now') {
                 $data = [
-                    'haven_booking_id' => $booking->id,
+                    'booking_id' => $booking->id,
                     'credit' => (float)$inputs['advance_payment'],
                     'debit' => 0,
                     'balance' => (float)$inputs['advance_payment'],
                     'status' => 'credit',
-                    'type' => 'advanced',
+                    'type' => PaymentStatus::ADVANCE,
                 ];
 
-                // $paymentRecord = (new Payment())->storePayments($data);
+                $paymentRecord = (new Payment())->create($data);
             }
+
+            return $booking;
+        });
+
+        return $returnData;
+    }
+
+    public function storeCheckIn($id)
+    {
+        $returnData = DB::transaction(function () use ($id) {
+            $data = [
+                'check_in_date' => now()->timestamp,
+            ];
+            $booking = $this->model()->find($id)->update($data);
+
+            return $booking;
+        });
+
+        return $returnData;
+    }
+
+    public function storeCheckOut($id)
+    {
+        $returnData = DB::transaction(function () use ($id) {
+            $data = [
+                'check_out_date' => now()->timestamp,
+            ];
+            $booking = $this->model()->find($id)->update($data);
 
             return $booking;
         });

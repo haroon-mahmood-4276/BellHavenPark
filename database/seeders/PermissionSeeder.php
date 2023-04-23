@@ -359,11 +359,16 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'show_name' => 'Can Create Booking',
             ],
-            // [
-            //     'name' => 'bookings.destroy',
-            //     'show_name' => 'Can Delete Bookings',
-            //     'guard_name' => 'web',
-            // ],
+            [
+                'name' => 'bookings.checkin.index',
+                'show_name' => 'Can View Checkin',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'bookings.checkout.index',
+                'show_name' => 'Can View Checkout',
+                'guard_name' => 'web',
+            ],
 
             // Booking Payments Routes
             [
