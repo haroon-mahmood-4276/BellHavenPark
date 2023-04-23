@@ -369,6 +369,11 @@ class PermissionSeeder extends Seeder
                 'show_name' => 'Can View Checkout',
                 'guard_name' => 'web',
             ],
+            [
+                'name' => 'bookings.calender.index',
+                'show_name' => 'Can View Booking Calender',
+                'guard_name' => 'web',
+            ],
 
             // Booking Payments Routes
             [
@@ -380,26 +385,6 @@ class PermissionSeeder extends Seeder
                 'name' => 'bookings.payments.create',
                 'guard_name' => 'web',
                 'show_name' => 'Can Create Booking Payment',
-            ],
-            [
-                'name' => 'bookings.payments.store',
-                'guard_name' => 'web',
-                'show_name' => 'Can Store Payment',
-            ],
-            [
-                'name' => 'bookings.payments.edit',
-                'guard_name' => 'web',
-                'show_name' => 'Can Edit Payment',
-            ],
-            [
-                'name' => 'bookings.payments.update',
-                'guard_name' => 'web',
-                'show_name' => 'Can Update Payment',
-            ],
-            [
-                'name' => 'bookings.payments.destroy',
-                'guard_name' => 'web',
-                'show_name' => 'Can Delete Payment',
             ],
             [
                 'name' => 'bookings.payments.export',

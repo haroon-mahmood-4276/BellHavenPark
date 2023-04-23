@@ -2,11 +2,9 @@
 
 namespace App\DataTables;
 
-use App\Models\Role;
-use Illuminate\Support\Str;
+use App\Models\{Role, Permission};
 use Yajra\DataTables\Html\{Button, Column};
 use Yajra\DataTables\EloquentDataTable;
-use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -25,14 +23,6 @@ class PermissionsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->editColumn('class', function ($permission) {
-                $explodedArray = explode('.', $permission->name);
-                return Str::of($explodedArray[count($explodedArray) > 1 ? count($explodedArray) - 2 : 0])->title();
-            })
-            ->editColumn('class', function ($permission) {
-                $explodedArray = explode('.', $permission->name);
-                return Str::of($explodedArray[count($explodedArray) > 1 ? count($explodedArray) - 2 : 0])->title();
-            })
             ->editColumn('roles', function ($permission) {
                 return [
                     'permission_id' => $permission->id,
@@ -40,10 +30,10 @@ class PermissionsDataTable extends DataTable
                 ];
             })
             ->editColumn('created_at', function ($permission) {
-                return editDateTimeColumn($permission->created_at);
+                return editDateColumn($permission->created_at);
             })
             ->editColumn('updated_at', function ($permission) {
-                return editDateTimeColumn($permission->updated_at);
+                return editDateColumn($permission->updated_at);
             })
             ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
@@ -57,18 +47,56 @@ class PermissionsDataTable extends DataTable
      */
     public function query(Permission $model): QueryBuilder
     {
-        if (auth()->user()->can('permissions.view_all')) {
-            return $model->newQuery();
-        } else {
-            $CurrentUserRole = auth()->user()->roles->pluck('id');
-            return (new Role())->where('id', $CurrentUserRole[0])->with('permissions')->first()->permissions->toQuery();
-        }
+        return $model->newQuery()->with('roles');
+        // if (auth()->user()->can('permissions.view_all')) {
+        // } else {
+        //     $CurrentUserRole = auth()->user()->roles->pluck('id');
+        //     return (new Role())->where('id', $CurrentUserRole[0])->with('permissions')->first()->permissions->toQuery();
+        // }
     }
 
     public function html(): HtmlBuilder
     {
+        $buttons = [];
+
+        // if (auth()->user()->can('admin.permissions.create')) {
+        //     $buttons[] = Button::raw('delete-selected')
+        //         ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
+        //         ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New')
+        //         ->attr([
+        //             'onclick' => 'addNew()',
+        //         ]);
+        // }
+
+        if (auth()->user()->can('admin.permissions.export')) {
+            $buttons[] = Button::make('export')
+                ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1')
+                ->buttons([
+                    Button::make('print')->addClass('dropdown-item')->text('<i class="fa-solid fa-print"></i>&nbsp;&nbsp;Print'),
+                    Button::make('copy')->addClass('dropdown-item')->text('<i class="fa-solid fa-copy"></i>&nbsp;&nbsp;Copy'),
+                    Button::make('csv')->addClass('dropdown-item')->text('<i class="fa-solid fa-file-csv"></i>&nbsp;&nbsp;CSV'),
+                    Button::make('excel')->addClass('dropdown-item')->text('<i class="fa-solid fa-file-excel"></i>&nbsp;&nbsp;Excel'),
+                    Button::make('pdf')->addClass('dropdown-item')->text('<i class="fa-solid fa-file-pdf"></i>&nbsp;&nbsp;PDF'),
+                ]);
+        }
+
+        $buttons = array_merge($buttons, [
+            Button::make('reset')->addClass('btn btn-danger waves-effect waves-float waves-light m-1'),
+            Button::make('reload')->addClass('btn btn-primary waves-effect waves-float waves-light m-1'),
+        ]);
+
+        if (auth()->user()->can('admin.permissions.destroy')) {
+            $buttons[] = Button::raw('delete-selected')
+                ->addClass('btn btn-danger waves-effect waves-float waves-light m-1')
+                ->text('<i class="icon material-icons md-delete"></i><span id="delete_selected_count" style="display:none">0</span> Delete Selected')
+                ->attr([
+                    'onclick' => 'deleteSelected()',
+                ]);
+        }
+
         return $this->builder()
             ->setTableId('permissions-table')
+            ->addTableClass('table-borderless table-striped table-hover class-datatable-for-event')
             ->columns($this->getColumns())
             ->minifiedAjax()
             // ->stateSave()
@@ -82,21 +110,11 @@ class PermissionsDataTable extends DataTable
                 [30, 50, 70, 100, 120, 150, "All"],
             ])
             ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
-            ->buttons(
-                Button::make('export')->addClass('btn btn-secondary  dropdown-toggle')->buttons([
-                    Button::make('print')->addClass('dropdown-item'),
-                    Button::make('copy')->addClass('dropdown-item'),
-                    Button::make('csv')->addClass('dropdown-item'),
-                    Button::make('excel')->addClass('dropdown-item'),
-                    Button::make('pdf')->addClass('dropdown-item'),
-                ]),
-                Button::make('reset')->addClass('btn btn-danger '),
-                Button::make('reload')->addClass('btn btn-primary '),
-            )
+            ->buttons($buttons)
             ->rowGroupDataSrc('class')
             ->scrollX()
             ->orders([
-                [2, 'asc'],
+                [1, 'asc'],
             ]);
     }
 
@@ -107,39 +125,17 @@ class PermissionsDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        $currentAuthentiactedRoleId = auth()->user()->roles->pluck('id');
-        $roles = getLinkedTreeData(new Role(), $currentAuthentiactedRoleId);
-        $roles = array_merge(auth()->user()->roles->toArray(), $roles);
+        $currentAuthRoles = auth()->user()->roles;
+        $roles = getLinkedTreeData(new Role(), $currentAuthRoles->pluck('id'));
+        $roles = array_merge($currentAuthRoles->toArray(), $roles); // Add current role to the list
+        unset($roles[0]['pivot']);
+
         $colArray = [
             Column::computed('DT_RowIndex')->title('#'),
-            Column::make('show_name')->title('Permission Name')->ucfirst(),
-            Column::make('name')->title('Slug')->ucfirst(),
-            Column::computed('class')->title('Class')->visible(false),
+            Column::make('show_name')->title('Permission Name')->addClass('text-nowrap')->ucfirst(),
         ];
 
         foreach ($roles as $key => $role) {
-
-            // if (in_array($role->name, ['Director', 'Admin', 'Super Admin']) )
-            //     continue;
-            $checkAssignPermission  = auth()->user()->can('admin.permissions.assign-permission');
-            $checkRevokePermission  = auth()->user()->can('admin.permissions.revoke-permission');
-            $checkEditOwnPermission  = auth()->user()->can('admin.permissions.edit-own-permission');
-
-            $assignPermssion = 0;
-            $revokePermission = 0;
-            $editOwnPermission = 0;
-
-            if ($checkAssignPermission) {
-                $assignPermssion = 1;
-            }
-
-            if ($checkRevokePermission) {
-                $revokePermission = 1;
-            }
-
-            if ($checkEditOwnPermission) {
-                $editOwnPermission = 1;
-            }
 
             $colArray[] = Column::computed('roles')
                 ->title($role['name'])
@@ -150,63 +146,15 @@ class PermissionsDataTable extends DataTable
                 ->render('function () {
                     var roles = data.roles;
                     var isPermissionAssigned = roles.includes("' . $role['id'] . '");
-                    if("' . $currentAuthentiactedRoleId[0] . '" == "' . $role['id'] . '") {
                     var checkbox = "<div class=\'form-check d-flex justify-content-center\'>";
-                    if(isPermissionAssigned) {
-                        if(' . $editOwnPermission . ')
-                        {
-                            if(' . $revokePermission . '){
-                            checkbox += "<input  class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\'  id=\'chkRolePermission_' . $role['id']  . '_' . '" + data.permission_id + "\' checked />";
-                            }
-                            else{
-                                checkbox += "<input disabled class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\' id=\'chkRolePermission_' . $role['id'] . '_' . '" + data.permission_id + "\' checked />";
-                            }
-                        }
-                        else{
-                            checkbox += "<input disabled class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\' id=\'chkRolePermission_' . $role['id'] . '_' . '" + data.permission_id + "\' checked />";
-                        }
-                    } else {
-                        if(' . $editOwnPermission . ')
-                        {
-                            if(' . $assignPermssion . '){
-                                checkbox += "<input class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\' id=\'chkRolePermission_' . $role['id'] . '_' . '" + data.permission_id + "\' />";
-                            }
-                            else
-                            {
-                                checkbox += "<input disabled class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\' id=\'chkRolePermission_' . $role['id'] . '_' . '" + data.permission_id + "\' />";
-                            }
-                        }
-                        else{
-                            checkbox += "<input disabled class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\' id=\'chkRolePermission_' . $role['id'] . '_' . '" + data.permission_id + "\' />";
-                        }
-                    }
-                    checkbox += "<label class=\'form-check-label\' for=\'chkRolePermission_' . $role['id'] . '\'></label></div>";
 
-                    return checkbox;
-                }
-                else
-                {
-                    var checkbox = "<div class=\'form-check d-flex justify-content-center\'>";
                     if(isPermissionAssigned) {
-                        if(' . $revokePermission . '){
-                            checkbox += "<input  class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\' id=\'chkRolePermission_' . $role['id'] . '_' . '" + data.permission_id + "\' checked />";
-                        }
-                        else{
-                            checkbox += "<input disabled class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\' id=\'chkRolePermission_' . $role['id'] . '_' . '" + data.permission_id + "\' checked />";
-                        }
+                        checkbox += "<input class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\'  id=\'chkRolePermission_' . $role['id']  . '__' . '" + data.permission_id + "\' checked />";
                     } else {
-                        if(' . $assignPermssion . '){
-                            checkbox += "<input class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\' id=\'chkRolePermission_' . $role['id'] . '_' . '" + data.permission_id + "\' />";
-                        }
-                        else
-                        {
-                            checkbox += "<input disabled class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\' id=\'chkRolePermission_' . $role['id'] . '_' . '" + data.permission_id + "\' />";
-                        }
+                        checkbox += "<input class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\'  id=\'chkRolePermission_' . $role['id']  . '__' . '" + data.permission_id + "\' />";
                     }
-                    checkbox += "<label class=\'form-check-label\' for=\'chkRolePermission_' . $role['id'] . '\'></label></div>";
-
+                    checkbox += "<label class=\'form-check-label\' for=\'chkRolePermission_' . $role['id']  . '__' . '" + data.permission_id + "\'></label></div>";
                     return checkbox;
-                }
                 }');
         }
 
