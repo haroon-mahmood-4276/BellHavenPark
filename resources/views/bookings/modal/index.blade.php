@@ -1,5 +1,6 @@
 <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    {{-- <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document"> --}}
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel1">Create Booking</h5>
@@ -31,7 +32,7 @@
                     </div>
 
                     <div class="row mb-3">
-                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                        <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11">
                             <label class="form-label" style="font-size: 15px" for="customer">Customer</label>
                             <select class="select2-size-lg form-select" id="customer" name="customer">
                                 @foreach ($customers as $customerRow)
@@ -43,10 +44,10 @@
                             </select>
                         </div>
 
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1">
                             <div class="d-flex align-items-end justify-content-center w-100 h-100">
                                 <a href="{{ route('customers.create') }}" class="btn w-100 btn-primary me-1">
-                                    <span><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New</span>
+                                    <span><i class="fa-solid fa-plus"></i></span>
                                 </a>
                             </div>
                         </div>
@@ -70,10 +71,10 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
                             <div class="d-flex align-items-center h-100">
-                                <p class="m-0">Daily Rate</p>
+                                <p class="">Daily Rate</p>
                             </div>
                         </div>
 
@@ -95,10 +96,10 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
                             <div class="d-flex align-items-center h-100">
-                                <p class="m-0">Wekkly Rate</p>
+                                <p class="m-0">Weekly Rate</p>
                             </div>
                         </div>
 
@@ -121,7 +122,7 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
+                    <div class="row">
 
                         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
                             <div class="d-flex align-items-center h-100">

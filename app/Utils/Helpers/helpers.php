@@ -392,6 +392,39 @@ if (!function_exists('editBooleanColumn')) {
     }
 }
 
+if (!function_exists('editStatusColumn')) {
+    function editStatusColumn($status)
+    {
+        $badge = '';
+        switch ($status) {
+            case 'yes':
+                $badge = "<span class='badge bg-success bg-glow me-1'>" . __('lang.commons.yes') . "</span>";
+                break;
+
+            case 'no':
+                $badge = "<span class='badge bg-danger bg-glow me-1'>" . __('lang.commons.no') . "</span>";
+                break;
+
+            case 'active':
+                $badge = "<span class='badge bg-success bg-glow me-1'>" . __('lang.commons.active') . "</span>";
+                break;
+
+            case 'inactive':
+                $badge = "<span class='badge bg-danger bg-glow me-1'>" . __('lang.commons.inactive') . "</span>";
+                break;
+
+            case 'objected':
+                $badge = "<span class='badge bg-warning bg-glow me-1'>" . __('lang.commons.objected') . "</span>";
+                break;
+
+            default:
+                $badge = "<span class='badge bg-primary bg-glow me-1'>" . $status . "</span>";
+                break;
+        }
+        return $badge;
+    }
+}
+
 if (!function_exists('editBadgeColumn')) {
     function editBadgeColumn($value)
     {

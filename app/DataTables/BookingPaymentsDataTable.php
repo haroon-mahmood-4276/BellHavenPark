@@ -10,8 +10,9 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
 
-class PaymentsDataTable extends DataTable
+class BookingPaymentsDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -23,9 +24,22 @@ class PaymentsDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-
+            ->setRowId('id')
             ->editColumn('check', function ($payment) {
                 return $payment;
+            })
+            ->editColumn('debit', function ($bookingPayment) {
+                return ($bookingPayment->debit) > 0 ? '$ ' . number_format($bookingPayment->debit, 2) : '-';
+            })
+            ->editColumn('credit', function ($bookingPayment) {
+                return ($bookingPayment->credit) > 0 ? '$ ' . number_format($bookingPayment->credit, 2) : '-';
+            })
+            ->editColumn('type', function ($bookingPayment) {
+                return Str::of($bookingPayment->type)->ucfirst();
+            })
+            ->editColumn('comments', function ($bookingPayment) {
+                $comments = Str::of($bookingPayment->comments);
+                return $comments->length() > 0 ? Str::of($bookingPayment->comments)->words(10) : '-';
             })
             ->editColumn('created_at', function ($payment) {
                 return editDateColumn($payment->created_at);
@@ -36,7 +50,6 @@ class PaymentsDataTable extends DataTable
             // ->editColumn('actions', function ($payment) {
             //     return view('bookings.actions', ['id' => $payment->id]);
             // })
-            ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
     }
 
@@ -126,7 +139,7 @@ class PaymentsDataTable extends DataTable
                 ],
             ])
             ->orders([
-                [3, 'asc'],
+                [1, 'asc'],
             ]);
     }
 
@@ -137,7 +150,7 @@ class PaymentsDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowarp');
+        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowarp align-middle');
 
         if (auth()->user()->can('bookings.payments.destroy')) {
             $checkColumn->addClass('disabled');
@@ -145,10 +158,14 @@ class PaymentsDataTable extends DataTable
 
         $columns = [
             $checkColumn,
-            Column::make('created_at')->addClass('text-nowarp'),
-            Column::make('updated_at')->addClass('text-nowarp'),
-            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
+            Column::make('debit')->title('Debit')->addClass('text-nowarp align-middle'),
+            Column::make('credit')->title('Credit')->addClass('text-nowarp align-middle'),
+            Column::make('type')->title('Type')->addClass('text-nowarp align-middle'),
+            Column::make('comments')->title('Comments')->addClass('text-nowarp align-middle'),
+            Column::make('created_at')->addClass('text-center text-nowarp align-middle'),
+            Column::make('updated_at')->addClass('text-center text-nowarp align-middle'),
         ];
+        // Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
         return $columns;
     }
 

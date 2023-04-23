@@ -3,6 +3,7 @@
 namespace App\Services\Payments;
 
 use App\Models\Payment;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -40,16 +41,41 @@ class PaymentService implements PaymentInterface
     {
         $booking_id = decryptParams($booking_id);
         if ($advancedPayment = $this->model()->where(['booking_id' => $booking_id, 'type' => 'advanced'])->first()) {
-            return $advancedPayment->payment_credit;
+            return $advancedPayment->credit;
         }
         return 0;
     }
 
-    public function store($inputs)
+    public function store($booking_id, $inputs)
     {
-        $returnData = DB::transaction(function () use ($inputs) {
+        $returnData = 1;
+        $returnData = DB::transaction(function () use ($booking_id, $inputs) {
+
+            // $netTotal is without tax
+            $netTotal = match ($inputs['rate_type']) {
+                'daily_rate' => floatval($inputs['txt_daily_total']),
+                'weekly_rate' => floatval($inputs['txt_weekly_total']),
+                'monthly_rate' => floatval($inputs['txt_monthly_total']),
+            } * $inputs['days_count'];
+
+            $tax = floatval(($netTotal * ($inputs['tax'] ?? 0)) / 100);
+
+            $subTotal = floatval($netTotal + $tax);
+
+            $grossTotal = floatval($subTotal - floatval($inputs['advance_payment']));
+
             $data = [
-                'name' => $inputs['name'],
+                'booking_id' => $booking_id,
+                'payment_method_id' => $inputs['payment_methods'],
+                'payment_from' => Carbon::parse($inputs['payment_from'])->timestamp,
+                'payment_to' => Carbon::parse($inputs['payment_from'])->timestamp,
+                'credit' => $grossTotal,
+                'debit' => null,
+                'balance' => 0,
+                'status' => 'credit',
+                'payment_type' => $inputs['rate_type'],
+                'type' => null,
+                'comments' => $inputs['comments'],
             ];
 
             $payment_method = $this->model()->create($data);

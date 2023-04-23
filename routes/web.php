@@ -184,7 +184,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::as('payments.')->prefix('/{id}')->controller(PaymentController::class)->group(function () {
             Route::get('/payments', 'index')->name('index');
+
             Route::get('/payments/create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
         });
 
         // Route::get('/calender', [BookingsController::class, 'calenderView'])->name('calenderView');
@@ -201,13 +203,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Route::get('/check-out', [BookingsController::class, 'CheckOutIndex'])->name('checkout.index');
         // Route::get('/check-out/{booking}', [BookingsController::class, 'CheckOutStore'])->name('checkout.store');
-
-
-        // // Payments Routes
-        // Route::group(['prefix' => '/{booking}', 'as' => 'payments.'], function () {
-        //     Route::get('/payments', [PaymentController::class, 'index'])->name('index');
-        //     Route::get('/payments/create', [PaymentController::class, 'create'])->name('create');
-        // });
     });
 
     // Settings Routes

@@ -18,19 +18,21 @@ class Payment extends Model
 
     protected $fillable = [
         'booking_id',
-        'payment_credit',
-        'payment_debit',
-        'payment_balance',
+        'payment_method_id',
+        'payment_from',
+        'payment_to',
+        'credit',
+        'debit',
+        'balance',
         'status',
+        'payment_type',
         'type',
         'comments',
     ];
 
     protected $hidden = [];
 
-    public $rules = [
-        'name' => 'required|string|min:1|max:30',
-    ];
+    public $rules = [];
 
     public function getActivitylogOptions(): LogOptions
     {

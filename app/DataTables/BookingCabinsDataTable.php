@@ -11,7 +11,6 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Carbon\Carbon;
 
 class BookingCabinsDataTable extends DataTable
 {
@@ -59,10 +58,9 @@ class BookingCabinsDataTable extends DataTable
         $bookings = array_column($bookings, 'cabin_id');
 
         $cabins = $model->newQuery()
-            // ->select('cabins.*')
+            ->select('cabins.*')
             ->with(['cabin_type', 'cabin_status'])
-            ->whereNotIn('cabins.id', $bookings)
-            ->orderBy('cabins.id');
+            ->whereNotIn('cabins.id', $bookings);
 
         return $cabins;
     }
@@ -121,12 +119,12 @@ class BookingCabinsDataTable extends DataTable
                 [30, 50, 70, 100, 120, 150, -1],
                 [30, 50, 70, 100, 120, 150, "All"],
             ])
-            ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
+            ->dom('<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons);
-        // ->rowGroupDataSrc('parent_id')
-        // ->orders([
-        //     [3, 'asc'],
-        // ]);
+            // ->rowGroupDataSrc('parent_id')
+            // ->orders([
+            //     [3, 'asc'],
+            // ]);
     }
 
     /**
@@ -136,21 +134,12 @@ class BookingCabinsDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowarp');
-
-        if (auth()->user()->can('bookings.destroy')) {
-            $checkColumn->addClass('disabled');
-        }
-
         $columns = [
-            // $checkColumn,
-            Column::computed('DT_RowIndex')->title('#'),
-            Column::make('name')->addClass('text-nowarp'),
-            Column::make('cabin_status.name')->title('Cabin Status')->addClass('text-nowarp'),
-            Column::make('cabin_type.name')->title('Cabin Type')->addClass('text-nowarp'),
-            // Column::make('created_at')->addClass('text-nowarp'),
-            // Column::make('updated_at')->addClass('text-nowarp'),
-            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
+            Column::computed('DT_RowIndex')->title('#')->orderable(false),
+            Column::make('name')->addClass('text-nowarp')->orderable(false),
+            Column::make('cabin_status.name')->title('Cabin Status')->addClass('text-nowarp')->orderable(false),
+            Column::make('cabin_type.name')->title('Cabin Type')->addClass('text-nowarp')->orderable(false),
+            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap')->orderable(false),
         ];
         return $columns;
     }

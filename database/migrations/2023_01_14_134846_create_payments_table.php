@@ -16,13 +16,15 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            // $table->foreignUuid('user_id')->nullable()->constrained();
-            // $table->foreignUuid('customer_id')->nullable()->constrained();
             $table->foreignUuid('booking_id')->nullable()->constrained();
-            $table->double('payment_credit', 8)->nullable()->default(0);
-            $table->double('payment_debit', 8)->nullable()->default(0);
-            $table->double('payment_balance', 8)->nullable()->default(0);
+            $table->foreignUuid('payment_method_id')->nullable()->constrained();
+            $table->unsignedInteger('payment_from')->default(0);
+            $table->unsignedInteger('payment_to')->default(0);
+            $table->double('credit', 8)->nullable()->default(0);
+            $table->double('debit', 8)->nullable()->default(0);
+            $table->double('balance', 8)->nullable()->default(0);
             $table->string('status', 30)->nullable();
+            $table->string('payment_type', 30)->nullable();
             $table->string('type', 30)->nullable();
             $table->text('comments')->nullable();
 

@@ -74,8 +74,8 @@ class Booking extends Model
         'booking_tax' => 'nullable|integer',
         'check_in' => 'required|in:now,later',
         'payment' => 'required|in:now,later',
-        'advance_payment' => 'required_if:payment,now|integer|gt:-1',
-        'comments' => 'nullable|text'
+        'advance_payment' => 'required_if:payment,now|integer|gte:0',
+        'comments' => 'nullable'
     ];
 
     public $rulesMessages = [];

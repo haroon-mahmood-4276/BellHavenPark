@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\PaymentsDataTable;
+use App\DataTables\BookingPaymentsDataTable;
+use App\Exceptions\GeneralException;
+use App\Http\Requests\Payments\storeRequest;
 use App\Services\{
     Payments\PaymentInterface
 };
 use App\Services\Bookings\BookingInterface;
 use App\Services\PaymentMethods\PaymentMethodInterface;
+use Exception;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -21,8 +24,14 @@ class PaymentController extends Controller
         $this->paymentMethodInterface = $paymentMethodInterface;
     }
 
-    public function index(PaymentsDataTable $dataTable, $id)
+    public function index(BookingPaymentsDataTable $dataTable, $id)
     {
+
+        $booking = $this->bookingInterface->getById($id);
+        if (!$booking) {
+            return redirect()->route('bookings.index')->withDanger('Booking not found');
+        }
+
         $data = [
             'booking_id' => $id,
         ];
@@ -56,7 +65,7 @@ class PaymentController extends Controller
                     'status' => true,
                     'prevModal' => $request->prevModal,
                     'modalPlace' => 'modalPlace',
-                    'currentModal' => 'default',
+                    'currentModal' => 'basicModal',
                     'modal' => view('bookings.payments.modal.index', $modalData)->render(),
                 ];
             }
@@ -65,6 +74,23 @@ class PaymentController extends Controller
         } else {
             return $modalData;
             abort(403);
+        }
+    }
+
+
+    public function store(Request $request, $booking_id)
+    {
+        abort_if(request()->ajax(), 403);
+
+        try {
+
+            $inputs = $request->input();
+            $record = $this->paymentInterface->store($booking_id, $inputs);
+            return redirect()->route('bookings.payments.index', ['id' => $booking_id])->withSuccess('Data saved!');
+        } catch (GeneralException $ex) {
+            return redirect()->route('bookings.payments.index', ['id' => $booking_id])->withDanger('Something went wrong! ' . $ex->getMessage());
+        } catch (Exception $ex) {
+            return redirect()->route('bookings.payments.index', ['id' => $booking_id])->withDanger('Something went wrong!');
         }
     }
 }

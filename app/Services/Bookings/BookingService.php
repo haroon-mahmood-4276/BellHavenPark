@@ -82,23 +82,21 @@ class BookingService implements BookingInterface
 
                 'status' => true,
             ];
-            // dd($data);
-            // if ($inputs['payment'] == 'now') {
-            //     $data = [
-            //         'haven_user_id' => auth()->user()->id,
-            //         'haven_booking_id' => $result->id,
-            //         'haven_customer_id' => $inputs['customers'],
-            //         'payment_credit' => (float)$inputs['advance_payment'],
-            //         'payment_debit' => 0,
-            //         'payment_balance' => (float)$inputs['advance_payment'],
-            //         'status' => 'credit',
-            //         'type' => 'advanced',
-            //     ];
-
-            //     $paymentRecord = (new Payment())->storePayments($data);
-            // }
-
             $booking = $this->model()->create($data);
+
+            if ($inputs['payment'] == 'now') {
+                $data = [
+                    'haven_booking_id' => $booking->id,
+                    'credit' => (float)$inputs['advance_payment'],
+                    'debit' => 0,
+                    'balance' => (float)$inputs['advance_payment'],
+                    'status' => 'credit',
+                    'type' => 'advanced',
+                ];
+
+                // $paymentRecord = (new Payment())->storePayments($data);
+            }
+
             return $booking;
         });
 

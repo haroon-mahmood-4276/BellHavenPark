@@ -1,82 +1,86 @@
-<div class="modal fade text-start" id="default" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="true"
-    aria-labelledby="myModalLabel1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+<div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel1">Add Payments - {{ $booking->cabin->name }}</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="basicModalLabel1">Add Payments - {{ $booking->cabin->name }}</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    id="basicModal-close"></button>
             </div>
-            <div class="modal-body">
-                <form action="#" method="POST" id="payment_store">
 
+            <div class="modal-body mb-0">
+                <form action="{{ route('bookings.payments.store', ['id' => $booking->id]) }}" method="POST"
+                    id="form_booking_store">
                     @csrf
 
-                    <div class="row mb-1">
-
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-
-                            <input type="hidden" name="payment[booking_id]" value="{{ $booking->id }}">
+                    <div class="row mb-3">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <input type="hidden" name="booking_id" value="{{ $booking->id }}">
 
                             <label class="form-label" style="font-size: 15px" for="booking_id">Booking ID</label>
-                            <input type="text" id="booking_id" class="form-control form-control-lg"
-                                placeholder="Booking ID" aria-label="Booking ID" disabled value="{{ $booking->id }}" />
+                            <input type="text" class="form-control" id="booking_id"
+                                value="{{ $booking->booking_number }}" placeholder="Booking ID" readonly />
                         </div>
 
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-
-                            <input type="hidden" name="payment[customer_id]" value="{{ $booking->customer->id }}">
-
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                             <label class="form-label" style="font-size: 15px" for="customer">Customer</label>
-                            <input type="text" id="customer" class="form-control form-control-lg"
-                                placeholder="Customer" aria-label="Customer" disabled
-                                value="{{ $booking->customer->full_name }}" />
+                            <input type="text" id="customer" class="form-control" placeholder="Customer"
+                                aria-label="Customer" readonly value="{{ $booking->customer->name }}" />
                         </div>
 
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                             <label class="form-label" style="font-size: 15px" for="booking_date">Booking
                                 Date</label>
-                            <input type="text" id="booking_date" name="payment[booking_date]"
-                                class="form-control form-control-lg" placeholder="Booking Date"
-                                aria-label="Booking Date" readonly
-                                value="{{ date('d/m/Y', strtotime($booking->created_at)) }}" />
+                            <input type="text" id="booking_date" name="booking_date" class="form-control"
+                                placeholder="Booking Date" aria-label="Booking Date" readonly
+                                value="{{ date('F j, Y', strtotime($booking->created_at)) }}" />
                         </div>
+
                     </div>
 
-                    <div class="row mb-1">
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="payment_from">Payment From <span
-                                    class="text-danger">*</span></label>
-                            <input type="text" id="payment_from" class="form-control form-control-lg"
-                                placeholder="Payment From" aria-label="Payment From" value=""
-                                name="payment[payment_from]" />
+                    <div class="row mb-3">
+
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <label class="form-label" style="font-size: 15px" for="payment_from">Payment From
+                                        <span class="text-danger">*</span></label>
+                                    <input type="text" id="payment_from" class="payment_dates form-control"
+                                        placeholder="Payment From" aria-label="Payment From"
+                                        value="{{ $booking->booking_from->format('F j, Y') }}" name="payment_from" />
+                                </div>
+
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <label class="form-label" style="font-size: 15px" for="payment_to">Payment To <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" id="payment_to" class="payment_dates form-control"
+                                        placeholder="Payment To" aria-label="Payment To"
+                                        value="{{ $booking->booking_from->format('F j, Y') }}" name="payment_to" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <input type="hidden" id="days_count" value="1" name="days_count" />
+                                    <p class="m-0" style="font-size: 15px">Days count: <span id="text_days_count"
+                                            class="text-primary">1</span></p>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="payment_to">Payment To <span
-                                    class="text-danger">*</span></label>
-                            <input type="text" id="payment_to" class="form-control form-control-lg"
-                                placeholder="Payment To" aria-label="Payment To" value=""
-                                name="payment[payment_to]" />
-                        </div>
-
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="days_count">Days Count</label>
-                            <input type="number" id="days_count" class="form-control form-control-lg"
-                                placeholder="Days Count" value="1" readonly name="payment[days_count]" />
-                        </div>
-                    </div>
-
-                    <div class="row mb-1">
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                             <label class="form-label" style="font-size: 15px" for="advance_booking_payment">Advance
                                 Payment</label>
-                            <input type="text" id="advance_booking_payment" name="payment[advance_payment]"
-                                class="form-control form-control-lg" placeholder="Advance Payment"
-                                aria-label="Advance Payment " readonly value="{{ $advanced_payment }}.00" />
+                            <div class="input-group ">
+                                <span class="input-group-text">$</span>
+                                <input type="text" id="advance_booking_payment" name="advance_payment"
+                                    class="form-control" placeholder="Advance Payment" aria-label="Advance Payment "
+                                    readonly value="{{ number_format($advanced_payment, 2) }}" />
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row my-1">
+
+                    <div class="row mb-3">
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                             <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Type</p>
                         </div>
@@ -94,7 +98,7 @@
                         </div>
                     </div>
 
-                    <div class="row mb-1 g-1">
+                    <div class="row mb-3">
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                             <div class="d-flex align-items-center h-100">
                                 <div class="form-check form-check-inline">
@@ -107,16 +111,15 @@
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="input-group input-group-lg">
+                            <div class="input-group ">
                                 <span class="input-group-text">$</span>
-                                <input type="text" class="form-control form-control-lg" id="txt_daily_rate"
-                                    name="txt_daily_rate" placeholder="Daily Rate"
-                                    value="{{ $booking->daily_rate ?? 0 }}" disabled />
+                                <input type="text" class="form-control" id="txt_daily_rate" name="txt_daily_rate"
+                                    placeholder="Daily Rate" value="{{ $booking->daily_rate ?? 0 }}" disabled />
                             </div>
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3">
-                            <div class="input-group input-group-lg">
+                            <div class="input-group ">
 
                                 @php
                                     $percentage = $booking->daily_less_booking_percentage ?? 0;
@@ -127,23 +130,22 @@
                                 <span
                                     class="input-group-text">{{ Str::of($booking->daily_less_booking_percentage ?? 0)->padLeft(2, '0') }}
                                     %</span>
-                                <input type="text" id="txt_daily_less_booking_percentage"
-                                    class="form-control form-control-lg" placeholder="Less Booking"
-                                    value="{{ $daily_less_booking }}" readonly />
+                                <input type="text" id="txt_daily_less_booking_percentage" class="form-control"
+                                    placeholder="Less Booking" value="{{ $daily_less_booking }}" readonly />
                             </div>
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="input-group input-group-lg">
+                            <div class="input-group ">
                                 <span class="input-group-text">$</span>
-                                <input type="text" class="form-control form-control-lg" id="txt_daily_total"
+                                <input type="text" class="form-control" id="txt_daily_total"
                                     name="txt_daily_total" placeholder="Daily Rate"
                                     value="{{ $booking->daily_rate + $daily_less_booking ?? 0 }}" readonly />
                             </div>
                         </div>
                     </div>
 
-                    <div class="row mb-1 g-1">
+                    <div class="row mb-3">
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                             <div class="d-flex align-items-center h-100">
                                 <div class="form-check form-check-inline">
@@ -156,16 +158,16 @@
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="input-group input-group-lg">
+                            <div class="input-group ">
                                 <span class="input-group-text">$</span>
-                                <input type="text" class="form-control form-control-lg" id="txt_weekly_rate"
+                                <input type="text" class="form-control" id="txt_weekly_rate"
                                     name="txt_weekly_rate" placeholder="Weekly Rate"
                                     value="{{ $booking->weekly_rate ?? 0 }}" disabled />
                             </div>
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3">
-                            <div class="input-group input-group-lg">
+                            <div class="input-group ">
 
                                 @php
                                     $percentage = $booking->weekly_rate_less_booking_percentage ?? 0;
@@ -176,68 +178,65 @@
                                 <span
                                     class="input-group-text">{{ Str::of($booking->weekly_rate_less_booking_percentage ?? 0)->padLeft(2, '0') }}
                                     %</span>
-                                <input type="text" id="txt_weekly_less_booking_percentage"
-                                    class="form-control form-control-lg" placeholder="Less Booking"
-                                    value="{{ $weekly_less_booking }}" readonly />
+                                <input type="text" id="txt_weekly_less_booking_percentage" class="form-control"
+                                    placeholder="Less Booking" value="{{ $weekly_less_booking }}" readonly />
                             </div>
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="input-group input-group-lg">
+                            <div class="input-group ">
                                 <span class="input-group-text">$</span>
-                                <input type="text" class="form-control form-control-lg" id="txt_weekly_total"
+                                <input type="text" class="form-control" id="txt_weekly_total"
                                     name="txt_weekly_total" placeholder="Weekly Rate"
                                     value="{{ $booking->weekly_rate + $weekly_less_booking ?? 0 }}" readonly />
                             </div>
                         </div>
                     </div>
 
-                    <div class="row mb-1 g-1">
+                    <div class="row mb-3">
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                             <div class="d-flex align-items-center h-100">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="rate_type"
-                                        id="rate_four_weekly" value="four_weekly_rate" />
+                                        id="rate_monthly" value="monthly_rate" />
                                     <label class="form-check-label" style="font-size: 15px; font-weight: bold;"
-                                        for="rate_four_weekly">Four Weekly Rate</label>
+                                        for="rate_monthly">Monthly Rate</label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="input-group input-group-lg">
+                            <div class="input-group ">
                                 <span class="input-group-text">$</span>
-                                <input type="text" class="form-control form-control-lg" id="txt_four_weekly_rate"
-                                    name="txt_four_weekly_rate" placeholder="four_Weekly Rate"
-                                    value="{{ $booking->four_weekly_rate ?? 0 }}" disabled />
+                                <input type="text" class="form-control" id="txt_monthly_rate"
+                                    name="txt_monthly_rate" placeholder="monthly Rate"
+                                    value="{{ $booking->monthly_rate ?? 0 }}" disabled />
                             </div>
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3">
-                            <div class="input-group input-group-lg">
+                            <div class="input-group ">
 
                                 @php
-                                    $percentage = $booking->four_weekly_less_booking_percentage ?? 0;
+                                    $percentage = $booking->monthly_less_booking_percentage ?? 0;
 
-                                    $four_weekly_less_booking = ($booking->four_weekly_rate * $percentage) / 100;
+                                    $monthly_less_booking = ($booking->monthly_rate * $percentage) / 100;
                                 @endphp
 
                                 <span
-                                    class="input-group-text">{{ Str::of($booking->four_weekly_less_booking_percentage ?? 0)->padLeft(2, '0') }}
+                                    class="input-group-text">{{ Str::of($booking->monthly_less_booking_percentage ?? 0)->padLeft(2, '0') }}
                                     %</span>
-                                <input type="text" id="txt_four_weekly_less_booking_percentage"
-                                    class="form-control form-control-lg" placeholder="Less Booking"
-                                    value="{{ $four_weekly_less_booking }}" readonly />
+                                <input type="text" id="txt_monthly_less_booking_percentage" class="form-control"
+                                    placeholder="Less Booking" value="{{ $monthly_less_booking }}" readonly />
                             </div>
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="input-group input-group-lg">
+                            <div class="input-group ">
                                 <span class="input-group-text">$</span>
-                                <input type="text" class="form-control form-control-lg" id="txt_four_weekly_total"
-                                    name="txt_four_weekly_total" placeholder="four_Weekly Rate"
-                                    value="{{ $booking->four_weekly_rate + $four_weekly_less_booking ?? 0 }}"
-                                    readonly />
+                                <input type="text" class="form-control" id="txt_monthly_total"
+                                    name="txt_monthly_total" placeholder="monthly Rate"
+                                    value="{{ $booking->monthly_rate + $monthly_less_booking ?? 0 }}" readonly />
                             </div>
                         </div>
                     </div>
@@ -246,7 +245,7 @@
                         <hr>
                     </div>
 
-                    <div class="row mb-1">
+                    <div class="row mb-3">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="table-responsive-xl">
                                 <table class="table table-hover table-hover-animation">
@@ -295,8 +294,9 @@
                                         </tr>
 
                                         <tr>
+                                            <input type="hidden" name="tax" value="{{ $booking->tax }}">
                                             <th style="vertical-align: middle;" colspan="5">Tax (
-                                                {{ $booking->tax_percentage }} % )</th>
+                                                {{ $booking->tax }} % )</th>
                                             <td style="vertical-align: middle;">
                                                 <p class="m-0" id="table_tax_amount">
                                                     0
@@ -324,7 +324,8 @@
                                         </tr>
 
                                         <tr>
-                                            <th style="vertical-align: middle;" colspan="5">Total Payable</th>
+                                            <th style="vertical-align: middle;" colspan="5"
+                                                id="table_text_total_receivables">Total Receivable</th>
                                             <th style="vertical-align: middle;">
                                                 <p class="m-0" id="table_total_receivables">
                                                     0
@@ -338,84 +339,103 @@
                         </div>
                     </div>
 
-                    <div class="row mb-1">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="row mb-3">
+                        <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11">
                             <label class="form-label" style="font-size: 15px" for="payment_methods">Payment
                                 Methods</label>
                             <select class="select2InModal select2-size-lg form-select" id="payment_methods"
                                 name="payment_methods">
                                 @foreach ($payment_methods as $payment_method)
-                                    <option value="{{ $payment_method->id }}">
-                                        {{ $loop->index + 1 }}) {{ $payment_method->name }}</option>
+                                    <option data-icon="fa-solid fa-angle-right" value="{{ $payment_method->id }}">
+                                        {{ $payment_method->name }}</option>
                                 @endforeach
                             </select>
                         </div>
+
+                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1">
+                            <div class="d-flex align-items-end justify-content-center w-100 h-100">
+                                <a href="{{ route('payment-methods.create') }}" class="btn w-100 btn-primary me-1">
+                                    <span><i class="fa-solid fa-plus"></i></span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="row mb-1">
+                    <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <label class="form-label" style="font-size: 15px" for="comments">Comments</label>
-                            <textarea id="comments" name="comments" class="form-control form-control-lg" placeholder="Comments"
-                                aria-label="comments" rows="5"></textarea>
+                            <textarea id="comments" name="comments" class="form-control" placeholder="Comments" aria-label="comments"
+                                rows="5"></textarea>
                         </div>
                     </div>
 
                     <button type="submit" class="d-none" id="submitForm">
                     </button>
                 </form>
-            </div>
 
-            <div class="modal-footer">
-                <button type="reset" class="btn btn-relief-outline-danger me-1">
-                    <span>Reset</span>
+            </div>
+            <div class="modal-footer pb-1">
+                <button type="button" class="btn btn-danger me-1" data-bs-dismiss="modal" aria-label="Close">
+                    <span>Close</span>
                 </button>
-                <button type="button" class="btn btn-relief-outline-primary" onclick="formSubmit();">
+                <button type="button" class="btn btn-primary" onclick="formSubmit();">
                     <span>Save</span>
                 </button>
+
             </div>
         </div>
     </div>
 </div>
-<script src="{{ asset('public_assets/admin') }}/vendors/js/forms/validation/jquery.validate.min.js"></script>
-<script src="{{ asset('public_assets/admin') }}/vendors/js/forms/validation/additional-methods.min.js"></script>
-<script src="{{ asset('public_assets/admin') }}/vendors/js/extensions/moment.min.js"></script>
+<script src="{{ asset('assets') }}/vendor/libs/feligx/datedropper/datedropper.min.js"></script>
 <script>
     $(document).ready(function() {
         $('input[id^="rate_"]:checked').trigger('change');
-    });
 
-    $(".select2-size-lg").each(function() {
-        var e = $(this);
-        e.wrap('<div class="position-relative"></div>');
-        e.select2({
-            // dropdownAutoWidth: !0,
-            // dropdownParent: e.parent(),
-            dropdownParent: '#default',
-            // width: "100%",
-            containerCssClass: "select-lg"
+        booking_source = $("#payment_methods");
+        booking_source.wrap('<div class="position-relative"></div>');
+        booking_source.select2({
+            dropdownAutoWidth: !0,
+            dropdownParent: booking_source.parent(),
+            width: "100%",
+            containerCssClass: "select-lg",
+            templateResult: c,
+            templateSelection: c,
+            escapeMarkup: function(booking_source) {
+                return booking_source
+            }
         });
     });
 
-    $('#payment_from').flatpickr({
-        mode: "range",
-        weekNumbers: true,
-        minDate: '{{ $booking->booking_from }}',
-        maxDate: '{{ $booking->booking_to }}',
-        onChange: function(selectedDates, dateStr, instance) {
+    function c(e) {
+        return e.id ? "<i class='" + $(e.element).data("icon") + " me-2'></i>" + e.text : e.text
+    }
 
-            let date1 = moment(selectedDates[0]);
-            let date2 = moment(selectedDates[1]);
+    new dateDropper({
+        // overlay: true,
+        // expandable: true,
+        // expandedDefault: true,
+        doubleView: true,
+        expandedOnly: true,
+        selector: '.payment_dates',
+        format: 'MM dd, y',
+        startFromMonday: true,
+        minDate: '{{ $booking->booking_from->subDays(1)->toDateString() }}',
+        maxDate: '{{ $booking->booking_to->toDateString() }}',
+        defaultDate: '{{ now()->toDateString() }}',
+        range: true,
+        onRangeSet: function(range) {
+            $('#payment_from').val(range.a.string);
+            $('#payment_to').val(range.b.string);
 
+            let date1 = moment(range.a.string);
+            let date2 = moment(range.b.string);
             let diffInDays = date2.diff(date1, 'days');
 
+            $('#text_days_count').html(diffInDays + 1);
             $('#days_count').val(diffInDays + 1);
 
             $('input[id^="rate_"]:checked').trigger('change');
         },
-        defaultDate: ['{{ now() }}', '{{ now() }}'],
-        "plugins": [new rangePlugin({
-            input: "#payment_to"
-        })]
     });
 
     function ucFirst(string) {
@@ -445,17 +465,17 @@
                     table_sub_total = parseInt($('#txt_weekly_total').val());
                     break;
 
-                case 'rate_four_weekly':
-                    table_rate_amount = parseInt($('#txt_four_weekly_rate').val());
-                    table_less_booking_amount = parseInt($('#txt_four_weekly_less_booking_percentage').val());
-                    table_sub_total = parseInt($('#txt_four_weekly_total').val());
+                case 'rate_monthly':
+                    table_rate_amount = parseInt($('#txt_monthly_rate').val());
+                    table_less_booking_amount = parseInt($('#txt_monthly_less_booking_percentage').val());
+                    table_sub_total = parseInt($('#txt_monthly_total').val());
                     break;
 
                 default:
                     break;
             }
-            let table_total = table_sub_total * table_daysCount;
 
+            let table_total = table_sub_total * table_daysCount;
 
             $('#table_rate_type').text(table_rate_type);
             $('#table_rate_amount').text('$ ' + table_rate_amount.toFixed(2));
@@ -465,7 +485,7 @@
             $('#table_total').text('$ ' + table_total.toFixed(2));
 
 
-            let taxPercentage = parseInt('{{ $booking->tax_percentage }}');
+            let taxPercentage = parseFloat('{{ $booking->tax }}');
             let taxAmount = (table_total * taxPercentage) / 100;
             $('#table_tax_amount').text('$ ' + taxAmount.toFixed(2));
 
@@ -474,32 +494,36 @@
 
             let advancePayment = parseFloat('{{ $advanced_payment }}');
             let totalReceivables = table_gross_total - advancePayment;
-            $('#table_total_receivables').text('$ ' + totalReceivables.toFixed(2));
+
+            $('#table_text_total_receivables').html((totalReceivables.toFixed(2) < 0 ? 'Total Payable' :
+                'Total Receivable'));
+            $('#table_total_receivables').text('$ ' + (totalReceivables.toFixed(2) < 0 ? '(' + Math.abs(
+                totalReceivables).toFixed(2) + ')' : totalReceivables.toFixed(2)));
         }
 
     });
 
     function formReset() {
-        $('#booking_store')[0].reset();
+        $('#form_booking_store')[0].reset();
     }
 
-    $('#booking_store').validate({
-        rules: {
-            txt_daily_rate: {
-                required: true
-            },
+    // $('#form_booking_store').validate({
+    //     rules: {
+    //         txt_daily_rate: {
+    //             required: true
+    //         },
 
-        },
-        validClass: "is-valid",
-        errorClass: 'is-invalid',
-        errorElement: "span",
-        // wrapper: "div",
-        // do other things for a valid form
-        submitHandler: function(form) {
-            // Swal.fire('asdasdasdasd');
-            form.submit();
-        }
-    });
+    //     },
+    //     validClass: "is-valid",
+    //     errorClass: 'is-invalid',
+    //     errorElement: "span",
+    //     // wrapper: "div",
+    //     // do other things for a valid form
+    //     submitHandler: function(form) {
+    //         // Swal.fire('asdasdasdasd');
+    //         form.submit();
+    //     }
+    // });
 
     function formSubmit() {
         $('#submitForm').trigger('click');

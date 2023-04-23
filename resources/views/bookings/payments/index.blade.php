@@ -103,8 +103,6 @@
                 },
                 success: function(data) {
                     if (data.status) {
-                        $('#add_booking_' + id).prop('disabled', false);
-
                         $('#' + data.prevModal).modal('hide');
                         $('#' + data.modalPlace).html(data.modal);
                         $('#' + data.currentModal).modal('show');
@@ -112,8 +110,6 @@
                 },
                 error: function(jqXhr, json, errorThrown) {
                     hideBlockUI();
-                    $('#add_booking_' + id).prop('disabled', false);
-
                     var errors = jqXhr.responseJSON;
                     var errorsHtml = '';
 

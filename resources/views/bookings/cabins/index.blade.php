@@ -42,7 +42,7 @@
                                 <div class="row h-100">
                                     <div class="col-6 d-flex justify-content-center align-items-end">
                                         <button class="btn btn-primary text-nowrap" id="apply_filter" type="button">
-                                            <span>See Availablities</span>
+                                            <span>See Availablity</span>
                                         </button>
                                     </div>
                                     <div class="col-6 d-flex justify-content-center align-items-end">
@@ -132,12 +132,6 @@
             onRangeSet: function(range) {
                 $('#booking_date_range').val(range.a.string + ' - ' + range.b.string);
             },
-            onDropdownOpen: function(res) {
-                console.log('focused');
-            },
-            onDropdownExit: function(res) {
-                res.trigger.classList.remove('focused');
-            }
         });
 
         $('#apply_filter').on('click', function() {
