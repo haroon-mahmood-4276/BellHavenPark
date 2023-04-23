@@ -10,6 +10,7 @@ use App\Services\{
 };
 use App\Services\Bookings\BookingInterface;
 use App\Services\PaymentMethods\PaymentMethodInterface;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -50,14 +51,23 @@ class PaymentController extends Controller
             'advanced_payment' => $this->paymentInterface->getAdvancedPaymentBookingId($booking_id),
             'payment_methods' => $this->paymentMethodInterface->getAll(),
         ];
+        $modalData['last_payment_date'] = $this->paymentInterface->getLastPaymentDateByBookingId($booking_id) ?? $modalData['booking']?->booking_from;
 
         if (request()->ajax()) {
+
 
             if ($modalData['booking'] == null) {
                 $data = [
                     'status' => true,
                     'message' => [
                         'error' => 'Booking not found.'
+                    ]
+                ];
+            } elseif (Carbon::parse($modalData['booking']->booking_to)->diffInDays($modalData['last_payment_date']) == 0) {
+                $data = [
+                    'status' => false,
+                    'message' => [
+                        'error' => 'Cannot add more payment'
                     ]
                 ];
             } else {

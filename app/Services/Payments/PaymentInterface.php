@@ -10,6 +10,8 @@ interface PaymentInterface
 
     public function getAdvancedPaymentBookingId($booking_id);
 
+    public function getLastPaymentDateByBookingId($booking_id);
+
     public function store($booking_id, $inputs);
 
     public function update($id, $inputs);

@@ -47,6 +47,12 @@ class PaymentService implements PaymentInterface
         return 0;
     }
 
+    public function getLastPaymentDateByBookingId($booking_id)
+    {
+        $booking_id = decryptParams($booking_id);
+        return Carbon::parse($this->model()->where(['booking_id' => $booking_id, 'type' => PaymentStatus::RECEIVED])->latest('payment_to')->first()?->payment_to);
+    }
+
     public function store($booking_id, $inputs)
     {
         $returnData = 1;
@@ -68,8 +74,8 @@ class PaymentService implements PaymentInterface
             $data = [
                 'booking_id' => $booking_id,
                 'payment_method_id' => $inputs['payment_methods'],
-                'payment_from' => Carbon::parse($inputs['payment_from'])->timestamp,
-                'payment_to' => Carbon::parse($inputs['payment_from'])->timestamp,
+                'payment_from' => Carbon::parse($inputs['payment_from'])->startOfDay()->addSeconds(18000)->timestamp,
+                'payment_to' => Carbon::parse($inputs['payment_to'])->startOfDay()->addSeconds(18000)->timestamp,
                 'credit' => $grossTotal,
                 'debit' => null,
                 'balance' => 0,

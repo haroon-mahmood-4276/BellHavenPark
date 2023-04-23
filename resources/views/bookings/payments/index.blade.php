@@ -106,6 +106,16 @@
                         $('#' + data.prevModal).modal('hide');
                         $('#' + data.modalPlace).html(data.modal);
                         $('#' + data.currentModal).modal('show');
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Danger',
+                            buttonsStyling: false,
+                            customClass: {
+                                confirmButton: 'btn btn-danger waves-effect waves-float waves-light me-1',
+                            },
+                            text: data.message.error,
+                        });
                     }
                 },
                 error: function(jqXhr, json, errorThrown) {

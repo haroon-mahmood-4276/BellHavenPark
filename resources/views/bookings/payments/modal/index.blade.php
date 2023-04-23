@@ -45,16 +45,17 @@
                                     <label class="form-label" style="font-size: 15px" for="payment_from">Payment From
                                         <span class="text-danger">*</span></label>
                                     <input type="text" id="payment_from" class="payment_dates form-control"
-                                        placeholder="Payment From" aria-label="Payment From"
-                                        value="{{ $booking->booking_from->format('F j, Y') }}" name="payment_from" />
+                                        placeholder="Payment From" readonly aria-label="Payment From"
+                                        value="{{ Carbon\Carbon::parse($last_payment_date)->format('F j, Y') }}" name="payment_from" />
                                 </div>
 
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+
                                     <label class="form-label" style="font-size: 15px" for="payment_to">Payment To <span
                                             class="text-danger">*</span></label>
                                     <input type="text" id="payment_to" class="payment_dates form-control"
                                         placeholder="Payment To" aria-label="Payment To"
-                                        value="{{ $booking->booking_from->format('F j, Y') }}" name="payment_to" />
+                                        value="{{ Carbon\Carbon::parse($last_payment_date)->addDay()->format('F j, Y') }}" name="payment_to" />
                                 </div>
                             </div>
 
@@ -412,27 +413,24 @@
 
     new dateDropper({
         // overlay: true,
-        // expandable: true,
         // expandedDefault: true,
-        doubleView: true,
-        expandedOnly: true,
-        selector: '.payment_dates',
+        expandable: true,
+        selector: '#payment_to',
         format: 'MM dd, y',
         startFromMonday: true,
-        minDate: '{{ $booking->booking_from->subDays(1)->toDateString() }}',
+        minDate: '{{ Carbon\Carbon::parse($last_payment_date)->toDateString() }}',
+        defaultDate: '{{ Carbon\Carbon::parse($last_payment_date)->addDay()->toDateString() }}',
         maxDate: '{{ $booking->booking_to->toDateString() }}',
-        defaultDate: '{{ now()->toDateString() }}',
-        range: true,
-        onRangeSet: function(range) {
-            $('#payment_from').val(range.a.string);
-            $('#payment_to').val(range.b.string);
+        onChange: function(res) {
+            $('#payment_to').val(res.output.string);
 
-            let date1 = moment(range.a.string);
-            let date2 = moment(range.b.string);
+            let date1 = moment($('#payment_from').val());
+            let date2 = moment($('#payment_to').val());
+
             let diffInDays = date2.diff(date1, 'days');
 
-            $('#text_days_count').html(diffInDays + 1);
-            $('#days_count').val(diffInDays + 1);
+            $('#text_days_count').html(diffInDays);
+            $('#days_count').val(diffInDays);
 
             $('input[id^="rate_"]:checked').trigger('change');
         },
