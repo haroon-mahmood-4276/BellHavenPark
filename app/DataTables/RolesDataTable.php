@@ -28,10 +28,10 @@ class RolesDataTable extends DataTable
                 return Str::of(getRoleParentByParentId($role->parent_id))->ucfirst();
             })
             ->editColumn('created_at', function ($role) {
-                return editDateColumn($role->created_at);
+                return editDateTimeColumn($role->created_at);
             })
             ->editColumn('updated_at', function ($role) {
-                return editDateColumn($role->updated_at);
+                return editDateTimeColumn($role->updated_at);
             })
             ->editColumn('actions', function ($role) {
                 return view('roles.actions', ['id' => $role->id]);

@@ -67,7 +67,7 @@
 
         @canany(['bookings.index', 'bookings.create'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(),['booking-sources.index', 'booking-sources.create', 'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-bolt menu-icon"></i>
                     <div>Bookings</div>

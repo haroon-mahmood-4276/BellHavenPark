@@ -24,10 +24,10 @@ class InternationalIdsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->editColumn('created_at', function ($international_id) {
-                return editDateColumn($international_id->created_at);
+                return editDateTimeColumn($international_id->created_at);
             })
             ->editColumn('updated_at', function ($international_id) {
-                return editDateColumn($international_id->updated_at);
+                return editDateTimeColumn($international_id->updated_at);
             })
             ->editColumn('actions', function ($international_id) {
                 return view('international-ids.actions', ['id' => $international_id->id]);

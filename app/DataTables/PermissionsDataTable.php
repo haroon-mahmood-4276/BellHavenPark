@@ -40,10 +40,10 @@ class PermissionsDataTable extends DataTable
                 ];
             })
             ->editColumn('created_at', function ($permission) {
-                return editDateColumn($permission->created_at);
+                return editDateTimeColumn($permission->created_at);
             })
             ->editColumn('updated_at', function ($permission) {
-                return editDateColumn($permission->updated_at);
+                return editDateTimeColumn($permission->updated_at);
             })
             ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));

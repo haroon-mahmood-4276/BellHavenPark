@@ -24,10 +24,10 @@ class CabinsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->editColumn('created_at', function ($cabins) {
-                return editDateColumn($cabins->created_at);
+                return editDateTimeColumn($cabins->created_at);
             })
             ->editColumn('updated_at', function ($cabins) {
-                return editDateColumn($cabins->updated_at);
+                return editDateTimeColumn($cabins->updated_at);
             })
             ->editColumn('actions', function ($cabins) {
                 return view('cabins.actions', ['id' => $cabins->id]);

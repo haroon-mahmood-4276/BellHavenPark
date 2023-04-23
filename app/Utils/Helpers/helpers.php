@@ -365,12 +365,30 @@ if (!function_exists('getImageByName')) {
     }
 }
 
-if (!function_exists('editDateColumn')) {
-    function editDateColumn($date)
+if (!function_exists('editDateTimeColumn')) {
+    function editDateTimeColumn($date, $dateFormat = 'Y-m-d', $timeFormat = 'H:i:s')
     {
         $date = new Carbon($date);
 
-        return "<span>" . $date->format('H:i:s') . "</span> <br> <span class='text-primary fw-bold'>" . $date->format('Y-m-d') . "</span>";
+        return "<span>" . $date->format($timeFormat) . "</span> <br> <span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span>";
+    }
+}
+
+if (!function_exists('editTimeColumn')) {
+    function editTimeColumn($date)
+    {
+        $date = new Carbon($date);
+
+        return "<span>" . $date->format('H:i:s') . "</span>";
+    }
+}
+
+if (!function_exists('editDateColumn')) {
+    function editDateColumn($date, $format = 'Y-m-d')
+    {
+        $date = new Carbon($date);
+
+        return "<span class='text-primary fw-bold'>" . $date->format($format) . "</span>";
     }
 }
 

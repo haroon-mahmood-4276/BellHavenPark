@@ -23,20 +23,31 @@ class BookingsDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-
+            ->setRowId('id')
+            ->editColumn('check', function ($booking) {
+                return $booking;
+            })
+            ->editColumn('booking_from', function ($booking) {
+                return editDateColumn($booking->booking_from, 'F j, Y');
+            })
+            ->editColumn('booking_to', function ($booking) {
+                return editDateColumn($booking->booking_to, 'F j, Y');
+            })
+            ->editColumn('check_in_date', function ($booking) {
+                return $booking->check_in_date > 0 ? editDateTimeColumn($booking->check_in_date, 'F j, Y') : '...';
+            })
+            ->editColumn('check_out_date', function ($booking) {
+                return $booking->check_out_date > 0 ? editDateTimeColumn($booking->check_out_date, 'F j, Y') : '...';
+            })
             ->editColumn('created_at', function ($booking) {
-                return editDateColumn($booking->created_at);
+                return editDateTimeColumn($booking->created_at, 'F j, Y');
             })
             ->editColumn('updated_at', function ($booking) {
-                return editDateColumn($booking->updated_at);
+                return editDateTimeColumn($booking->updated_at, 'F j, Y');
             })
             ->editColumn('actions', function ($booking) {
                 return view('bookings.actions', ['id' => $booking->id, 'filter' => $this->filter]);
             })
-            ->editColumn('check', function ($booking) {
-                return $booking;
-            })
-            ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
     }
 
@@ -48,7 +59,7 @@ class BookingsDataTable extends DataTable
      */
     public function query(Booking $model)
     {
-        $modelQuery = $model->newQuery()->with(['customer']);
+        $modelQuery = $model->newQuery()->select('bookings.*')->with(['booking_source', 'customer', 'cabin']);
         if (!is_null($this->filter) && $this->filter == 'checkin') {
             $modelQuery->where('check_in_date', 0);
         }
@@ -115,25 +126,25 @@ class BookingsDataTable extends DataTable
             ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
             // ->rowGroupDataSrc('parent_id')
-            ->columnDefs([
-                [
-                    'targets' => 0,
-                    'className' => 'text-center text-primary',
-                    'width' => '10%',
-                    'orderable' => false,
-                    'searchable' => false,
-                    'responsivePriority' => 3,
-                    'render' => "function (data, type, full, setting) {
-                        var role = JSON.parse(data);
-                        return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
-                    }",
-                    'checkboxes' => [
-                        'selectAllRender' =>  '<div class="form-check"> <input class="form-check-input" onchange="changeAllTableRowColor()" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>',
-                    ]
-                ],
-            ])
+            // ->columnDefs([
+            //     [
+            //         'targets' => 0,
+            //         'className' => 'text-center text-primary',
+            //         'width' => '10%',
+            //         'orderable' => false,
+            //         'searchable' => false,
+            //         'responsivePriority' => 3,
+            //         'render' => "function (data, type, full, setting) {
+            //             var role = JSON.parse(data);
+            //             return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
+            //         }",
+            //         'checkboxes' => [
+            //             'selectAllRender' =>  '<div class="form-check"> <input class="form-check-input" onchange="changeAllTableRowColor()" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>',
+            //         ]
+            //     ],
+            // ])
             ->orders([
-                [3, 'asc'],
+                [0, 'asc'],
             ]);
     }
 
@@ -144,19 +155,30 @@ class BookingsDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowarp');
+        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle');
 
         if (auth()->user()->can('bookings.destroy')) {
             $checkColumn->addClass('disabled');
         }
 
         $columns = [
-            $checkColumn,
-            Column::make('booking_number')->title('ID')->addClass('text-nowarp'),
-            Column::make('customer.name')->addClass('text-nowarp'),
-            Column::make('created_at')->addClass('text-nowarp'),
-            Column::make('updated_at')->addClass('text-nowarp'),
-            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
+            // $checkColumn,
+            Column::make('booking_number')->title('ID')->addClass('text-nowrap text-center align-middle'),
+
+            Column::make('customer.name')->title('Customer')->addClass('text-nowrap text-center align-middle'),
+            Column::make('cabin.name')->title('Cabin')->addClass('text-nowrap text-center align-middle'),
+
+            Column::make('booking_from')->addClass('text-nowrap text-center align-middle'),
+            Column::make('booking_to')->addClass('text-nowrap text-center align-middle'),
+
+            Column::make('check_in_date')->addClass('text-nowrap text-center align-middle'),
+            Column::make('check_out_date')->addClass('text-nowrap text-center align-middle'),
+
+            Column::make('booking_source.name')->title('Booking Source')->addClass('text-nowrap text-center align-middle'),
+
+            Column::make('created_at')->addClass('text-nowrap text-center align-middle'),
+            Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
+            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];
         return $columns;
     }

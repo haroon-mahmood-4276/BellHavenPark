@@ -34,10 +34,10 @@ class BookingCabinsDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->editColumn('created_at', function ($cabin) {
-                return editDateColumn($cabin->created_at);
+                return editDateTimeColumn($cabin->created_at);
             })
             ->editColumn('updated_at', function ($cabin) {
-                return editDateColumn($cabin->updated_at);
+                return editDateTimeColumn($cabin->updated_at);
             })
             ->editColumn('actions', function ($cabin) {
                 return view('bookings.cabins.actions', ['id' => $cabin->id]);

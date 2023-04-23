@@ -24,10 +24,10 @@ class BookingSourcesDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->editColumn('created_at', function ($bookingSource) {
-                return editDateColumn($bookingSource->created_at);
+                return editDateTimeColumn($bookingSource->created_at);
             })
             ->editColumn('updated_at', function ($bookingSource) {
-                return editDateColumn($bookingSource->updated_at);
+                return editDateTimeColumn($bookingSource->updated_at);
             })
             ->editColumn('actions', function ($bookingSource) {
                 return view('booking-sources.actions', ['id' => $bookingSource->id]);
@@ -136,7 +136,7 @@ class BookingSourcesDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowarp');
+        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle');
 
         if (auth()->user()->can('booking-sources.destroy')) {
             $checkColumn->addClass('disabled');
@@ -144,10 +144,11 @@ class BookingSourcesDataTable extends DataTable
 
         $columns = [
             $checkColumn,
-            Column::make('name')->title('Booking Source')->addClass('text-nowarp'),
-            Column::make('created_at')->addClass('text-nowarp'),
-            Column::make('updated_at')->addClass('text-nowarp'),
-            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
+            Column::make('name')->addClass('text-nowrap text-center align-middle'),
+            Column::make('description')->addClass('text-nowrap text-center align-middle'),
+            Column::make('created_at')->addClass('text-nowrap text-center align-middle'),
+            Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
+            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];
         return $columns;
     }

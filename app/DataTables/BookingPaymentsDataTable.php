@@ -42,10 +42,10 @@ class BookingPaymentsDataTable extends DataTable
                 return $comments->length() > 0 ? Str::of($bookingPayment->comments)->words(10) : '-';
             })
             ->editColumn('created_at', function ($payment) {
-                return editDateColumn($payment->created_at);
+                return editDateTimeColumn($payment->created_at);
             })
             ->editColumn('updated_at', function ($payment) {
-                return editDateColumn($payment->updated_at);
+                return editDateTimeColumn($payment->updated_at);
             })
             // ->editColumn('actions', function ($payment) {
             //     return view('bookings.actions', ['id' => $payment->id]);

@@ -25,10 +25,10 @@ class PaymentMethodsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->editColumn('created_at', function ($payment_method) {
-                return editDateColumn($payment_method->created_at);
+                return editDateTimeColumn($payment_method->created_at);
             })
             ->editColumn('updated_at', function ($payment_method) {
-                return editDateColumn($payment_method->updated_at);
+                return editDateTimeColumn($payment_method->updated_at);
             })
             ->editColumn('actions', function ($payment_method) {
                 return view('payment-methods.actions', ['id' => $payment_method->id]);
