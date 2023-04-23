@@ -33,7 +33,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <h6 class="fw-normal mb-2">Total 4 users</h6>
+                            <h6 class="fw-normal mb-2">Total {{ $role->users_count }} users</h6>
                             <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
                                 <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
                                     title="Vinnie Mostowy" class="avatar avatar-sm pull-up">
@@ -66,8 +66,7 @@
                         <div class="d-flex justify-content-between align-items-end mt-1">
                             <div class="role-heading">
                                 <h4 class="mb-1">{{ $role->name }}</h4>
-                                <a href="{{ route('roles.edit', ['id' => $role->id]) }}"
-                                    class="role-edit-modal"><span>Edit Role</span></a>
+
                             </div>
                             {{-- <a href="javascript:void(0);" class="text-muted"><i class="ti ti-copy ti-md"></i></a> --}}
                         </div>

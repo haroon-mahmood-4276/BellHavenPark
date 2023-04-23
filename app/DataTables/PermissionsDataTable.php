@@ -99,7 +99,6 @@ class PermissionsDataTable extends DataTable
             ->addTableClass('table-borderless table-striped table-hover class-datatable-for-event')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            // ->stateSave()
             ->serverSide()
             ->processing()
             ->deferRender()
@@ -111,7 +110,6 @@ class PermissionsDataTable extends DataTable
             ])
             ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
-            ->rowGroupDataSrc('class')
             ->scrollX()
             ->orders([
                 [1, 'asc'],
@@ -127,7 +125,7 @@ class PermissionsDataTable extends DataTable
     {
         $currentAuthRoles = auth()->user()->roles;
         $roles = getLinkedTreeData(new Role(), $currentAuthRoles->pluck('id'));
-        $roles = array_merge($currentAuthRoles->toArray(), $roles); // Add current role to the list
+        // $roles = array_merge($currentAuthRoles->toArray(), $roles); // Add current role to the list
         unset($roles[0]['pivot']);
 
         $colArray = [

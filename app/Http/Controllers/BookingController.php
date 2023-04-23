@@ -152,11 +152,8 @@ class BookingController extends Controller
 
     public function calenderView(Request $request)
     {
-        if (!request()->ajax()) {
+        abort_if(!request()->ajax(), 403);
 
-            return view('bookings.calender');
-        } else {
-            abort(403);
-        }
+        return view('bookings.calender.index');
     }
 }

@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/animate-css/animate.css" />
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/sweetalert2/sweetalert2.css" />
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/toastr/toastr.css" />
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/flatpickr/flatpickr.css" />
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/load-awesome/fire.min.css">
     @yield('page-vendor')
@@ -53,6 +54,13 @@
     {{-- <script src="{{ asset('assets') }}/vendor/js/template-customizer.min.js"></script> --}}
     <script src="{{ asset('assets') }}/js/config.js"></script>
     @yield('page-css')
+    <style>
+        .dataTables_scroll {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+    </style>
 
     @yield('custom-css')
 </head>
@@ -118,6 +126,7 @@
     <!-- Vendors JS -->
     <script src="{{ asset('assets') }}/vendor/libs/sweetalert2/sweetalert2.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/select2/select2.js"></script>
+    <script src="{{ asset('assets') }}/vendor/libs/toastr/toastr.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/moment/moment.min.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/moment/moment-timezone.min.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/flatpickr/flatpickr.js"></script>

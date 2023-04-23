@@ -34,7 +34,8 @@ class RolesDataTable extends DataTable
                 return editDateTimeColumn($role->updated_at);
             })
             ->editColumn('actions', function ($role) {
-                return view('roles.actions', ['id' => $role->id]);
+                if ($role->name != 'Admin')
+                    return view('roles.actions', ['id' => $role->id]);
             })
             ->editColumn('check', function ($role) {
                 return $role;
@@ -120,7 +121,10 @@ class RolesDataTable extends DataTable
                     'responsivePriority' => 3,
                     'render' => "function (data, type, full, setting) {
                         var role = JSON.parse(data);
-                        return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
+                        if(role.name != 'Admin') {
+                            return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
+                        }
+                        return null;
                     }",
                     'checkboxes' => [
                         'selectAllRender' =>  '<div class="form-check"> <input class="form-check-input" onchange="changeAllTableRowColor()" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>',
