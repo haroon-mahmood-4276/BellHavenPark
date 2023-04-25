@@ -15,6 +15,7 @@ jobs:
           host: 110.174.120.22
           username: bellhaven
           key: ${{ secrets.IYESERVERSSH }}
+          passphrase: ${{ secrets.SSHKEYPASSWORD }}
           script: |
             cd /var/www/bellhavenpark.com.au
             git branch
