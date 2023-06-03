@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Laravel Deployment
-        if: ${{ failure() }}
-        run: echo "DEPLOY_STATE=failed" >> $GITHUB_ENV
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: 110.174.120.22
@@ -31,10 +29,15 @@ jobs:
             php artisan route:clear
             php artisan view:clear
             php artisan up
-  update-jira-deployment-info:
-    runs-on: ubuntu-latest
-    needs: laravel-deployment
-    steps:
+      - name: Deploy to Prod
+        run: |
+          echo "github.event_name: ${{github.event_name}}"
+          echo "github.ref: ${{github.ref}}"
+          echo "DEPLOY_STATE=successful" >> $GITHUB_ENV
+          echo "Deploying to Prod..."
+      - name: Failed Deployment
+        if: failure()
+        run: echo "DEPLOY_STATE=failed" >> $GITHUB_ENV
       - name: Update Jira Deployment Information
         uses: HighwayThree/jira-upload-deployment-info@master
         with:
@@ -43,10 +46,11 @@ jobs:
           cloud-instance-base-url: '${{ secrets.BHP_CLOUD_INSTANCE_BASE_URL }}'
           issue-keys: "${{ steps.jira_keys.outputs.jira-keys }}"
           display-name: "Deployment Number ${{ github.GITHUB_RUN_NUMBER }} }}"
-          description: "Test Deployment"
+          description: "Prod Deployment"
+          url: "${{github.event.repository.url}}/actions/runs/${{github.run_id}}"
           last-updated: '${{github.event.head_commit.timestamp}}'
           label: 'Test Deployment Label'
           state: '${{env.DEPLOY_STATE}}'
-          environment-id: '${{ inputs.ENVIRONMENT_KEY }} }}'
-          environment-display-name: '${{ inputs.ENVIRONMENT_NAME }}'
-          environment-type: '${{ vars.ENVIRONMENT_STAGE }}'
+          environment-id: 'Prod'
+          environment-display-name: 'Prod'
+          environment-type: 'production'
