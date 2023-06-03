@@ -11,6 +11,11 @@ jobs:
     steps:
       - name: Laravel Deployment
         uses: appleboy/ssh-action@v0.1.9
+        run: |
+          echo "github.event_name: ${{github.event_name}}"
+          echo "github.ref: ${{github.ref}}"
+          echo "DEPLOY_STATE=successful" >> $GITHUB_ENV
+          echo "Deploying to Prod..."
         with:
           host: 110.174.120.22
           username: bellhaven
@@ -29,16 +34,26 @@ jobs:
             php artisan route:clear
             php artisan view:clear
             php artisan up
-      - name: Deploy to Prod
-        run: |
-          echo "github.event_name: ${{github.event_name}}"
-          echo "github.ref: ${{github.ref}}"
-          echo "DEPLOY_STATE=successful" >> $GITHUB_ENV
-          echo "Deploying to Prod..."
       - name: Failed Deployment
         if: failure()
         run: echo "DEPLOY_STATE=failed" >> $GITHUB_ENV
+      - name: Parse Jira Keys from All Commits
+        id: jira_keys
+        if: always()
+        uses: HighwayThree/jira-extract-issue-keys@master
+        with:
+          is-pull-request: ${{ github.event_name == 'pull_request' }}
+          parse-all-commits: ${{ github.event_name == 'push' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Confirm Deploy State and Jira Key Values
+        if: always()
+        run: |
+          echo "DEPLOY_STATE: ${{env.DEPLOY_STATE}}"
+          echo "Jira Keys: ${{steps.jira_keys.outputs.jira-keys}}"
       - name: Update Jira Deployment Information
+        if: steps.jira_keys.outputs.jira-keys != ''
+        id: push_deployment_info_to_jira
         uses: HighwayThree/jira-upload-deployment-info@master
         with:
           client-id: '${{ secrets.BHP_CLIENT_ID }}'
