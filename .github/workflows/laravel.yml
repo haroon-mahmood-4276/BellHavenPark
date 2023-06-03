@@ -9,13 +9,53 @@ jobs:
     name: Laravel-Deploy
     runs-on: ubuntu-latest
     steps:
+
+      - name: Parse Jira Keys from All Commits
+        id: jira_keys
+        if: always()
+        uses: HighwayThree/jira-extract-issue-keys@v0.3-alpha
+        with:
+          is-pull-request: ${{ github.event_name == 'pull_request' }}
+          parse-all-commits: ${{ github.event_name == 'push' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Confirm Deploy State and Jira Key Values
+        if: always()
+        run: |
+          echo "DEPLOY_STATE: ${{env.DEPLOY_STATE}}"
+          echo "Jira Keys: ${{steps.jira_keys.outputs.jira-keys}}"
+
+      - name: PreProcessing before deployment
+        if: always()
+        run: echo "DEPLOY_STATE=in_porgress" >> $GITHUB_ENV
+
+      - name: Update Jira Deployment Information
+        if: always() && steps.jira_keys.outputs.jira-keys != ''
+        uses: HighwayThree/jira-upload-deployment-info@v0.1-alpha
+        with:
+          client-id: '${{ secrets.CLIENT_ID }}'
+          client-secret: '${{ secrets.CLIENT_SECRET }}'
+          cloud-instance-base-url: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
+          issue-keys: "${{ steps.jira_keys.outputs.jira-keys }}"
+          display-name: "${{ github.run_number }}"
+          description: "Prod Deployment"
+          url: "${{github.event.repository.url}}/actions/runs/${{github.run_id}}"
+          last-updated: '${{github.event.head_commit.timestamp}}'
+          label: 'Test Deployment Label'
+          state: '${{env.DEPLOY_STATE}}'
+          environment-id: 'Prod'
+          environment-display-name: 'Production'
+          environment-type: 'production'
+
+
       - name: Laravel Deployment
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_KEY_PASSSPHRASE }}
+          passphrase: ${{ secrets.SSH_KEY_PASSPHRASE }}
           script: |
             cd /var/www/bellhavenpark.com.au
             php artisan down
@@ -29,32 +69,20 @@ jobs:
             php artisan route:clear
             php artisan view:clear
             php artisan up
+
       - name: Deploy to Prod
         run: |
           echo "github.event_name: ${{github.event_name}}"
           echo "github.ref: ${{github.ref}}"
           echo "DEPLOY_STATE=successful" >> $GITHUB_ENV
           echo "Deploying to Prod..."
+
       - name: Failed Deployment
         if: failure()
         run: echo "DEPLOY_STATE=failed" >> $GITHUB_ENV
-      - name: Parse Jira Keys from All Commits
-        id: jira_keys
-        if: always()
-        uses: HighwayThree/jira-extract-issue-keys@v0.3-alpha
-        with:
-          is-pull-request: ${{ github.event_name == 'pull_request' }}
-          parse-all-commits: ${{ github.event_name == 'push' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Confirm Deploy State and Jira Key Values
-        if: always()
-        run: |
-          echo "DEPLOY_STATE: ${{env.DEPLOY_STATE}}"
-          echo "Jira Keys: ${{steps.jira_keys.outputs.jira-keys}}"
+
       - name: Update Jira Deployment Information
         if: always() && steps.jira_keys.outputs.jira-keys != ''
-        id: push_deployment_info_to_jira
         uses: HighwayThree/jira-upload-deployment-info@v0.1-alpha
         with:
           client-id: '${{ secrets.CLIENT_ID }}'
