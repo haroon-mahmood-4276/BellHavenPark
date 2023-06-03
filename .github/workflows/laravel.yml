@@ -9,7 +9,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: laravel deployment
+      - name: Laravel Deployment
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: 110.174.120.22
