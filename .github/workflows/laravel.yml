@@ -30,6 +30,7 @@ jobs:
             php artisan view:clear
             php artisan up
   update-jira-deployment-info:
+    runs-on: ubuntu-latest
     needs: laravel-deployment
     steps:
       - name: Update Jira Deployment Information
