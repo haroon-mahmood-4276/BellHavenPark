@@ -18,9 +18,14 @@ jobs:
           passphrase: ${{ secrets.SSHKEYPASSWORD }}
           script: |
             cd /var/www/bellhavenpark.com.au
+            php artisan down
             git branch
             git reset --hard
             git checkout main
             git pull "https://${{ secrets.GB_USERNAME }}:${{ secrets.GB_ACCESSTOKEN }}@github.com/haroon-mahmood-4276/BellHavenPark.git" main
             php artisan optimize:clear
             php artisan cache:clear
+            php artisan config:clear
+            php artisan route:clear
+            php artisan view:clear
+            php artisan up
