@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  laravel-deployment:
+  deploy:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
