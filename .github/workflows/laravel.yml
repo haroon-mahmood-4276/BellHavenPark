@@ -10,12 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Laravel Deployment
+        continue-on-error: true
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_KEY_PASSPHRASE }}
+          passphrase: ${{ secrets.SSH_KEY_PASSSPHRASE }}
           script: |
             cd /var/www/bellhavenpark.com.au
             php artisan down
