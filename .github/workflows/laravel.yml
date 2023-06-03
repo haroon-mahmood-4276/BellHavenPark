@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Laravel Deployment
+        if: ${{ failure() }}
+        run: echo "DEPLOY_STATE=failed" >> $GITHUB_ENV
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: 110.174.120.22
