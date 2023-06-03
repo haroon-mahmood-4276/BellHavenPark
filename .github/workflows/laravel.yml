@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Laravel Deployment
-        continue-on-error: true
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.SSH_HOST }}
