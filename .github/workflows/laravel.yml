@@ -34,6 +34,12 @@ jobs:
             php artisan route:clear
             php artisan view:clear
             php artisan up
+      - name: Deploy to Prod
+        run: |
+          echo "github.event_name: ${{github.event_name}}"
+          echo "github.ref: ${{github.ref}}"
+          echo "DEPLOY_STATE=successful" >> $GITHUB_ENV
+          echo "Deploying to Prod..."
       - name: Failed Deployment
         if: failure()
         run: echo "DEPLOY_STATE=failed" >> $GITHUB_ENV
