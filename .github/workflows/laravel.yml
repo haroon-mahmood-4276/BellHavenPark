@@ -68,5 +68,5 @@ jobs:
           label: 'Test Deployment Label'
           state: '${{env.DEPLOY_STATE}}'
           environment-id: 'Prod'
-          environment-display-name: 'Prod'
+          environment-display-name: 'Production'
           environment-type: 'production'
