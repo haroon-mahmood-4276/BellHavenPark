@@ -12,9 +12,9 @@ jobs:
       - name: Laravel Deployment
         uses: appleboy/ssh-action@v0.1.9
         with:
-          host: 110.174.120.22
-          username: bellhaven
-          key: ${{ secrets.IYESERVERSSH }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSHKEYPASSWORD }}
           script: |
             cd /var/www/bellhavenpark.com.au
@@ -41,7 +41,7 @@ jobs:
       - name: Parse Jira Keys from All Commits
         id: jira_keys
         if: always()
-        uses: HighwayThree/jira-extract-issue-keys@master
+        uses: HighwayThree/jira-extract-issue-keys@v0.3-alpha
         with:
           is-pull-request: ${{ github.event_name == 'pull_request' }}
           parse-all-commits: ${{ github.event_name == 'push' }}
@@ -57,9 +57,9 @@ jobs:
         id: push_deployment_info_to_jira
         uses: HighwayThree/jira-upload-deployment-info@v0.1-alpha
         with:
-          client-id: '${{ secrets.BHP_CLIENT_ID }}'
-          client-secret: '${{ secrets.BHP_CLIENT_SECRET }}'
-          cloud-instance-base-url: '${{ secrets.BHP_CLOUD_INSTANCE_BASE_URL }}'
+          client-id: '${{ secrets.CLIENT_ID }}'
+          client-secret: '${{ secrets.CLIENT_SECRET }}'
+          cloud-instance-base-url: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
           issue-keys: "${{ steps.jira_keys.outputs.jira-keys }}"
           display-name: "${{ github.run_number }}"
           description: "Prod Deployment"
