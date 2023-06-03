@@ -61,7 +61,7 @@ jobs:
           client-secret: '${{ secrets.BHP_CLIENT_SECRET }}'
           cloud-instance-base-url: '${{ secrets.BHP_CLOUD_INSTANCE_BASE_URL }}'
           issue-keys: "${{ steps.jira_keys.outputs.jira-keys }}"
-          display-name: "Deployment Number ${{ github.run_id }}"
+          display-name: "${{ github.run_id }}"
           description: "Prod Deployment"
           url: "${{github.event.repository.url}}/actions/runs/${{github.run_id}}"
           last-updated: '${{github.event.head_commit.timestamp}}'
