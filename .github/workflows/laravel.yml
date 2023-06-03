@@ -5,8 +5,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  deploy:
-    name: Deploy
+  laravel-deployment:
+    name: Laravel-Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Laravel Deployment
@@ -29,3 +29,21 @@ jobs:
             php artisan route:clear
             php artisan view:clear
             php artisan up
+  update-jira-deployment-info:
+    needs: laravel-deployment
+    steps:
+      - name: Update Jira Deployment Information
+        uses: HighwayThree/jira-upload-deployment-info@master
+        with:
+          client-id: '${{ secrets.BHP_CLIENT_ID }}'
+          client-secret: '${{ secrets.BHP_CLIENT_SECRET }}'
+          cloud-instance-base-url: '${{ secrets.BHP_CLOUD_INSTANCE_BASE_URL }}'
+          issue-keys: "${{ steps.jira_keys.outputs.jira-keys }}"
+          display-name: "Deployment Number ${{ github.GITHUB_RUN_NUMBER }} }}"
+          description: "Test Deployment"
+          last-updated: '${{github.event.head_commit.timestamp}}'
+          label: 'Test Deployment Label'
+          state: '${{env.DEPLOY_STATE}}'
+          environment-id: '${{ inputs.ENVIRONMENT_KEY }} }}'
+          environment-display-name: '${{ inputs.ENVIRONMENT_NAME }}'
+          environment-type: '${{ vars.ENVIRONMENT_STAGE }}'
