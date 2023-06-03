@@ -11,11 +11,6 @@ jobs:
     steps:
       - name: Laravel Deployment
         uses: appleboy/ssh-action@v0.1.9
-        run: |
-          echo "github.event_name: ${{github.event_name}}"
-          echo "github.ref: ${{github.ref}}"
-          echo "DEPLOY_STATE=successful" >> $GITHUB_ENV
-          echo "Deploying to Prod..."
         with:
           host: 110.174.120.22
           username: bellhaven
