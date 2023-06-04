@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests\BookingSources;
+namespace App\Http\Requests\Bookings;
 
-use App\Models\BookingSource;
+use App\Models\Booking;
 use Illuminate\Foundation\Http\FormRequest;
 
 class updateRequest extends FormRequest
@@ -24,6 +24,6 @@ class updateRequest extends FormRequest
      */
     public function rules()
     {
-        return (new BookingSource())->rules;
+        return (new Booking())->rules;
     }
 }
