@@ -194,9 +194,6 @@ return [
         Yajra\DataTables\FractalServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        HaroonMahmood4276\LaravelCommandsHistory\CommandHistoryServiceProvider::class,
-        HaroonMahmood4276\LaravelCommandsHistory\CommandEventServiceProvider::class,
-        HaroonMahmood4276\LaravelServicePattern\PatternServiceProvider::class,
         PrettyRoutes\ServiceProvider::class,
 
         /*
