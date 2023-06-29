@@ -24,9 +24,6 @@ class PaymentMethodsDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->editColumn('created_at', function ($payment_method) {
-                return editDateTimeColumn($payment_method->created_at);
-            })
             ->editColumn('updated_at', function ($payment_method) {
                 return editDateTimeColumn($payment_method->updated_at);
             })
@@ -108,6 +105,10 @@ class PaymentMethodsDataTable extends DataTable
             ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
             // ->rowGroupDataSrc('parent_id')
+            ->fixedColumns([
+                'left' => 0,
+                'right' => 1,
+            ])
             ->columnDefs([
                 [
                     'targets' => 0,
@@ -146,7 +147,6 @@ class PaymentMethodsDataTable extends DataTable
         $columns = [
             $checkColumn,
             Column::make('name')->title('Payment Method')->addClass('text-nowarp'),
-            Column::make('created_at')->addClass('text-nowarp'),
             Column::make('updated_at')->addClass('text-nowarp'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
         ];

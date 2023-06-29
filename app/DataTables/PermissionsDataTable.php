@@ -29,9 +29,6 @@ class PermissionsDataTable extends DataTable
                     'roles' => $permission->roles->pluck('id')->toArray()
                 ];
             })
-            ->editColumn('created_at', function ($permission) {
-                return editDateColumn($permission->created_at);
-            })
             ->editColumn('updated_at', function ($permission) {
                 return editDateColumn($permission->updated_at);
             })
@@ -111,6 +108,10 @@ class PermissionsDataTable extends DataTable
             ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
             ->scrollX()
+            ->fixedColumns([
+                'left' => 2,
+                'right' => 0,
+            ])
             ->orders([
                 [1, 'asc'],
             ]);

@@ -9,6 +9,7 @@
 <script src="{{ asset('assets') }}/vendor/libs/datatables/datatables-rowgroup/datatables.rowgroup.js"></script>
 <script src="{{ asset('assets') }}/vendor/libs/datatables/datatables-rowgroup-bs5/rowgroup.bootstrap5.js"></script>
 <script src="{{ asset('assets') }}/vendor/libs/datatables/datatables-checkboxes-jquery/datatables.checkboxes.js"></script>
+<script src="{{ asset('assets') }}/vendor/libs/datatables/datatables-fixedcolumns/datatables.fixedcolumns.js"></script>
 {{-- <script src="{{ asset('assets') }}/vendor/libs/datatables/datatables-select/datatables-select.js"></script>
 <script src="{{ asset('assets') }}/vendor/libs/datatables/datatables-select-bs5/select.bootstrap5.js"></script> --}}
 

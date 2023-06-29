@@ -27,9 +27,6 @@ class RolesDataTable extends DataTable
             ->editColumn('parent_id', function ($role) {
                 return Str::of(getRoleParentByParentId($role->parent_id))->ucfirst();
             })
-            ->editColumn('created_at', function ($role) {
-                return editDateTimeColumn($role->created_at);
-            })
             ->editColumn('updated_at', function ($role) {
                 return editDateTimeColumn($role->updated_at);
             })
@@ -134,6 +131,10 @@ class RolesDataTable extends DataTable
             ->select([
                 'style' => 'multi',
             ])
+            ->fixedColumns([
+                'left' => 0,
+                'right' => 1,
+            ])
             ->orders([
                 [1, 'asc'],
             ]);
@@ -156,7 +157,6 @@ class RolesDataTable extends DataTable
             $checkColumn,
             Column::make('name')->title('Role Name'),
             Column::make('parent_id')->title('Parent'),
-            Column::make('created_at'),
             Column::make('updated_at'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center'),
         ];

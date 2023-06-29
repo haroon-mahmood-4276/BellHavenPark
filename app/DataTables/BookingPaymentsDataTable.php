@@ -41,9 +41,6 @@ class BookingPaymentsDataTable extends DataTable
                 $comments = Str::of($bookingPayment->comments);
                 return $comments->length() > 0 ? Str::of($bookingPayment->comments)->words(10) : '-';
             })
-            ->editColumn('created_at', function ($payment) {
-                return editDateTimeColumn($payment->created_at);
-            })
             ->editColumn('updated_at', function ($payment) {
                 return editDateTimeColumn($payment->updated_at);
             })
@@ -162,7 +159,7 @@ class BookingPaymentsDataTable extends DataTable
             Column::make('credit')->title('Credit')->addClass('text-nowarp align-middle'),
             Column::make('type')->title('Type')->addClass('text-nowarp align-middle'),
             Column::make('comments')->title('Comments')->addClass('text-nowarp align-middle'),
-            Column::make('created_at')->addClass('text-center text-nowarp align-middle'),
+
             Column::make('updated_at')->addClass('text-center text-nowarp align-middle'),
         ];
         // Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),

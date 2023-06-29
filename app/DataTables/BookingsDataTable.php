@@ -39,9 +39,6 @@ class BookingsDataTable extends DataTable
             ->editColumn('check_out_date', function ($booking) {
                 return $booking->check_out_date > 0 ? editDateTimeColumn($booking->check_out_date, 'F j, Y') : '...';
             })
-            ->editColumn('created_at', function ($booking) {
-                return editDateTimeColumn($booking->created_at, 'F j, Y');
-            })
             ->editColumn('updated_at', function ($booking) {
                 return editDateTimeColumn($booking->updated_at, 'F j, Y');
             })
@@ -125,6 +122,10 @@ class BookingsDataTable extends DataTable
             ])
             ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
+            ->fixedColumns([
+                'left' => 0,
+                'right' => 1,
+            ])
             // ->rowGroupDataSrc('parent_id')
             // ->columnDefs([
             //     [
@@ -176,7 +177,6 @@ class BookingsDataTable extends DataTable
 
             Column::make('booking_source.name')->title('Booking Source')->addClass('text-nowrap text-center align-middle'),
 
-            Column::make('created_at')->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];

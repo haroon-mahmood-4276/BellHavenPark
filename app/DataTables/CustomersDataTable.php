@@ -128,6 +128,10 @@ class CustomersDataTable extends DataTable
                     ]
                 ],
             ])
+            ->fixedColumns([
+                'left' => 0,
+                'right' => 1,
+            ])
             ->orders([
                 [3, 'asc'],
             ]);

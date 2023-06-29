@@ -23,9 +23,6 @@ class CabinsDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->editColumn('created_at', function ($cabins) {
-                return editDateTimeColumn($cabins->created_at);
-            })
             ->editColumn('updated_at', function ($cabins) {
                 return editDateTimeColumn($cabins->updated_at);
             })
@@ -124,6 +121,10 @@ class CabinsDataTable extends DataTable
                     ]
                 ],
             ])
+            ->fixedColumns([
+                'left' => 0,
+                'right' => 1,
+            ])
             ->orders([
                 [3, 'asc'],
             ]);
@@ -145,7 +146,7 @@ class CabinsDataTable extends DataTable
         $columns = [
             $checkColumn,
             Column::make('name')->title('Cabins')->addClass('text-nowarp'),
-            Column::make('created_at')->addClass('text-nowarp'),
+
             Column::make('updated_at')->addClass('text-nowarp'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
         ];
