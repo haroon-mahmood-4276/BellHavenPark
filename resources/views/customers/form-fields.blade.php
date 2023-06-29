@@ -215,34 +215,56 @@
 
                         @forelse ($customer->tenants ?? [] as $tenant)
                             <div data-repeater-item>
-                                <div class="row">
-                                    <div class="col-xl-4 col-lg-6 col-12 position-relative">
-                                        <label class="form-label" style="font-size: 15px" for="tenant_name">Tenant
+                                <div class="row mb-3">
+                                    <div class="col-xl-6 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px"
+                                            for="tenant_first_name">Tenant First
                                             Name
                                             <span class="text-danger">*</span></label>
                                         <input type="text"
-                                            class="form-control @error('tenant_name') is-invalid @enderror"
-                                            id="tenant_name" name="tenants[{{ $loop->index }}][tenant_name]" placeholder="Tenant Name"
-                                            value="{{ $tenant['tenant_name'] }}" minlength="3" maxlength="50" />
+                                            class="form-control @error('tenant_first_name') is-invalid @enderror"
+                                            id="tenant_first_name"
+                                            name="tenants[{{ $loop->index }}][tenant_first_name]"
+                                            placeholder="Tenant First Name"
+                                            value="{{ $tenant['tenant_first_name'] ?? '' }}" minlength="3"
+                                            maxlength="50" />
                                     </div>
-                                    <div class="col-xl-3 col-lg-6 col-12 position-relative">
+                                    <div class="col-xl-6 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px"
+                                            for="tenant_last_name">Tenant Last
+                                            Name
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_last_name') is-invalid @enderror"
+                                            id="tenant_last_name"
+                                            name="tenants[{{ $loop->index }}][tenant_last_name]"
+                                            placeholder="Tenant Last Name" value="{{ $tenant['tenant_last_name'] ?? '' }}"
+                                            minlength="3" maxlength="50" />
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-5 col-lg-6 col-12 position-relative">
                                         <label class="form-label" style="font-size: 15px" for="tenant_phone">Tenant
                                             Mobile
                                             <span class="text-danger">*</span></label>
                                         <input type="text"
                                             class="form-control @error('tenant_phone') is-invalid @enderror"
-                                            id="tenant_phone" name="tenants[{{ $loop->index }}][tenant_phone]" placeholder="Tenant Mobile"
-                                            value="{{ $tenant['tenant_phone'] }}" min="1" max="20"
+                                            id="tenant_phone" name="tenants[{{ $loop->index }}][tenant_phone]"
+                                            placeholder="Tenant Mobile" value="{{ $tenant['tenant_phone'] }}"
+                                            min="1" max="20"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
                                     </div>
-                                    <div class="col-xl-3 col-lg-6 col-12 position-relative">
+                                    <div class="col-xl-5 col-lg-6 col-12 position-relative">
                                         <label class="form-label" style="font-size: 15px" for="tenant_dob">Date of
                                             birth <span class="text-danger">*</span></label>
                                         <input type="text"
                                             class="form-control @error('tenant_dob') is-invalid @enderror"
-                                            id="tenant_dob" name="tenants[{{ $loop->index }}][tenant_dob]" placeholder="Date of birth"
-                                            value="{{ Carbon\Carbon::parse($tenant['tenant_dob'])->format('F j, Y') }}" minlength="3"
-                                            maxlength="50" />
+                                            id="tenant_dob" name="tenants[{{ $loop->index }}][tenant_dob]"
+                                            placeholder="Date of birth"
+                                            value="{{ Carbon\Carbon::parse($tenant['tenant_dob'])->format('F j, Y') }}"
+                                            minlength="3" maxlength="50" />
                                     </div>
                                     <div class="col-xl-2 col-lg-12 col-12 d-flex align-items-center">
                                         <button class="btn btn-label-danger mt-4" type="button" data-repeater-delete>
@@ -255,17 +277,30 @@
                             </div>
                         @empty
                             <div data-repeater-item>
-                                <div class="row">
-                                    <div class="col-xl-4 col-lg-6 col-12 position-relative">
-                                        <label class="form-label" style="font-size: 15px" for="tenant_name">Tenant
+                                <div class="row mb-3">
+                                    <div class="col-xl-6 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px"
+                                            for="tenant_first_name">Tenant First
                                             Name
                                             <span class="text-danger">*</span></label>
                                         <input type="text"
-                                            class="form-control @error('tenant_name') is-invalid @enderror"
-                                            id="tenant_name" name="tenant_name" placeholder="Tenant Name"
-                                            minlength="3" maxlength="50" />
+                                            class="form-control @error('tenant_first_name') is-invalid @enderror"
+                                            id="tenant_first_name" name="tenant_first_name"
+                                            placeholder="Tenant First Name" minlength="3" maxlength="50" />
                                     </div>
-                                    <div class="col-xl-3 col-lg-6 col-12 position-relative">
+                                    <div class="col-xl-6 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px"
+                                            for="tenant_last_name">Tenant
+                                            Last Name
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_last_name') is-invalid @enderror"
+                                            id="tenant_last_name" name="tenant_last_name"
+                                            placeholder="Tenant Last Name" minlength="3" maxlength="50" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-5 col-lg-6 col-12 position-relative">
                                         <label class="form-label" style="font-size: 15px" for="tenant_phone">Tenant
                                             Mobile
                                             <span class="text-danger">*</span></label>
@@ -275,7 +310,7 @@
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '');" min="1"
                                             max="20" />
                                     </div>
-                                    <div class="col-xl-3 col-lg-6 col-12 position-relative">
+                                    <div class="col-xl-5 col-lg-6 col-12 position-relative">
                                         <label class="form-label" style="font-size: 15px" for="tenant_dob">Date of
                                             birth
                                             <span class="text-danger">*</span></label>

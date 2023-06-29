@@ -60,6 +60,25 @@
             border-radius: 10px;
             overflow: hidden;
         }
+
+        :root {
+            --dd-radius: 6px;
+            --dd-shadow: 0 0 2.5em rgba(0, 0, 0, 0.1);
+            --dd-overlay: rgba(0, 0, 0, .75);
+            --dd-background: #FFFFFF;
+            --dd-text1: #333333;
+            --dd-text2: #FFFFFF;
+            --dd-primary: #7367f0;
+            --dd-gradient: linear-gradient(45deg, #e61e68 0%, #FD4741 100%);
+            --dd-range: rgba(0, 0, 0, 0.05);
+            --dd-monthBackground: #7367f0;
+            --dd-monthText: var(--dd-text2);
+            --dd-monthBorder: transparent;
+            --dd-confirmButtonBackground: #7367f0;
+            --dd-confirmButtonText: var(--dd-text2);
+            --dd-selectedBackground: #7367f0;
+            --dd-selectedText: var(--dd-text2);
+        }
     </style>
 
     @yield('custom-css')

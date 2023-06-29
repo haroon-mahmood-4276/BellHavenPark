@@ -30,7 +30,7 @@
             <div class="col-lg-9 col-md-9 col-sm-12 position-relative">
 
                 @csrf
-                {{ view('customers.form-fields', ['international_ids' => $international_ids]) }}
+                @include('customers.form-fields')
 
             </div>
 
@@ -79,7 +79,7 @@
 @endsection
 
 @section('page-js')
-    <script src="{{ asset('assets') }}/vendor/libs/feligx/datedropper/datedropper-jquery.js"></script>
+    <script src="{{ asset('assets') }}/vendor/libs/feligx/datedropper/datedropper.min.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/jquery-repeater/jquery-repeater.js"></script>
 @endsection
 
@@ -87,12 +87,13 @@
     <script>
         $(document).ready(function() {
 
-            $('#dob').dateDropper({
-                large: true,
+            new dateDropper({
+                selector: '#dob',
+                format: "MM dd, y",
+                showArrowsOnHover: true,
+                expandable: true,
                 startFromMonday: true,
-                autoIncrease: true,
-                format: 'F j, Y',
-                maxDate: '{{ now()->subYears(1)->format('m/d/Y') }}',
+                defaultDate: true
             });
 
             international_id = $("#international_id");
@@ -113,14 +114,13 @@
                 initEmpty: true,
                 show: function() {
                     $(this).slideDown();
-                    $("[name^='tenants['][name$='][tenant_dob]']").each(function() {
-                        $(this).dateDropper({
-                            large: true,
-                            startFromMonday: true,
-                            autoIncrease: true,
-                            format: 'F j, Y',
-                            maxDate: '{{ now()->subYears(1)->format('m/d/Y') }}',
-                        });
+                    new dateDropper({
+                        selector: "[name^='tenants['][name$='][tenant_dob]']",
+                        format: "MM dd, y",
+                        showArrowsOnHover: true,
+                        expandable: true,
+                        startFromMonday: true,
+                        defaultDate: true
                     });
                 },
                 hide: function(e) {
