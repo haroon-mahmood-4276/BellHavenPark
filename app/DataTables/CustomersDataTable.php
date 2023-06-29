@@ -34,9 +34,6 @@ class CustomersDataTable extends DataTable
             ->editColumn('dob', function ($customers) {
                 return editDateColumn($customers->dob);
             })
-            ->editColumn('created_at', function ($customers) {
-                return editDateTimeColumn($customers->created_at);
-            })
             ->editColumn('updated_at', function ($customers) {
                 return editDateTimeColumn($customers->updated_at);
             })
@@ -157,7 +154,6 @@ class CustomersDataTable extends DataTable
             Column::make('dob')->addClass('text-nowrap text-center align-middle'),
             Column::make('international_id.name')->title('ID')->addClass('text-nowrap text-center align-middle'),
             Column::make('international_address')->addClass('text-nowrap text-center align-middle'),
-            Column::make('created_at')->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];
