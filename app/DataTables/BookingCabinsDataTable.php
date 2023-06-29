@@ -33,9 +33,6 @@ class BookingCabinsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->editColumn('created_at', function ($cabin) {
-                return editDateTimeColumn($cabin->created_at);
-            })
             ->editColumn('updated_at', function ($cabin) {
                 return editDateTimeColumn($cabin->updated_at);
             })
@@ -120,7 +117,10 @@ class BookingCabinsDataTable extends DataTable
                 [30, 50, 70, 100, 120, 150, "All"],
             ])
             ->dom('<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
-            ->buttons($buttons);
+            ->buttons($buttons)
+            ->fixedColumns([
+                'right' => 1,
+            ]);
             // ->rowGroupDataSrc('parent_id')
             // ->orders([
             //     [3, 'asc'],

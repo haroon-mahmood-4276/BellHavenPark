@@ -23,9 +23,6 @@ class BookingSourcesDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->editColumn('created_at', function ($bookingSource) {
-                return editDateTimeColumn($bookingSource->created_at);
-            })
             ->editColumn('updated_at', function ($bookingSource) {
                 return editDateTimeColumn($bookingSource->updated_at);
             })
@@ -124,6 +121,10 @@ class BookingSourcesDataTable extends DataTable
                     ]
                 ],
             ])
+            ->fixedColumns([
+                'left' => 0,
+                'right' => 1,
+            ])
             ->orders([
                 [3, 'asc'],
             ]);
@@ -146,7 +147,7 @@ class BookingSourcesDataTable extends DataTable
             $checkColumn,
             Column::make('name')->addClass('text-nowrap text-center align-middle'),
             Column::make('description')->addClass('text-nowrap text-center align-middle'),
-            Column::make('created_at')->addClass('text-nowrap text-center align-middle'),
+
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];

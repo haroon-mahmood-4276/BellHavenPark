@@ -3,4 +3,5 @@
 <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/datatables/datatables-buttons-bs5/buttons.bootstrap5.css">
 <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/datatables/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
 <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/datatables/datatables-checkboxes-jquery/datatables.checkboxes.css">
+<link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/datatables/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.css">
 {{-- <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/datatables/datatables-select-bs5/select.bootstrap5.css"> --}}
