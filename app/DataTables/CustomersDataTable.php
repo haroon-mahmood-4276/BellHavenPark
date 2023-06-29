@@ -27,10 +27,10 @@ class CustomersDataTable extends DataTable
             ->editColumn('check', function ($customers) {
                 return $customers;
             })
-            // ->filterColumn('name', function ($query, $keyword) {
-            //     $sql = "CONCAT(first_name, ' ', last_name) like ?";
-            //     $query->whereRaw($sql, ["%{$keyword}%"]);
-            // })
+            ->filterColumn('name', function ($query, $keyword) {
+                $sql = "CONCAT(first_name, ' ', last_name) like ?";
+                $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
             ->editColumn('dob', function ($customers) {
                 return editDateColumn($customers->dob);
             })
