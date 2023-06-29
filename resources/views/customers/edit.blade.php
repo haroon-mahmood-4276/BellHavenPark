@@ -90,12 +90,13 @@
         $(document).ready(function() {
 
             new dateDropper({
-                selector: '#dob'
-                // large: true,
-                // startFromMonday: true,
-                // autoIncrease: true,
-                // format: 'F j, Y',
-                // maxDate: '{{ now()->subYears(1)->format('m/d/Y') }}',
+                selector: '#dob',
+                format: "MM dd, y",
+                showArrowsOnHover: true,
+                expandable: true,
+                startFromMonday: true,
+                defaultDate: '{{ now()->subYears(1)->format('m/d/Y') }}',
+                maxDate: '{{ now()->subYears(1)->format('m/d/Y') }}',
             });
 
             international_id = $("#international_id");
@@ -147,12 +148,12 @@
         function InitializeDateDropper() {
 
             new dateDropper({
-                selector: "[name^='tenants['][name$='][tenant_dob]']"
-                // large: true,
-                // startFromMonday: true,
-                // autoIncrease: true,
-                // format: 'F j, Y',
-                // maxDate: '{{ now()->subYears(1)->format('m/d/Y') }}',
+                selector: "[name^='tenants['][name$='][tenant_dob]']",
+                format: "MM dd, y",
+                showArrowsOnHover: true,
+                expandable: true,
+                startFromMonday: true,
+                maxDate: '{{ now()->subYears(1)->format('m/d/Y') }}',
             });
         }
     </script>
