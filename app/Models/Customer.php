@@ -56,19 +56,25 @@ class Customer extends Model
         'address' => 'nullable|string|min:3,max:250',
         'referenced_by' => 'nullable|string|min:3|max:50',
         'tenants' => 'nullable|array',
-        'tenants.*.tenant_name' => 'sometimes|string|min:3|max:50',
+        'tenants.*.tenant_first_name' => 'sometimes|string|min:3|max:50',
+        'tenants.*.tenant_last_name' => 'sometimes|string|min:3|max:50',
         'tenants.*.tenant_phone' => 'sometimes|numeric|min_digits:3|max_digits:20',
         'tenants.*.tenant_dob' => 'sometimes|date',
     ];
 
     public $rulesMessages = [
-        'tenants.*.tenant_name.string' => 'The :attribute must be a string.',
-        'tenants.*.tenant_name.min' => 'The :attribute must be at least :min characters.',
-        'tenants.*.tenant_name.max' => 'The :attribute must not be greater than :max characters.',
+        'tenants.*.tenant_first_name.string' => 'The :attribute must be a string.',
+        'tenants.*.tenant_first_name.min' => 'The :attribute must be at least :min characters.',
+        'tenants.*.tenant_first_name.max' => 'The :attribute must not be greater than :max characters.',
+
+        'tenants.*.tenant_last_name.string' => 'The :attribute must be a string.',
+        'tenants.*.tenant_last_name.min' => 'The :attribute must be at least :min characters.',
+        'tenants.*.tenant_last_name.max' => 'The :attribute must not be greater than :max characters.',
 
         'tenants.*.tenant_phone.numeric' => 'The :attribute must be a number.',
         'tenants.*.tenant_phone.min_digits' => 'The :attribute must have at least :min digits.',
         'tenants.*.tenant_phone.max_digits' => 'The :attribute must not have more than :max digits.',
+
         'tenants.*.tenant_dob.date' => 'The :attribute is not a valid date.',
     ];
 

@@ -32,7 +32,7 @@
 
                 @csrf
                 @method('PUT')
-                {{ view('customers.form-fields', ['international_ids' => $international_ids, 'customer' => $customer]) }}
+                @include('customers.form-fields')
 
             </div>
 
@@ -81,7 +81,7 @@
 @endsection
 
 @section('page-js')
-    <script src="{{ asset('assets') }}/vendor/libs/feligx/datedropper/datedropper-jquery.js"></script>
+    <script src="{{ asset('assets') }}/vendor/libs/feligx/datedropper/datedropper.min.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/jquery-repeater/jquery-repeater.js"></script>
 @endsection
 
@@ -89,13 +89,13 @@
     <script>
         $(document).ready(function() {
 
-            $('#dob').dateDropper({
-                large: true,
-                startFromMonday: true,
-                autoIncrease: true,
-                format: 'F j, Y',
-                defaultDate: '{{ isset($customer) ? $customer->dob : now() }}',
-                maxDate: "{{ now()->subYears(1)->format('m/d/Y') }}",
+            new dateDropper({
+                selector: '#dob'
+                // large: true,
+                // startFromMonday: true,
+                // autoIncrease: true,
+                // format: 'F j, Y',
+                // maxDate: '{{ now()->subYears(1)->format('m/d/Y') }}',
             });
 
             international_id = $("#international_id");
@@ -145,17 +145,14 @@
         InitializeDateDropper();
 
         function InitializeDateDropper() {
-            debugger;
-            $("[name^='tenants['][name$='][tenant_dob]']").each(function() {
-                console.log($(this).attr('name'))
-                $(this).dateDropper({
-                    large: true,
-                    startFromMonday: true,
-                    autoIncrease: true,
-                    format: 'F j, Y',
-                    defaultDate: moment($(this).val()).format('MM-DD-YYYY'),
-                    maxDate: "{{ now()->subYears(1)->format('m/d/Y') }}",
-                });
+
+            new dateDropper({
+                selector: "[name^='tenants['][name$='][tenant_dob]']"
+                // large: true,
+                // startFromMonday: true,
+                // autoIncrease: true,
+                // format: 'F j, Y',
+                // maxDate: '{{ now()->subYears(1)->format('m/d/Y') }}',
             });
         }
     </script>
