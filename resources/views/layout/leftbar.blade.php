@@ -106,6 +106,14 @@
                         </li>
                     @endcan
 
+                    @can('bookings.calender.index')
+                        <li class="menu-item {{ request()->routeIs('bookings.calender.index') ? 'active' : null }}">
+                            <a href="{{ route('bookings.calender.index') }}" class="menu-link">
+                                <div><i class="menu-icon fa-regular fa-calender"></i>Calender</div>
+                            </a>
+                        </li>
+                    @endcan
+
                     @canany(['booking-sources.index', 'booking-sources.create'])
                         <li
                             class="menu-item {{ in_array(request()->route()->getName(),['booking-sources.index', 'booking-sources.create'])? 'open active': null }}">

@@ -41,11 +41,13 @@ class BookingController extends Controller
             $data = [
                 'booking_from' => Carbon::parse(trim($dates[0])),
                 'booking_to' => Carbon::parse(trim(isset($dates[1]) ? $dates[1] : $dates[0])),
+                'showTable' => true
             ];
         } else {
             $data = [
                 'booking_from' => now(),
                 'booking_to' => now(),
+                'showTable' => false
             ];
         }
 
@@ -152,7 +154,7 @@ class BookingController extends Controller
 
     public function calenderView(Request $request)
     {
-        abort_if(!request()->ajax(), 403);
+        abort_if(request()->ajax(), 403);
 
         return view('bookings.calender.index');
     }

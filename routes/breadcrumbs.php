@@ -146,6 +146,11 @@ Breadcrumbs::for('bookings.create', function (BreadcrumbTrail $trail) {
     $trail->push('Cabins List', route('bookings.create'));
 });
 
+Breadcrumbs::for('bookings.calender.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('bookings.index');
+    $trail->push('Calender');
+});
+
 // Booking Payments Breadcrumbs
 Breadcrumbs::for('bookings.payments.index', function (BreadcrumbTrail $trail) {
     $trail->parent('bookings.index');
