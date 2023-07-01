@@ -17,6 +17,7 @@ class CustomerSeeder extends Seeder
      */
     public function run()
     {
+        Customer::truncate();
         $internationalId = (new InternationalId())->first();
 
         $data = [
@@ -61,8 +62,8 @@ class CustomerSeeder extends Seeder
             ],
         ];
 
-        foreach ($data as $key => $customers) {
-            (new Customer())->create($customers);
-        }
+        // foreach ($data as $key => $customers) {
+        //     (new Customer())->create($customers);
+        // }
     }
 }
