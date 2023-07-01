@@ -38,7 +38,7 @@
         <div class="row mb-3">
             <div class="col-lg-6 col-md-6 col-sm-6 position-relative">
                 <label class="form-label" style="font-size: 15px" for="email">Email <span
-                        class="text-danger">*</span></label>
+                        class="text-danger"></span></label>
                 <input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
                     name="email" placeholder="Email" value="{{ isset($customer) ? $customer->email : old('email') }}"
                     minlength="3" maxlength="250" />
@@ -53,7 +53,7 @@
 
             <div class="col-lg-6 col-md-6 col-sm-6 position-relative">
                 <label class="form-label" style="font-size: 15px" for="dob">Date of birth <span
-                        class="text-danger">*</span></label>
+                        class="text-danger"></span></label>
                 <input type="text" class="form-control @error('dob') is-invalid @enderror" id="dob"
                     name="dob" placeholder="Date of birth"
                     value="{{ (isset($customer) ? $customer->dob->format('F j, Y') : old('dob')) ?? now()->format('F j, Y') }}"
@@ -86,7 +86,7 @@
 
             <div class="col-lg-6 col-md-6 col-sm-6 position-relative">
                 <label class="form-label" style="font-size: 15px" for="telephone">Telephone <span
-                        class="text-danger">*</span></label>
+                        class="text-danger"></span></label>
                 <input type="text" class="form-control @error('telephone') is-invalid @enderror" id="telephone"
                     name="telephone" placeholder="Telephone"
                     value="{{ isset($customer) ? $customer->telephone : old('telephone') }}"
@@ -125,7 +125,7 @@
         <div class="row mb-3">
             <div class="col-lg-6 col-md-6 col-sm-6 position-relative">
                 <label class="form-label" style="font-size: 15px" for="international_details">ID Details <span
-                        class="text-danger">*</span></label>
+                        class="text-danger"></span></label>
                 <input type="text" class="form-control @error('international_details') is-invalid @enderror"
                     id="international_details" name="international_details" placeholder="ID Details"
                     value="{{ isset($customer) ? $customer->international_details : old('international_details') }}"
@@ -141,7 +141,7 @@
 
             <div class="col-lg-6 col-md-6 col-sm-6 position-relative">
                 <label class="form-label" style="font-size: 15px" for="international_address">ID Address <span
-                        class="text-danger">*</span></label>
+                        class="text-danger"></span></label>
                 <input type="text" class="form-control @error('international_address') is-invalid @enderror"
                     id="international_address" name="international_address" placeholder="Mobile"
                     value="{{ isset($customer) ? $customer->international_address : old('international_address') }}"
@@ -186,7 +186,7 @@
         <div class="row mb-3">
             <div class="col-lg-12 col-md-12 col-sm-12 position-relative">
                 <label class="form-label" style="font-size: 15px" for="referenced_by">Referenced By <span
-                        class="text-danger">*</span></label>
+                        class="text-danger"></span></label>
                 <input type="text" class="form-control @error('referenced_by') is-invalid @enderror"
                     id="referenced_by" name="referenced_by" placeholder="Referenced By"
                     value="{{ isset($customer) ? $customer->referenced_by : old('referenced_by') }}" minlength="3"
@@ -220,7 +220,7 @@
                                         <label class="form-label" style="font-size: 15px"
                                             for="tenant_first_name">Tenant First
                                             Name
-                                            <span class="text-danger">*</span></label>
+                                            <span class="text-danger"></span></label>
                                         <input type="text"
                                             class="form-control @error('tenant_first_name') is-invalid @enderror"
                                             id="tenant_first_name"
@@ -233,7 +233,7 @@
                                         <label class="form-label" style="font-size: 15px"
                                             for="tenant_last_name">Tenant Last
                                             Name
-                                            <span class="text-danger">*</span></label>
+                                            <span class="text-danger"></span></label>
                                         <input type="text"
                                             class="form-control @error('tenant_last_name') is-invalid @enderror"
                                             id="tenant_last_name"
@@ -248,7 +248,7 @@
                                     <div class="col-xl-5 col-lg-6 col-12 position-relative">
                                         <label class="form-label" style="font-size: 15px" for="tenant_phone">Tenant
                                             Mobile
-                                            <span class="text-danger">*</span></label>
+                                            <span class="text-danger"></span></label>
                                         <input type="text"
                                             class="form-control @error('tenant_phone') is-invalid @enderror"
                                             id="tenant_phone" name="tenants[{{ $loop->index }}][tenant_phone]"
@@ -258,7 +258,7 @@
                                     </div>
                                     <div class="col-xl-5 col-lg-6 col-12 position-relative">
                                         <label class="form-label" style="font-size: 15px" for="tenant_dob">Date of
-                                            birth <span class="text-danger">*</span></label>
+                                            birth <span class="text-danger"></span></label>
                                         <input type="text"
                                             class="form-control @error('tenant_dob') is-invalid @enderror"
                                             id="tenant_dob" name="tenants[{{ $loop->index }}][tenant_dob]"
@@ -282,7 +282,7 @@
                                         <label class="form-label" style="font-size: 15px"
                                             for="tenant_first_name">Tenant First
                                             Name
-                                            <span class="text-danger">*</span></label>
+                                            <span class="text-danger"></span></label>
                                         <input type="text"
                                             class="form-control @error('tenant_first_name') is-invalid @enderror"
                                             id="tenant_first_name" name="tenant_first_name"
@@ -292,7 +292,7 @@
                                         <label class="form-label" style="font-size: 15px"
                                             for="tenant_last_name">Tenant
                                             Last Name
-                                            <span class="text-danger">*</span></label>
+                                            <span class="text-danger"></span></label>
                                         <input type="text"
                                             class="form-control @error('tenant_last_name') is-invalid @enderror"
                                             id="tenant_last_name" name="tenant_last_name"
@@ -303,7 +303,7 @@
                                     <div class="col-xl-5 col-lg-6 col-12 position-relative">
                                         <label class="form-label" style="font-size: 15px" for="tenant_phone">Tenant
                                             Mobile
-                                            <span class="text-danger">*</span></label>
+                                            <span class="text-danger"></span></label>
                                         <input type="text"
                                             class="form-control @error('tenant_phone') is-invalid @enderror"
                                             id="tenant_phone" name="tenant_phone" placeholder="Tenant Mobile"
@@ -313,7 +313,7 @@
                                     <div class="col-xl-5 col-lg-6 col-12 position-relative">
                                         <label class="form-label" style="font-size: 15px" for="tenant_dob">Date of
                                             birth
-                                            <span class="text-danger">*</span></label>
+                                            <span class="text-danger"></span></label>
                                         <input type="text"
                                             class="form-control @error('tenant_dob') is-invalid @enderror"
                                             id="tenant_dob" name="tenant_dob" placeholder="Date of birth"

@@ -34,7 +34,7 @@ class Customer extends Model
     ];
 
     protected $casts = [
-        'dob' => 'datetime',
+        // 'dob' => 'datetime',
         'tenants' => 'array',
     ];
 
@@ -46,8 +46,8 @@ class Customer extends Model
         'first_name' => 'required|string|min:3|max:50',
         'last_name' => 'required|string|min:3|max:50',
         'email' => 'nullable|email|min:1|max:250',
-        'dob' => 'required|date',
-        'phone' => 'nullable|numeric|min_digits:3|max_digits:20',
+        'dob' => 'nullable|date',
+        'phone' => 'required|numeric|min_digits:3|max_digits:20',
         'telephone' => 'nullable|numeric|min_digits:3|max_digits:20',
         'international_id' => 'nullable|uuid',
         'international_details' => 'nullable|string|min:3|max:50',

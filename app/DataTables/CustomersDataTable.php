@@ -32,7 +32,7 @@ class CustomersDataTable extends DataTable
                 $query->whereRaw($sql, ["%{$keyword}%"]);
             })
             ->editColumn('dob', function ($customers) {
-                return editDateColumn($customers->dob);
+                return $customers->dob > 0 ? editDateColumn($customers->dob) : "-";
             })
             ->editColumn('updated_at', function ($customers) {
                 return editDateTimeColumn($customers->updated_at);
