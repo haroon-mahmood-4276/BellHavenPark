@@ -15,7 +15,7 @@ class BookingService implements BookingInterface
         return new Booking();
     }
 
-    public function getAll($ignore = null, $with_tree = false)
+    public function get($ignore = null, $relationships = [], $only = 'all')
     {
         $booking = $this->model();
         if (is_array($ignore)) {
@@ -23,19 +23,42 @@ class BookingService implements BookingInterface
         } else if (is_string($ignore)) {
             $booking = $booking->where('id', '!=', $ignore);
         }
+        if (count($relationships) > 0) {
+            $booking = $booking->with($relationships);
+        }
+
+        switch ($only) {
+            case 'booked':
+                $booking = $booking->where([
+                    ['check_in_date', "<", 1],
+                    ['check_out_date', "<", 1],
+                ]);
+                break;
+            case 'checkedin':
+                $booking = $booking->where([
+                    ['check_in_date', ">", 0],
+                    ['check_out_date', "<", 1],
+                ]);
+                break;
+            case 'checkedout':
+                $booking = $booking->where([
+                    ['check_out_date', ">", 0],
+                ]);
+        }
+
         $booking = $booking->get();
         return $booking;
     }
 
     public function getById($id, $relationships = [])
     {
-        $brand = $this->model();
+        $booking = $this->model();
 
         if (count($relationships) > 0) {
-            $brand = $brand->with($relationships);
+            $booking = $booking->with($relationships);
         }
 
-        return $brand->find($id);
+        return $booking->find($id);
     }
 
     public function getBookedCabinsWithinDates($start_date, $end_date)
@@ -74,7 +97,7 @@ class BookingService implements BookingInterface
                 'monthly_less_booking_percentage' => $inputs['monthly_less_booking_percentage'] ?? 0,
 
                 'check_in' => $inputs['check_in'],
-                'check_in_date' => $inputs['check_in'] == 'now' ? now() : 0,
+                'check_in_date' => $inputs['check_in'] == 'now' ? now()->timestamp : 0,
 
                 'check_out_date' => 0,
                 'tax' => (int)$inputs['booking_tax'],

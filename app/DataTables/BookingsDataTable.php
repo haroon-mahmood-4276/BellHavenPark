@@ -27,6 +27,9 @@ class BookingsDataTable extends DataTable
             ->editColumn('check', function ($booking) {
                 return $booking;
             })
+            ->editColumn('customer.first_name', function ($booking) {
+                return $booking->customer->first_name . " " . $booking->customer->last_name;
+            })
             ->editColumn('booking_from', function ($booking) {
                 return editDateColumn($booking->booking_from, 'F j, Y');
             })
@@ -166,7 +169,9 @@ class BookingsDataTable extends DataTable
             // $checkColumn,
             Column::make('booking_number')->title('ID')->addClass('text-nowrap text-center align-middle'),
 
-            Column::make('customer.name')->title('Customer')->addClass('text-nowrap text-center align-middle'),
+            Column::make('customer.first_name')->title('Customer')->addClass('text-nowrap text-center align-middle'),
+            Column::make('customer.last_name')->title('Customer')->visible(false)->printable(false)->exportable(false)->orderable(false)->addClass('text-nowrap text-center align-middle'),
+
             Column::make('cabin.name')->title('Cabin')->addClass('text-nowrap text-center align-middle'),
 
             Column::make('booking_from')->addClass('text-nowrap text-center align-middle'),

@@ -201,8 +201,8 @@ Route::group(['middleware' => 'auth'], function () {
             });
         });
 
-        Route::group(['middleware' => 'permission:bookings.calender.index'], function () {
-            Route::get('/calender', 'calenderView')->name('calenderView');
+        Route::group(['middleware' => 'permission:bookings.calender.index', 'as' => 'calender.'], function () {
+            Route::get('/calender', 'calenderView')->name('index');
         });
 
 

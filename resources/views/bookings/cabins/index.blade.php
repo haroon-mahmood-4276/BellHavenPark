@@ -58,18 +58,20 @@
             </div>
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    {{-- <form action="{{ route('bookings.destroy') }}" id="bookings-table-form" method="get"> --}}
-                    <form action="#" id="bookings-table-form" method="get">
-                        {{ $dataTable->table() }}
-                    </form>
+    @if ($showTable)
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        {{-- <form action="{{ route('bookings.destroy') }}" id="bookings-table-form" method="get"> --}}
+                        <form action="#" id="bookings-table-form" method="get">
+                            {{ $dataTable->table() }}
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endisset
     <div id="modalPlace"></div>
 @endsection
 
