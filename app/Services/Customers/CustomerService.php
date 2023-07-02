@@ -3,6 +3,7 @@
 namespace App\Services\Customers;
 
 use App\Models\Customer;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class CustomerService implements CustomerInterface
@@ -38,7 +39,7 @@ class CustomerService implements CustomerInterface
                 "address" => $inputs['address'],
                 "email" => $inputs['email'],
                 "phone" => $inputs['phone'],
-                "dob" => $inputs['dob'] ?? 0,
+                "dob" => Carbon::parse($inputs['dob'])->timestamp ?? 0,
                 "telephone" => $inputs['telephone'],
                 "international_id_id" => $inputs['international_id'],
                 "international_details" => $inputs['international_details'],
@@ -64,7 +65,7 @@ class CustomerService implements CustomerInterface
                 "address" => $inputs['address'],
                 "email" => $inputs['email'],
                 "phone" => $inputs['phone'],
-                "dob" => $inputs['dob'] ?? 0,
+                "dob" => Carbon::parse($inputs['dob'])->timestamp ?? 0,
                 "telephone" => $inputs['telephone'],
                 "international_id_id" => $inputs['international_id'],
                 "international_details" => $inputs['international_details'],
