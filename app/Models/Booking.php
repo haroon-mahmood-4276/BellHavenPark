@@ -12,7 +12,7 @@ use Spatie\Activitylog\LogOptions;
 
 class Booking extends Model
 {
-    use LogsActivity, SoftDeletes, HasUuids;
+    use LogsActivity, SoftDeletes;
 
     protected $dateFormat = 'U';
 

@@ -15,7 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, LogsActivity, HasRoles, HasUuids;
+    use HasApiTokens, HasFactory, Notifiable, LogsActivity, HasRoles;
 
     protected $dateFormat = 'U';
 

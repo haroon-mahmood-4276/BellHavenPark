@@ -13,7 +13,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Customer extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes, HasUuids;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $dateFormat = 'U';
 

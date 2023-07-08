@@ -10,7 +10,7 @@ use Spatie\Permission\Models\Role as SpatieRole;
 
 class Role extends SpatieRole
 {
-    use HasUuids, HasFactory, LogsActivity;
+    use HasFactory, LogsActivity;
 
     protected $dateFormat = 'U';
 
