@@ -11,7 +11,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class CabinStatus extends Model
 {
-    use HasFactory, LogsActivity, HasUuids, SoftDeletes;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $dateFormat = 'U';
 

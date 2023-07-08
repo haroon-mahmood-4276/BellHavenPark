@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('cabin_types', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
 
             $table->string('name', 50)->nullable();
-            // $table->float('rate')->default(0);
+            $table->string('slug', 50)->unique();
 
             $table->unsignedInteger('created_at')->nullable();
             $table->unsignedInteger('updated_at')->nullable();

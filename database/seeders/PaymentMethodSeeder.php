@@ -5,9 +5,11 @@ namespace Database\Seeders;
 use App\Models\PaymentMethod;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class PaymentMethodSeeder extends Seeder
 {
+    use WithoutModelEvents;
     /**
      * Run the database seeds.
      *
@@ -19,27 +21,35 @@ class PaymentMethodSeeder extends Seeder
         $data = [
             [
                 'name' => 'Cheque',
+                'slug' => Str::of('Cheque')->slug(),
             ],
             [
                 'name' => 'Direct Debit',
+                'slug' => Str::of('Direct Debit')->slug(),
             ],
             [
                 'name' => 'EFTPOS',
+                'slug' => Str::of('EFTPOS')->slug(),
             ],
             [
                 'name' => 'EFTPOS Refund',
+                'slug' => Str::of('EFTPOS Refund')->slug(),
             ],
             [
                 'name' => 'EFTPOS WESTPAC 284',
+                'slug' => Str::of('EFTPOS WESTPAC 284')->slug(),
             ],
             [
                 'name' => 'Misc Credit Acc',
+                'slug' => Str::of('Misc Credit Acc')->slug(),
             ],
             [
                 'name' => 'Other',
+                'slug' => Str::of('Other')->slug(),
             ],
             [
                 'name' => 'PrePayment',
+                'slug' => Str::of('PrePayment')->slug(),
             ],
         ];
 

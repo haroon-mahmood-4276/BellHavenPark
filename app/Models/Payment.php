@@ -12,7 +12,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Payment extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes, HasUuids;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $dateFormat = 'U';
 

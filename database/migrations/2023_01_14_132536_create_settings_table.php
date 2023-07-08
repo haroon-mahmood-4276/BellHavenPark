@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
 
-            $table->string('key');
+            $table->string('key')->unique();
 			$table->text('value')->nullable();
 
             $table->unsignedInteger('created_at')->nullable();

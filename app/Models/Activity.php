@@ -8,7 +8,7 @@ use Spatie\Activitylog\Models\Activity as SpatieActivity;
 
 class Activity extends SpatieActivity
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
     protected $dateFormat = 'U';
 }

@@ -5,9 +5,12 @@ namespace Database\Seeders;
 use App\Models\InternationalId;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class InternationalIdSeeder extends Seeder
 {
+    use WithoutModelEvents;
+
     /**
      * Run the database seeds.
      *
@@ -19,12 +22,15 @@ class InternationalIdSeeder extends Seeder
         $data = [
             [
                 'name' => 'Licence',
+                'slug' => Str::of('Licence')->slug(),
             ],
             [
                 'name' => 'Passport',
+                'slug' => Str::of('Passport')->slug(),
             ],
             [
                 'name' => 'Rego',
+                'slug' => Str::of('Rego')->slug(),
             ],
         ];
 

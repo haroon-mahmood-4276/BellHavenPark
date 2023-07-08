@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\CabinType;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class CabinTypeSeeder extends Seeder
 {
@@ -18,51 +19,51 @@ class CabinTypeSeeder extends Seeder
         $data = [
             [
                 'name' => 'Standard Cabin',
-                // 'rate' => 1,
+                'slug' => Str::of('Standard Cabin')->slug(),
             ],
             [
                 'name' => 'Ensuite Cabin',
-                // 'rate' => 1,
+                'slug' => Str::of('Ensuite Cabin')->slug(),
             ],
             [
                 'name' => 'Caravan',
-                // 'rate' => 1,
+                'slug' => Str::of('Caravan')->slug(),
             ],
             [
                 'name' => 'Caravan & Annex',
-                // 'rate' => 1,
+                'slug' => Str::of('Caravan & Annex')->slug(),
             ],
             [
                 'name' => 'Cutomer Owned',
-                // 'rate' => 1,
+                'slug' => Str::of('Cutomer Owned')->slug(),
             ],
             [
                 'name' => 'Vacant Site',
-                // 'rate' => 1,
+                'slug' => Str::of('Vacant Site')->slug(),
             ],
             [
                 'name' => 'Drive Through',
-                // 'rate' => 1,
+                'slug' => Str::of('Drive Through')->slug(),
             ],
             [
                 'name' => 'Tent Site',
-                // 'rate' => 1,
+                'slug' => Str::of('Tent Site')->slug(),
             ],
             [
                 'name' => 'UnPoweredSites',
-                // 'rate' => 1,
+                'slug' => Str::of('UnPoweredSites')->slug(),
             ],
             [
                 'name' => 'Spare',
-                // 'rate' => 1,
+                'slug' => Str::of('Spare')->slug(),
             ],
             [
                 'name' => 'Ensuite Villa',
-                // 'rate' => 1,
+                'slug' => Str::of('Ensuite Villa')->slug(),
             ],
             [
                 'name' => 'Inv-Sale',
-                // 'rate' => 1,
+                'slug' => Str::of('Inv-Sale')->slug(),
             ],
         ];
 
