@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('cabin_types', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
 
             $table->string('name', 50)->nullable();
             // $table->float('rate')->default(0);

@@ -14,14 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('bookings', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->integer('booking_number')->unique();
 
-            $table->foreignUuid('cabin_id')->nullable()->constrained();
-            $table->foreignUuid('customer_id')->nullable()->constrained();
+            $table->foreignId('cabin_id')->nullable()->constrained();
+            $table->foreignId('customer_id')->nullable()->constrained();
             $table->unsignedInteger('booking_from')->default(0);
             $table->unsignedInteger('booking_to')->default(0);
-            $table->foreignUuid('booking_source_id')->nullable()->constrained();
+            $table->foreignId('booking_source_id')->nullable()->constrained();
             $table->float('daily_rate')->nullable()->default(0);
             $table->float('daily_less_booking_percentage')->default(0);
             $table->float('weekly_rate')->default(0);

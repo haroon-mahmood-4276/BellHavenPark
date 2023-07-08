@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('cabin_statuses', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
 
             $table->string('name', 50)->nullable();
             $table->string('description')->nullable();

@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
 
-            $table->foreignUuid('booking_id')->nullable()->constrained();
-            $table->foreignUuid('payment_method_id')->nullable()->constrained();
+            $table->foreignId('booking_id')->nullable()->constrained();
+            $table->foreignId('payment_method_id')->nullable()->constrained();
             $table->unsignedInteger('payment_from')->default(0);
             $table->unsignedInteger('payment_to')->default(0);
             $table->double('credit', 8)->nullable()->default(0);

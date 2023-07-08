@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('international_ids', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
 
             $table->string('name', 50)->nullable();
 

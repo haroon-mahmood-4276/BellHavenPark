@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('cabins', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
 
-            $table->foreignUuid('cabin_type_id')->constrained()->onDelete('no action')->onUpdate('no action');
-            $table->foreignUuid('cabin_status_id')->constrained()->onDelete('no action')->onUpdate('no action');
+            $table->foreignId('cabin_type_id')->constrained()->onDelete('no action')->onUpdate('no action');
+            $table->foreignId('cabin_status_id')->constrained()->onDelete('no action')->onUpdate('no action');
             $table->string('name', 50)->nullable();
             $table->boolean('long_term')->default(false);
             $table->boolean('electric_meter')->default(false);

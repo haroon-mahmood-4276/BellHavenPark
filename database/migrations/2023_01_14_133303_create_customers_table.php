@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
 
             $table->string('first_name', 50)->nullable();
             $table->string('last_name', 50)->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('email', 150)->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('telephone', 20)->nullable();
-            $table->foreignUuid('international_id_id')->constrained();
+            $table->foreignId('international_id_id')->constrained();
             $table->string('international_details')->nullable();
             $table->string('international_address')->nullable();
             $table->text('comments')->nullable();
