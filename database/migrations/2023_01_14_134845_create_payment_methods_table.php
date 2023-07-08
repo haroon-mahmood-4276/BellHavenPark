@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name', 30)->nullable();
+            $table->string('name', 50)->nullable();
+            $table->string('slug', 50)->unique();
 
             $table->unsignedInteger('created_at')->nullable();
             $table->unsignedInteger('updated_at')->nullable();

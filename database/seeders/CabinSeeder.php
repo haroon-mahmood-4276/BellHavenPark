@@ -10,6 +10,8 @@ use Illuminate\Database\Seeder;
 
 class CabinSeeder extends Seeder
 {
+    use WithoutModelEvents;
+
     /**
      * Run the database seeds.
      *
