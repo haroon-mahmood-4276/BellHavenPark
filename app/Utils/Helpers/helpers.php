@@ -1,14 +1,10 @@
 <?php
 
-use App\Models\{
-    AdditionalCost,
-};
-use App\Models\Tenants\HallType;
+use App\Models\{Role};
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\{Collection};
 use Illuminate\Support\Facades\{Crypt, File};
-use Spatie\Permission\Models\Role;
 
 if (!function_exists('filter_strip_tags')) {
 
