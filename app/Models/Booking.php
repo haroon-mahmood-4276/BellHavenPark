@@ -60,11 +60,11 @@ class Booking extends Model
     protected $hidden = [];
 
     public $rules = [
-        'cabin_id' => 'required|uuid',
-        'customer' => 'required|uuid',
+        'cabin_id' => 'required|numeric',
+        'customer' => 'required|numeric',
         'booking_from' => 'required|integer',
         'booking_to' => 'required|integer',
-        'booking_source' => 'nullable|uuid',
+        'booking_source' => 'nullable|numeric',
         'daily_rate' => 'nullable|numeric',
         'daily_less_booking_percentage' => 'nullable|numeric',
         'weekly_rate' => 'nullable|numeric',

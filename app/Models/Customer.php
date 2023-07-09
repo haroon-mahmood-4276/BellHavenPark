@@ -3,17 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Scout\Searchable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Customer extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes;
+    use HasFactory, LogsActivity, SoftDeletes, Searchable;
 
     protected $dateFormat = 'U';
 
@@ -34,7 +34,9 @@ class Customer extends Model
     ];
 
     protected $casts = [
-        // 'dob' => 'datetime',
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
+        'deleted_at' => 'timestamp',
         'tenants' => 'array',
     ];
 
@@ -92,7 +94,7 @@ class Customer extends Model
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => ucfirst($attributes['first_name']) . ' ' . ucfirst($attributes['last_name']),
+            get: fn ($value, $attributes) => ucfirst($attributes['first_name'] ?? "") . ' ' . ucfirst($attributes['last_name'] ?? ""),
             set: function ($value, $attributes) {
                 $attributes['first_name'] = $value;
                 $attributes['last_name'] = $value;
@@ -116,5 +118,13 @@ class Customer extends Model
     public function international_id(): BelongsTo
     {
         return $this->belongsTo(InternationalId::class);
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+        ];
     }
 }

@@ -13,7 +13,7 @@ class CustomerService implements CustomerInterface
         return new Customer();
     }
 
-    public function getAll($ignore = null)
+    public function get($ignore = null, $relationships = [], $where = [])
     {
         $customer = $this->model();
         if (is_array($ignore)) {
@@ -21,6 +21,15 @@ class CustomerService implements CustomerInterface
         } else if (is_string($ignore)) {
             $customer = $customer->where('id', '!=', $ignore);
         }
+
+        if ($relationships) {
+            $customer = $customer->with($relationships);
+        }
+
+        if ($where) {
+            $customer = $customer->where($where);
+        }
+
         $customer = $customer->get();
         return $customer;
     }
@@ -94,5 +103,10 @@ class CustomerService implements CustomerInterface
         });
 
         return $returnData;
+    }
+
+    public function search($search)
+    {
+        return $this->model()->search($search)->get();
     }
 }

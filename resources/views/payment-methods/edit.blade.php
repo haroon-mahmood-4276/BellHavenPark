@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'payment-methods.edit', encryptParams($paymentMethod->id)) }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'payment-methods.edit', $paymentMethod->id) }}
 @endsection
 
 @section('page-title', 'Edit Method')
@@ -18,12 +18,12 @@
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
         <h2 class="content-header-title float-start mb-0 mx-3">Edit Method</h2>
-        {{ Breadcrumbs::render('payment-methods.edit', encryptParams($paymentMethod->id)) }}
+        {{ Breadcrumbs::render('payment-methods.edit', $paymentMethod->id) }}
     </div>
 @endsection
 
 @section('content')
-    <form class="form form-vertical" action="{{ route('payment-methods.update', ['id' => encryptParams($paymentMethod->id)]) }}"
+    <form class="form form-vertical" action="{{ route('payment-methods.update', ['id' => $paymentMethod->id]) }}"
         method="POST" enctype="multipart/form-data">
 
         <div class="row g-3">

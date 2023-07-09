@@ -19,53 +19,9 @@ class CustomerSeeder extends Seeder
      */
     public function run()
     {
-        Customer::truncate();
-        $internationalId = (new InternationalId())->first();
-
-        $data = [
-            [
-                "first_name" => 'Haroon',
-                "last_name" => 'Mahmood',
-                "address" => 'Lahore',
-                "email" => 'haroon@customer.com',
-                "phone" => '999 999 9999',
-                "dob" => Carbon::parse('1999-06-09')->timestamp,
-                "telephone" => '999 999 9999',
-                "international_id_id" => $internationalId->id,
-                "international_details" => '999 999 9999',
-                "international_address" => '999 999 9999',
-                "comments" => 'asdasdasdasdasdasd',
-            ],
-            [
-                "first_name" => 'Nasir',
-                "last_name" => 'Mahmood',
-                "address" => 'Lahore',
-                "email" => 'haroon@customer.com',
-                "phone" => '999 999 9999',
-                "dob" => Carbon::parse('1999-06-09')->timestamp,
-                "telephone" => '999 999 9999',
-                "international_id_id" => $internationalId->id,
-                "international_details" => '999 999 9999',
-                "international_address" => '999 999 9999',
-                "comments" => 'asdasdasdasdasdasd',
-            ],
-            [
-                "first_name" => 'Kamran',
-                "last_name" => 'Mahmood',
-                "address" => 'Lahore',
-                "email" => 'haroon@customer.com',
-                "phone" => '999 999 9999',
-                "dob" => Carbon::parse('1999-06-09')->timestamp,
-                "telephone" => '999 999 9999',
-                "international_id_id" => $internationalId->id,
-                "international_details" => '999 999 9999',
-                "international_address" => '999 999 9999',
-                "comments" => 'asdasdasdasdasdasd',
-            ],
-        ];
-
-        // foreach ($data as $key => $customers) {
-        //     (new Customer())->create($customers);
-        // }
+        if (app()->environment() === 'local') {
+            Customer::truncate();
+            Customer::factory()->count(100)->create();
+        }
     }
 }

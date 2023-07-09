@@ -21,7 +21,6 @@ class PermissionService implements PermissionInterface
 
     public function getById($id)
     {
-        $id = decryptParams($id);
         return $this->model()->find($id);
     }
 
@@ -38,9 +37,6 @@ class PermissionService implements PermissionInterface
 
     public function update($id, $inputs)
     {
-
-        $id = decryptParams($id);
-
         $data = [
             'name' => $inputs['permission_name'],
             'guard_name' => $inputs['guard_name'],
@@ -52,8 +48,6 @@ class PermissionService implements PermissionInterface
     public function destroySelected($ids)
     {
         if (!empty($ids)) {
-            // $ids = decryptParams($ids);
-            // dd($ids);
             $this->model()->whereIn('id', $ids)->delete();
             return true;
         }

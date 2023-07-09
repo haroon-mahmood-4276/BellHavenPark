@@ -70,8 +70,8 @@ class BookingController extends Controller
             'date_from' => intval($inputs['booking_from']),
             'date_to' => intval($inputs['booking_to']),
             'differenceInDays' => $differenceInDays,
-            'cabin' => $this->cabinInterface->getById(encryptParams($inputs['cabin_id'])),
-            'customers' => $this->customerInterface->getAll(),
+            'cabin' => $this->cabinInterface->getById($inputs['cabin_id']),
+            'customers' => $this->customerInterface->get(),
             'booking_sources' => $this->bookingSourceInterface->getAll(),
         ];
 
@@ -79,7 +79,7 @@ class BookingController extends Controller
             'status' => true,
             'modalPlace' => 'modalPlace',
             'currentModal' => 'basicModal',
-            'modal' => view('bookings.modal.index', $modalData)->render(),
+            'modal' => view('bookings.cabins.modal.index', $modalData)->render(),
         ];
 
         return response()->json($data);

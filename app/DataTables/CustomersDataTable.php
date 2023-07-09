@@ -27,6 +27,9 @@ class CustomersDataTable extends DataTable
             ->editColumn('check', function ($customers) {
                 return $customers;
             })
+            ->editColumn('international_id.name', function ($customers) {
+                return $customers->internationl_id->name ?? '-';
+            })
             ->filterColumn('name', function ($query, $keyword) {
                 $sql = "CONCAT(first_name, ' ', last_name) like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
@@ -156,8 +159,6 @@ class CustomersDataTable extends DataTable
             Column::make('email')->addClass('text-nowrap text-center align-middle'),
             Column::make('phone')->addClass('text-nowrap text-center align-middle'),
             Column::make('dob')->addClass('text-nowrap text-center align-middle'),
-            Column::make('international_id.name')->title('ID')->addClass('text-nowrap text-center align-middle'),
-            Column::make('international_address')->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];

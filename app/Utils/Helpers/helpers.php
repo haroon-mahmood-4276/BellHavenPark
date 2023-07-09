@@ -1,14 +1,10 @@
 <?php
 
-use App\Models\{
-    AdditionalCost,
-};
-use App\Models\Tenants\HallType;
+use App\Models\{Role};
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\{Collection};
 use Illuminate\Support\Facades\{Crypt, File};
-use Spatie\Permission\Models\Role;
 
 if (!function_exists('filter_strip_tags')) {
 
@@ -469,7 +465,7 @@ if (!function_exists('getNHeightestNumber')) {
 }
 
 if (!function_exists('apiErrorResponse')) {
-    function apiErrorResponse($message = 'data not found', $key = 'error')
+    function apiErrorResponse($message = 'data not found', $key = 'error', $code = 400)
     {
         return response()->json(
             [
@@ -478,15 +474,15 @@ if (!function_exists('apiErrorResponse')) {
                     $key => $message,
                 ],
                 'data' => null,
-                'stauts_code' => '200'
+                'stauts_code' => $code
             ],
-            200
+            $code
         );
     }
 }
 
 if (!function_exists('apiSuccessResponse')) {
-    function apiSuccessResponse($data = null, $message = 'data found', $key = 'success')
+    function apiSuccessResponse($data = null, $message = 'data found', $key = 'success', $code = 200)
     {
         return response()->json(
             [
@@ -495,9 +491,9 @@ if (!function_exists('apiSuccessResponse')) {
                     $key => $message,
                 ],
                 'data' => $data,
-                'stauts_code' => '200'
+                'stauts_code' => $code
             ],
-            200
+            $code
         );
     }
 }

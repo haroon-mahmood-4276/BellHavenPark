@@ -28,7 +28,7 @@
     <div class="content-body">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('cabin_statuses.update', ['cabin_status' => encryptParams($cabinStatus->id)]) }}"
+                <form action="{{ route('cabin_statuses.update', ['cabin_status' => $cabinStatus->id]) }}"
                     method="POST">
                     @csrf
                     @method('PUT')

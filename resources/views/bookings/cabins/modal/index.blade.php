@@ -12,6 +12,16 @@
                     @csrf
                     <input type="hidden" name="cabin_id" value="{{ $cabin->id }}">
 
+                    {{-- <div class='d-flex flex-column'>
+                        <div class='d-flex flex-row'>
+                            <div class='fw-bold fs-5'>Customer Name</div>
+                            <div class='dot-divider'></div>
+                            <div class='fw-bold fs-5'>3.5 <i class="fa-solid fa-star-half-stroke"></i></div>
+                        </div>
+                        <div>Email: haroon.mahmood.4276@gmail.com</div>
+                        <div>Phone: +923034243233</div>
+                    </div> --}}
+
                     <div class="row mb-3">
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                             <label class="form-label" style="font-size: 15px" for="booking_from">Booking
@@ -35,12 +45,12 @@
                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11">
                             <label class="form-label" style="font-size: 15px" for="customer">Customer</label>
                             <select class="select2-size-lg form-select" id="customer" name="customer">
-                                @foreach ($customers as $customerRow)
+                                {{-- @foreach ($customers as $customerRow)
                                     @continue(isset($customer) && $customerRow->id == $customer->id)
                                     <option data-icon="fa-solid fa-angle-right"
                                         value="{{ $customerRow['id'] }}"{{ (isset($customer) ? $customer->customer_id : old('customer')) == $customerRow['id'] ? 'selected' : '' }}>
                                         {{ $customerRow['name'] }}</option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                         </div>
 
@@ -273,19 +283,66 @@
 </div>
 
 <script>
-    customer = $("#customer");
-    customer.wrap('<div class="position-relative"></div>');
+    customer = $("#customer").wrap('<div class="position-relative"></div>');
     customer.select2({
+        ajax: {
+            url: '{{ route('ajax.customers.index') }}',
+            dataType: 'json',
+            delay: 500,
+            data: function(params) {
+                return {
+                    q: params.term,
+                    type: "query",
+                    // page: params.page
+                };
+            },
+            processResults: function(response, params) {
+                // params.page = params.page || 1;
+
+                return {
+                    results: response.data,
+                    // pagination: {
+                    //     more: (params.page * 30) < data.total_count
+                    // }
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Search for Customers...',
         dropdownAutoWidth: !0,
+        minimumInputLength: 2,
         dropdownParent: customer.parent(),
         width: "100%",
         containerCssClass: "select-lg",
-        templateResult: c,
-        templateSelection: c,
-        escapeMarkup: function(customer) {
-            return customer
-        }
+        templateResult: renderCustomer,
+        templateSelection: renderSelectedCustomer,
     });
+
+    function renderCustomer(row) {
+
+        if (row.loading) {
+            return row.text;
+        }
+
+        var $container = $(
+            "<div class='d-flex flex-column'>" +
+                "<div class='d-flex flex-row'>" +
+                    "<div class='fw-bold fs-5'>" + row.name + "</div>" +
+                "</div>" +
+                "<div>Email: " + (row.email || "N/A") + "</div>" +
+                "<div>Phone: " + (row.phone || "N/A") + "</div>" +
+                "<div>Address: " + (row.address || "N/A") + "</div>" +
+            "</div>"
+        );
+
+        console.log(row);
+
+        return $container;
+    }
+
+    function renderSelectedCustomer(row) {
+        return row.name;
+    }
 
     booking_source = $("#booking_source");
     booking_source.wrap('<div class="position-relative"></div>');
