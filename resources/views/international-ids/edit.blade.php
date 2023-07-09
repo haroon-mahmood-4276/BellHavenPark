@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'international-ids.edit', encryptParams($international_id->id)) }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'international-ids.edit', $international_id->id) }}
 @endsection
 
 @section('page-title', 'Edit ID')
@@ -18,12 +18,12 @@
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
         <h2 class="content-header-title float-start mb-0 mx-3">Edit ID</h2>
-        {{ Breadcrumbs::render('international-ids.edit', encryptParams($international_id->id)) }}
+        {{ Breadcrumbs::render('international-ids.edit', $international_id->id) }}
     </div>
 @endsection
 
 @section('content')
-    <form class="form form-vertical" action="{{ route('international-ids.update', ['id' => encryptParams($international_id->id)]) }}"
+    <form class="form form-vertical" action="{{ route('international-ids.update', ['id' => $international_id->id]) }}"
         method="POST" enctype="multipart/form-data">
 
         <div class="row g-3">

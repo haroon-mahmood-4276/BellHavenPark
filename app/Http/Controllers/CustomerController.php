@@ -92,7 +92,7 @@ class CustomerController extends Controller
         abort_if(request()->ajax(), 403);
 
         try {
-            $customer = $this->customerInterface->getById(decryptParams($id));
+            $customer = $this->customerInterface->getById($id);
             if ($customer && !empty($customer)) {
                 $data = [
                     'international_ids' => $this->internationalIdInterface->getAll(),
@@ -121,7 +121,6 @@ class CustomerController extends Controller
     {
         abort_if(request()->ajax(), 403);
         try {
-            $id = decryptParams($id);
             $inputs = $request->validated();
             $record = $this->customerInterface->update($id, $inputs);
             return redirect()->route('customers.index')->withSuccess('Data saved!');

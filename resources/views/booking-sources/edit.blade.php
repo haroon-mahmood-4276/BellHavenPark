@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'booking-sources.edit', encryptParams($booking_source->id)) }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'booking-sources.edit', $booking_source->id) }}
 @endsection
 
 @section('page-title', 'Edit ID')
@@ -18,12 +18,12 @@
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
         <h2 class="content-header-title float-start mb-0 mx-3">Edit ID</h2>
-        {{ Breadcrumbs::render('booking-sources.edit', encryptParams($booking_source->id)) }}
+        {{ Breadcrumbs::render('booking-sources.edit', $booking_source->id) }}
     </div>
 @endsection
 
 @section('content')
-    <form class="form form-vertical" action="{{ route('booking-sources.update', ['id' => encryptParams($booking_source->id)]) }}"
+    <form class="form form-vertical" action="{{ route('booking-sources.update', ['id' => $booking_source->id]) }}"
         method="POST" enctype="multipart/form-data">
 
         <div class="row g-3">

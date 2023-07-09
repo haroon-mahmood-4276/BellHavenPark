@@ -88,7 +88,7 @@ class CabinTypeController extends Controller
         abort_if(request()->ajax(), 403);
 
         try {
-            $cabin_type = $this->cabinTypesInterface->getById(decryptParams($id));
+            $cabin_type = $this->cabinTypesInterface->getById($id);
 
             if ($cabin_type && !empty($cabin_type)) {
                 $data = [
@@ -117,9 +117,6 @@ class CabinTypeController extends Controller
     {
         abort_if(request()->ajax(), 403);
         try {
-
-            $id = decryptParams($id);
-
             $inputs = $request->validated();
 
             $record = $this->cabinTypesInterface->update($id, $inputs);

@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'customers.edit', encryptParams($customer->id)) }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'customers.edit', $customer->id) }}
 @endsection
 
 @section('page-title', 'Edit Customer')
@@ -18,13 +18,13 @@
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
         <h2 class="content-header-title float-start mb-0 mx-3">Edit Customer</h2>
-        {{ Breadcrumbs::render('customers.edit', encryptParams($customer->id)) }}
+        {{ Breadcrumbs::render('customers.edit', $customer->id) }}
     </div>
 @endsection
 
 @section('content')
     <form class="form form-vertical create-customer-form"
-        action="{{ route('customers.update', ['id' => encryptParams($customer->id)]) }}" method="POST"
+        action="{{ route('customers.update', ['id' => $customer->id]) }}" method="POST"
         enctype="multipart/form-data">
 
         <div class="row g-3">

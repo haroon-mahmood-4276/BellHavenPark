@@ -69,11 +69,11 @@
                                     <tr>
                                         <td style="vertical-align: middle;" class="check">
                                             <div class="form-check">
-                                                <label for="delete[{{ encryptParams($cabinStatus->id) }}]"></label>
+                                                <label for="delete[{{ $cabinStatus->id }}]"></label>
                                                 <input class="form-check-input td-check" type="checkbox"
-                                                    id="delete[{{ encryptParams(encryptParams($cabinStatus->id)) }}]"
-                                                    name="delete[{{ encryptParams($cabinStatus->id) }}]"
-                                                    value="{{ encryptParams($cabinStatus->id) }}" />
+                                                    id="delete[{{ $cabinStatus->id) }}]"
+                                                    name="delete[{{ $cabinStatus->id }}]"
+                                                    value="{{ $cabinStatus->id }}" />
                                             </div>
                                         </td>
                                         <td style="vertical-align: middle;">{{ $loop->index + 1 }}</td>
@@ -92,7 +92,7 @@
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <a class="dropdown-item"
-                                                        href="{{ route('cabin_statuses.edit', ['cabin_status' => encryptParams($cabinStatus->id)]) }}">
+                                                        href="{{ route('cabin_statuses.edit', ['cabin_status' => $cabinStatus->id]) }}">
                                                         <i data-feather="edit-2" class="me-50"></i>
                                                         <span>Edit</span>
                                                     </a>

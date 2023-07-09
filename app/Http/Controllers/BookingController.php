@@ -70,7 +70,7 @@ class BookingController extends Controller
             'date_from' => intval($inputs['booking_from']),
             'date_to' => intval($inputs['booking_to']),
             'differenceInDays' => $differenceInDays,
-            'cabin' => $this->cabinInterface->getById(encryptParams($inputs['cabin_id'])),
+            'cabin' => $this->cabinInterface->getById($inputs['cabin_id']),
             'customers' => $this->customerInterface->getAll(),
             'booking_sources' => $this->bookingSourceInterface->getAll(),
         ];

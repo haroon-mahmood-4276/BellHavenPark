@@ -90,7 +90,7 @@ class PaymentMethodController extends Controller
         abort_if(request()->ajax(), 403);
 
         try {
-            $payment_method = $this->paymentMethodInterface->getById(decryptParams($id));
+            $payment_method = $this->paymentMethodInterface->getById($id);
 
             if ($payment_method && !empty($payment_method)) {
                 $data = [
@@ -119,8 +119,6 @@ class PaymentMethodController extends Controller
     {
         abort_if(request()->ajax(), 403);
         try {
-
-            $id = decryptParams($id);
 
             $inputs = $request->validated();
 

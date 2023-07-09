@@ -88,7 +88,7 @@ class InternationalIdController extends Controller
         abort_if(request()->ajax(), 403);
 
         try {
-            $international_id = $this->internationalIdInterface->getById(decryptParams($id));
+            $international_id = $this->internationalIdInterface->getById($id);
 
             if ($international_id && !empty($international_id)) {
                 $data = [
@@ -117,9 +117,6 @@ class InternationalIdController extends Controller
     {
         abort_if(request()->ajax(), 403);
         try {
-
-            $id = decryptParams($id);
-
             $inputs = $request->validated();
 
             $record = $this->internationalIdInterface->update($id, $inputs);

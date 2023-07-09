@@ -18,12 +18,12 @@
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
         <h2 class="content-header-title float-start mb-0 mx-3">Roles</h2>
-        {{ Breadcrumbs::render('roles.edit', encryptParams($role->id)) }}
+        {{ Breadcrumbs::render('roles.edit', $role->id) }}
     </div>
 @endsection
 
 @section('content')
-    <form class="form form-vertical" action="{{ route('roles.update', ['id' => encryptParams($role->id)]) }}"
+    <form class="form form-vertical" action="{{ route('roles.update', ['id' => $role->id]) }}"
         method="POST" enctype="multipart/form-data">
 
         <div class="row g-3">

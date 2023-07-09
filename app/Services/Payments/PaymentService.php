@@ -40,7 +40,6 @@ class PaymentService implements PaymentInterface
 
     public function getAdvancedPaymentBookingId($booking_id)
     {
-        $booking_id = decryptParams($booking_id);
         if ($advancedPayment = $this->model()->where(['booking_id' => $booking_id, 'type' => PaymentStatus::ADVANCE])->first()) {
             return $advancedPayment->credit;
         }
@@ -49,7 +48,6 @@ class PaymentService implements PaymentInterface
 
     public function getLastPaymentDateByBookingId($booking_id)
     {
-        $booking_id = decryptParams($booking_id);
         return Carbon::parse($this->model()->where(['booking_id' => $booking_id, 'type' => PaymentStatus::RECEIVED])->latest('payment_to')->first()?->payment_to);
     }
 

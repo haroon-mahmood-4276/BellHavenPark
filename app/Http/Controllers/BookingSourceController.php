@@ -88,7 +88,7 @@ class BookingSourceController extends Controller
         abort_if(request()->ajax(), 403);
 
         try {
-            $booking_source = $this->bookingSourceInterface->getById(decryptParams($id));
+            $booking_source = $this->bookingSourceInterface->getById($id);
 
             if ($booking_source && !empty($booking_source)) {
                 $data = [
@@ -117,7 +117,6 @@ class BookingSourceController extends Controller
     {
         abort_if(request()->ajax(), 403);
         try {
-            $id = decryptParams($id);
             $inputs = $request->validated();
             $record = $this->bookingSourceInterface->update($id, $inputs);
 
