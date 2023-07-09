@@ -768,3 +768,21 @@ span.input-group-text.is-valid {
         top: 100px !important;
     }
 }
+
+.dot-divider {
+    margin-left: 10px;
+    margin-right: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dot-divider::before {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: #555;
+    border-radius: 50%;
+}

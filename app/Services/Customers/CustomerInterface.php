@@ -4,7 +4,7 @@ namespace App\Services\Customers;
 
 interface CustomerInterface
 {
-    public function getAll($ignore = null);
+    public function get($ignore = null, $relationships = [], $where = []);
 
     public function getById($id);
 
@@ -13,4 +13,6 @@ interface CustomerInterface
     public function update($id, $inputs);
 
     public function destroy($inputs);
+
+    public function search($search);
 }
