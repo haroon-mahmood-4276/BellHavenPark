@@ -11,6 +11,7 @@
 @endsection
 
 @section('page-css')
+    <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/rateyo/jquery.rateyo.min.css">
 @endsection
 
 @section('custom-css')
@@ -42,11 +43,16 @@
 @endsection
 
 @section('page-js')
+    <script src="{{ asset('assets') }}/vendor/libs/rateyo/jquery.rateyo.min.js"></script>
 @endsection
 
 @section('custom-js')
     {{ $dataTable->scripts() }}
     <script>
+        $(".read-only-ratings").rateYo({
+            rating: 2,
+        });
+
         function deleteSelected() {
             var selectedCheckboxes = $('.dt-checkboxes:checked').length;
             if (selectedCheckboxes > 0) {
@@ -85,6 +91,17 @@
 
         function addNew() {
             location.href = "{{ route('customers.create') }}";
+        }
+
+        function rateYo(customer_id, average_rating) {
+            $("#read-only-ratings_" + customer_id).rateYo({
+                rating: average_rating,
+                maxValue: 5,
+                readOnly: true,
+                starWidth: "25px",
+                numStars: 1,
+                ratedFill: "#7367f0",
+            });
         }
     </script>
 @endsection

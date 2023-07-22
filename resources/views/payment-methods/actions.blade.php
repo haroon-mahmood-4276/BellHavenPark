@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-cetner align-items-center">
+<div class="d-flex justify-content-center align-items-center">
     @can('payment-methods.edit')
         <a class="btn btn-warning m-1"
             data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Payment Method"

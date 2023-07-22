@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\CustomersDataTable;
 use App\Exceptions\GeneralException;
 use App\Http\Requests\Customers\{storeRequest, updateRequest};
+use App\Models\Customer;
 use App\Services\Customers\CustomerInterface;
 use App\Services\InternationalIds\InternationalIdInterface;
 use Exception;

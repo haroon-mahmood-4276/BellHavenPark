@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -30,19 +31,17 @@ class Customer extends Model
         'comments',
         'address',
         'referenced_by',
-        'tenants',
     ];
 
     protected $casts = [
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
-        'tenants' => 'array',
     ];
 
     protected $hidden = [];
 
-    protected $appends = ['name'];
+    protected $appends = ['name', 'average_rating'];
 
     public $rules = [
         'first_name' => 'required|string|min:3|max:50',
@@ -57,33 +56,6 @@ class Customer extends Model
         'comments' => 'nullable|string|min:3,max:250',
         'address' => 'nullable|string|min:3,max:250',
         'referenced_by' => 'nullable|string|min:3|max:50',
-        'tenants' => 'nullable|array',
-        'tenants.*.tenant_first_name' => 'sometimes|string|min:3|max:50',
-        'tenants.*.tenant_last_name' => 'sometimes|string|min:3|max:50',
-        'tenants.*.tenant_phone' => 'sometimes|numeric|min_digits:3|max_digits:20',
-        'tenants.*.tenant_dob' => 'sometimes|date',
-    ];
-
-    public $rulesMessages = [
-        'tenants.*.tenant_first_name.string' => 'The :attribute must be a string.',
-        'tenants.*.tenant_first_name.min' => 'The :attribute must be at least :min characters.',
-        'tenants.*.tenant_first_name.max' => 'The :attribute must not be greater than :max characters.',
-
-        'tenants.*.tenant_last_name.string' => 'The :attribute must be a string.',
-        'tenants.*.tenant_last_name.min' => 'The :attribute must be at least :min characters.',
-        'tenants.*.tenant_last_name.max' => 'The :attribute must not be greater than :max characters.',
-
-        'tenants.*.tenant_phone.numeric' => 'The :attribute must be a number.',
-        'tenants.*.tenant_phone.min_digits' => 'The :attribute must have at least :min digits.',
-        'tenants.*.tenant_phone.max_digits' => 'The :attribute must not have more than :max digits.',
-
-        'tenants.*.tenant_dob.date' => 'The :attribute is not a valid date.',
-    ];
-
-    public $rulesAttributes = [
-        'tenants.*.tenant_name' => 'Tenant name',
-        'tenants.*.tenant_phone' => 'Tenant phone',
-        'tenants.*.tenant_dob' => 'Tenant dob',
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -115,6 +87,16 @@ class Customer extends Model
         );
     }
 
+    protected function averageRating(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value, $attributes) {
+                $ratings = $this->ratings;
+                return !is_null($ratings) && $ratings->count() > 0 ? $ratings->sum('rating') / $ratings->count() : 0;
+            }
+        );
+    }
+
     public function international_id(): BelongsTo
     {
         return $this->belongsTo(InternationalId::class);
@@ -126,5 +108,10 @@ class Customer extends Model
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
         ];
+    }
+
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(CustomerRating::class);
     }
 }
