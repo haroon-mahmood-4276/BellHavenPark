@@ -12,16 +12,25 @@ class CabinTypeService implements CabinTypeInterface
         return new CabinType();
     }
 
-    public function getAll($ignore = null)
+    public function get($ignore = null, $relationships = [], $where = [])
     {
-        $cabin_type = $this->model();
+        $model = $this->model();
         if (is_array($ignore)) {
-            $cabin_type = $cabin_type->whereNotIn('id', $ignore);
+            $model = $model->whereNotIn('id', $ignore);
         } else if (is_string($ignore)) {
-            $cabin_type = $cabin_type->where('id', '!=', $ignore);
+            $model = $model->where('id', '!=', $ignore);
         }
-        $cabin_type = $cabin_type->get();
-        return $cabin_type;
+
+        if ($relationships) {
+            $model = $model->with($relationships);
+        }
+
+        if ($where) {
+            $model = $model->where($where);
+        }
+
+        $model = $model->get();
+        return $model;
     }
 
     public function getById($id)
@@ -34,10 +43,11 @@ class CabinTypeService implements CabinTypeInterface
         $returnData = DB::transaction(function () use ($inputs) {
             $data = [
                 'name' => $inputs['name'],
+                'slug' => $inputs['slug'],
             ];
 
-            $cabin_type = $this->model()->create($data);
-            return $cabin_type;
+            $model = $this->model()->create($data);
+            return $model;
         });
 
         return $returnData;
@@ -48,10 +58,11 @@ class CabinTypeService implements CabinTypeInterface
         $returnData = DB::transaction(function () use ($id, $inputs) {
             $data = [
                 'name' => $inputs['name'],
+                'slug' => $inputs['slug'],
             ];
 
-            $cabin_type = $this->model()->find($id)->update($data);
-            return $cabin_type;
+            $model = $this->model()->find($id)->update($data);
+            return $model;
         });
 
         return $returnData;
@@ -61,11 +72,11 @@ class CabinTypeService implements CabinTypeInterface
     {
         $returnData = DB::transaction(function () use ($inputs) {
 
-            $cabin_type = $this->model()->whereIn('id', $inputs)->get()->each(function ($cabin_type) {
-                $cabin_type->delete();
+            $model = $this->model()->whereIn('id', $inputs)->get()->each(function ($model) {
+                $model->delete();
             });
 
-            return $cabin_type;
+            return $model;
         });
 
         return $returnData;

@@ -4,7 +4,7 @@ namespace App\Services\CabinTypes;
 
 interface CabinTypeInterface
 {
-    public function getAll($ignore = null);
+    public function get($ignore = null, $relationships = [], $where = []);
 
     public function getById($id);
 
