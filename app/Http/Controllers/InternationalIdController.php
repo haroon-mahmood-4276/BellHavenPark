@@ -88,7 +88,7 @@ class InternationalIdController extends Controller
         abort_if(request()->ajax(), 403);
 
         try {
-            $international_id = $this->internationalIdInterface->getById($id);
+            $international_id = $this->internationalIdInterface->find($id);
 
             if ($international_id && !empty($international_id)) {
                 $data = [

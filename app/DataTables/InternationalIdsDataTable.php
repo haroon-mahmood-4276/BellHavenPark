@@ -146,6 +146,7 @@ class InternationalIdsDataTable extends DataTable
         $columns = [
             $checkColumn,
             Column::make('name')->title('International Id')->addClass('text-nowarp'),
+            Column::make('slug')->title('slug')->addClass('text-nowarp'),
             Column::make('updated_at')->addClass('text-nowarp'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
         ];
