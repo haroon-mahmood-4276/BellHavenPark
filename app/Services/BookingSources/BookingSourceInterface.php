@@ -6,7 +6,7 @@ interface BookingSourceInterface
 {
     public function getAll($ignore = null);
 
-    public function getById($id);
+    public function find($id);
 
     public function store($inputs);
 

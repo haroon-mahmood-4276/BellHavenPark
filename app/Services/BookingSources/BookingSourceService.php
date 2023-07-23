@@ -14,17 +14,17 @@ class BookingSourceService implements BookingSourceInterface
 
     public function getAll($ignore = null, $with_tree = false)
     {
-        $bookingSource = $this->model();
+        $model = $this->model();
         if (is_array($ignore)) {
-            $bookingSource = $bookingSource->whereNotIn('id', $ignore);
+            $model = $model->whereNotIn('id', $ignore);
         } else if (is_string($ignore)) {
-            $bookingSource = $bookingSource->where('id', '!=', $ignore);
+            $model = $model->where('id', '!=', $ignore);
         }
-        $bookingSource = $bookingSource->get();
-        return $bookingSource;
+        $model = $model->get();
+        return $model;
     }
 
-    public function getById($id)
+    public function find($id)
     {
         return $this->model()->find($id);
     }
@@ -34,11 +34,12 @@ class BookingSourceService implements BookingSourceInterface
         $returnData = DB::transaction(function () use ($inputs) {
             $data = [
                 'name' => $inputs['name'],
+                'slug' => $inputs['slug'],
                 'description' => $inputs['description'],
             ];
 
-            $bookingSource = $this->model()->create($data);
-            return $bookingSource;
+            $model = $this->model()->create($data);
+            return $model;
         });
 
         return $returnData;
@@ -49,11 +50,12 @@ class BookingSourceService implements BookingSourceInterface
         $returnData = DB::transaction(function () use ($id, $inputs) {
             $data = [
                 'name' => $inputs['name'],
+                'slug' => $inputs['slug'],
                 'description' => $inputs['description'],
             ];
 
-            $bookingSource = $this->model()->find($id)->update($data);
-            return $bookingSource;
+            $model = $this->model()->find($id)->update($data);
+            return $model;
         });
 
         return $returnData;
@@ -63,11 +65,11 @@ class BookingSourceService implements BookingSourceInterface
     {
         $returnData = DB::transaction(function () use ($inputs) {
 
-            $bookingSource = $this->model()->whereIn('id', $inputs)->get()->each(function ($bookingSource) {
-                $bookingSource->delete();
+            $model = $this->model()->whereIn('id', $inputs)->get()->each(function ($model) {
+                $model->delete();
             });
 
-            return $bookingSource;
+            return $model;
         });
 
         return $returnData;

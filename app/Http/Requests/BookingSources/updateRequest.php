@@ -24,6 +24,8 @@ class updateRequest extends FormRequest
      */
     public function rules()
     {
-        return (new BookingSource())->rules;
+        $rules = (new BookingSource())->rules;
+        $rules['slug'] .= ', ' . $this->id;
+        return $rules;
     }
 }

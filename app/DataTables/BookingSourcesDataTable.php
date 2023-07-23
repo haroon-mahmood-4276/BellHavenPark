@@ -146,6 +146,7 @@ class BookingSourcesDataTable extends DataTable
         $columns = [
             $checkColumn,
             Column::make('name')->addClass('text-nowrap text-center align-middle'),
+            Column::make('slug')->addClass('text-nowrap text-center align-middle'),
             Column::make('description')->addClass('text-nowrap text-center align-middle'),
 
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
