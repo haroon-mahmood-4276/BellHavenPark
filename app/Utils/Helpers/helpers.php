@@ -362,11 +362,18 @@ if (!function_exists('getImageByName')) {
 }
 
 if (!function_exists('editDateTimeColumn')) {
-    function editDateTimeColumn($date, $dateFormat = 'Y-m-d', $timeFormat = 'H:i:s')
+    function editDateTimeColumn($date, $dateFormat = 'Y-m-d', $timeFormat = 'H:i:s', $withBr = true, $order = 'TD')
     {
         $date = new Carbon($date);
+        switch ($order) {
+            case 'TD':
+                return "<span>" . $date->format($timeFormat) . "</span> " . ($withBr ? '<br>' : "") . " <span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span>";
+                break;
 
-        return "<span>" . $date->format($timeFormat) . "</span> <br> <span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span>";
+            case 'DT':
+                return "<span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span> " . ($withBr ? '<br>' : "") . " <span>" . $date->format($timeFormat) . "</span>";
+                break;
+        }
     }
 }
 
@@ -465,7 +472,7 @@ if (!function_exists('getNHeightestNumber')) {
 }
 
 if (!function_exists('apiErrorResponse')) {
-    function apiErrorResponse($message = 'data not found', $key = 'error', $code = 400)
+    function apiErrorResponse($message = 'data not found', $key = 'error', $code = 400, $data = null)
     {
         return response()->json(
             [
@@ -473,7 +480,7 @@ if (!function_exists('apiErrorResponse')) {
                 'message' => [
                     $key => $message,
                 ],
-                'data' => null,
+                'data' => $data,
                 'stauts_code' => $code
             ],
             $code

@@ -86,87 +86,87 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     // International Ids Routes
-    Route::group(['prefix' => 'international-ids', 'as' => 'international-ids.'], function () {
-        Route::get('/', [InternationalIdController::class, 'index'])->middleware('permission:international-ids.index')->name('index');
+    Route::prefix('international-ids')->name('international-ids.')->controller(InternationalIdController::class)->group(function () {
+        Route::get('/', 'index')->middleware('permission:international-ids.index')->name('index');
 
         Route::group(['middleware' => 'permission:international-ids.create'], function () {
-            Route::get('create', [InternationalIdController::class, 'create'])->name('create');
-            Route::post('store', [InternationalIdController::class, 'store'])->name('store');
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
         });
 
-        Route::get('delete', [InternationalIdController::class, 'destroy'])->name('destroy');
+        Route::get('delete', 'destroy')->name('destroy');
 
         Route::group(['prefix' => '/{id}', 'middleware' => 'permission:international-ids.edit'], function () {
-            Route::get('edit', [InternationalIdController::class, 'edit'])->name('edit');
-            Route::put('update', [InternationalIdController::class, 'update'])->name('update');
+            Route::get('edit', 'edit')->name('edit');
+            Route::put('update', 'update')->name('update');
         });
     });
 
     // Cabin Types Routes
-    Route::group(['prefix' => 'cabin-types', 'as' => 'cabin-types.'], function () {
-        Route::get('/', [CabinTypeController::class, 'index'])->middleware('permission:cabin-types.index')->name('index');
+    Route::prefix('cabin-types')->name('cabin-types.')->controller(CabinTypeController::class)->group(function () {
+        Route::get('/', 'index')->middleware('permission:cabin-types.index')->name('index');
 
         Route::group(['middleware' => 'permission:cabin-types.create'], function () {
-            Route::get('create', [CabinTypeController::class, 'create'])->name('create');
-            Route::post('store', [CabinTypeController::class, 'store'])->name('store');
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
         });
 
-        Route::get('delete', [CabinTypeController::class, 'destroy'])->name('destroy');
+        Route::get('delete', 'destroy')->name('destroy');
 
         Route::group(['prefix' => '/{id}', 'middleware' => 'permission:cabin-types.edit'], function () {
-            Route::get('edit', [CabinTypeController::class, 'edit'])->name('edit');
-            Route::put('update', [CabinTypeController::class, 'update'])->name('update');
+            Route::get('edit', 'edit')->name('edit');
+            Route::put('update', 'update')->name('update');
         });
     });
 
     // Cabin Routes
-    Route::group(['prefix' => 'cabins', 'as' => 'cabins.'], function () {
-        Route::get('/', [CabinController::class, 'index'])->middleware('permission:cabins.index')->name('index');
+    Route::prefix('cabins')->name('cabins.')->controller(CabinController::class)->group(function () {
+        Route::get('/', 'index')->middleware('permission:cabins.index')->name('index');
 
         Route::group(['middleware' => 'permission:cabins.create'], function () {
-            Route::get('create', [CabinController::class, 'create'])->name('create');
-            Route::post('store', [CabinController::class, 'store'])->name('store');
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
         });
 
-        Route::get('delete', [CabinController::class, 'destroy'])->name('destroy');
+        Route::get('delete', 'destroy')->name('destroy');
 
         Route::group(['prefix' => '/{id}', 'middleware' => 'permission:cabins.edit'], function () {
-            Route::get('edit', [CabinController::class, 'edit'])->name('edit');
-            Route::put('update', [CabinController::class, 'update'])->name('update');
+            Route::get('edit', 'edit')->name('edit');
+            Route::put('update', 'update')->name('update');
         });
     });
 
     // Booking Sources Routes
-    Route::group(['prefix' => 'booking-sources', 'as' => 'booking-sources.'], function () {
-        Route::get('/', [BookingSourceController::class, 'index'])->middleware('permission:booking-sources.index')->name('index');
+    Route::prefix('booking-sources')->name('booking-sources.')->controller(BookingSourceController::class)->group(function () {
+        Route::get('/', 'index')->middleware('permission:booking-sources.index')->name('index');
 
         Route::group(['middleware' => 'permission:booking-sources.create'], function () {
-            Route::get('create', [BookingSourceController::class, 'create'])->name('create');
-            Route::post('store', [BookingSourceController::class, 'store'])->name('store');
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
         });
 
-        Route::get('delete', [BookingSourceController::class, 'destroy'])->name('destroy');
+        Route::get('delete', 'destroy')->name('destroy');
 
         Route::group(['prefix' => '/{id}', 'middleware' => 'permission:booking-sources.edit'], function () {
-            Route::get('edit', [BookingSourceController::class, 'edit'])->name('edit');
-            Route::put('update', [BookingSourceController::class, 'update'])->name('update');
+            Route::get('edit', 'edit')->name('edit');
+            Route::put('update', 'update')->name('update');
         });
     });
 
     // Customers Routes
-    Route::group(['prefix' => 'customers', 'as' => 'customers.'], function () {
-        Route::get('/', [CustomerController::class, 'index'])->middleware('permission:customers.index')->name('index');
+    Route::prefix('customers')->name('customers.')->controller(CustomerController::class)->group(function () {
+        Route::get('/', 'index')->middleware('permission:customers.index')->name('index');
 
         Route::group(['middleware' => 'permission:customers.create'], function () {
-            Route::get('create', [CustomerController::class, 'create'])->name('create');
-            Route::post('store', [CustomerController::class, 'store'])->name('store');
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
         });
 
-        Route::get('delete', [CustomerController::class, 'destroy'])->name('destroy');
+        Route::get('delete', 'destroy')->name('destroy');
 
         Route::group(['prefix' => '/{id}', 'middleware' => 'permission:customers.edit'], function () {
-            Route::get('edit', [CustomerController::class, 'edit'])->name('edit');
-            Route::put('update', [CustomerController::class, 'update'])->name('update');
+            Route::get('edit', 'edit')->name('edit');
+            Route::put('update', 'update')->name('update');
         });
     });
 

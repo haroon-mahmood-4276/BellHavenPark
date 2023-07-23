@@ -30,20 +30,29 @@ class CustomersDataTable extends DataTable
             ->editColumn('international_id.name', function ($customers) {
                 return $customers->internationl_id->name ?? '-';
             })
+
             ->filterColumn('name', function ($query, $keyword) {
-                $sql = "CONCAT(first_name, ' ', last_name) like ?";
-                $query->whereRaw($sql, ["%{$keyword}%"]);
+                $query->whereRaw("LOWER(CAST(CONCAT(first_name, ' ', last_name) as TEXT)) like ? OR CAST(CONCAT(first_name, ' ', last_name) as TEXT) like ?", ["%{$keyword}%", "%{$keyword}%"]);
             })
+            ->orderColumn('name', function ($query, $order) {
+                $query->orderBy('first_name', $order);
+            })
+
             ->editColumn('dob', function ($customers) {
                 return $customers->dob > 0 ? editDateColumn($customers->dob) : "-";
             })
+
+            ->editColumn('average_rating', function ($customers) {
+                return view('customers.average_rating', ['customer' => $customers]);
+            })
+
             ->editColumn('updated_at', function ($customers) {
                 return editDateTimeColumn($customers->updated_at);
             })
             ->editColumn('actions', function ($customers) {
                 return view('customers.actions', ['id' => $customers->id]);
             })
-            ->rawColumns(array_merge($columns, ['action', 'check']));
+            ->rawColumns($columns);
     }
 
     /**
@@ -136,7 +145,7 @@ class CustomersDataTable extends DataTable
                 'right' => 1,
             ])
             ->orders([
-                [3, 'asc'],
+                [1, 'asc'],
             ]);
     }
 
@@ -157,6 +166,7 @@ class CustomersDataTable extends DataTable
             $checkColumn,
             Column::make('name')->addClass('text-nowrap text-center align-middle'),
             Column::make('email')->addClass('text-nowrap text-center align-middle'),
+            Column::make('average_rating')->addClass('text-nowrap text-center align-middle'),
             Column::make('phone')->addClass('text-nowrap text-center align-middle'),
             Column::make('dob')->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),

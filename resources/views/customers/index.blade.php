@@ -7,7 +7,7 @@
 @section('page-title', 'Customers')
 
 @section('page-vendor')
-    {{ view('layout.datatables.css') }}
+    {{ view('layout.libs.datatables.css') }}
 @endsection
 
 @section('page-css')
@@ -35,10 +35,12 @@
             </div>
         </div>
     </div>
+
+    <div id="modalPlace"></div>
 @endsection
 
 @section('vendor-js')
-    {{ view('layout.datatables.js') }}
+    {{ view('layout.libs.datatables.js') }}
 @endsection
 
 @section('page-js')
@@ -46,7 +48,9 @@
 
 @section('custom-js')
     {{ $dataTable->scripts() }}
+    {{ view('layout.libs.rateYo.rateYo') }}
     <script>
+
         function deleteSelected() {
             var selectedCheckboxes = $('.dt-checkboxes:checked').length;
             if (selectedCheckboxes > 0) {
@@ -85,6 +89,37 @@
 
         function addNew() {
             location.href = "{{ route('customers.create') }}";
+        }
+
+        function CommentModal(customer_id) {
+            $.ajax({
+                url: ("{{ route('ajax.customers.modal.index', ['customer' => ':customer_id']) }}").replace(
+                    ':customer_id', customer_id),
+                type: 'GET',
+                cache: false,
+                beforeSend: function() {
+                    showBlockUI();
+                },
+                success: function(response) {
+                    if (response.status) {
+                        $('#' + response.data.modalPlace).html(response.data.modal);
+                        $('#' + response.data.currentModal).modal('show');
+                        hideBlockUI();
+                    }
+                },
+                error: function(jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    var errorsHtml = '';
+
+                    $.each(errors['errors'], function(index, value) {
+                        errorsHtml += "<span class='badge rounded-pill bg-danger p-3 m-3'>" + index +
+                            " -> " + value + "</span>";
+                    });
+                },
+                complete: function() {
+                    hideBlockUI();
+                },
+            });
         }
     </script>
 @endsection

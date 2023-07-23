@@ -18,7 +18,12 @@ use Illuminate\Support\Facades\Route;
 // Route::group(['middleware' => 'auth', 'as' => 'ajax.'], function () {
 Route::group(['as' => 'ajax.'], function () {
     // Customers Routes
-    Route::group(['prefix' => 'customers', 'as' => 'customers.'], function () {
-        Route::get('/', [CustomerController::class, 'index'])->name('index');
+    Route::prefix('customers')->name('customers.')->controller(CustomerController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+
+        Route::group(['prefix' => '/{customer}'], function () {
+            Route::get('comments/modal', 'commentModalIndex')->name('modal.index');
+            Route::post('comments/modal', 'commentModalStore')->name('modal.store');
+        });
     });
 });

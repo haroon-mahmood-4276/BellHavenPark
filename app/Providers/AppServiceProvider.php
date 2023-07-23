@@ -12,6 +12,9 @@ use App\Services\BookingSources\{BookingSourceInterface, BookingSourceService};
 use App\Services\Customers\{CustomerInterface, CustomerService};
 use App\Services\Bookings\{BookingInterface, BookingService};
 use App\Services\Payments\{PaymentInterface, PaymentService};
+
+use App\Services\CustomerRatings\{CustomerRatingInterface, CustomerRatingService};
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CustomerInterface::class, CustomerService::class);
         $this->app->bind(BookingInterface::class, BookingService::class);
         $this->app->bind(PaymentInterface::class, PaymentService::class);
+
+        $this->app->bind(CustomerRatingInterface::class, CustomerRatingService::class);
     }
 
     /**

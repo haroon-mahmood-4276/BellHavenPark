@@ -5,9 +5,12 @@ namespace Database\Seeders;
 use App\Models\CabinType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class CabinTypeSeeder extends Seeder
 {
+    use WithoutModelEvents;
+
     /**
      * Run the database seeds.
      *

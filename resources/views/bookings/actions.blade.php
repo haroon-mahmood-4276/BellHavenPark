@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-cetner align-items-center">
+<div class="d-flex justify-content-center align-items-center">
     @if (!is_null($filter))
         @if ($filter == 'checkin')
             @can('bookings.checkin.index')

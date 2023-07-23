@@ -6,7 +6,7 @@ interface CustomerInterface
 {
     public function get($ignore = null, $relationships = [], $where = []);
 
-    public function getById($id);
+    public function find($id, $relationships = [], $where = []);
 
     public function store($inputs);
 
@@ -15,4 +15,6 @@ interface CustomerInterface
     public function destroy($inputs);
 
     public function search($search);
+
+    public function updateCustomerAverageRating($customer_id = 0);
 }

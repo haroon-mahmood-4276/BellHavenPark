@@ -7,7 +7,7 @@
 @section('page-title', 'International Ids')
 
 @section('page-vendor')
-    {{ view('layout.datatables.css') }}
+    {{ view('layout.libs.datatables.css') }}
 @endsection
 
 @section('page-css')
@@ -38,7 +38,7 @@
 @endsection
 
 @section('vendor-js')
-    {{ view('layout.datatables.js') }}
+    {{ view('layout.libs.datatables.js') }}
 @endsection
 
 @section('page-js')

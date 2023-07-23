@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class CustomerService implements CustomerInterface
 {
+
     private function model()
     {
         return new Customer();
@@ -15,28 +16,37 @@ class CustomerService implements CustomerInterface
 
     public function get($ignore = null, $relationships = [], $where = [])
     {
-        $customer = $this->model();
+        $model = $this->model();
         if (is_array($ignore)) {
-            $customer = $customer->whereNotIn('id', $ignore);
+            $model = $model->whereNotIn('id', $ignore);
         } else if (is_string($ignore)) {
-            $customer = $customer->where('id', '!=', $ignore);
+            $model = $model->where('id', '!=', $ignore);
         }
 
         if ($relationships) {
-            $customer = $customer->with($relationships);
+            $model = $model->with($relationships);
         }
 
         if ($where) {
-            $customer = $customer->where($where);
+            $model = $model->where($where);
         }
 
-        $customer = $customer->get();
-        return $customer;
+        $model = $model->get();
+        return $model;
     }
 
-    public function getById($id)
+    public function find($id, $relationships = [], $where = [])
     {
-        return $this->model()->find($id);
+        $model = $this->model();
+
+        if ($relationships) {
+            $model = $model->with($relationships);
+        }
+
+        if ($where) {
+            $model = $model->where($where);
+        }
+        return $model->find($id);
     }
 
     public function store($inputs)
@@ -58,8 +68,8 @@ class CustomerService implements CustomerInterface
                 "tenants" => $inputs['tenants'] ?? [],
             ];
 
-            $customer = $this->model()->create($data);
-            return $customer;
+            $model = $this->model()->create($data);
+            return $model;
         });
 
         return $returnData;
@@ -84,8 +94,8 @@ class CustomerService implements CustomerInterface
                 "tenants" => $inputs['tenants'] ?? [],
             ];
 
-            $customer = $this->model()->find($id)->update($data);
-            return $customer;
+            $model = $this->model()->find($id)->update($data);
+            return $model;
         });
 
         return $returnData;
@@ -95,11 +105,11 @@ class CustomerService implements CustomerInterface
     {
         $returnData = DB::transaction(function () use ($inputs) {
 
-            $customer = $this->model()->whereIn('id', $inputs)->get()->each(function ($customer) {
-                $customer->delete();
+            $model = $this->model()->whereIn('id', $inputs)->get()->each(function ($model) {
+                $model->delete();
             });
 
-            return $customer;
+            return $model;
         });
 
         return $returnData;
@@ -108,5 +118,21 @@ class CustomerService implements CustomerInterface
     public function search($search)
     {
         return $this->model()->search($search)->get();
+    }
+
+    public function updateCustomerAverageRating($customer_id = 0)
+    {
+        $customerArray = [];
+
+        if ($customer_id > 0) $customerArray[] = $this->find(id: $customer_id, relationships: ['ratings']);
+        else $customerArray = $this->get(relationships: ['ratings']);
+
+        $customerArray = collect($customerArray)->map(function ($customer) {
+            $customer->average_rating = floatval($customer->ratings->sum('rating') / ($customer->ratings->count() > 0 ? $customer->ratings->count() : 1));
+            $customer->save();
+            return $customer;
+        });
+
+        return $customerArray;
     }
 }
