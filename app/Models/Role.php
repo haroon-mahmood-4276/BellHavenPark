@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -25,7 +24,7 @@ class Role extends SpatieRole
     ];
 
     public $rules = [
-        'parent_id' => 'required|uuid',
+        'parent_id' => 'required|numeric|gte:0',
         'name' => 'required|string|between:1,254',
         'guard_name' => 'required|string|between:1,254',
     ];
