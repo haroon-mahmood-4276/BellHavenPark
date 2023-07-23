@@ -282,6 +282,8 @@
     </div>
 </div>
 
+{{ view('layout.libs.rateYo.rateYo') }}
+
 <script>
     customer = $("#customer").wrap('<div class="position-relative"></div>');
     customer.select2({
@@ -314,35 +316,46 @@
         dropdownParent: customer.parent(),
         width: "100%",
         containerCssClass: "select-lg",
-        templateResult: renderCustomer,
-        templateSelection: renderSelectedCustomer,
+        templateResult: function(row) {
+
+            if (row.loading) {
+                return row.text;
+            }
+
+            var $container = $(
+                "<div class='d-flex flex-column'>" +
+                    "<div class='d-flex flex-row align-content-center gap-2'>" +
+                        "<div class='fw-bold fs-5'>" + row.name + "</div>" +
+                        "<div class='fw-bold fs-5 dot-divider mx-0'></div>" +
+                        "<div class='fw-bold fs-5' id='read-only-ratings_" + row.id + "'>&#9733; " + row
+                            .average_rating + "</div>" +
+                    "</div>" +
+                    "<div>Email: " + (row.email || "N/A") + "</div>" +
+                    "<div>Phone: " + (row.phone || "N/A") + "</div>" +
+                    "<div>Address: " + (row.address || "N/A") + "</div>" +
+                "</div>"
+            );
+
+            return $container;
+        },
+        templateSelection: function(row) {
+            if (row.id == '') {
+                return row.text;
+            }
+            var $container = $(
+                "<div class='d-flex flex-column'>" +
+                    "<div class='d-flex flex-row align-content-center gap-2'>" +
+                        "<div class='fw-bold'>" + (row.name || "") + "</div>" +
+                        "<div class='dot-divider mx-0'>-</div>" +
+                        "<div class='fw-bold' id='read-only-ratings_" + row.id + "'>&#9733; " + (row
+                        .average_rating || "") + "</div>" +
+                    "</div>" +
+                "</div>"
+            );
+
+            return $container;
+        },
     });
-
-    function renderCustomer(row) {
-
-        if (row.loading) {
-            return row.text;
-        }
-
-        var $container = $(
-            "<div class='d-flex flex-column'>" +
-                "<div class='d-flex flex-row'>" +
-                    "<div class='fw-bold fs-5'>" + row.name + "</div>" +
-                "</div>" +
-                "<div>Email: " + (row.email || "N/A") + "</div>" +
-                "<div>Phone: " + (row.phone || "N/A") + "</div>" +
-                "<div>Address: " + (row.address || "N/A") + "</div>" +
-            "</div>"
-        );
-
-        console.log(row);
-
-        return $container;
-    }
-
-    function renderSelectedCustomer(row) {
-        return row.name;
-    }
 
     booking_source = $("#booking_source");
     booking_source.wrap('<div class="position-relative"></div>');

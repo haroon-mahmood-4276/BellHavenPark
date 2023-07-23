@@ -7,8 +7,7 @@
 @section('page-title', 'Customers')
 
 @section('page-vendor')
-    {{ view('layout.datatables.css') }}
-    <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/rateyo/jquery.rateyo.min.css">
+    {{ view('layout.libs.datatables.css') }}
 @endsection
 
 @section('page-css')
@@ -41,15 +40,15 @@
 @endsection
 
 @section('vendor-js')
-    {{ view('layout.datatables.js') }}
-    <script src="{{ asset('assets') }}/vendor/libs/rateyo/jquery.rateyo.min.js"></script>
-@endsection
+    {{ view('layout.libs.datatables.js') }}
+    @endsection
 
-@section('page-js')
-@endsection
+    @section('page-js')
+    @endsection
 
-@section('custom-js')
+    @section('custom-js')
     {{ $dataTable->scripts() }}
+    {{ view('layout.libs.rateYo.rateYo') }}
     <script>
         $(".read-only-ratings").rateYo({
             rating: 2,
@@ -93,17 +92,6 @@
 
         function addNew() {
             location.href = "{{ route('customers.create') }}";
-        }
-
-        function customerSingleStarRating(customer_id, average_rating) {
-            $("#read-only-ratings_" + customer_id).rateYo({
-                rating: average_rating,
-                maxValue: 5,
-                readOnly: true,
-                starWidth: "25px",
-                numStars: 1,
-                ratedFill: "#7367f0",
-            });
         }
 
         function CommentModal(customer_id) {
