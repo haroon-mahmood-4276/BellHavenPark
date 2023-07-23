@@ -28,8 +28,8 @@ class Cabin extends Model
 
     public $rules = [
         'name' => 'required|string|between:3,50',
-        'cabin_type' => 'required|uuid',
-        'cabin_status' => 'required|uuid',
+        'cabin_type' => 'required|numeric|gte:0',
+        'cabin_status' => 'required|numeric|gte:0',
         'long_term' => 'required|boolean',
         'electric_meter' => 'required|boolean',
         'daily_rate' => 'required|numeric|gt:-1',
