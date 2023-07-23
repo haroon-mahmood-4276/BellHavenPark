@@ -45,25 +45,12 @@ class PermissionsDataTable extends DataTable
     public function query(Permission $model): QueryBuilder
     {
         return $model->newQuery()->with('roles');
-        // if (auth()->user()->can('permissions.view_all')) {
-        // } else {
-        //     $CurrentUserRole = auth()->user()->roles->pluck('id');
-        //     return (new Role())->where('id', $CurrentUserRole[0])->with('permissions')->first()->permissions->toQuery();
-        // }
     }
 
     public function html(): HtmlBuilder
     {
         $buttons = [];
 
-        // if (auth()->user()->can('admin.permissions.create')) {
-        //     $buttons[] = Button::raw('delete-selected')
-        //         ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
-        //         ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New')
-        //         ->attr([
-        //             'onclick' => 'addNew()',
-        //         ]);
-        // }
 
         if (auth()->user()->can('admin.permissions.export')) {
             $buttons[] = Button::make('export')
@@ -143,11 +130,8 @@ class PermissionsDataTable extends DataTable
                 ->printable(false)
                 ->addClass('text-center')
                 ->render('function () {
-                    var roles = data.roles;
-                    var isPermissionAssigned = roles.includes("' . $role['id'] . '");
                     var checkbox = "<div class=\'form-check d-flex justify-content-center\'>";
-
-                    if(isPermissionAssigned) {
+                    if(data.roles.includes(' . $role['id'] . ')) {
                         checkbox += "<input class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\'  id=\'chkRolePermission_' . $role['id']  . '__' . '" + data.permission_id + "\' checked />";
                     } else {
                         checkbox += "<input class=\'form-check-input\' type=\'checkbox\' onchange=\'changeRolePermission(\"' . $role['id'] . '\", \"" + data.permission_id + "\")\'  id=\'chkRolePermission_' . $role['id']  . '__' . '" + data.permission_id + "\' />";
