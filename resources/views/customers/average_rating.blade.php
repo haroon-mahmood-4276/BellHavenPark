@@ -4,5 +4,5 @@
 </div>
 
 <script>
-    customerSingleStarRating({{ $customer->id }}, {{ $customer->average_rating }});
+    StarRating("#read-only-ratings_{{ $customer->id }}", {{ $customer->average_rating }});
 </script>

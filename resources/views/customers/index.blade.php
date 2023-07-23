@@ -41,18 +41,15 @@
 
 @section('vendor-js')
     {{ view('layout.libs.datatables.js') }}
-    @endsection
+@endsection
 
-    @section('page-js')
-    @endsection
+@section('page-js')
+@endsection
 
-    @section('custom-js')
+@section('custom-js')
     {{ $dataTable->scripts() }}
     {{ view('layout.libs.rateYo.rateYo') }}
     <script>
-        $(".read-only-ratings").rateYo({
-            rating: 2,
-        });
 
         function deleteSelected() {
             var selectedCheckboxes = $('.dt-checkboxes:checked').length;

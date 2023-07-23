@@ -282,8 +282,6 @@
     </div>
 </div>
 
-{{ view('layout.libs.rateYo.rateYo') }}
-
 <script>
     customer = $("#customer").wrap('<div class="position-relative"></div>');
     customer.select2({
