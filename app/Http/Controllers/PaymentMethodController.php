@@ -90,7 +90,7 @@ class PaymentMethodController extends Controller
         abort_if(request()->ajax(), 403);
 
         try {
-            $payment_method = $this->paymentMethodInterface->getById($id);
+            $payment_method = $this->paymentMethodInterface->find($id);
 
             if ($payment_method && !empty($payment_method)) {
                 $data = [

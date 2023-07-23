@@ -14,17 +14,17 @@ class PaymentMethodService implements PaymentMethodInterface
 
     public function getAll($ignore = null)
     {
-        $payment_method = $this->model();
+        $model = $this->model();
         if (is_array($ignore)) {
-            $payment_method = $payment_method->whereNotIn('id', $ignore);
+            $model = $model->whereNotIn('id', $ignore);
         } else if (is_string($ignore)) {
-            $payment_method = $payment_method->where('id', '!=', $ignore);
+            $model = $model->where('id', '!=', $ignore);
         }
-        $payment_method = $payment_method->get();
-        return $payment_method;
+        $model = $model->get();
+        return $model;
     }
 
-    public function getById($id)
+    public function find($id)
     {
         return $this->model()->find($id);
     }
@@ -34,10 +34,11 @@ class PaymentMethodService implements PaymentMethodInterface
         $returnData = DB::transaction(function () use ($inputs) {
             $data = [
                 'name' => $inputs['name'],
+                'slug' => $inputs['slug'],
             ];
 
-            $payment_method = $this->model()->create($data);
-            return $payment_method;
+            $model = $this->model()->create($data);
+            return $model;
         });
 
         return $returnData;
@@ -48,10 +49,11 @@ class PaymentMethodService implements PaymentMethodInterface
         $returnData = DB::transaction(function () use ($id, $inputs) {
             $data = [
                 'name' => $inputs['name'],
+                'slug' => $inputs['slug'],
             ];
 
-            $payment_method = $this->model()->find($id)->update($data);
-            return $payment_method;
+            $model = $this->model()->find($id)->update($data);
+            return $model;
         });
 
         return $returnData;
@@ -61,11 +63,11 @@ class PaymentMethodService implements PaymentMethodInterface
     {
         $returnData = DB::transaction(function () use ($inputs) {
 
-            $payment_method = $this->model()->whereIn('id', $inputs)->get()->each(function ($payment_method) {
-                $payment_method->delete();
+            $model = $this->model()->whereIn('id', $inputs)->get()->each(function ($model) {
+                $model->delete();
             });
 
-            return $payment_method;
+            return $model;
         });
 
         return $returnData;

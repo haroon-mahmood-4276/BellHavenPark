@@ -29,7 +29,7 @@
             <div class="col-lg-9 col-md-9 col-sm-12 position-relative">
 
                 @csrf
-                {{ view('payment-methods.form-fields') }}
+                @include('payment-methods.form-fields')
 
             </div>
 
@@ -81,5 +81,5 @@
 @endsection
 
 @section('custom-js')
-
+    @include('payment-methods.form-fields-js')
 @endsection

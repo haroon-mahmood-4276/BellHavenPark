@@ -84,5 +84,5 @@
 @endsection
 
 @section('custom-js')
-    @include('cabin-types.form-fields-js')
+    @include('international-ids.form-fields-js')
 @endsection
