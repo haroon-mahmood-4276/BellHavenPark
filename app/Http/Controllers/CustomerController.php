@@ -93,11 +93,11 @@ class CustomerController extends Controller
         abort_if(request()->ajax(), 403);
 
         try {
-            $customer = $this->customerInterface->getById($id);
+            $customer = $this->customerInterface->find($id);
             if ($customer && !empty($customer)) {
                 $data = [
                     'international_ids' => $this->internationalIdInterface->getAll(),
-                    'customer' => $this->customerInterface->getById($customer->id),
+                    'customer' => $this->customerInterface->find($customer->id),
                 ];
 
                 return view('customers.edit', $data);

@@ -4,5 +4,5 @@
 </div>
 
 <script>
-    rateYo({{ $customer->id }}, {{ $customer->average_rating }});
+    customerSingleStarRating({{ $customer->id }}, {{ $customer->average_rating }});
 </script>

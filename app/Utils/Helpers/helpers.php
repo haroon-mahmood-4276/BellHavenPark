@@ -465,7 +465,7 @@ if (!function_exists('getNHeightestNumber')) {
 }
 
 if (!function_exists('apiErrorResponse')) {
-    function apiErrorResponse($message = 'data not found', $key = 'error', $code = 400)
+    function apiErrorResponse($message = 'data not found', $key = 'error', $code = 400, $data = null)
     {
         return response()->json(
             [
@@ -473,7 +473,7 @@ if (!function_exists('apiErrorResponse')) {
                 'message' => [
                     $key => $message,
                 ],
-                'data' => null,
+                'data' => $data,
                 'stauts_code' => $code
             ],
             $code

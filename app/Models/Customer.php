@@ -29,6 +29,7 @@ class Customer extends Model
         'international_details',
         'international_address',
         'comments',
+        'average_rating',
         'address',
         'referenced_by',
     ];
@@ -37,11 +38,12 @@ class Customer extends Model
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
+        'average_rating' => 'float'
     ];
 
     protected $hidden = [];
 
-    protected $appends = ['name', 'average_rating'];
+    protected $appends = ['name'];
 
     public $rules = [
         'first_name' => 'required|string|min:3|max:50',
@@ -83,16 +85,6 @@ class Customer extends Model
                     return $tenant;
                 }, $value);
                 return json_encode($value);
-            }
-        );
-    }
-
-    protected function averageRating(): Attribute
-    {
-        return Attribute::make(
-            get: function ($value, $attributes) {
-                $ratings = $this->ratings;
-                return !is_null($ratings) && $ratings->count() > 0 ? $ratings->sum('rating') / $ratings->count() : 0;
             }
         );
     }

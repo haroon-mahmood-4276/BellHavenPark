@@ -43,7 +43,7 @@ class CustomersDataTable extends DataTable
             })
 
             ->editColumn('average_rating', function ($customers) {
-                return view('customers.average_rating', ['customer' => $customers]);;
+                return view('customers.average_rating', ['customer' => $customers]);
             })
 
             ->editColumn('updated_at', function ($customers) {
@@ -166,7 +166,7 @@ class CustomersDataTable extends DataTable
             $checkColumn,
             Column::make('name')->addClass('text-nowrap text-center align-middle'),
             Column::make('email')->addClass('text-nowrap text-center align-middle'),
-            Column::make('average_rating')->orderable(false)->searchable(false)->addClass('text-nowrap text-center align-middle'),
+            Column::make('average_rating')->addClass('text-nowrap text-center align-middle'),
             Column::make('phone')->addClass('text-nowrap text-center align-middle'),
             Column::make('dob')->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),

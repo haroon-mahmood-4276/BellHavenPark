@@ -21,6 +21,7 @@ class CustomerFactory extends Factory
             'last_name' => fake()->lastName(),
             'email' => fake()->unique()->email(),
             'phone' => fake()->unique()->phoneNumber(),
+            'average_rating' => fake()->randomFloat(2, 1, 5),
         ];
     }
 }

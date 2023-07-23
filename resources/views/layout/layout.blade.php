@@ -51,7 +51,7 @@
     @yield('page-vendor')
 
     <script src="{{ asset('assets') }}/vendor/js/helpers.js"></script>
-    {{-- <script src="{{ asset('assets') }}/vendor/js/template-customizer.min.js"></script> --}}
+    <script src="{{ asset('assets') }}/vendor/js/template-customizer.min.js"></script>
     <script src="{{ asset('assets') }}/js/config.js"></script>
     @yield('page-css')
     <style>
@@ -142,6 +142,8 @@
     <script src="{{ asset('assets') }}/vendor/libs/typeahead-js/typeahead.js"></script>
     <script src="{{ asset('assets') }}/vendor/js/menu.js"></script>
 
+    <script src="{{ asset('assets') }}/js/main.js"></script>
+
     <!-- Vendors JS -->
     <script src="{{ asset('assets') }}/vendor/libs/sweetalert2/sweetalert2.js"></script>
     <script src="{{ asset('assets') }}/vendor/libs/select2/select2.js"></script>
@@ -152,7 +154,6 @@
     @yield('vendor-js')
 
     <!-- Main JS -->
-    <script src="{{ asset('assets') }}/js/main.js"></script>
 
     <!-- Page JS -->
     @yield('page-js')
@@ -164,7 +165,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         // const Toast = Swal.mixin({
         //     toast: true,
         //     position: 'top-end',
