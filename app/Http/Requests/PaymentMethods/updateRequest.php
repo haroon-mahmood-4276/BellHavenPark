@@ -24,6 +24,8 @@ class updateRequest extends FormRequest
      */
     public function rules()
     {
-        return (new PaymentMethod())->rules;
+        $rules = (new PaymentMethod())->rules;
+        $rules['slug'] .= ', ' . $this->id;
+        return $rules;
     }
 }

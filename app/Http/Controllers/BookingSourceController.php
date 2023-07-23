@@ -88,7 +88,7 @@ class BookingSourceController extends Controller
         abort_if(request()->ajax(), 403);
 
         try {
-            $booking_source = $this->bookingSourceInterface->getById($id);
+            $booking_source = $this->bookingSourceInterface->find($id);
 
             if ($booking_source && !empty($booking_source)) {
                 $data = [

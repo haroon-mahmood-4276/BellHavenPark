@@ -17,11 +17,13 @@ class BookingSource extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
     ];
 
     public $rules = [
         'name' => "required|string|between:1,50",
+        'slug' => 'required|string|min:1|max:50|unique:booking_sources,slug',
         'description' => "nullable|string|between:1,254",
     ];
 

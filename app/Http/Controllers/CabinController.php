@@ -46,7 +46,7 @@ class CabinController extends Controller
         abort_if(request()->ajax(), 403);
 
         $data = [
-            'cabin_types' => $this->cabinTypeInterface->getAll(),
+            'cabin_types' => $this->cabinTypeInterface->get(),
             'cabin_statuses' => $this->cabinStatusInterface->getAll(),
         ];
         return view('cabins.create', $data);
@@ -99,7 +99,7 @@ class CabinController extends Controller
 
             if ($cabin && !empty($cabin)) {
                 $data = [
-                    'cabin_types' => $this->cabinTypeInterface->getAll(),
+                    'cabin_types' => $this->cabinTypeInterface->get(),
                     'cabin_statuses' => $this->cabinStatusInterface->getAll(),
                     'cabin' => $cabin,
                 ];

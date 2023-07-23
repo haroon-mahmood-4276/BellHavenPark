@@ -32,7 +32,7 @@
                 @csrf
                 @method('PUT')
 
-                {{ view('payment-methods.form-fields', ['paymentMethod' => $paymentMethod]) }}
+                @include('payment-methods.form-fields')
 
             </div>
 
@@ -84,4 +84,5 @@
 @endsection
 
 @section('custom-js')
+    @include('payment-methods.form-fields-js')
 @endsection

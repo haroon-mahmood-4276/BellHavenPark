@@ -52,7 +52,7 @@ class Customer extends Model
         'dob' => 'nullable|date',
         'phone' => 'required|numeric|min_digits:3|max_digits:20',
         'telephone' => 'nullable|numeric|min_digits:3|max_digits:20',
-        'international_id' => 'nullable|uuid',
+        'international_id' => 'nullable|numeric|gte:0',
         'international_details' => 'nullable|string|min:3|max:50',
         'international_address' => 'nullable|string|min:3|max:50',
         'comments' => 'nullable|string|min:3,max:250',

@@ -29,7 +29,7 @@
             <div class="col-lg-9 col-md-9 col-sm-12 position-relative">
 
                 @csrf
-                {{ view('international-ids.form-fields') }}
+                @include('international-ids.form-fields')
 
             </div>
 
@@ -81,5 +81,5 @@
 @endsection
 
 @section('custom-js')
-
+    @include('international-ids.form-fields-js')
 @endsection

@@ -29,7 +29,7 @@
             <div class="col-lg-9 col-md-9 col-sm-12 position-relative">
 
                 @csrf
-                {{ view('booking-sources.form-fields') }}
+                @include('booking-sources.form-fields')
 
             </div>
 
@@ -81,5 +81,5 @@
 @endsection
 
 @section('custom-js')
-
+    @include('booking-sources.form-fields-js')
 @endsection

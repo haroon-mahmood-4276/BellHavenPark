@@ -24,6 +24,8 @@ class updateRequest extends FormRequest
      */
     public function rules()
     {
-        return (new InternationalId())->rules;
+        $rules = (new InternationalId())->rules;
+        $rules['slug'] .= ', ' . $this->id;
+        return $rules;
     }
 }

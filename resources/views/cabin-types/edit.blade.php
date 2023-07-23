@@ -84,4 +84,5 @@
 @endsection
 
 @section('custom-js')
+    @include('cabin-types.form-fields-js')
 @endsection

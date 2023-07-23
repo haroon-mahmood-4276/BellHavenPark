@@ -32,7 +32,7 @@
                 @csrf
                 @method('PUT')
 
-                {{ view('booking-sources.form-fields', ['booking_source' => $booking_source]) }}
+                @include('booking-sources.form-fields')
 
             </div>
 
@@ -84,4 +84,5 @@
 @endsection
 
 @section('custom-js')
+    @include('booking-sources.form-fields-js')
 @endsection

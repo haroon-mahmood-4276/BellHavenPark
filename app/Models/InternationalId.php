@@ -17,12 +17,14 @@ class InternationalId extends Model
 
     protected $fillable = [
         'name',
+        'slug'
     ];
 
     protected $hidden = [];
 
     public $rules = [
         'name' => 'required|string|min:1|max:30',
+        'slug' => 'required|string|min:1|max:30|unique:international_ids,slug',
     ];
 
     public function getActivitylogOptions(): LogOptions

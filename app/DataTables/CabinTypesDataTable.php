@@ -23,14 +23,14 @@ class CabinTypesDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
+            ->editColumn('check', function ($cabinType) {
+                return $cabinType;
+            })
             ->editColumn('updated_at', function ($cabinType) {
                 return editDateTimeColumn($cabinType->updated_at);
             })
             ->editColumn('actions', function ($cabinType) {
                 return view('cabin-types.actions', ['id' => $cabinType->id]);
-            })
-            ->editColumn('check', function ($cabinType) {
-                return $cabinType;
             })
             ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
@@ -146,6 +146,7 @@ class CabinTypesDataTable extends DataTable
         $columns = [
             $checkColumn,
             Column::make('name')->title('Cabin Types')->addClass('text-nowarp'),
+            Column::make('slug')->title('Slug')->addClass('text-nowarp'),
             Column::make('updated_at')->addClass('text-nowarp'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
         ];

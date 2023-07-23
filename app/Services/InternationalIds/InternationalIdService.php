@@ -14,17 +14,17 @@ class InternationalIdService implements InternationalIdInterface
 
     public function getAll($ignore = null, $with_tree = false)
     {
-        $international_id = $this->model();
+        $model = $this->model();
         if (is_array($ignore)) {
-            $international_id = $international_id->whereNotIn('id', $ignore);
+            $model = $model->whereNotIn('id', $ignore);
         } else if (is_string($ignore)) {
-            $international_id = $international_id->where('id', '!=', $ignore);
+            $model = $model->where('id', '!=', $ignore);
         }
-        $international_id = $international_id->get();
-        return $international_id;
+        $model = $model->get();
+        return $model;
     }
 
-    public function getById($id)
+    public function find($id)
     {
         return $this->model()->find($id);
     }
@@ -34,10 +34,11 @@ class InternationalIdService implements InternationalIdInterface
         $returnData = DB::transaction(function () use ($inputs) {
             $data = [
                 'name' => $inputs['name'],
+                'slug' => $inputs['slug'],
             ];
 
-            $international_id = $this->model()->create($data);
-            return $international_id;
+            $model = $this->model()->create($data);
+            return $model;
         });
 
         return $returnData;
@@ -48,10 +49,11 @@ class InternationalIdService implements InternationalIdInterface
         $returnData = DB::transaction(function () use ($id, $inputs) {
             $data = [
                 'name' => $inputs['name'],
+                'slug' => $inputs['slug'],
             ];
 
-            $international_id = $this->model()->find($id)->update($data);
-            return $international_id;
+            $model = $this->model()->find($id)->update($data);
+            return $model;
         });
 
         return $returnData;
@@ -61,11 +63,11 @@ class InternationalIdService implements InternationalIdInterface
     {
         $returnData = DB::transaction(function () use ($inputs) {
 
-            $international_id = $this->model()->whereIn('id', $inputs)->get()->each(function ($international_id) {
-                $international_id->delete();
+            $model = $this->model()->whereIn('id', $inputs)->get()->each(function ($model) {
+                $model->delete();
             });
 
-            return $international_id;
+            return $model;
         });
 
         return $returnData;

@@ -17,12 +17,14 @@ class PaymentMethod extends Model
 
     protected $fillable = [
         'name',
+        'slug'
     ];
 
     protected $hidden = [];
 
     public $rules = [
         'name' => 'required|string|min:1|max:30',
+        'slug' => 'required|string|min:1|max:30|unique:payment_methods,slug',
     ];
 
     public function getActivitylogOptions(): LogOptions

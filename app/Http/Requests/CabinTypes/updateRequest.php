@@ -24,6 +24,8 @@ class updateRequest extends FormRequest
      */
     public function rules()
     {
-        return (new CabinType())->rules;
+        $rules = (new CabinType())->rules;
+        $rules['slug'] .= ', ' . $this->id;
+        return $rules;
     }
 }
