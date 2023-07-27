@@ -31,9 +31,14 @@ class CabinStatusSeeder extends Seeder
                 'description' => 'Vacant',
             ],
             [
-                'name' => 'Closed',
-                'slug' => Str::of('Closed')->slug(),
-                'description' => 'Closed',
+                'name' => 'Closed - Permanent',
+                'slug' => Str::of('Closed - Permanent')->slug(),
+                'description' => 'Closed - Permanent',
+            ],
+            [
+                'name' => 'Closed - Temporarly',
+                'slug' => Str::of('Closed - Temporarly')->slug(),
+                'description' => 'Closed - Temporarly',
             ],
         ];
 
