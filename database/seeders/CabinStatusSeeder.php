@@ -21,14 +21,9 @@ class CabinStatusSeeder extends Seeder
         CabinStatus::truncate();
         $data = [
             [
-                'name' => 'Occupied',
-                'slug' => Str::of('Occupied')->slug(),
-                'description' => 'Occupied',
-            ],
-            [
-                'name' => 'Vacant',
-                'slug' => Str::of('Vacant')->slug(),
-                'description' => 'Vacant',
+                'name' => 'Open',
+                'slug' => Str::of('Open')->slug(),
+                'description' => 'Open',
             ],
             [
                 'name' => 'Closed - Permanent',
@@ -36,9 +31,9 @@ class CabinStatusSeeder extends Seeder
                 'description' => 'Closed - Permanent',
             ],
             [
-                'name' => 'Closed - Temporarly',
-                'slug' => Str::of('Closed - Temporarly')->slug(),
-                'description' => 'Closed - Temporarly',
+                'name' => 'Closed - Temporarily',
+                'slug' => Str::of('Closed - Temporarily')->slug(),
+                'description' => 'Closed - Temporarily',
             ],
         ];
 

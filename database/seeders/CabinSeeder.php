@@ -19,20 +19,21 @@ class CabinSeeder extends Seeder
      */
     public function run()
     {
+        if (app()->environment() === 'local') {
+            $cabinStatus = (new CabinStatus())->where('slug', 'open')->first();
 
-        $cabinStatus = (new CabinStatus())->where('name', 'Vacant')->first();
-
-        foreach ((new CabinType())->all() as $key => $cabinType) {
-            (new Cabin())->create([
-                'cabin_type_id' => $cabinType->id,
-                'cabin_status_id' => $cabinStatus->id,
-                'name' => 'Cabin ' . ($key + 1),
-                'long_term' => true,
-                'electric_meter' => true,
-                'daily_rate' => 0,
-                'weekly_rate' => 0,
-                'monthly_rate' => 0,
-            ]);
+            foreach ((new CabinType())->all() as $key => $cabinType) {
+                (new Cabin())->create([
+                    'cabin_type_id' => $cabinType->id,
+                    'cabin_status_id' => $cabinStatus->id,
+                    'name' => 'Cabin ' . ($key + 1),
+                    'long_term' => true,
+                    'electric_meter' => true,
+                    'daily_rate' => 0,
+                    'weekly_rate' => 0,
+                    'monthly_rate' => 0,
+                ]);
+            }
         }
     }
 }

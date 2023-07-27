@@ -44,7 +44,7 @@ class CabinsDataTable extends DataTable
      */
     public function query(Cabin $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['cabin_status', 'cabin_type']);
     }
 
     public function html(): HtmlBuilder
@@ -146,7 +146,8 @@ class CabinsDataTable extends DataTable
         $columns = [
             $checkColumn,
             Column::make('name')->title('Cabins')->addClass('text-nowarp'),
-
+            Column::make('cabin_status.name')->title('Status')->addClass('text-nowarp'),
+            Column::make('cabin_type.name')->title('Type')->addClass('text-nowarp'),
             Column::make('updated_at')->addClass('text-nowarp'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
         ];

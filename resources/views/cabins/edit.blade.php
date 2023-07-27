@@ -32,7 +32,7 @@
                 @csrf
                 @method('PUT')
 
-                {{ view('cabins.form-fields', ['cabin_types' => $cabin_types, 'cabin_statuses' => $cabin_statuses, 'cabin' => $cabin]) }}
+                @include('cabins.form-fields')
 
             </div>
 
@@ -84,4 +84,5 @@
 @endsection
 
 @section('custom-js')
+    @include('cabins.form-fields-js')
 @endsection

@@ -27,7 +27,7 @@
                     @foreach ($cabin_statuses as $cabinStatusRow)
                         @continue(isset($cabin) && $cabinStatusRow->id == $cabin->id)
                         <option data-icon="fa-solid fa-angle-right"
-                            value="{{ $cabinStatusRow['id'] }}"{{ (isset($cabin) ? $cabin->cabin_status_id : old('cabin_status')) == $cabinStatusRow['id'] ? 'selected' : '' }}>
+                            value="{{ $cabinStatusRow['slug'] }}"{{ (isset($cabin) ? $cabin->cabin_status_id : old('cabin_status')) == $cabinStatusRow['id'] ? 'selected' : '' }}>
                             {{ $cabinStatusRow['name'] }}</option>
                     @endforeach
                 </select>
@@ -55,6 +55,23 @@
                         <small class="text-muted">Enter cabin name.</small>
                     </p>
                 @enderror
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 position-relative">
+                <div class="d-none" id="div_closed_permanent_till">
+                    <label class="form-label" style="font-size: 15px" for="closed_permanent_till">Permanently Closed
+                        Till <span class="text-danger"></span></label>
+                    <input type="text" class="form-control @error('closed_permanent_till') is-invalid @enderror"
+                        id="closed_permanent_till" name="closed_permanent_till" placeholder="Permanently Closed Till"
+                        value="{{ now()->format('F j, Y') }}" minlength="3" maxlength="50" />
+                    @error('closed_permanent_till')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @else
+                        <p class="m-0">
+                            <small class="text-muted">Select the date until the cabin is closed.</small>
+                        </p>
+                    @enderror
+                </div>
             </div>
         </div>
 
