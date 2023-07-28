@@ -10,6 +10,7 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
 
 class CabinsDataTable extends DataTable
 {
@@ -23,14 +24,17 @@ class CabinsDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->editColumn('updated_at', function ($cabins) {
-                return editDateTimeColumn($cabins->updated_at);
+            ->editColumn('cabin_status', function ($model) {
+                return Str::of($model->cabin_status->value)->replace('_', " ")->title();
             })
-            ->editColumn('actions', function ($cabins) {
-                return view('cabins.actions', ['id' => $cabins->id]);
+            ->editColumn('updated_at', function ($model) {
+                return editDateTimeColumn($model->updated_at);
             })
-            ->editColumn('check', function ($cabins) {
-                return $cabins;
+            ->editColumn('actions', function ($model) {
+                return view('cabins.actions', ['id' => $model->id]);
+            })
+            ->editColumn('check', function ($model) {
+                return $model;
             })
             ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
@@ -44,7 +48,7 @@ class CabinsDataTable extends DataTable
      */
     public function query(Cabin $model): QueryBuilder
     {
-        return $model->newQuery()->with(['cabin_status', 'cabin_type']);
+        return $model->newQuery()->with(['cabin_type']);
     }
 
     public function html(): HtmlBuilder
@@ -146,7 +150,7 @@ class CabinsDataTable extends DataTable
         $columns = [
             $checkColumn,
             Column::make('name')->title('Cabins')->addClass('text-nowarp'),
-            Column::make('cabin_status.name')->title('Status')->addClass('text-nowarp'),
+            Column::make('cabin_status')->title('Status')->addClass('text-nowarp'),
             Column::make('cabin_type.name')->title('Type')->addClass('text-nowarp'),
             Column::make('updated_at')->addClass('text-nowarp'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),

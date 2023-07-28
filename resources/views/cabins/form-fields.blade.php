@@ -63,12 +63,27 @@
                         Till <span class="text-danger"></span></label>
                     <input type="text" class="form-control @error('closed_permanent_till') is-invalid @enderror"
                         id="closed_permanent_till" name="closed_permanent_till" placeholder="Permanently Closed Till"
-                        value="{{ now()->format('F j, Y') }}" minlength="3" maxlength="50" />
+                        value="{{ now()->format('F j, Y') }}" />
                     @error('closed_permanent_till')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @else
                         <p class="m-0">
-                            <small class="text-muted">Select the date until the cabin is closed.</small>
+                            <small class="text-muted">Select the date until the cabin is closed permanently.</small>
+                        </p>
+                    @enderror
+                </div>
+
+                <div class="d-none" id="div_closed_temporarily_till">
+                    <label class="form-label" style="font-size: 15px" for="closed_temporarily_till">Temporarily Closed
+                        Till <span class="text-danger"></span></label>
+                    <input type="text" class="form-control @error('closed_temporarily_till') is-invalid @enderror"
+                        id="closed_temporarily_till" name="closed_temporarily_till" placeholder="Temporarily Closed Till"
+                        value="{{ now()->format('F j, Y') }} - {{ now()->addDay()->format('F j, Y') }}" />
+                    @error('closed_temporarily_till')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @else
+                        <p class="m-0">
+                            <small class="text-muted">Select the date range until the cabin is closed temporarily.</small>
                         </p>
                     @enderror
                 </div>

@@ -12,6 +12,23 @@
             minDate: "{{ now()->format('Y/m/d') }}"
         });
 
+        new dateDropper({
+            // overlay: true,
+            // expandable: true,
+            // expandedDefault: true,
+            doubleView: true,
+            expandedOnly: true,
+            selector: '#closed_temporarily_till',
+            format: 'MM dd, y',
+            startFromMonday: true,
+            minDate: '{{ now()->subDays(1)->toDateString() }}',
+            defaultDate: '{{ now()->toDateString() }}',
+            range: true,
+            onRangeSet: function(range) {
+                $('#closed_temporarily_till').val(range.a.string + ' - ' + range.b.string);
+            },
+        });
+
         cabin_type = $("#cabin_type");
         cabin_type.wrap('<div class="position-relative"></div>');
         cabin_type.select2({
@@ -39,11 +56,21 @@
                 return cabin_status
             }
         }).on('select2:select', function(e) {
-            $('#div_closed_permanent_till').addClass('d-none');
+            $('#div_closed_permanent_till, #div_closed_temporarily_till').addClass('d-none');
             var data = e.params.data;
-            if (data.id == 'closed-permanent') {
-                $('#div_closed_permanent_till').removeClass('d-none');
+
+            switch (data.id) {
+                case 'closed-permanent':
+                    $('#div_closed_permanent_till').removeClass('d-none');
+                    break;
+                case 'closed-temporarily':
+                    $('#div_closed_temporarily_till').removeClass('d-none');
+                    break;
+
+                default:
+                    break;
             }
+
         });
     });
 

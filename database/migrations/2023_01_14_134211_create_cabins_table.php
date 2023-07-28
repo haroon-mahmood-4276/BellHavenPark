@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('cabin_type_id')->constrained()->onDelete('no action')->onUpdate('no action');
-            $table->foreignId('cabin_status_id')->constrained()->onDelete('no action')->onUpdate('no action');
+            $table->string('cabin_status');
             $table->string('name', 50)->nullable();
             $table->boolean('long_term')->default(false);
             $table->boolean('electric_meter')->default(false);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\Enums\CabinStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ class Cabin extends Model
     protected $fillable = [
         'name',
         'cabin_type_id',
-        'cabin_status_id',
+        'cabin_status',
         'long_term',
         'electric_meter',
         'daily_rate',
@@ -26,10 +27,14 @@ class Cabin extends Model
         'monthly_rate',
     ];
 
+    protected $casts = [
+        'cabin_status' => CabinStatus::class
+    ];
+
     public $rules = [
         'name' => 'required|string|between:3,50',
         'cabin_type' => 'required|numeric|gte:0',
-        'cabin_status' => 'required|numeric|gte:0',
+        'cabin_status' => 'required|string|in:open,closed-permanent,closed-temporarily',
         'long_term' => 'required|boolean',
         'electric_meter' => 'required|boolean',
         'daily_rate' => 'required|numeric|gt:-1',

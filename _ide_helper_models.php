@@ -47,17 +47,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\CabinStatus
- *
- * @method static \Illuminate\Database\Eloquent\Builder|CabinStatus newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|CabinStatus newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|CabinStatus query()
- */
-	class CabinStatus extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\CabinType
  *
  * @method static \Illuminate\Database\Eloquent\Builder|CabinType newModelQuery()
