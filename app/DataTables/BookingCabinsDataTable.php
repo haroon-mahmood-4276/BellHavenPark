@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Cabin;
 use App\Services\Bookings\BookingInterface;
+use App\Utils\Enums\CabinStatus;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -11,6 +12,7 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
 
 class BookingCabinsDataTable extends DataTable
 {
@@ -33,6 +35,9 @@ class BookingCabinsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->editColumn('cabin_status', function ($model) {
+                return Str::of($model->cabin_status->name)->replace('_', " ")->title();
+            })
             ->editColumn('updated_at', function ($cabin) {
                 return editDateTimeColumn($cabin->updated_at);
             })
@@ -51,13 +56,26 @@ class BookingCabinsDataTable extends DataTable
      */
     public function query(Cabin $model): QueryBuilder
     {
-        $bookings = $this->bookingInterface->getBookedCabinsWithinDates($this->booking_from, $this->booking_to)->toArray();
-        $bookings = array_column($bookings, 'cabin_id');
+        $bookingFrom = $this->booking_from;
+        $bookings = $this->bookingInterface->getBookedCabinsWithinDates($bookingFrom, $this->booking_to)->toArray();
+        $bookingCabinIds = array_column($bookings, 'cabin_id');
 
         $cabins = $model->newQuery()
             ->select('cabins.*')
-            ->with(['cabin_type', 'cabin_status'])
-            ->whereNotIn('cabins.id', $bookings);
+            ->with(['cabin_type'])
+            ->where(function ($query) use ($bookingFrom) {
+                $query->where('cabins.cabin_status', CabinStatus::OPEN)
+                    ->orWhere(function ($query) use ($bookingFrom) {
+                        $query->where('cabins.cabin_status', CabinStatus::CLOSED_TEMPORARILY)
+                            ->where('cabins.closed_to', '<', $bookingFrom->timestamp);
+                    });
+            });
+
+        if (count($bookingCabinIds) > 0) {
+            $cabins->whereNotIn('cabins.id', $bookingCabinIds);
+        }
+
+        // $cabins->ddRawSql();
 
         return $cabins;
     }
@@ -120,11 +138,11 @@ class BookingCabinsDataTable extends DataTable
             ->buttons($buttons)
             ->fixedColumns([
                 'right' => 1,
-            ]);
+            ])
             // ->rowGroupDataSrc('parent_id')
-            // ->orders([
-            //     [3, 'asc'],
-            // ]);
+            ->orders([
+                [2, 'asc'],
+            ]);
     }
 
     /**
@@ -135,11 +153,11 @@ class BookingCabinsDataTable extends DataTable
     protected function getColumns(): array
     {
         $columns = [
-            Column::computed('DT_RowIndex')->title('#')->orderable(false),
-            Column::make('name')->addClass('text-nowarp')->orderable(false),
-            Column::make('cabin_status.name')->title('Cabin Status')->addClass('text-nowarp')->orderable(false),
-            Column::make('cabin_type.name')->title('Cabin Type')->addClass('text-nowarp')->orderable(false),
-            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap')->orderable(false),
+            Column::computed('DT_RowIndex')->title('#'),
+            Column::make('name')->addClass('text-nowrap text-center align-middle'),
+            Column::make('cabin_status')->title('Cabin Status')->addClass('text-nowrap text-center align-middle'),
+            Column::make('cabin_type.name')->title('Cabin Type')->addClass('text-nowrap text-center align-middle'),
+            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];
         return $columns;
     }

@@ -5,20 +5,18 @@ namespace App\Http\Controllers;
 use App\DataTables\CabinsDataTable;
 use App\Exceptions\GeneralException;
 use App\Http\Requests\Cabins\{storeRequest, updateRequest};
-use App\Services\Cabins\CabinInterface;
-use App\Services\CabinStatuses\CabinStatusInterface;
-use App\Services\CabinTypes\CabinTypeInterface;
+use App\Services\{Cabins\CabinInterface, CabinTypes\CabinTypeInterface};
+use App\Utils\Enums\CabinStatus;
 use Exception;
 use Illuminate\Http\Request;
 
 class CabinController extends Controller
 {
-    private $cabinInterface, $cabinTypeInterface, $cabinStatusInterface;
+    private $cabinInterface, $cabinTypeInterface;
 
-    public function __construct(CabinInterface $cabinInterface, CabinStatusInterface $cabinStatusInterface, CabinTypeInterface $cabinTypeInterface)
+    public function __construct(CabinInterface $cabinInterface, CabinTypeInterface $cabinTypeInterface)
     {
         $this->cabinInterface = $cabinInterface;
-        $this->cabinStatusInterface = $cabinStatusInterface;
         $this->cabinTypeInterface = $cabinTypeInterface;
     }
 
@@ -47,7 +45,7 @@ class CabinController extends Controller
 
         $data = [
             'cabin_types' => $this->cabinTypeInterface->get(),
-            'cabin_statuses' => $this->cabinStatusInterface->getAll(),
+            'cabin_statuses' => CabinStatus::array(withText: true),
         ];
         return view('cabins.create', $data);
     }
@@ -100,7 +98,7 @@ class CabinController extends Controller
             if ($cabin && !empty($cabin)) {
                 $data = [
                     'cabin_types' => $this->cabinTypeInterface->get(),
-                    'cabin_statuses' => $this->cabinStatusInterface->getAll(),
+                    'cabin_statuses' => CabinStatus::array(withText: true),
                     'cabin' => $cabin,
                 ];
 

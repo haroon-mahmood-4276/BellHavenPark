@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             UserSeeder::class,
             BookingSourceSeeder::class,
-            CabinStatusSeeder::class,
             CabinTypeSeeder::class,
             CabinSeeder::class,
             InternationalIdSeeder::class,

@@ -137,7 +137,7 @@ class InternationalIdsDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowarp');
+        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle');
 
         if (auth()->user()->can('international-ids.destroy')) {
             $checkColumn->addClass('disabled');
@@ -145,10 +145,10 @@ class InternationalIdsDataTable extends DataTable
 
         $columns = [
             $checkColumn,
-            Column::make('name')->title('International Id')->addClass('text-nowarp'),
-            Column::make('slug')->title('slug')->addClass('text-nowarp'),
-            Column::make('updated_at')->addClass('text-nowarp'),
-            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
+            Column::make('name')->title('International Id')->addClass('text-nowrap text-center align-middle'),
+            Column::make('slug')->title('slug')->addClass('text-nowrap text-center align-middle'),
+            Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
+            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];
         return $columns;
     }

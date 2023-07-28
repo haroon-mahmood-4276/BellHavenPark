@@ -147,7 +147,7 @@ class BookingPaymentsDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowarp align-middle');
+        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle');
 
         if (auth()->user()->can('bookings.payments.destroy')) {
             $checkColumn->addClass('disabled');
@@ -155,14 +155,14 @@ class BookingPaymentsDataTable extends DataTable
 
         $columns = [
             $checkColumn,
-            Column::make('debit')->title('Debit')->addClass('text-nowarp align-middle'),
-            Column::make('credit')->title('Credit')->addClass('text-nowarp align-middle'),
-            Column::make('type')->title('Type')->addClass('text-nowarp align-middle'),
-            Column::make('comments')->title('Comments')->addClass('text-nowarp align-middle'),
+            Column::make('debit')->title('Debit')->addClass('text-nowrap text-center align-middle'),
+            Column::make('credit')->title('Credit')->addClass('text-nowrap text-center align-middle'),
+            Column::make('type')->title('Type')->addClass('text-nowrap text-center align-middle'),
+            Column::make('comments')->title('Comments')->addClass('text-nowrap text-center align-middle'),
 
             Column::make('updated_at')->addClass('text-center text-nowarp align-middle'),
         ];
-        // Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
+        // Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         return $columns;
     }
 

@@ -62,22 +62,22 @@
         }
 
         :root {
-            --dd-radius: 6px;
-            --dd-shadow: 0 0 2.5em rgba(0, 0, 0, 0.1);
-            --dd-overlay: rgba(0, 0, 0, .75);
-            --dd-background: #FFFFFF;
-            --dd-text1: #333333;
-            --dd-text2: #FFFFFF;
-            --dd-primary: #7367f0;
-            --dd-gradient: linear-gradient(45deg, #e61e68 0%, #FD4741 100%);
-            --dd-range: rgba(0, 0, 0, 0.05);
-            --dd-monthBackground: #7367f0;
-            --dd-monthText: var(--dd-text2);
-            --dd-monthBorder: transparent;
-            --dd-confirmButtonBackground: #7367f0;
-            --dd-confirmButtonText: var(--dd-text2);
-            --dd-selectedBackground: #7367f0;
-            --dd-selectedText: var(--dd-text2);
+            /* --dd-radius: 6px !important; */
+            --dd-shadow: 0 0 2.5em rgba(0, 0, 0, 0.1) !important;
+            --dd-overlay: rgba(0, 0, 0, .75) !important;
+            --dd-background: #FFFFFF !important;
+            --dd-text1: #333333 !important;
+            --dd-text2: #FFFFFF !important;
+            --dd-primary: #7367f0 !important;
+            --dd-gradient: linear-gradient(45deg, #e61e68 0%, #FD4741 100%) !important;
+            --dd-range: rgba(0, 0, 0, 0.05) !important;
+            --dd-monthBackground: #7367f0 !important;
+            --dd-monthText: var(--dd-text2) !important;
+            --dd-monthBorder: transparent !important;
+            --dd-confirmButtonBackground: #7367f0 !important;
+            --dd-confirmButtonText: var(--dd-text2) !important;
+            --dd-selectedBackground: #7367f0 !important;
+            --dd-selectedText: var(--dd-text2) !important;
         }
     </style>
 

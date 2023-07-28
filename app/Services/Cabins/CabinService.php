@@ -14,14 +14,14 @@ class CabinService implements CabinInterface
 
     public function getAll($ignore = null)
     {
-        $cabin = $this->model();
+        $model = $this->model();
         if (is_array($ignore)) {
-            $cabin = $cabin->whereNotIn('id', $ignore);
+            $model = $model->whereNotIn('id', $ignore);
         } else if (is_string($ignore)) {
-            $cabin = $cabin->where('id', '!=', $ignore);
+            $model = $model->where('id', '!=', $ignore);
         }
-        $cabin = $cabin->get();
-        return $cabin;
+        $model = $model->get();
+        return $model;
     }
 
     public function getById($id)
@@ -35,16 +35,27 @@ class CabinService implements CabinInterface
             $data = [
                 'name' => $inputs['name'],
                 'cabin_type_id' => $inputs['cabin_type'],
-                'cabin_status_id' => $inputs['cabin_status'],
+                'cabin_status' => $inputs['cabin_status'],
                 'long_term' => $inputs['long_term'],
                 'electric_meter' => $inputs['electric_meter'],
                 'daily_rate' => $inputs['daily_rate'],
                 'weekly_rate' => $inputs['weekly_rate'],
                 'monthly_rate' => $inputs['monthly_rate'],
             ];
+            switch ($inputs['cabin_status']) {
+                case 'closed_permanently':
+                    $data['closed_from'] = intval($inputs['closed_permanent_till']);
+                    $data['closed_to'] = intval($inputs['closed_permanent_till']);
+                    break;
 
-            $cabin = $this->model()->create($data);
-            return $cabin;
+                case 'closed_temporarily':
+                    $data['closed_from'] = intval($inputs['closed_temporarily_till_from']);
+                    $data['closed_to'] = intval($inputs['closed_temporarily_till_to']);
+                    break;
+            }
+
+            $model = $this->model()->create($data);
+            return $model;
         });
 
         return $returnData;
@@ -56,16 +67,27 @@ class CabinService implements CabinInterface
             $data = [
                 'name' => $inputs['name'],
                 'cabin_type_id' => $inputs['cabin_type'],
-                'cabin_status_id' => $inputs['cabin_status'],
+                'cabin_status' => $inputs['cabin_status'],
                 'long_term' => $inputs['long_term'],
                 'electric_meter' => $inputs['electric_meter'],
                 'daily_rate' => $inputs['daily_rate'],
                 'weekly_rate' => $inputs['weekly_rate'],
                 'monthly_rate' => $inputs['monthly_rate'],
             ];
+            switch ($inputs['cabin_status']) {
+                case 'closed_permanently':
+                    $data['closed_from'] = intval($inputs['closed_permanent_till']);
+                    $data['closed_to'] = intval($inputs['closed_permanent_till']);
+                    break;
 
-            $cabin = $this->model()->find($id)->update($data);
-            return $cabin;
+                case 'closed_temporarily':
+                    $data['closed_from'] = intval($inputs['closed_temporarily_till_from']);
+                    $data['closed_to'] = intval($inputs['closed_temporarily_till_to']);
+                    break;
+            }
+
+            $model = $this->model()->find($id)->update($data);
+            return $model;
         });
 
         return $returnData;
@@ -75,11 +97,11 @@ class CabinService implements CabinInterface
     {
         $returnData = DB::transaction(function () use ($inputs) {
 
-            $cabin = $this->model()->whereIn('id', $inputs)->get()->each(function ($cabin) {
-                $cabin->delete();
+            $model = $this->model()->whereIn('id', $inputs)->get()->each(function ($model) {
+                $model->delete();
             });
 
-            return $cabin;
+            return $model;
         });
 
         return $returnData;
