@@ -130,7 +130,7 @@ class CabinsDataTable extends DataTable
                 'right' => 1,
             ])
             ->orders([
-                [3, 'asc'],
+                [4, 'desc'],
             ]);
     }
 

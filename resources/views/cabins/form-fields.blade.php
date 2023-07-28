@@ -25,8 +25,9 @@
                 <label class="form-label" style="font-size: 15px" for="cabin_status">Cabin Status</label>
                 <select class="select2-size-lg form-select" id="cabin_status" name="cabin_status">
                     @foreach ($cabin_statuses as $statusKey => $cabinStatusRow)
-                        <option data-icon="fa-solid fa-angle-right" value="{{ $statusKey }}">
-                            {{ $cabinStatusRow['text'] }}</option>
+                        <option data-icon="fa-solid fa-angle-right"
+                            {{ isset($cabin) && $cabin->cabin_status->value == $statusKey ? 'selected' : null }}
+                            value="{{ $statusKey }}">{{ $cabinStatusRow['text'] }}</option>
                     @endforeach
                 </select>
                 @error('cabin_status')
@@ -56,13 +57,17 @@
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-6 position-relative">
-                <div class="d-none" id="div_closed_permanent_till">
+                <div class="{{ isset($cabin) && $cabin->cabin_status->value != 'closed_permanently' ? 'd-none' : null }}"
+                    id="div_closed_permanent_till">
                     <label class="form-label" style="font-size: 15px" for="closed_permanent_till">Permanently Closed
                         Till <span class="text-danger"></span></label>
+
                     <input type="text" class="form-control @error('closed_permanent_till') is-invalid @enderror"
                         id="closed_permanent_till" placeholder="Permanently Closed Till"
-                        value="{{ now()->format('F j, Y') }}" />
-                    <input type="hidden" name="closed_permanent_till" value="{{ now()->startOfDay()->timestamp }}">
+                        value="{{ isset($cabin) ? \Carbon\Carbon::parse($cabin->closed_to)->format('F j, Y') : now()->format('F j, Y') }}" />
+
+                    <input type="hidden" name="closed_permanent_till"
+                        value="{{ isset($cabin) ? \Carbon\Carbon::parse($cabin->closed_to)->startOfDay()->timestamp : now()->startOfDay()->timestamp }}">
                     @error('closed_permanent_till')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @else
@@ -72,14 +77,20 @@
                     @enderror
                 </div>
 
-                <div class="d-none" id="div_closed_temporarily_till">
+                <div class="{{ isset($cabin) && $cabin->cabin_status->value != 'closed_temporarily' ? 'd-none' : null }}"
+                    id="div_closed_temporarily_till">
                     <label class="form-label" style="font-size: 15px" for="closed_temporarily_till">Temporarily Closed
                         Till <span class="text-danger"></span></label>
+
                     <input type="text" class="form-control @error('closed_temporarily_till') is-invalid @enderror"
                         id="closed_temporarily_till" placeholder="Temporarily Closed Till"
-                        value="{{ now()->format('F j, Y') }} - {{ now()->addDay()->format('F j, Y') }}" />
-                    <input type="hidden" name="closed_temporarily_till_from" value="{{ now()->startOfDay()->timestamp }}">
-                    <input type="hidden" name="closed_temporarily_till_to" value="{{ now()->addDay()->startOfDay()->timestamp }}">
+                        value="{{ isset($cabin) ? \Carbon\Carbon::parse($cabin->closed_from)->format('F j, Y') : now()->format('F j, Y') }} - {{ isset($cabin)? \Carbon\Carbon::parse($cabin->closed_to)->format('F j, Y'): now()->addDay()->format('F j, Y') }}" />
+
+                    <input type="hidden" name="closed_temporarily_till_from"
+                        value="{{ isset($cabin) ? \Carbon\Carbon::parse($cabin->closed_from)->startOfDay()->timestamp : now()->startOfDay()->timestamp }}">
+                    <input type="hidden" name="closed_temporarily_till_to"
+                        value="{{ isset($cabin)? \Carbon\Carbon::parse($cabin->closed_to)->startOfDay()->timestamp: now()->addDay()->startOfDay()->timestamp }}">
+
                     @error('closed_temporarily_till')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @else

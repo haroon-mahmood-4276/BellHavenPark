@@ -18,7 +18,7 @@ trait EnumHelpers
 
     public static function array($withText = false): array
     {
-        if ($withText) {
+        if (!$withText) {
             return array_combine(self::names(), self::values());
         }
 

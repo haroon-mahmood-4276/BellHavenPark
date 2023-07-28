@@ -45,7 +45,7 @@ class CabinController extends Controller
 
         $data = [
             'cabin_types' => $this->cabinTypeInterface->get(),
-            'cabin_statuses' => CabinStatus::array(),
+            'cabin_statuses' => CabinStatus::array(withText: true),
         ];
         return view('cabins.create', $data);
     }
@@ -98,7 +98,7 @@ class CabinController extends Controller
             if ($cabin && !empty($cabin)) {
                 $data = [
                     'cabin_types' => $this->cabinTypeInterface->get(),
-                    'cabin_statuses' => $this->cabinStatusInterface->getAll(),
+                    'cabin_statuses' => CabinStatus::array(withText: true),
                     'cabin' => $cabin,
                 ];
 

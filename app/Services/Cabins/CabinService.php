@@ -67,13 +67,24 @@ class CabinService implements CabinInterface
             $data = [
                 'name' => $inputs['name'],
                 'cabin_type_id' => $inputs['cabin_type'],
-                'cabin_status_id' => $inputs['cabin_status'],
+                'cabin_status' => $inputs['cabin_status'],
                 'long_term' => $inputs['long_term'],
                 'electric_meter' => $inputs['electric_meter'],
                 'daily_rate' => $inputs['daily_rate'],
                 'weekly_rate' => $inputs['weekly_rate'],
                 'monthly_rate' => $inputs['monthly_rate'],
             ];
+            switch ($inputs['cabin_status']) {
+                case 'closed_permanently':
+                    $data['closed_from'] = intval($inputs['closed_permanent_till']);
+                    $data['closed_to'] = intval($inputs['closed_permanent_till']);
+                    break;
+
+                case 'closed_temporarily':
+                    $data['closed_from'] = intval($inputs['closed_temporarily_till_from']);
+                    $data['closed_to'] = intval($inputs['closed_temporarily_till_to']);
+                    break;
+            }
 
             $model = $this->model()->find($id)->update($data);
             return $model;
