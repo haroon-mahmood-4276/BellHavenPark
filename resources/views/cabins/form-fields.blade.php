@@ -57,7 +57,7 @@
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-6 position-relative">
-                <div class="{{ isset($cabin) && $cabin->cabin_status->value != 'closed_permanently' ? 'd-none' : null }}"
+                <div class="{{ isset($cabin) && $cabin->cabin_status->value == 'closed_permanently' ? null : 'd-none' }}"
                     id="div_closed_permanent_till">
                     <label class="form-label" style="font-size: 15px" for="closed_permanent_till">Permanently Closed
                         Till <span class="text-danger"></span></label>
@@ -77,7 +77,7 @@
                     @enderror
                 </div>
 
-                <div class="{{ isset($cabin) && $cabin->cabin_status->value != 'closed_temporarily' ? 'd-none' : null }}"
+                <div class="{{ isset($cabin) && $cabin->cabin_status->value == 'closed_temporarily' ? null : 'd-none' }}"
                     id="div_closed_temporarily_till">
                     <label class="form-label" style="font-size: 15px" for="closed_temporarily_till">Temporarily Closed
                         Till <span class="text-danger"></span></label>
