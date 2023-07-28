@@ -25,7 +25,7 @@ class CabinsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->editColumn('cabin_status', function ($model) {
-                return Str::of($model->cabin_status->value)->replace('_', " ")->title();
+                return Str::of($model->cabin_status->name)->replace('_', " ")->title();
             })
             ->editColumn('updated_at', function ($model) {
                 return editDateTimeColumn($model->updated_at);
@@ -48,7 +48,7 @@ class CabinsDataTable extends DataTable
      */
     public function query(Cabin $model): QueryBuilder
     {
-        return $model->newQuery()->with(['cabin_type']);
+        return $model->newQuery()->select('cabins.*')->with(['cabin_type']);
     }
 
     public function html(): HtmlBuilder
@@ -141,7 +141,7 @@ class CabinsDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowarp');
+        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle');
 
         if (auth()->user()->can('cabins.destroy')) {
             $checkColumn->addClass('disabled');
@@ -149,11 +149,11 @@ class CabinsDataTable extends DataTable
 
         $columns = [
             $checkColumn,
-            Column::make('name')->title('Cabins')->addClass('text-nowarp'),
-            Column::make('cabin_status')->title('Status')->addClass('text-nowarp'),
-            Column::make('cabin_type.name')->title('Type')->addClass('text-nowarp'),
-            Column::make('updated_at')->addClass('text-nowarp'),
-            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap'),
+            Column::make('name')->addClass('text-nowrap text-center align-middle'),
+            Column::make('cabin_status')->title('Status')->addClass('text-nowrap text-center align-middle'),
+            Column::make('cabin_type.name')->title('Type')->addClass('text-nowrap text-center align-middle'),
+            Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
+            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];
         return $columns;
     }

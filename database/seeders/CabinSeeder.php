@@ -25,6 +25,8 @@ class CabinSeeder extends Seeder
                     'cabin_type_id' => $cabinType->id,
                     'cabin_status' => CabinStatus::OPEN,
                     'name' => 'Cabin ' . ($key + 1),
+                    'closed_from' => now()->timestamp,
+                    'closed_to' => now()->timestamp,
                     'long_term' => true,
                     'electric_meter' => true,
                     'daily_rate' => 0,

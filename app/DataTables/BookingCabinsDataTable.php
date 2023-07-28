@@ -136,10 +136,10 @@ class BookingCabinsDataTable extends DataTable
     {
         $columns = [
             Column::computed('DT_RowIndex')->title('#')->orderable(false),
-            Column::make('name')->addClass('text-nowarp')->orderable(false),
-            Column::make('cabin_status.name')->title('Cabin Status')->addClass('text-nowarp')->orderable(false),
-            Column::make('cabin_type.name')->title('Cabin Type')->addClass('text-nowarp')->orderable(false),
-            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center text-nowrap')->orderable(false),
+            Column::make('name')->addClass('text-nowrap text-center align-middle')->orderable(false),
+            Column::make('cabin_status.name')->title('Cabin Status')->addClass('text-nowrap text-center align-middle')->orderable(false),
+            Column::make('cabin_type.name')->title('Cabin Type')->addClass('text-nowrap text-center align-middle')->orderable(false),
+            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle')->orderable(false),
         ];
         return $columns;
     }

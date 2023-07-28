@@ -6,6 +6,7 @@ use App\DataTables\CabinsDataTable;
 use App\Exceptions\GeneralException;
 use App\Http\Requests\Cabins\{storeRequest, updateRequest};
 use App\Services\{Cabins\CabinInterface, CabinTypes\CabinTypeInterface};
+use App\Utils\Enums\CabinStatus;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -44,7 +45,7 @@ class CabinController extends Controller
 
         $data = [
             'cabin_types' => $this->cabinTypeInterface->get(),
-            'cabin_statuses' => $this->cabinStatusInterface->getAll(),
+            'cabin_statuses' => CabinStatus::array(),
         ];
         return view('cabins.create', $data);
     }

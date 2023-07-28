@@ -9,8 +9,12 @@
             expandable: true,
             startFromMonday: true,
             defaultDate: "{{ now()->format('Y/m/d') }}",
-            minDate: "{{ now()->format('Y/m/d') }}"
+            minDate: "{{ now()->format('Y/m/d') }}",
+            onChange: function(res) {
+                $('input[name="closed_permanent_till"]').val(moment(res.output.string).add(1, 'days').startOf('day').unix());
+            }
         });
+
 
         new dateDropper({
             // overlay: true,
@@ -26,6 +30,8 @@
             range: true,
             onRangeSet: function(range) {
                 $('#closed_temporarily_till').val(range.a.string + ' - ' + range.b.string);
+                $('input[name="closed_temporarily_till_from"]').val(moment(range.a.string).add(1, 'days').startOf('day').unix());
+                $('input[name="closed_temporarily_till_to"]').val(moment(range.b.string).add(1, 'days').startOf('day').unix());
             },
         });
 
@@ -57,13 +63,11 @@
             }
         }).on('select2:select', function(e) {
             $('#div_closed_permanent_till, #div_closed_temporarily_till').addClass('d-none');
-            var data = e.params.data;
-
-            switch (data.id) {
-                case 'closed-permanent':
+            switch (e.params.data.id) {
+                case 'closed_permanently':
                     $('#div_closed_permanent_till').removeClass('d-none');
                     break;
-                case 'closed-temporarily':
+                case 'closed_temporarily':
                     $('#div_closed_temporarily_till').removeClass('d-none');
                     break;
 
