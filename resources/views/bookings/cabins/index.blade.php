@@ -89,23 +89,22 @@
     {{ $dataTable->scripts() }}
     <script>
         var pageState = {
+            booking_date_range: '',
             cabin_id: '',
             booking_from: '',
             booking_to: '',
             prevModal: 'modalPlace',
         };
 
-        history.replaceState(pageState, "", '');
-
         ['popstate', 'hashchange', 'load'].forEach(function(e) {
             window.addEventListener(e, function(event) {
-                console.log(e);
+
                 let params = new URLSearchParams(window.location.search);
 
                 if (params.get('cabin_id') !== null && params.get('booking_from') !== null && params.get(
                         'booking_to') !== null) {
 
-                    if (isUUID(params.get('cabin_id')) && params.get('booking_from') >=
+                    if (parseInt(params.get('cabin_id')) > 0 && params.get('booking_from') >=
                         {{ now()->startOfDay()->timestamp }} &&
                         params.get('booking_to') >= {{ now()->startOfDay()->timestamp }}) {
 
@@ -165,23 +164,20 @@
             addBooking(cabin_id, booking_from, booking_to);
         }
 
-        function isUUID(str) {
-            var pattern = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-            return pattern.test(str);
-        }
-
         function addBooking(cabin_id, booking_from, booking_to) {
             showBlockUI();
 
             pageState = {
+                booking_date_range: (moment.unix(booking_from).format('LL') + ' - ' + moment.unix(booking_to).format(
+                    'LL')).replaceAll(' ', '%20'),
                 cabin_id: cabin_id,
                 booking_from: booking_from,
                 booking_to: booking_to,
                 prevModal: 'modalPlace',
             };
 
-            history.pushState(pageState, "", '?cabin_id=' + pageState.cabin_id + '&booking_from=' +
-                pageState.booking_from + '&booking_to=' + pageState.booking_to);
+            history.pushState(pageState, "", '?booking_date_range=' + pageState.booking_date_range + '&cabin_id=' +
+                pageState.cabin_id + '&booking_from=' + pageState.booking_from + '&booking_to=' + pageState.booking_to);
 
             $('#add_booking_' + cabin_id).prop('disabled', true);
 

@@ -1,4 +1,4 @@
-<div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
     {{-- <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document"> --}}
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -397,15 +397,16 @@
         });
 
         $('#basicModal-close').on('click', function() {
-            console.log('close button clicked', "{{ route('bookings.create') }}");
-            let pageState = {
+
+            var pageState = {
+                booking_date_range: ("{{ \Carbon\Carbon::parse($date_from)->format('F j, Y') }} - {{ \Carbon\Carbon::parse($date_to)->format('F j, Y') }}").replaceAll(' ', '%20'),
                 cabin_id: '',
                 booking_from: '',
                 booking_to: '',
                 prevModal: 'modalPlace',
             };
 
-            history.replaceState(pageState, '', "{{ route('bookings.create') }}");
+            history.replaceState(pageState, '', "{{ route('bookings.create') }}?booking_date_range=" + pageState.booking_date_range);
         });
 
         // $('#booking_store').validate({
