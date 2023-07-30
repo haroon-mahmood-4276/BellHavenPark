@@ -23,7 +23,7 @@ class CabinSeeder extends Seeder
             foreach ((new CabinType())->all() as $key => $cabinType) {
                 (new Cabin())->create([
                     'cabin_type_id' => $cabinType->id,
-                    'cabin_status' => CabinStatus::OPEN,
+                    'cabin_status' => CabinStatus::VACANT,
                     'name' => 'Cabin ' . ($key + 1),
                     'closed_from' => now()->timestamp,
                     'closed_to' => now()->timestamp,

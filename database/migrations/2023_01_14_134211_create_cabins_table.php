@@ -1,5 +1,6 @@
 <?php
 
+use App\Utils\Enums\CabinStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +18,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('cabin_type_id')->constrained()->onDelete('no action')->onUpdate('no action');
-            $table->string('cabin_status');
+            $table->string('cabin_status')->comment('Status should be ' . implode(', ', CabinStatus::values()));
             $table->string('name', 50)->nullable();
             $table->unsignedInteger('closed_from')->default(0);
             $table->unsignedInteger('closed_to')->default(0);

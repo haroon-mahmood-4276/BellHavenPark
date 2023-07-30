@@ -64,7 +64,7 @@ class BookingCabinsDataTable extends DataTable
             ->select('cabins.*')
             ->with(['cabin_type'])
             ->where(function ($query) use ($bookingFrom) {
-                $query->where('cabins.cabin_status', CabinStatus::OPEN)
+                $query->where('cabins.cabin_status', CabinStatus::VACANT)
                     ->orWhere(function ($query) use ($bookingFrom) {
                         $query->where('cabins.cabin_status', CabinStatus::CLOSED_TEMPORARILY)
                             ->where('cabins.closed_to', '<', $bookingFrom->timestamp);
