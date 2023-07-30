@@ -89,15 +89,15 @@ class BookingController extends Controller
     {
         abort_if(request()->ajax(), 403);
 
-        try {
+        // try {
             $inputs = $request->validated();
             $record = $this->bookingInterface->store($inputs);
             return redirect()->route('bookings.index')->withSuccess('Data saved!');
-        } catch (GeneralException $ex) {
-            return redirect()->route('bookings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
-        } catch (Exception $ex) {
-            return redirect()->route('bookings.index')->withDanger('Something went wrong!');
-        }
+        // } catch (GeneralException $ex) {
+        //     return redirect()->route('bookings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+        // } catch (Exception $ex) {
+        //     return redirect()->route('bookings.index')->withDanger('Something went wrong!');
+        // }
     }
 
     public function CheckInIndex(BookingsDataTable $dataTable)
