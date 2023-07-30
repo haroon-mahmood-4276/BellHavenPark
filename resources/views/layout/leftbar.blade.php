@@ -61,6 +61,13 @@
             </li>
         @endcanany
 
+        <li class="menu-item {{ request()->routeIs('settings.index') ? 'active' : null }}">
+            <a href="{{ route('settings.index', ['tab' => 'general']) }}" class="menu-link">
+                <i class="fa-solid fa-gears menu-icon"></i>
+                <div>Settings</div>
+            </a>
+        </li>
+
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Booking & Customers</span>
         </li>
