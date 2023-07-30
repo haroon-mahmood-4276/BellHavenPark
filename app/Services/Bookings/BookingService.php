@@ -74,7 +74,7 @@ class BookingService implements BookingInterface
     public function store($inputs)
     {
 
-        $returnData = DB::transaction(function () use ($inputs) {
+        // $returnData = DB::transaction(function () use ($inputs) {
             $data = [
 
                 'cabin_id' => $inputs['cabin_id'],
@@ -109,6 +109,8 @@ class BookingService implements BookingInterface
             ];
             $booking = $this->model()->create($data);
 
+            $booking->tenants()->sync($inputs['tenants'] ?? []);
+
             if ($inputs['payment'] == 'now') {
                 $data = [
                     'booking_id' => $booking->id,
@@ -123,9 +125,9 @@ class BookingService implements BookingInterface
             }
 
             return $booking;
-        });
+        // });
 
-        return $returnData;
+        // return $returnData;
     }
 
     public function storeCheckIn($id)

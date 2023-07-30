@@ -63,6 +63,13 @@
                         </div>
                     </div>
 
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label class="form-label" style="font-size: 15px" for="tenants">Tenants</label>
+                            <select class="select2-size-lg form-select" multiple disabled id="tenants" name="tenants[]"></select>
+                        </div>
+                    </div>
+
                     <div class="px-5">
                         <hr>
                     </div>
@@ -161,27 +168,6 @@
                     </div>
 
                     <div class="row mb-3">
-
-                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 text-center">
-                            <label class="form-label d-block" style="font-size: 15px"
-                                for="check_in">Electricity</label>
-
-                            <div class="d-flex align-items-center justify-content-around h-75">
-                                <div class="form-check form-check-primary">
-                                    <input type="radio" name="electricity_included" id="electricity_included"
-                                        class="form-check-input" value="included" checked />
-                                    <label class="form-check-label" for="electricity_included">Included</label>
-                                </div>
-
-                                <div class="form-check form-check-primary">
-                                    <input type="radio" name="electricity_included" id="electricity_not_included"
-                                        class="form-check-input" value="not_included" />
-                                    <label class="form-check-label" for="electricity_not_included">Not
-                                        Included</label>
-                                </div>
-                            </div>
-                        </div> --}}
-
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <label class="form-label" style="font-size: 15px" for="booking_tax">Tax </label>
                             <input type="number" class="form-control" id="booking_tax" name="booking_tax"
@@ -190,7 +176,6 @@
                                 <small class="text-muted">Enter tax.</small>
                             </p>
                         </div>
-
                     </div>
 
                     <div class="row mb-3">
@@ -286,7 +271,7 @@
     customer = $("#customer").wrap('<div class="position-relative"></div>');
     customer.select2({
         ajax: {
-            url: '{{ route('ajax.customers.index') }}',
+            url: "{{ route('ajax.customers.index') }}",
             dataType: 'json',
             delay: 500,
             data: function(params) {
@@ -298,7 +283,6 @@
             },
             processResults: function(response, params) {
                 // params.page = params.page || 1;
-
                 return {
                     results: response.data,
                     // pagination: {
@@ -308,6 +292,78 @@
             },
             cache: true
         },
+        placeholder: 'Search for Customers...',
+        dropdownAutoWidth: !0,
+        minimumInputLength: 2,
+        dropdownParent: customer.parent(),
+        width: "100%",
+        containerCssClass: "select-lg",
+        templateResult: function(row) {
+
+            if (row.loading) {
+                return row.text;
+            }
+
+            var $container = $(
+                "<div class='d-flex flex-column'>" +
+                    "<div class='d-flex flex-row align-content-center gap-2'>" +
+                        "<div class='fw-bold fs-5'>" + row.name + "</div>" +
+                        "<div class='fw-bold fs-5 dot-divider mx-0'></div>" +
+                        "<div class='fw-bold fs-5' id='read-only-ratings_" + row.id + "'>&#9733; " + row
+                            .average_rating + "</div>" +
+                    "</div>" +
+                    "<div>Email: " + (row.email || "N/A") + "</div>" +
+                    "<div>Phone: " + (row.phone || "N/A") + "</div>" +
+                    "<div>Address: " + (row.address || "N/A") + "</div>" +
+                "</div>"
+            );
+
+            return $container;
+        },
+        templateSelection: function(row) {
+            if (row.id == '') {
+                return row.text;
+            }
+            var $container = $(
+                "<div class='d-flex flex-column'>" +
+                    "<div class='d-flex flex-row align-content-center gap-2'>" +
+                        "<div class='fw-bold'>" + (row.name || "") + "</div>" +
+                        "<div class='dot-divider mx-0'>-</div>" +
+                        "<div class='fw-bold' id='read-only-ratings_" + row.id + "'>&#9733; " + (row
+                        .average_rating || "") + "</div>" +
+                    "</div>" +
+                "</div>"
+            );
+
+            return $container;
+        },
+    }).on('select2:select', function (e) {
+        var data = e.params.data;
+        $("#tenants").attr('disabled', false);
+    });
+
+    tenants = $("#tenants").wrap('<div class="position-relative"></div>');
+    tenants.select2({
+        ajax: {
+            url: "{{ route('ajax.customers.index') }}",
+            dataType: 'json',
+            delay: 500,
+            data: function(params) {
+                let data = {
+                    q: params.term,
+                    type: "query",
+                };
+                data.ignoredCustomerId = $('#customer').select2('data')[0]?.id;
+                return data;
+            },
+            processResults: function(response, params) {
+                return {
+                    results: response.data,
+                };
+            },
+            cache: true
+        },
+
         placeholder: 'Search for Customers...',
         dropdownAutoWidth: !0,
         minimumInputLength: 2,
@@ -408,62 +464,5 @@
 
             history.replaceState(pageState, '', "{{ route('bookings.create') }}?booking_date_range=" + pageState.booking_date_range);
         });
-
-        // $('#booking_store').validate({
-        //     rules: {
-        //         customers: {
-        //             required: true
-        //         },
-        //         daily_rate: {
-        //             required: true
-        //         },
-
-        //     },
-        //     validClass: "is-valid",
-        //     errorClass: 'is-invalid',
-        //     errorElement: "span",
-        //     // wrapper: "div",
-        //     // do other things for a valid form
-        //     submitHandler: function(form) {
-        //         // Swal.fire('asdasdasdasd');
-        //         form.submit();
-        //     }
-        // });
     });
-</script>
-<script>
-    // document.addEventListener('DOMContentLoaded', function (e) {
-    //     FormValidation.formValidation(document.getElementById('demoForm'), {
-    //         fields: {
-    //             'languages[]': {
-    //                 validators: {
-    //                     choice: {
-    //                         min: 2,
-    //                         max: 4,
-    //                         message: 'Please choose 2 - 4 programming languages you are good at',
-    //                     },
-    //                 },
-    //             },
-    //             'editors[]': {
-    //                 validators: {
-    //                     choice: {
-    //                         min: 2,
-    //                         max: 3,
-    //                         message: 'Please choose 2 - 3 editors you use most',
-    //                     },
-    //                 },
-    //             },
-    //         },
-    //         plugins: {
-    //             trigger: new FormValidation.plugins.Trigger(),
-    //             bootstrap: new FormValidation.plugins.Bootstrap(),
-    //             submitButton: new FormValidation.plugins.SubmitButton(),
-    //             icon: new FormValidation.plugins.Icon({
-    //                 valid: 'fa fa-check',
-    //                 invalid: 'fa fa-times',
-    //                 validating: 'fa fa-refresh',
-    //             }),
-    //         },
-    //     });
-    // });
 </script>

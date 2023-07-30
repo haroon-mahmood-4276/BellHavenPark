@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -74,7 +75,10 @@ class Booking extends Model
         'check_in' => 'required|in:now,later',
         'payment' => 'required|in:now,later',
         'advance_payment' => 'required_if:payment,now|integer|gte:0',
-        'comments' => 'nullable'
+        'comments' => 'nullable',
+
+        'tenants' => 'nullable|array',
+        'tenants.*' => 'nullable|numeric|gte:0',
     ];
 
     public $rulesMessages = [];
@@ -104,5 +108,10 @@ class Booking extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function tenants(): BelongsToMany
+    {
+        return $this->belongsToMany(Customer::class, 'booking_tenants', 'booking_id', 'customer_id');
     }
 }

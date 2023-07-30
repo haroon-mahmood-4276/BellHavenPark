@@ -5,6 +5,7 @@ namespace App\Services\Customers;
 use App\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class CustomerService implements CustomerInterface
 {
@@ -115,9 +116,15 @@ class CustomerService implements CustomerInterface
         return $returnData;
     }
 
-    public function search($search)
+    public function search($search, $ignore_id = 0)
     {
-        return $this->model()->search($search)->get();
+        $model = $this->model()->search($search);
+
+        if ($ignore_id > 0) {
+            $model = $model->query(fn (QueryBuilder $query) => $query->whereNot('id', $ignore_id));
+        }
+
+        return $model->get();
     }
 
     public function updateCustomerAverageRating($customer_id = 0)
