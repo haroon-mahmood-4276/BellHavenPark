@@ -1,10 +1,47 @@
 <?php
 
-use App\Models\{Role};
+use App\Models\{Role, Setting};
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\{Collection};
 use Illuminate\Support\Facades\{Crypt, File};
+
+if (!function_exists('settings')) {
+    function settings($key, $overrideCache = false)
+    {
+        if ($overrideCache) {
+            return (new Setting())->firstWhere('key', $key)?->value;
+        }
+
+        return Cache::remember($key, now()->addSeconds(env('CACHE_TIME_TO_LIVE', 3600)), function () use ($key) {
+            return (new Setting())->firstWhere('key', $key)?->value;
+        });
+    }
+}
+
+if (!function_exists('settings_update')) {
+    function settings_update(array|string $keys, array|string $values)
+    {
+        if (is_array($keys) && is_array($values)) {
+            $settings = array_combine($keys, $values);
+            foreach ($settings as $key => $value) {
+                (new Setting())->updateOrCreate([
+                    'key' => $key
+                ], [
+                    'value' => $value
+                ]);
+            }
+        } else {
+            (new Setting())->updateOrCreate([
+                'key' => $keys
+            ], [
+                'value' => $values
+            ]);
+        }
+        cache()->flush();
+        return true;
+    }
+}
 
 if (!function_exists('filter_strip_tags')) {
 
@@ -481,7 +518,7 @@ if (!function_exists('apiErrorResponse')) {
                     $key => $message,
                 ],
                 'data' => $data,
-                'stauts_code' => $code
+                'status_code' => $code
             ],
             $code
         );
@@ -498,7 +535,7 @@ if (!function_exists('apiSuccessResponse')) {
                     $key => $message,
                 ],
                 'data' => $data,
-                'stauts_code' => $code
+                'status_code' => $code
             ],
             $code
         );

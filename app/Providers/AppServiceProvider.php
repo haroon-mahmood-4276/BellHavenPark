@@ -11,7 +11,6 @@ use App\Services\BookingSources\{BookingSourceInterface, BookingSourceService};
 use App\Services\Customers\{CustomerInterface, CustomerService};
 use App\Services\Bookings\{BookingInterface, BookingService};
 use App\Services\Payments\{PaymentInterface, PaymentService};
-
 use App\Services\CustomerRatings\{CustomerRatingInterface, CustomerRatingService};
 
 use Illuminate\Support\ServiceProvider;

@@ -12,14 +12,14 @@
 
 
         <!-- Search -->
-        <div class="navbar-nav align-items-center">
+        {{-- <div class="navbar-nav align-items-center">
             <div class="nav-item navbar-search-wrapper mb-0">
                 <a class="nav-item nav-link search-toggler d-flex align-items-center px-0" href="javascript:void(0);">
                     <i class="ti ti-search ti-md me-2"></i>
                     <span class="d-none d-md-inline-block text-muted">Search (Ctrl+/)</span>
                 </a>
             </div>
-        </div>
+        </div> --}}
         <!-- /Search -->
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -281,7 +281,8 @@
 
                                 <div class="flex-grow-1">
                                     <span class="fw-semibold d-block">{{ auth()->user()->name }}</span>
-                                    <small class="text-muted">{{ implode(', ', auth()->user()->roles->pluck('name')->toArray()) }}</small>
+                                    <small
+                                        class="text-muted">{{ implode(', ',auth()->user()->roles->pluck('name')->toArray()) }}</small>
                                 </div>
                             </div>
                         </a>
@@ -290,13 +291,7 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="javascript:void(0);">
-                            <i class="ti ti-user-check me-2 ti-sm"></i>
-                            <span class="align-middle">My Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="javascript:void(0);">
+                        <a class="dropdown-item" href="{{ route('settings.index', ['tab' => 'general']) }}">
                             <i class="ti ti-settings me-2 ti-sm"></i>
                             <span class="align-middle">Settings</span>
                         </a>
@@ -313,21 +308,20 @@
                 </ul>
             </li>
             <!--/ User -->
-
-
-
         </ul>
     </div>
 
 
-    <!-- Search Small Screens -->
+    {{-- <!-- Search Small Screens -->
     <div class="navbar-search-wrapper search-input-wrapper d-none">
-        <span class="twitter-typeahead" style="position: relative; display: inline-block;"><input type="text"
-                class="form-control search-input container-xxl border-0 tt-input" placeholder="Search..."
-                aria-label="Search..." autocomplete="off" spellcheck="false" dir="auto"
+        <span class="twitter-typeahead" style="position: relative; display: inline-block;">
+            <input type="text" class="form-control search-input container-xxl border-0 tt-input"
+                placeholder="Search..." aria-label="Search..." autocomplete="off" spellcheck="false" dir="auto"
                 style="position: relative; vertical-align: top;">
+
             <pre aria-hidden="true"
                 style="position: absolute; visibility: hidden; white-space: pre; font-family: &quot;Public Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Oxygen, Ubuntu, Cantarell, &quot;Fira Sans&quot;, &quot;Droid Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size: 15px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre>
+
             <div class="tt-menu navbar-search-suggestion ps"
                 style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;">
                 <div class="tt-dataset tt-dataset-pages"></div>
@@ -342,7 +336,7 @@
             </div>
         </span>
         <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
-    </div>
+    </div> --}}
 
 
 

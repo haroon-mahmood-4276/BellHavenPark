@@ -4,7 +4,7 @@
             <span class="app-brand-logo">
 
             </span>
-            <span class="app-brand-text demo menu-text fw-bold text-primary">{{ env('APP_NAME') }}</span>
+            <span class="app-brand-text demo menu-text fw-bold text-primary">{{ settings('app_name') }}</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -60,6 +60,13 @@
                 </ul>
             </li>
         @endcanany
+
+        <li class="menu-item {{ request()->routeIs('settings.index') ? 'active' : null }}">
+            <a href="{{ route('settings.index', ['tab' => 'general']) }}" class="menu-link">
+                <i class="fa-solid fa-gears menu-icon"></i>
+                <div>Settings</div>
+            </a>
+        </li>
 
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Booking & Customers</span>
