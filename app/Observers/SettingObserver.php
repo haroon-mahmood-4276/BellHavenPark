@@ -8,6 +8,6 @@ class SettingObserver
 {
     public function saved(Setting $setting): void
     {
-        dd($setting);
+        // dd($setting);
     }
 }

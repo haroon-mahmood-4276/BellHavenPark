@@ -23,7 +23,7 @@ Breadcrumbs::for('roles.edit', function (BreadcrumbTrail $trail) {
     $trail->push('Edit Role');
 });
 
-// Permisisons Breadcrumbs
+// Permissions Breadcrumbs
 Breadcrumbs::for('permissions.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
     $trail->push('Permissions', route('permissions.index'));
@@ -155,4 +155,11 @@ Breadcrumbs::for('bookings.calender.index', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('bookings.payments.index', function (BreadcrumbTrail $trail) {
     $trail->parent('bookings.index');
     $trail->push('Payments');
+});
+
+
+// Settings Breadcrumbs
+Breadcrumbs::for('settings.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Settings');
 });

@@ -3,7 +3,7 @@
 @section('content')
     <div class="d-flex col-12 col-lg-5 align-items-center p-sm-5 p-4">
         <div class="w-px-400 mx-auto">
-            <h3 class="mb-1 fw-bold">Welcome to {{ env('APP_NAME') }}! 👋</h3>
+            <h3 class="mb-1 fw-bold">Welcome to {{ settings('app_name') }}! 👋</h3>
             <p class="mb-4">Please sign-in to your account and start the adventure</p>
             <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="POST">
 

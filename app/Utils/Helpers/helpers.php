@@ -13,7 +13,7 @@ if (!function_exists('settings')) {
             return (new Setting())->firstWhere('key', $key)?->value;
         }
 
-        return Cache::rememberForever($key, function () use ($key) {
+        return Cache::remember($key, now()->addSeconds(env('CACHE_TIME_TO_LIVE', 3600)), function () use ($key) {
             return (new Setting())->firstWhere('key', $key)?->value;
         });
     }
@@ -25,12 +25,16 @@ if (!function_exists('settings_update')) {
         if (is_array($keys) && is_array($values)) {
             $settings = array_combine($keys, $values);
             foreach ($settings as $key => $value) {
-                (new Setting())->firstWhere('key', $key)->update([
+                (new Setting())->updateOrCreate([
+                    'key' => $key
+                ], [
                     'value' => $value
                 ]);
             }
         } else {
-            (new Setting())->firstWhere('key', $keys)->update([
+            (new Setting())->updateOrCreate([
+                'key' => $keys
+            ], [
                 'value' => $values
             ]);
         }
