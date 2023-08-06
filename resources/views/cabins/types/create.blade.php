@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'cabin-types.create') }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'cabins.types.create') }}
 @endsection
 
 @section('page-title', 'Create Cabin Type')
@@ -18,18 +18,18 @@
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
         <h2 class="content-header-title float-start mb-0 mx-3">Create Cabin Type</h2>
-        {{ Breadcrumbs::render('cabin-types.create') }}
+        {{ Breadcrumbs::render('cabins.types.create') }}
     </div>
 @endsection
 
 @section('content')
-    <form class="form form-vertical" action="{{ route('cabin-types.store') }}" method="POST" enctype="multipart/form-data">
+    <form class="form form-vertical" action="{{ route('cabins.types.store') }}" method="POST" enctype="multipart/form-data">
 
         <div class="row g-3">
             <div class="col-lg-9 col-md-9 col-sm-12 position-relative">
 
                 @csrf
-                {{ view('cabin-types.form-fields') }}
+                @include('cabins.types.form-fields')
 
             </div>
 
@@ -45,7 +45,7 @@
                                     </button>
                                 </div>
                                 <div class="col-md-12">
-                                    <a href="{{ route('cabin-types.index') }}" class="btn btn-danger w-100 ">
+                                    <a href="{{ route('cabins.types.index') }}" class="btn btn-danger w-100 ">
                                         <i class="fa-solid fa-xmark icon mx-2"></i>
                                         Cancel
                                     </a>
@@ -81,5 +81,5 @@
 @endsection
 
 @section('custom-js')
-    @include('cabin-types.form-fields-js')
+    @include('cabins.types.form-fields-js')
 @endsection

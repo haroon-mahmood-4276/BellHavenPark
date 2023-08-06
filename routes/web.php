@@ -102,23 +102,6 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
-    // Cabin Types Routes
-    Route::prefix('cabin-types')->name('cabin-types.')->controller(CabinTypeController::class)->group(function () {
-        Route::get('/', 'index')->middleware('permission:cabin-types.index')->name('index');
-
-        Route::group(['middleware' => 'permission:cabin-types.create'], function () {
-            Route::get('create', 'create')->name('create');
-            Route::post('store', 'store')->name('store');
-        });
-
-        Route::get('delete', 'destroy')->name('destroy');
-
-        Route::group(['prefix' => '/{id}', 'middleware' => 'permission:cabin-types.edit'], function () {
-            Route::get('edit', 'edit')->name('edit');
-            Route::put('update', 'update')->name('update');
-        });
-    });
-
     // Cabin Routes
     Route::prefix('cabins')->name('cabins.')->controller(CabinController::class)->group(function () {
         Route::get('/', 'index')->middleware('permission:cabins.index')->name('index');
@@ -133,6 +116,23 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => '/{id}', 'middleware' => 'permission:cabins.edit'], function () {
             Route::get('edit', 'edit')->name('edit');
             Route::put('update', 'update')->name('update');
+        });
+
+        // Cabin Types Routes
+        Route::prefix('types')->name('types.')->controller(CabinTypeController::class)->group(function () {
+            Route::get('/', 'index')->middleware('permission:cabins.types.index')->name('index');
+
+            Route::group(['middleware' => 'permission:cabins.types.create'], function () {
+                Route::get('create', 'create')->name('create');
+                Route::post('store', 'store')->name('store');
+            });
+
+            Route::get('delete', 'destroy')->name('destroy');
+
+            Route::group(['prefix' => '/{id}', 'middleware' => 'permission:cabins.types.edit'], function () {
+                Route::get('edit', 'edit')->name('edit');
+                Route::put('update', 'update')->name('update');
+            });
         });
     });
 

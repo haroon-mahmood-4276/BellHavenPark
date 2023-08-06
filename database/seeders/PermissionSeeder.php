@@ -24,356 +24,349 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'roles.index',
                 'guard_name' => 'web',
-                'show_name' => 'Can View Roles',
+                'show_name' => 'Roles - Can View',
             ],
             [
                 'name' => 'roles.create',
                 'guard_name' => 'web',
-                'show_name' => 'Can Create Role',
+                'show_name' => 'Role - Can Create',
             ],
             [
                 'name' => 'roles.store',
                 'guard_name' => 'web',
-                'show_name' => 'Can Store Role',
+                'show_name' => 'Role - Can Store',
             ],
             [
                 'name' => 'roles.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Can Edit Role',
+                'show_name' => 'Role - Can Edit',
             ],
             [
                 'name' => 'roles.update',
                 'guard_name' => 'web',
-                'show_name' => 'Can Update Role',
+                'show_name' => 'Role - Can Update',
             ],
             [
                 'name' => 'roles.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Can Delete Role',
+                'show_name' => 'Role - Can Delete',
             ],
             [
                 'name' => 'roles.export',
                 'guard_name' => 'web',
-                'show_name' => 'Can Export Roles',
+                'show_name' => 'Roles - Can Export',
             ],
 
             // Permissions Routes
             [
                 'name' => 'permissions.index',
                 'guard_name' => 'web',
-                'show_name' => 'Can View Permissions',
+                'show_name' => 'Permissions - Can View',
             ],
             [
                 'name' => 'permissions.view_all',
                 'guard_name' => 'web',
-                'show_name' => 'Can View All Site Roles Permissions',
+                'show_name' => 'All Site Roles Permissions - Can View',
             ],
             // [
             //     'name' => 'permissions.create',
             //     'guard_name' => 'web',
-            //     'show_name' => 'Can Create Permissions',
+            //     'show_name' => 'Permissions - Can Create',
             // ],
             // [
             //     'name' => 'permissions.store',
             //     'guard_name' => 'web',
-            //     'show_name' => 'Can Store Permissions',
+            //     'show_name' => 'Permissions - Can Store',
             // ],
             // [
             //     'name' => 'permissions.edit',
             //     'guard_name' => 'web',
-            //     'show_name' => 'Can Edit Permissions',
+            //     'show_name' => 'Permissions - Can Edit',
             // ],
             // [
             //     'name' => 'permissions.update',
             //     'guard_name' => 'web',
-            //     'show_name' => 'Can Update Permissions',
+            //     'show_name' => 'Permissions - Can Update',
             // ],
             // [
             //     'name' => 'permissions.destroy',
             //     'guard_name' => 'web',
-            //     'show_name' => 'Can Delete Permission',
+            //     'show_name' => 'Permission - Can Delete',
             // ],
             // [
             //     'name' => 'permissions.destroy',
             //     'guard_name' => 'web',
-            //     'show_name' => 'Can Delete Selected Permissions',
+            //     'show_name' => 'Selected Permissions - Can Delete',
             // ],
             [
                 'name' => 'permissions.assign-permission',
                 'guard_name' => 'web',
-                'show_name' => 'Can Assign Permission',
+                'show_name' => 'Permission - Can Assign',
             ],
             [
                 'name' => 'permissions.revoke-permission',
                 'guard_name' => 'web',
-                'show_name' => 'Can Revoke Permission',
+                'show_name' => 'Permission - Can Revoke',
             ],
             [
                 'name' => 'permissions.edit-own-permission',
                 'guard_name' => 'web',
-                'show_name' => 'Can Edit Own Permission',
+                'show_name' => 'Own Permission - Can Edit',
             ],
 
             // Sites Routes
             [
                 'name' => 'cache.flush',
                 'guard_name' => 'web',
-                'show_name' => 'Can Refresh Site Cache',
-            ],
-
-            // Commands Routes
-            [
-                'name' => 'commands.command',
-                'guard_name' => 'web',
-                'show_name' => 'Can Run Artisan Commands',
+                'show_name' => 'Site Cache - Can Refresh',
             ],
 
             // Payment Method Routes
             [
                 'name' => 'payment-methods.index',
                 'guard_name' => 'web',
-                'show_name' => 'Can View Payment Methods',
+                'show_name' => 'Payment Methods - Can View',
             ],
             [
                 'name' => 'payment-methods.create',
                 'guard_name' => 'web',
-                'show_name' => 'Can Create Payment Method',
+                'show_name' => 'Payment Method - Can Create',
             ],
             [
                 'name' => 'payment-methods.store',
                 'guard_name' => 'web',
-                'show_name' => 'Can Store Payment Method',
+                'show_name' => 'Payment Method - Can Store',
             ],
             [
                 'name' => 'payment-methods.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Can Edit Payment Method',
+                'show_name' => 'Payment Method - Can Edit',
             ],
             [
                 'name' => 'payment-methods.update',
                 'guard_name' => 'web',
-                'show_name' => 'Can Update Payment Method',
+                'show_name' => 'Payment Method - Can Update',
             ],
             [
                 'name' => 'payment-methods.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Can Delete Payment Method',
+                'show_name' => 'Payment Method - Can Delete',
             ],
             [
                 'name' => 'payment-methods.export',
                 'guard_name' => 'web',
-                'show_name' => 'Can Export Payment Methods',
+                'show_name' => 'Payment Methods - Can Export',
             ],
 
             // International Ids Routes
             [
                 'name' => 'international-ids.index',
                 'guard_name' => 'web',
-                'show_name' => 'Can View International Ids',
+                'show_name' => 'International Ids - Can View',
             ],
             [
                 'name' => 'international-ids.create',
                 'guard_name' => 'web',
-                'show_name' => 'Can Create International Id',
+                'show_name' => 'International Id - Can Create',
             ],
             [
                 'name' => 'international-ids.store',
                 'guard_name' => 'web',
-                'show_name' => 'Can Store International Id',
+                'show_name' => 'International Id - Can Store',
             ],
             [
                 'name' => 'international-ids.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Can Edit International Id',
+                'show_name' => 'International Id - Can Edit',
             ],
             [
                 'name' => 'international-ids.update',
                 'guard_name' => 'web',
-                'show_name' => 'Can Update International Id',
+                'show_name' => 'International Id - Can Update',
             ],
             [
                 'name' => 'international-ids.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Can Delete International Id',
+                'show_name' => 'International Id - Can Delete',
             ],
             [
                 'name' => 'international-ids.export',
                 'guard_name' => 'web',
-                'show_name' => 'Can Export International Ids',
+                'show_name' => 'International Ids - Can Export',
             ],
 
             // Cabin Types Routes
             [
-                'name' => 'cabin-types.index',
+                'name' => 'cabins.types.index',
                 'guard_name' => 'web',
-                'show_name' => 'Can View Cabin Types',
+                'show_name' => 'Cabin Types - Can View',
             ],
             [
-                'name' => 'cabin-types.create',
+                'name' => 'cabins.types.create',
                 'guard_name' => 'web',
-                'show_name' => 'Can Create Cabin Type',
+                'show_name' => 'Cabin Type - Can Create',
             ],
             [
-                'name' => 'cabin-types.store',
+                'name' => 'cabins.types.store',
                 'guard_name' => 'web',
-                'show_name' => 'Can Store Cabin Type',
+                'show_name' => 'Cabin Type - Can Store',
             ],
             [
-                'name' => 'cabin-types.edit',
+                'name' => 'cabins.types.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Can Edit Cabin Type',
+                'show_name' => 'Cabin Type - Can Edit',
             ],
             [
-                'name' => 'cabin-types.update',
+                'name' => 'cabins.types.update',
                 'guard_name' => 'web',
-                'show_name' => 'Can Update Cabin Type',
+                'show_name' => 'Cabin Type - Can Update',
             ],
             [
-                'name' => 'cabin-types.destroy',
+                'name' => 'cabins.types.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Can Delete Cabin Type',
+                'show_name' => 'Cabin Type - Can Delete',
             ],
             [
-                'name' => 'cabin-types.export',
+                'name' => 'cabins.types.export',
                 'guard_name' => 'web',
-                'show_name' => 'Can Export Cabin Types',
+                'show_name' => 'Cabin Types - Can Export',
             ],
 
             // Cabins Routes
             [
                 'name' => 'cabins.index',
                 'guard_name' => 'web',
-                'show_name' => 'Can View Cabins',
+                'show_name' => 'Cabins - Can View',
             ],
             [
                 'name' => 'cabins.create',
                 'guard_name' => 'web',
-                'show_name' => 'Can Create Cabin',
+                'show_name' => 'Cabin - Can Create',
             ],
             [
                 'name' => 'cabins.store',
                 'guard_name' => 'web',
-                'show_name' => 'Can Store Cabin',
+                'show_name' => 'Cabin - Can Store',
             ],
             [
                 'name' => 'cabins.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Can Edit Cabin',
+                'show_name' => 'Cabin - Can Edit',
             ],
             [
                 'name' => 'cabins.update',
                 'guard_name' => 'web',
-                'show_name' => 'Can Update Cabin',
+                'show_name' => 'Cabin - Can Update',
             ],
             [
                 'name' => 'cabins.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Can Delete Cabin',
+                'show_name' => 'Cabin - Can Delete',
             ],
             [
                 'name' => 'cabins.export',
                 'guard_name' => 'web',
-                'show_name' => 'Can Export Cabins',
+                'show_name' => 'Cabins - Can Export',
             ],
 
             // Booking Sources Routes
             [
                 'name' => 'booking-sources.index',
                 'guard_name' => 'web',
-                'show_name' => 'Can View Booking Sources',
+                'show_name' => 'Booking Sources - Can View',
             ],
             [
                 'name' => 'booking-sources.create',
                 'guard_name' => 'web',
-                'show_name' => 'Can Create Booking Source',
+                'show_name' => 'Booking Source - Can Create',
             ],
             [
                 'name' => 'booking-sources.store',
                 'guard_name' => 'web',
-                'show_name' => 'Can Store Booking Source',
+                'show_name' => 'Booking Source - Can Store',
             ],
             [
                 'name' => 'booking-sources.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Can Edit Booking Source',
+                'show_name' => 'Booking Source - Can Edit',
             ],
             [
                 'name' => 'booking-sources.update',
                 'guard_name' => 'web',
-                'show_name' => 'Can Update Booking Source',
+                'show_name' => 'Booking Source - Can Update',
             ],
             [
                 'name' => 'booking-sources.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Can Delete Booking Source',
+                'show_name' => 'Booking Source - Can Delete',
             ],
             [
                 'name' => 'booking-sources.export',
                 'guard_name' => 'web',
-                'show_name' => 'Can Export Booking Sources',
+                'show_name' => 'Booking Sources - Can Export',
             ],
 
             // Customers Routes
             [
                 'name' => 'customers.index',
                 'guard_name' => 'web',
-                'show_name' => 'Can View Customers',
+                'show_name' => 'Customers - Can View',
             ],
             [
                 'name' => 'customers.create',
                 'guard_name' => 'web',
-                'show_name' => 'Can Create Customer',
+                'show_name' => 'Customer - Can Create',
             ],
             [
                 'name' => 'customers.store',
                 'guard_name' => 'web',
-                'show_name' => 'Can Store Customer',
+                'show_name' => 'Customer - Can Store',
             ],
             [
                 'name' => 'customers.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Can Edit Customer',
+                'show_name' => 'Customer - Can Edit',
             ],
             [
                 'name' => 'customers.update',
                 'guard_name' => 'web',
-                'show_name' => 'Can Update Customer',
+                'show_name' => 'Customer - Can Update',
             ],
             [
                 'name' => 'customers.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Can Delete Customer',
+                'show_name' => 'Customer - Can Delete',
             ],
             [
                 'name' => 'customers.export',
                 'guard_name' => 'web',
-                'show_name' => 'Can Export Customers',
+                'show_name' => 'Customers - Can Export',
             ],
 
             // Bookings Routes
             [
                 'name' => 'bookings.index',
                 'guard_name' => 'web',
-                'show_name' => 'Can View Bookings',
+                'show_name' => 'Bookings - Can View',
             ],
             [
                 'name' => 'bookings.create',
                 'guard_name' => 'web',
-                'show_name' => 'Can Create Booking',
+                'show_name' => 'Booking - Can Create',
             ],
             [
                 'name' => 'bookings.checkin.index',
-                'show_name' => 'Can View Checkin',
+                'show_name' => 'Checkin - Can View',
                 'guard_name' => 'web',
             ],
             [
                 'name' => 'bookings.checkout.index',
-                'show_name' => 'Can View Checkout',
+                'show_name' => 'Checkout - Can View',
                 'guard_name' => 'web',
             ],
             [
                 'name' => 'bookings.calender.index',
-                'show_name' => 'Can View Booking Calender',
+                'show_name' => 'Booking Calender - Can View',
                 'guard_name' => 'web',
             ],
 
@@ -381,17 +374,17 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'bookings.payments.index',
                 'guard_name' => 'web',
-                'show_name' => 'Can View Bookings Payment List',
+                'show_name' => 'Bookings Payment List - Can View',
             ],
             [
                 'name' => 'bookings.payments.create',
                 'guard_name' => 'web',
-                'show_name' => 'Can Create Booking Payment',
+                'show_name' => 'Booking Payment - Can Create',
             ],
             [
                 'name' => 'bookings.payments.export',
                 'guard_name' => 'web',
-                'show_name' => 'Can Export Payments',
+                'show_name' => 'Payments - Can Export',
             ],
         ];
 

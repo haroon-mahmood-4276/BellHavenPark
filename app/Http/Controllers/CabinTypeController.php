@@ -29,7 +29,7 @@ class CabinTypeController extends Controller
             return $dataTable->ajax();
         }
 
-        return $dataTable->render('cabin-types.index');
+        return $dataTable->render('cabins.types.index');
     }
 
     /**
@@ -42,7 +42,7 @@ class CabinTypeController extends Controller
         abort_if(request()->ajax(), 403);
 
         $data = [];
-        return view('cabin-types.create', $data);
+        return view('cabins.types.create', $data);
     }
 
     /**
@@ -58,11 +58,11 @@ class CabinTypeController extends Controller
         try {
             $inputs = $request->validated();
             $record = $this->cabinTypesInterface->store($inputs);
-            return redirect()->route('cabin-types.index')->withSuccess('Data saved!');
+            return redirect()->route('cabins.types.index')->withSuccess('Data saved!');
         } catch (GeneralException $ex) {
-            return redirect()->route('cabin-types.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+            return redirect()->route('cabins.types.index')->withDanger('Something went wrong! ' . $ex->getMessage());
         } catch (Exception $ex) {
-            return redirect()->route('cabin-types.index')->withDanger('Something went wrong!');
+            return redirect()->route('cabins.types.index')->withDanger('Something went wrong!');
         }
     }
 
@@ -95,14 +95,14 @@ class CabinTypeController extends Controller
                     'cabin_type' => $cabin_type,
                 ];
 
-                return view('cabin-types.edit', $data);
+                return view('cabins.types.edit', $data);
             }
 
-            return redirect()->route('cabin-types.index')->withWarning('Record not found!');
+            return redirect()->route('cabins.types.index')->withWarning('Record not found!');
         } catch (GeneralException $ex) {
-            return redirect()->route('cabin-types.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+            return redirect()->route('cabins.types.index')->withDanger('Something went wrong! ' . $ex->getMessage());
         } catch (Exception $ex) {
-            return redirect()->route('cabin-types.index')->withDanger('Something went wrong!');
+            return redirect()->route('cabins.types.index')->withDanger('Something went wrong!');
         }
     }
 
@@ -121,11 +121,11 @@ class CabinTypeController extends Controller
 
             $record = $this->cabinTypesInterface->update($id, $inputs);
 
-            return redirect()->route('cabin-types.index')->withSuccess('Data saved!');
+            return redirect()->route('cabins.types.index')->withSuccess('Data saved!');
         } catch (GeneralException $ex) {
-            return redirect()->route('cabin-types.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+            return redirect()->route('cabins.types.index')->withDanger('Something went wrong! ' . $ex->getMessage());
         } catch (Exception $ex) {
-            return redirect()->route('cabin-types.index')->withDanger('Something went wrong!');
+            return redirect()->route('cabins.types.index')->withDanger('Something went wrong!');
         }
     }
 
@@ -146,14 +146,14 @@ class CabinTypeController extends Controller
                 $record = $this->cabinTypesInterface->destroy($request->checkForDelete);
 
                 if (!$record) {
-                    return redirect()->route('cabin-types.index')->withDanger('Data not found!');
+                    return redirect()->route('cabins.types.index')->withDanger('Data not found!');
                 }
             }
-            return redirect()->route('cabin-types.index')->withSuccess('Data deleted!');
+            return redirect()->route('cabins.types.index')->withSuccess('Data deleted!');
         } catch (GeneralException $ex) {
-            return redirect()->route('cabin-types.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+            return redirect()->route('cabins.types.index')->withDanger('Something went wrong! ' . $ex->getMessage());
         } catch (Exception $ex) {
-            return redirect()->route('cabin-types.index')->withDanger('Something went wrong!');
+            return redirect()->route('cabins.types.index')->withDanger('Something went wrong!');
         }
     }
 }

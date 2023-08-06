@@ -30,7 +30,7 @@ class CabinTypesDataTable extends DataTable
                 return editDateTimeColumn($cabinType->updated_at);
             })
             ->editColumn('actions', function ($cabinType) {
-                return view('cabin-types.actions', ['id' => $cabinType->id]);
+                return view('cabins.types.actions', ['id' => $cabinType->id]);
             })
             ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
@@ -51,7 +51,7 @@ class CabinTypesDataTable extends DataTable
     {
         $buttons = [];
 
-        if (auth()->user()->can('cabin-types.create')) {
+        if (auth()->user()->can('cabins.types.create')) {
             $buttons[] = Button::raw('add-new')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New')
@@ -60,7 +60,7 @@ class CabinTypesDataTable extends DataTable
                 ]);
         }
 
-        if (auth()->user()->can('cabin-types.export')) {
+        if (auth()->user()->can('cabins.types.export')) {
             $buttons[] = Button::make('export')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1')
                 ->buttons([
@@ -77,7 +77,7 @@ class CabinTypesDataTable extends DataTable
             Button::make('reload')->addClass('btn btn-primary waves-effect waves-float waves-light m-1'),
         ]);
 
-        if (auth()->user()->can('cabin-types.destroy')) {
+        if (auth()->user()->can('cabins.types.destroy')) {
             $buttons[] = Button::raw('delete-selected')
                 ->addClass('btn btn-danger waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-minus"></i>&nbsp;&nbsp;Delete Selected')
@@ -139,7 +139,7 @@ class CabinTypesDataTable extends DataTable
     {
         $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle');
 
-        if (auth()->user()->can('cabin-types.destroy')) {
+        if (auth()->user()->can('cabins.types.destroy')) {
             $checkColumn->addClass('disabled');
         }
 

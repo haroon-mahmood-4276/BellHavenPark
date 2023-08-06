@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('seo-breadcrumb')
-    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'cabin-types.index') }}
+    {{ Breadcrumbs::view('breadcrumbs::json-ld', 'cabins.types.index') }}
 @endsection
 
 @section('page-title', 'Cabin Types')
@@ -19,7 +19,7 @@
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
         <h2 class="content-header-title float-start mb-0 mx-3">Cabin Types</h2>
-        {{ Breadcrumbs::render('cabin-types.index') }}
+        {{ Breadcrumbs::render('cabins.types.index') }}
     </div>
 @endsection
 
@@ -28,7 +28,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('cabin-types.destroy') }}" id="cabin-types-table-form" method="get">
+                    <form action="{{ route('cabins.types.destroy') }}" id="cabin-types-table-form" method="get">
                         {{ $dataTable->table() }}
                     </form>
                 </div>
@@ -84,7 +84,7 @@
         }
 
         function addNew() {
-            location.href = "{{ route('cabin-types.create') }}";
+            location.href = "{{ route('cabins.types.create') }}";
         }
     </script>
 @endsection
