@@ -76,19 +76,6 @@ class Customer extends Model
         );
     }
 
-    protected function tenants(): Attribute
-    {
-        return Attribute::make(
-            set: function ($value) {
-                $value = array_map(function ($tenant) {
-                    $tenant['tenant_dob'] = strtotime($tenant['tenant_dob']);
-                    return $tenant;
-                }, $value);
-                return json_encode($value);
-            }
-        );
-    }
-
     public function international_id(): BelongsTo
     {
         return $this->belongsTo(InternationalId::class);
