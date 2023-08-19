@@ -29,7 +29,7 @@ class CustomerController extends Controller
             }
             return apiSuccessResponse($customers);
         } catch (Exception $ex) {
-            return apiErrorResponse(message: $ex->getMessage(), code: $ex->getCode());
+            return apiErrorResponse(message: $ex->getMessage(), code: $ex->getCode() > 0 ? $ex->getCode() : 400);
         }
     }
 

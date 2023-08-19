@@ -12,14 +12,14 @@
 
 
         <!-- Search -->
-        {{-- <div class="navbar-nav align-items-center">
+        <div class="navbar-nav align-items-center">
             <div class="nav-item navbar-search-wrapper mb-0">
                 <a class="nav-item nav-link search-toggler d-flex align-items-center px-0" href="javascript:void(0);">
                     <i class="ti ti-search ti-md me-2"></i>
                     <span class="d-none d-md-inline-block text-muted">Search (Ctrl+/)</span>
                 </a>
             </div>
-        </div> --}}
+        </div>
         <!-- /Search -->
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -265,7 +265,8 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset('assets') }}/img/avatars/1.png" alt="" class="h-auto rounded-circle">
+                        <img src="{{ asset('assets') }}/img/avatars/1.png" alt=""
+                            class="h-auto rounded-circle">
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -312,7 +313,7 @@
     </div>
 
 
-    {{-- <!-- Search Small Screens -->
+    <!-- Search Small Screens -->
     <div class="navbar-search-wrapper search-input-wrapper d-none">
         <span class="twitter-typeahead" style="position: relative; display: inline-block;">
             <input type="text" class="form-control search-input container-xxl border-0 tt-input"
@@ -336,7 +337,7 @@
             </div>
         </span>
         <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
-    </div> --}}
+    </div>
 
 
 

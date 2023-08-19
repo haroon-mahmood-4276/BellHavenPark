@@ -443,9 +443,9 @@ if (!function_exists('editBooleanColumn')) {
     function editBooleanColumn($boolean)
     {
         if ($boolean) {
-            return "<span class='badge rounded-pill bg-label-primary me-1'>" . __('lang.commons.yes') . "</span>";
+            return "<span class='badge rounded-pill bg-label-primary me-1'>" . __('app.commons.yes') . "</span>";
         } else {
-            return "<span class='badge rounded-pill bg-label-danger me-1'>" . __('lang.commons.no') . "</span>";
+            return "<span class='badge rounded-pill bg-label-danger me-1'>" . __('app.commons.no') . "</span>";
         }
     }
 }
@@ -456,23 +456,23 @@ if (!function_exists('editStatusColumn')) {
         $badge = '';
         switch ($status) {
             case 'yes':
-                $badge = "<span class='badge bg-success bg-glow me-1'>" . __('lang.commons.yes') . "</span>";
+                $badge = "<span class='badge bg-success bg-glow me-1'>" . __('app.commons.yes') . "</span>";
                 break;
 
             case 'no':
-                $badge = "<span class='badge bg-danger bg-glow me-1'>" . __('lang.commons.no') . "</span>";
+                $badge = "<span class='badge bg-danger bg-glow me-1'>" . __('app.commons.no') . "</span>";
                 break;
 
             case 'active':
-                $badge = "<span class='badge bg-success bg-glow me-1'>" . __('lang.commons.active') . "</span>";
+                $badge = "<span class='badge bg-success bg-glow me-1'>" . __('app.commons.active') . "</span>";
                 break;
 
             case 'inactive':
-                $badge = "<span class='badge bg-danger bg-glow me-1'>" . __('lang.commons.inactive') . "</span>";
+                $badge = "<span class='badge bg-danger bg-glow me-1'>" . __('app.commons.inactive') . "</span>";
                 break;
 
             case 'objected':
-                $badge = "<span class='badge bg-warning bg-glow me-1'>" . __('lang.commons.objected') . "</span>";
+                $badge = "<span class='badge bg-warning bg-glow me-1'>" . __('app.commons.objected') . "</span>";
                 break;
 
             default:

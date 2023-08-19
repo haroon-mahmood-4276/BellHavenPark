@@ -3,6 +3,7 @@
 use App\Http\Controllers\{
     BookingController,
     BookingSourceController,
+    CabinAssetController,
     CabinController,
     CabinTypeController,
     CustomerController,
@@ -130,6 +131,23 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('delete', 'destroy')->name('destroy');
 
             Route::group(['prefix' => '/{id}', 'middleware' => 'permission:cabins.types.edit'], function () {
+                Route::get('edit', 'edit')->name('edit');
+                Route::put('update', 'update')->name('update');
+            });
+        });
+
+        // Cabin Types Routes
+        Route::prefix('assets')->name('assets.')->controller(CabinAssetController::class)->group(function () {
+            Route::get('/', 'index')->middleware('permission:cabins.assets.index')->name('index');
+
+            Route::group(['middleware' => 'permission:cabins.assets.create'], function () {
+                Route::get('create', 'create')->name('create');
+                Route::post('store', 'store')->name('store');
+            });
+
+            Route::get('delete', 'destroy')->name('destroy');
+
+            Route::group(['prefix' => '/{id}', 'middleware' => 'permission:cabins.assets.edit'], function () {
                 Route::get('edit', 'edit')->name('edit');
                 Route::put('update', 'update')->name('update');
             });

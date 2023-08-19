@@ -232,6 +232,43 @@ class PermissionSeeder extends Seeder
                 'show_name' => 'Cabin Types - Can Export',
             ],
 
+            // Cabin Assets Routes
+            [
+                'name' => 'cabins.assets.index',
+                'guard_name' => 'web',
+                'show_name' => 'Cabin Assets - Can View',
+            ],
+            [
+                'name' => 'cabins.assets.create',
+                'guard_name' => 'web',
+                'show_name' => 'Cabin Asset - Can Create',
+            ],
+            [
+                'name' => 'cabins.assets.store',
+                'guard_name' => 'web',
+                'show_name' => 'Cabin Asset - Can Store',
+            ],
+            [
+                'name' => 'cabins.assets.edit',
+                'guard_name' => 'web',
+                'show_name' => 'Cabin Asset - Can Edit',
+            ],
+            [
+                'name' => 'cabins.assets.update',
+                'guard_name' => 'web',
+                'show_name' => 'Cabin Asset - Can Update',
+            ],
+            [
+                'name' => 'cabins.assets.destroy',
+                'guard_name' => 'web',
+                'show_name' => 'Cabin Asset - Can Delete',
+            ],
+            [
+                'name' => 'cabins.assets.export',
+                'guard_name' => 'web',
+                'show_name' => 'Cabin Assets - Can Export',
+            ],
+
             // Cabins Routes
             [
                 'name' => 'cabins.index',

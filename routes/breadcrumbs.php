@@ -71,6 +71,22 @@ Breadcrumbs::for('international-ids.edit', function (BreadcrumbTrail $trail, $in
     $trail->push('Edit International Id',  route('international-ids.edit', ['id' => $international_id]));
 });
 
+// Cabin Breadcrumbs
+Breadcrumbs::for('cabins.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Cabins', route('cabins.index'));
+});
+
+Breadcrumbs::for('cabins.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('cabins.index');
+    $trail->push('Create Cabin', route('cabins.create'));
+});
+
+Breadcrumbs::for('cabins.edit', function (BreadcrumbTrail $trail, $cabin_id) {
+    $trail->parent('cabins.index');
+    $trail->push('Edit Cabin',  route('cabins.edit', ['id' => $cabin_id]));
+});
+
 // Cabin Types Breadcrumbs
 Breadcrumbs::for('cabins.types.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
@@ -87,20 +103,20 @@ Breadcrumbs::for('cabins.types.edit', function (BreadcrumbTrail $trail, $cabin_t
     $trail->push('Edit Cabin Types',  route('cabins.types.edit', ['id' => $cabin_type_id]));
 });
 
-// Cabin Breadcrumbs
-Breadcrumbs::for('cabins.index', function (BreadcrumbTrail $trail) {
+// Cabin Assets Breadcrumbs
+Breadcrumbs::for('cabins.assets.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
-    $trail->push('Cabins', route('cabins.index'));
+    $trail->push('Cabin Assets', route('cabins.assets.index'));
 });
 
-Breadcrumbs::for('cabins.create', function (BreadcrumbTrail $trail) {
-    $trail->parent('cabins.index');
-    $trail->push('Create Cabin', route('cabins.create'));
+Breadcrumbs::for('cabins.assets.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('cabins.assets.index');
+    $trail->push('Create Cabin Assets', route('cabins.assets.create'));
 });
 
-Breadcrumbs::for('cabins.edit', function (BreadcrumbTrail $trail, $cabin_id) {
-    $trail->parent('cabins.index');
-    $trail->push('Edit Cabin',  route('cabins.edit', ['id' => $cabin_id]));
+Breadcrumbs::for('cabins.assets.edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('cabins.assets.index');
+    $trail->push('Edit Cabin Assets');
 });
 
 // Booking Sources Breadcrumbs
