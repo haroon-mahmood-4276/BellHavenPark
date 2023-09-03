@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="row mb-3">
+        <div class="row mb-1">
             <div class="col-lg-4 col-md-4 col-sm-4 position-relative">
                 <label class="switch switch-square">
                     <input type="hidden" name="installable" value="0" />

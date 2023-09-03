@@ -23,7 +23,7 @@
 @endsection
 
 @section('content')
-    <form class="form form-vertical" action="{{ route('cabins.store') }}" method="POST" enctype="multipart/form-data">
+    <form class="form form-vertical" action="{{ route('cabins.store') }}" method="POST" enctype="multipart/form-data" id="cabins-form">
 
         <div class="row g-3">
             <div class="col-lg-9 col-md-9 col-sm-12 position-relative">

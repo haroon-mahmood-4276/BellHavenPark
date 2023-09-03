@@ -201,7 +201,7 @@
             </div>
         </div>
 
-        <div class="divider divider-primary">
+        {{-- <div class="divider divider-primary">
             <div class="divider-text" style="font-size: 15px">Tenants</div>
         </div>
 
@@ -340,7 +340,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 </div>

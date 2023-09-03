@@ -190,5 +190,143 @@
                 @enderror
             </div>
         </div>
+
+        <div class="divider divider-primary">
+            <div class="divider-text" style="font-size: 15px">Assets</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12 position-relative">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <h2>Assets</h2>
+                </div>
+                <div class="form-repeater">
+                    <div data-repeater-list="cabin_asset">
+
+                        @forelse ([] as $tenant)
+                            <div data-repeater-item>
+                                <div class="row mb-3">
+                                    <div class="col-xl-6 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px"
+                                            for="tenant_first_name">Asset First
+                                            Name
+                                            <span class="text-danger"></span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_first_name') is-invalid @enderror"
+                                            id="tenant_first_name"
+                                            name="tenants[{{ $loop->index }}][tenant_first_name]"
+                                            placeholder="Asset First Name"
+                                            value="{{ $tenant['tenant_first_name'] ?? '' }}" minlength="3"
+                                            maxlength="50" />
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px"
+                                            for="tenant_last_name">Asset Last
+                                            Name
+                                            <span class="text-danger"></span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_last_name') is-invalid @enderror"
+                                            id="tenant_last_name"
+                                            name="tenants[{{ $loop->index }}][tenant_last_name]"
+                                            placeholder="Asset Last Name"
+                                            value="{{ $tenant['tenant_last_name'] ?? '' }}" minlength="3"
+                                            maxlength="50" />
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-5 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px" for="tenant_phone">Asset
+                                            Mobile
+                                            <span class="text-danger"></span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_phone') is-invalid @enderror"
+                                            id="tenant_phone" name="tenants[{{ $loop->index }}][tenant_phone]"
+                                            placeholder="Asset Mobile" value="{{ $tenant['tenant_phone'] }}"
+                                            min="1" max="20"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                                    </div>
+                                    <div class="col-xl-5 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px" for="tenant_dob">Date of
+                                            birth <span class="text-danger"></span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_dob') is-invalid @enderror"
+                                            id="tenant_dob" name="tenants[{{ $loop->index }}][tenant_dob]"
+                                            placeholder="Date of birth"
+                                            value="{{ Carbon\Carbon::parse($tenant['tenant_dob'])->format('F j, Y') }}"
+                                            minlength="3" maxlength="50" />
+                                    </div>
+                                    <div class="col-xl-2 col-lg-12 col-12 d-flex align-items-center">
+                                        <button class="btn btn-label-danger mt-4" type="button" data-repeater-delete>
+                                            <i class="ti ti-x ti-xs me-1"></i>
+                                            <span class="align-middle">Delete</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        @empty
+                            <div data-repeater-item>
+                                <div class="row mb-3">
+                                    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11">
+                                        <label class="form-label" style="font-size: 15px"
+                                            for="cabin_asset[name]">Asset</label>
+                                        <select class="select2-size-lg form-select" id="cabin_asset_name" name="name">
+                                        </select>
+                                    </div>
+
+                                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1">
+                                        <div class="d-flex align-items-end justify-content-center w-100 h-100">
+                                            <a href="{{ route('cabins.assets.create') }}"
+                                                class="btn w-100 btn-primary me-1">
+                                                <span><i class="fa-solid fa-plus"></i></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-5 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px" for="tenant_phone">Asset
+                                            Mobile
+                                            <span class="text-danger"></span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_phone') is-invalid @enderror"
+                                            id="tenant_phone" name="tenant_phone" placeholder="Asset Mobile"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');" min="1"
+                                            max="20" />
+                                    </div>
+                                    <div class="col-xl-5 col-lg-6 col-12 position-relative">
+                                        <label class="form-label" style="font-size: 15px" for="tenant_dob">Date of
+                                            birth
+                                            <span class="text-danger"></span></label>
+                                        <input type="text"
+                                            class="form-control @error('tenant_dob') is-invalid @enderror"
+                                            id="tenant_dob" name="tenant_dob" placeholder="Date of birth"
+                                            minlength="3" maxlength="50" />
+                                    </div>
+                                    <div class="col-xl-2 col-lg-12 col-12 d-flex align-items-center">
+                                        <button class="btn btn-label-danger mt-4" type="button" data-repeater-delete>
+                                            <i class="ti ti-x ti-xs me-1"></i>
+                                            <span class="align-middle">Delete</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        @endforelse
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <button class="btn btn-primary me-1" type="button" data-repeater-create>
+                                <i class="fa-solid fa-plus icon me-2"></i>
+                                <span>Add New</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

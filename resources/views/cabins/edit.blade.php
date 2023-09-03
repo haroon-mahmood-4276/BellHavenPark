@@ -23,7 +23,7 @@
 @endsection
 
 @section('content')
-    <form class="form form-vertical" action="{{ route('cabins.update', ['id' => $cabin->id]) }}"
+    <form class="form form-vertical" action="{{ route('cabins.update', ['id' => $cabin->id]) }}" id="cabins-form"
         method="POST" enctype="multipart/form-data">
 
         <div class="row g-3">
