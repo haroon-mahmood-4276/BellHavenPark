@@ -56,7 +56,7 @@
                         class="text-danger"></span></label>
                 <input type="text" class="form-control @error('dob') is-invalid @enderror" id="dob"
                     name="dob" placeholder="Date of birth"
-                    value="{{ (isset($customer) ? $customer->dob->format('F j, Y') : old('dob')) ?? now()->format('F j, Y') }}"
+                    value="{{ (isset($customer) ? Carbon\Carbon::parse($customer->dob)->format('F j, Y') : old('dob')) ?? now()->subYears(1)->format('F j, Y') }}"
                     minlength="3" maxlength="50" />
                 @error('dob')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -201,7 +201,7 @@
             </div>
         </div>
 
-        <div class="divider divider-primary">
+        {{-- <div class="divider divider-primary">
             <div class="divider-text" style="font-size: 15px">Tenants</div>
         </div>
 
@@ -340,7 +340,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 </div>
