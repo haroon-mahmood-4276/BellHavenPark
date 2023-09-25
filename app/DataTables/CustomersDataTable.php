@@ -145,7 +145,7 @@ class CustomersDataTable extends DataTable
                 'right' => 1,
             ])
             ->orders([
-                [1, 'asc'],
+                [6, 'desc'],
             ]);
     }
 

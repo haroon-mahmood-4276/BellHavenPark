@@ -115,6 +115,9 @@
 
 
             $(".create-customer-form").repeater({
+                @if(isset($customer) && is_null($customer->tenants))
+                    initEmpty: true,
+                @endif
                 show: function() {
                     $(this).slideDown();
                     InitializeDateDropper();
@@ -153,7 +156,7 @@
                 showArrowsOnHover: true,
                 expandable: true,
                 startFromMonday: true,
-                maxDate: '{{ now()->subYears(1)->format('m/d/Y') }}',
+                maxDate: '{{ now()->subYears(1)->format("m/d/Y") }}',
             });
         }
     </script>
