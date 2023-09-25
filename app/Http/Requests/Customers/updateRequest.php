@@ -31,23 +31,23 @@ class updateRequest extends FormRequest
         return $rules;
     }
 
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return (new Customer())->rulesMessages;
-    }
+    // /**
+    //  * Get the error messages for the defined validation rules.
+    //  *
+    //  * @return array
+    //  */
+    // public function messages()
+    // {
+    //     return (new Customer())->rulesMessages;
+    // }
 
-    /**
-     * Get custom attributes for validator errors.
-     *
-     * @return array
-     */
-    public function attributes()
-    {
-        return (new Customer())->rulesAttributes;
-    }
+    // /**
+    //  * Get custom attributes for validator errors.
+    //  *
+    //  * @return array
+    //  */
+    // public function attributes()
+    // {
+    //     return (new Customer())->rulesAttributes;
+    // }
 }

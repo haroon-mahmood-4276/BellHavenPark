@@ -30,7 +30,7 @@
                                                     <span class="text-muted">{!! editDateTimeColumn($rating->created_at, dateFormat: 'F j, Y', withBr: false, order: 'DT') !!}</span>
                                                 </div>
                                                 <div class="d-flex justify-content-between flex-wrap mb-2">
-                                                    <div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center text-break">
                                                         <span>{{ $rating->comments }}</span>
                                                     </div>
                                                 </div>
