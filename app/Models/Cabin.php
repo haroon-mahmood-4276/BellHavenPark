@@ -66,4 +66,9 @@ class Cabin extends Model
     {
         return $this->belongsTo(CabinStatus::class);
     }
+
+    public function assets()
+    {
+        return $this->belongsToMany(CabinAsset::class);
+    }
 }

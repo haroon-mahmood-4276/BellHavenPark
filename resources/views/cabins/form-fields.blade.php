@@ -195,84 +195,40 @@
             <div class="divider-text" style="font-size: 15px">Assets</div>
         </div>
 
+        {{-- Cabin Assets --}}
         <div class="row mb-3">
             <div class="col-12 position-relative">
                 <div class="d-flex justify-content-between align-items-center mb-1">
                     <h2>Assets</h2>
                 </div>
                 <div class="form-repeater">
-                    <div data-repeater-list="cabin_asset">
+                    <div data-repeater-list="cabin_assets">
 
                         @forelse ([] as $tenant)
+                        @empty
                             <div data-repeater-item>
-                                <div class="row mb-3">
-                                    <div class="col-xl-6 col-lg-6 col-12 position-relative">
-                                        <label class="form-label" style="font-size: 15px"
-                                            for="tenant_first_name">Asset First
-                                            Name
-                                            <span class="text-danger"></span></label>
-                                        <input type="text"
-                                            class="form-control @error('tenant_first_name') is-invalid @enderror"
-                                            id="tenant_first_name"
-                                            name="tenants[{{ $loop->index }}][tenant_first_name]"
-                                            placeholder="Asset First Name"
-                                            value="{{ $tenant['tenant_first_name'] ?? '' }}" minlength="3"
-                                            maxlength="50" />
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-12 position-relative">
-                                        <label class="form-label" style="font-size: 15px"
-                                            for="tenant_last_name">Asset Last
-                                            Name
-                                            <span class="text-danger"></span></label>
-                                        <input type="text"
-                                            class="form-control @error('tenant_last_name') is-invalid @enderror"
-                                            id="tenant_last_name"
-                                            name="tenants[{{ $loop->index }}][tenant_last_name]"
-                                            placeholder="Asset Last Name"
-                                            value="{{ $tenant['tenant_last_name'] ?? '' }}" minlength="3"
-                                            maxlength="50" />
-                                    </div>
 
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xl-5 col-lg-6 col-12 position-relative">
-                                        <label class="form-label" style="font-size: 15px" for="tenant_phone">Asset
-                                            Mobile
-                                            <span class="text-danger"></span></label>
-                                        <input type="text"
-                                            class="form-control @error('tenant_phone') is-invalid @enderror"
-                                            id="tenant_phone" name="tenants[{{ $loop->index }}][tenant_phone]"
-                                            placeholder="Asset Mobile" value="{{ $tenant['tenant_phone'] }}"
-                                            min="1" max="20"
-                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <h3>Asset</h3>
                                     </div>
-                                    <div class="col-xl-5 col-lg-6 col-12 position-relative">
-                                        <label class="form-label" style="font-size: 15px" for="tenant_dob">Date of
-                                            birth <span class="text-danger"></span></label>
-                                        <input type="text"
-                                            class="form-control @error('tenant_dob') is-invalid @enderror"
-                                            id="tenant_dob" name="tenants[{{ $loop->index }}][tenant_dob]"
-                                            placeholder="Date of birth"
-                                            value="{{ Carbon\Carbon::parse($tenant['tenant_dob'])->format('F j, Y') }}"
-                                            minlength="3" maxlength="50" />
-                                    </div>
-                                    <div class="col-xl-2 col-lg-12 col-12 d-flex align-items-center">
-                                        <button class="btn btn-label-danger mt-4" type="button" data-repeater-delete>
+                                    <div>
+                                        <button class="btn btn-label-danger" type="button" data-repeater-delete>
                                             <i class="ti ti-x ti-xs me-1"></i>
                                             <span class="align-middle">Delete</span>
                                         </button>
                                     </div>
                                 </div>
-                                <hr>
-                            </div>
-                        @empty
-                            <div data-repeater-item>
+
                                 <div class="row mb-3">
                                     <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11">
-                                        <label class="form-label" style="font-size: 15px"
-                                            for="cabin_asset[name]">Asset</label>
-                                        <select class="select2-size-lg form-select" id="cabin_asset_name" name="name">
+                                        <label for="assetsSelectPicker" class="form-label">Asset</label>
+                                        <select id="assetsSelectPicker" class="assetsSelectPicker w-100" name="asset_id"
+                                            data-style="btn-default" data-live-search="true">
+                                            @forelse ($assets as $asset)
+                                                <option value="{{ $asset->id }}" data-installable="{{ $asset->installable ? '1' : '0' }}" data-serviceable="{{ $asset->serviceable ? '1' : '0'  }}" data-expireable="{{ $asset->expireable ? '1' : '0'  }}" >{{ $asset->name }}</option>
+                                            @empty
+                                            @endforelse
                                         </select>
                                     </div>
 
@@ -287,30 +243,54 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-xl-5 col-lg-6 col-12 position-relative">
-                                        <label class="form-label" style="font-size: 15px" for="tenant_phone">Asset
-                                            Mobile
-                                            <span class="text-danger"></span></label>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-4 position-relative div-install-date">
+                                        <label class="form-label" style="font-size: 15px" for="install_date">Install
+                                            Date<span class="text-danger"></span></label>
                                         <input type="text"
-                                            class="form-control @error('tenant_phone') is-invalid @enderror"
-                                            id="tenant_phone" name="tenant_phone" placeholder="Asset Mobile"
-                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');" min="1"
-                                            max="20" />
-                                    </div>
-                                    <div class="col-xl-5 col-lg-6 col-12 position-relative">
-                                        <label class="form-label" style="font-size: 15px" for="tenant_dob">Date of
-                                            birth
-                                            <span class="text-danger"></span></label>
-                                        <input type="text"
-                                            class="form-control @error('tenant_dob') is-invalid @enderror"
-                                            id="tenant_dob" name="tenant_dob" placeholder="Date of birth"
+                                            class="form-control @error('install_date') is-invalid @enderror"
+                                            id="install_date" name="install_date" placeholder="Install Date"
+                                            value="{{ (isset($customer) ? Carbon\Carbon::parse($customer->install_date)->format('F j, Y') : old('install_date')) ?? now()->format('F j, Y') }}"
                                             minlength="3" maxlength="50" />
+                                        @error('install_date')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @else
+                                            <p class="m-0">
+                                                <small class="text-muted">Select asset's date of expiry.</small>
+                                            </p>
+                                        @enderror
                                     </div>
-                                    <div class="col-xl-2 col-lg-12 col-12 d-flex align-items-center">
-                                        <button class="btn btn-label-danger mt-4" type="button" data-repeater-delete>
-                                            <i class="ti ti-x ti-xs me-1"></i>
-                                            <span class="align-middle">Delete</span>
-                                        </button>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 position-relative div-service-date">
+                                        <label class="form-label" style="font-size: 15px" for="service_date">Service
+                                            Date<span class="text-danger"></span></label>
+                                        <input type="text"
+                                            class="form-control @error('service_date') is-invalid @enderror"
+                                            id="service_date" name="service_date" placeholder="Service Date"
+                                            value="{{ (isset($customer) ? Carbon\Carbon::parse($customer->service_date)->format('F j, Y') : old('service_date')) ?? now()->format('F j, Y') }}"
+                                            minlength="3" maxlength="50" />
+                                        @error('service_date')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @else
+                                            <p class="m-0">
+                                                <small class="text-muted">Select asset's date of service.</small>
+                                            </p>
+                                        @enderror
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 position-relative div-expire-date">
+                                        <label class="form-label" style="font-size: 15px" for="expire_date">Expire
+                                            Date<span class="text-danger"></span></label>
+                                        <input type="text"
+                                            class="form-control @error('expire_date') is-invalid @enderror"
+                                            id="expire_date" name="expire_date" placeholder="Expire Date"
+                                            value="{{ (isset($customer) ? Carbon\Carbon::parse($customer->expire_date)->format('F j, Y') : old('expire_date')) ?? now()->format('F j, Y') }}"
+                                            minlength="3" maxlength="50" />
+                                        @error('expire_date')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @else
+                                            <p class="m-0">
+                                                <small class="text-muted">Select asset's date of expiry.</small>
+                                            </p>
+                                        @enderror
                                     </div>
                                 </div>
                                 <hr>

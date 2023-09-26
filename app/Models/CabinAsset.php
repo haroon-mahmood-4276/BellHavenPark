@@ -36,4 +36,9 @@ class CabinAsset extends Model
     {
         return LogOptions::defaults()->useLogName(self::class)->logFillable();
     }
+
+    public function cabin()
+    {
+        return $this->belongsToMany(Cabin::class);
+    }
 }

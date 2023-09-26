@@ -6,17 +6,19 @@ use App\DataTables\CabinsDataTable;
 use App\Exceptions\GeneralException;
 use App\Http\Requests\Cabins\{storeRequest, updateRequest};
 use App\Services\{Cabins\CabinInterface, CabinTypes\CabinTypeInterface};
+use App\Services\CabinAssets\CabinAssetInterface;
 use App\Utils\Enums\CabinStatus;
 use Exception;
 use Illuminate\Http\Request;
 
 class CabinController extends Controller
 {
-    private $cabinInterface, $cabinTypeInterface;
+    private $cabinInterface, $cabinTypeInterface, $cabinAssetInterface;
 
-    public function __construct(CabinInterface $cabinInterface, CabinTypeInterface $cabinTypeInterface)
+    public function __construct(CabinInterface $cabinInterface, CabinAssetInterface $cabinAssetInterface, CabinTypeInterface $cabinTypeInterface)
     {
         $this->cabinInterface = $cabinInterface;
+        $this->cabinAssetInterface = $cabinAssetInterface;
         $this->cabinTypeInterface = $cabinTypeInterface;
     }
 
@@ -46,6 +48,7 @@ class CabinController extends Controller
         $data = [
             'cabin_types' => $this->cabinTypeInterface->get(),
             'cabin_statuses' => CabinStatus::array(withText: true),
+            'assets' => $this->cabinAssetInterface->get(),
         ];
         return view('cabins.create', $data);
     }

@@ -7,6 +7,7 @@
 @section('page-title', 'Create Cabins')
 
 @section('page-vendor')
+    <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/bootstrap-select/bootstrap-select.css" />
 @endsection
 
 @section('page-css')
@@ -23,7 +24,8 @@
 @endsection
 
 @section('content')
-    <form class="form form-vertical" action="{{ route('cabins.store') }}" method="POST" enctype="multipart/form-data" id="cabins-form">
+    <form class="form form-vertical" action="{{ route('cabins.store') }}" method="POST" enctype="multipart/form-data"
+        id="cabins-form">
 
         <div class="row g-3">
             <div class="col-lg-9 col-md-9 col-sm-12 position-relative">
