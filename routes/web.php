@@ -3,6 +3,7 @@
 use App\Http\Controllers\{
     BookingController,
     BookingSourceController,
+    BookingTaxController,
     CabinController,
     CabinTypeController,
     CustomerController,
@@ -148,6 +149,23 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('delete', 'destroy')->name('destroy');
 
         Route::group(['prefix' => '/{id}', 'middleware' => 'permission:booking-sources.edit'], function () {
+            Route::get('edit', 'edit')->name('edit');
+            Route::put('update', 'update')->name('update');
+        });
+    });
+
+    // Booking Taxes Routes
+    Route::prefix('booking-taxes')->name('booking-taxes.')->controller(BookingTaxController::class)->group(function () {
+        Route::get('/', 'index')->middleware('permission:booking-taxes.index')->name('index');
+
+        Route::group(['middleware' => 'permission:booking-taxes.create'], function () {
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+        });
+
+        Route::get('delete', 'destroy')->name('destroy');
+
+        Route::group(['prefix' => '/{booking_tax}', 'middleware' => 'permission:booking-taxes.edit'], function () {
             Route::get('edit', 'edit')->name('edit');
             Route::put('update', 'update')->name('update');
         });

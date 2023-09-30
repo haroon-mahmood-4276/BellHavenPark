@@ -393,6 +393,43 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'show_name' => 'Can Export Payments',
             ],
+
+            // Booking Taxes Routes
+            [
+                'name' => 'booking-taxes.index',
+                'guard_name' => 'web',
+                'show_name' => 'Can View Booking Taxes',
+            ],
+            [
+                'name' => 'booking-taxes.create',
+                'guard_name' => 'web',
+                'show_name' => 'Can Create Booking Tax',
+            ],
+            [
+                'name' => 'booking-taxes.store',
+                'guard_name' => 'web',
+                'show_name' => 'Can Store Booking Tax',
+            ],
+            [
+                'name' => 'booking-taxes.edit',
+                'guard_name' => 'web',
+                'show_name' => 'Can Edit Booking Tax',
+            ],
+            [
+                'name' => 'booking-taxes.update',
+                'guard_name' => 'web',
+                'show_name' => 'Can Update Booking Tax',
+            ],
+            [
+                'name' => 'booking-taxes.destroy',
+                'guard_name' => 'web',
+                'show_name' => 'Can Delete Booking Tax',
+            ],
+            [
+                'name' => 'booking-taxes.export',
+                'guard_name' => 'web',
+                'show_name' => 'Can Export Booking Tax',
+            ],
         ];
 
         $role = (new Role())->first();

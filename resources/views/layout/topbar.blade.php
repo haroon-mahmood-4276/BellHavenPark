@@ -12,14 +12,14 @@
 
 
         <!-- Search -->
-        {{-- <div class="navbar-nav align-items-center">
+        <div class="navbar-nav align-items-center">
             <div class="nav-item navbar-search-wrapper mb-0">
                 <a class="nav-item nav-link search-toggler d-flex align-items-center px-0" href="javascript:void(0);">
                     <i class="ti ti-search ti-md me-2"></i>
                     <span class="d-none d-md-inline-block text-muted">Search (Ctrl+/)</span>
                 </a>
             </div>
-        </div> --}}
+        </div>
         <!-- /Search -->
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -268,7 +268,7 @@
                         <img src="{{ asset('assets') }}/img/avatars/1.png" alt="" class="h-auto rounded-circle">
                     </div>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul class="dropdown-menu dropdown-menu-end pb-1">
                     <li>
                         <a class="dropdown-item" href="javascript:void(0);">
                             <div class="d-flex">
@@ -300,7 +300,7 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ route('logout') }}">
+                        <a class="dropdown-item btn-danger" href="{{ route('logout') }}">
                             <i class="ti ti-logout me-2 ti-sm"></i>
                             <span class="align-middle">Log Out</span>
                         </a>
@@ -311,8 +311,7 @@
         </ul>
     </div>
 
-
-    {{-- <!-- Search Small Screens -->
+    <!-- Search Small Screens -->
     <div class="navbar-search-wrapper search-input-wrapper d-none">
         <span class="twitter-typeahead" style="position: relative; display: inline-block;">
             <input type="text" class="form-control search-input container-xxl border-0 tt-input"
@@ -336,8 +335,5 @@
             </div>
         </span>
         <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
-    </div> --}}
-
-
-
+    </div>
 </nav>
