@@ -398,37 +398,42 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'booking-taxes.index',
                 'guard_name' => 'web',
-                'show_name' => 'Can View Booking Taxes',
+                'show_name' => 'Booking Taxes - Can View',
             ],
             [
                 'name' => 'booking-taxes.create',
                 'guard_name' => 'web',
-                'show_name' => 'Can Create Booking Tax',
+                'show_name' => 'Booking Taxes - Can Create',
             ],
             [
                 'name' => 'booking-taxes.store',
                 'guard_name' => 'web',
-                'show_name' => 'Can Store Booking Tax',
+                'show_name' => 'Booking Taxes - Can Store',
             ],
             [
                 'name' => 'booking-taxes.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Can Edit Booking Tax',
+                'show_name' => 'Booking Taxes - Can Edit',
             ],
             [
                 'name' => 'booking-taxes.update',
                 'guard_name' => 'web',
-                'show_name' => 'Can Update Booking Tax',
+                'show_name' => 'Booking Taxes - Can Update',
             ],
             [
                 'name' => 'booking-taxes.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Can Delete Booking Tax',
+                'show_name' => 'Booking Taxes - Can Delete',
             ],
             [
                 'name' => 'booking-taxes.export',
                 'guard_name' => 'web',
-                'show_name' => 'Can Export Booking Tax',
+                'show_name' => 'Booking Taxes - Can Export',
+            ],
+            [
+                'name' => 'booking-taxes.set-default',
+                'guard_name' => 'web',
+                'show_name' => 'Booking Taxes - Can Set',
             ],
         ];
 

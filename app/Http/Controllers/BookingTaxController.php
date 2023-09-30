@@ -6,6 +6,7 @@ use App\DataTables\BookingTaxesDataTable;
 use App\Exceptions\GeneralException;
 use App\Http\Requests\BookingTaxes\storeRequest;
 use App\Http\Requests\BookingTaxes\updateRequest;
+use App\Models\BookingTax;
 use App\Services\BookingTaxes\BookingTaxInterface;
 use Exception;
 use Illuminate\Http\Request;
@@ -152,6 +153,20 @@ class BookingTaxController extends Controller
             }
             return redirect()->route('booking-taxes.index')->withSuccess('Data deleted!');
         } catch (GeneralException $ex) {
+            return redirect()->route('booking-taxes.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+        } catch (Exception $ex) {
+            return redirect()->route('booking-taxes.index')->withDanger('Something went wrong!');
+        }
+    }
+
+    public function setDefault(BookingTax $booking_tax)
+    {
+        abort_if(request()->ajax(), 403);
+
+        try {
+            $this->taxesInterface->setDefault($booking_tax->id);
+            return redirect()->route('booking-taxes.index')->withSuccess('Default set!');
+        } catch (GeneralException|Exception $ex) {
             return redirect()->route('booking-taxes.index')->withDanger('Something went wrong! ' . $ex->getMessage());
         } catch (Exception $ex) {
             return redirect()->route('booking-taxes.index')->withDanger('Something went wrong!');

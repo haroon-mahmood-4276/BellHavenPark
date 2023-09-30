@@ -40,47 +40,56 @@ class BookingTaxService implements BookingTaxInterface
 
     public function store($inputs)
     {
-        $returnData = DB::transaction(function () use ($inputs) {
+        return DB::transaction(function () use ($inputs) {
+            $this->model()->where('is_default', true)->update(['is_default' => false]);
             $data = [
                 'name' => $inputs['name'],
                 'amount' => (int)$inputs['amount'],
                 'is_flat' => (boolean)$inputs['is_flat'],
+                'is_default' => (boolean)$inputs['is_default'],
             ];
 
             $model = $this->model()->create($data);
             return $model;
         });
-
-        return $returnData;
     }
 
     public function update($id, $inputs)
     {
-        $returnData = DB::transaction(function () use ($id, $inputs) {
+        return DB::transaction(function () use ($id, $inputs) {
+            $this->model()->where('is_default', true)->update(['is_default' => false]);
             $data = [
                 'name' => $inputs['name'],
                 'amount' => (int)$inputs['amount'],
                 'is_flat' => (boolean)$inputs['is_flat'],
+                'is_default' => (boolean)$inputs['is_default'],
             ];
 
             $model = $this->model()->find($id)->update($data);
             return $model;
         });
-
-        return $returnData;
     }
 
     public function destroy($inputs)
     {
-        $returnData = DB::transaction(function () use ($inputs) {
+        return DB::transaction(function () use ($inputs) {
 
             $model = $this->model()->whereIn('id', $inputs)->get()->each(function ($model) {
                 $model->delete();
             });
 
+            $this->model()->first()->update(['is_default' => true]);
+
             return $model;
         });
+    }
 
-        return $returnData;
+    public function setDefault($id)
+    {
+        return DB::transaction(function () use ($id) {
+            $model = $this->model()->where('is_default', true)->update(['is_default' => false]);
+            $model = $this->model()->find($id)->update(['is_default' => true]);
+            return $model;
+        });
     }
 }

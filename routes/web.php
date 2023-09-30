@@ -168,6 +168,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => '/{booking_tax}', 'middleware' => 'permission:booking-taxes.edit'], function () {
             Route::get('edit', 'edit')->name('edit');
             Route::put('update', 'update')->name('update');
+
+            Route::get('set-default', 'setDefault')->name('set-default');
         });
     });
 

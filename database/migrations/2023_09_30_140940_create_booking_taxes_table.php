@@ -16,7 +16,8 @@ return new class extends Migration
 
             $table->string('name', 50)->nullable();
             $table->unsignedSmallInteger('amount')->default(0);
-            $table->boolean('is_flat')->default(0);
+            $table->boolean('is_flat')->default(false);
+            $table->boolean('is_default')->default(false);
 
             $table->unsignedInteger('created_at')->nullable();
             $table->unsignedInteger('updated_at')->nullable();

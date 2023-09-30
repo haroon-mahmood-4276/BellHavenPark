@@ -18,6 +18,7 @@ class BookingTax extends Model
         'name',
         'amount',
         'is_flat',
+        'is_default',
     ];
 
     protected $hidden = [];
@@ -26,6 +27,7 @@ class BookingTax extends Model
         'name' => 'required|string|min:1|max:30',
         'amount' => 'required|numeric|min:0|max:100',
         'is_flat' => 'required|boolean',
+        'is_default' => 'required|boolean',
     ];
 
     public function getActivitylogOptions(): LogOptions

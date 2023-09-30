@@ -29,6 +29,9 @@ class BookingTaxesDataTable extends DataTable
             ->editColumn('is_flat', function ($row) {
                 return editStatusColumn($row->is_flat);
             })
+            ->editColumn('is_default', function ($row) {
+                return editStatusColumn($row->is_default);
+            })
             ->editColumn('is_percentage', function ($row) {
                 return editStatusColumn(!$row->is_flat);
             })
@@ -132,7 +135,7 @@ class BookingTaxesDataTable extends DataTable
                 ],
             ])
             ->orders([
-                [1, 'asc'],
+                [6, 'desc'],
             ]);
     }
 
@@ -152,10 +155,10 @@ class BookingTaxesDataTable extends DataTable
         $columns = [
             $checkColumn,
             Column::make('name')->addClass('text-nowrap text-center align-middle'),
-            Column::make('slug')->addClass('text-nowrap text-center align-middle'),
             Column::make('amount')->addClass('text-nowrap text-center align-middle'),
             Column::make('is_flat')->title('Flat Rate')->addClass('text-nowrap text-center align-middle'),
             Column::computed('is_percentage')->title('Percentage')->addClass('text-nowrap text-center align-middle'),
+            Column::make('is_default')->title('Default')->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];
