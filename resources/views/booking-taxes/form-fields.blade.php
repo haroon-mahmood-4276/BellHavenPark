@@ -64,7 +64,7 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @else
                     <p class="m-0">
-                        <small class="text-muted">Check if it is default</small>
+                        <small class="text-muted">Check to set it default.</small>
                     </p>
                 @enderror
             </div>

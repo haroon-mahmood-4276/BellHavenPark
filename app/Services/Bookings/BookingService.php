@@ -100,7 +100,7 @@ class BookingService implements BookingInterface
                 'check_in_date' => $inputs['check_in'] == 'now' ? now()->timestamp : 0,
 
                 'check_out_date' => 0,
-                'tax' => (int)$inputs['booking_tax'],
+                'booking_tax_id' => (int)$inputs['booking_tax'],
 
                 'comments' => $inputs['comments'],
                 'payment' => $inputs['payment'],
