@@ -100,7 +100,7 @@
                     @can('bookings.checkin.index')
                         <li class="menu-item {{ request()->routeIs('bookings.checkin.index') ? 'active' : null }}">
                             <a href="{{ route('bookings.checkin.index') }}" class="menu-link">
-                                <div>Checked In</div>
+                                <div>Check In</div>
                             </a>
                         </li>
                     @endcan
@@ -108,7 +108,7 @@
                     @can('bookings.checkout.index')
                         <li class="menu-item {{ request()->routeIs('bookings.checkout.index') ? 'active' : null }}">
                             <a href="{{ route('bookings.checkout.index') }}" class="menu-link">
-                                <div><i class="menu-icon fa-solid fa-arrow-right-from-bracket"></i>Checked Out</div>
+                                <div><i class="menu-icon fa-solid fa-arrow-right-from-bracket"></i>Check Out</div>
                             </a>
                         </li>
                     @endcan

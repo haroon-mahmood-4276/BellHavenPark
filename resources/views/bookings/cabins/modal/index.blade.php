@@ -44,19 +44,12 @@
                     <div class="row mb-3">
                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11">
                             <label class="form-label" style="font-size: 15px" for="customer">Customer</label>
-                            <select class="select2-size-lg form-select" id="customer" name="customer">
-                                {{-- @foreach ($customers as $customerRow)
-                                    @continue(isset($customer) && $customerRow->id == $customer->id)
-                                    <option data-icon="fa-solid fa-angle-right"
-                                        value="{{ $customerRow['id'] }}"{{ (isset($customer) ? $customer->customer_id : old('customer')) == $customerRow['id'] ? 'selected' : '' }}>
-                                        {{ $customerRow['name'] }}</option>
-                                @endforeach --}}
-                            </select>
+                            <select class="select2-size-lg form-select" id="customer" name="customer"></select>
                         </div>
 
                         <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1">
                             <div class="d-flex align-items-end justify-content-center w-100 h-100">
-                                <a href="{{ route('customers.create') }}" class="btn w-100 btn-primary me-1">
+                                <a href="{{ route('customers.create', ['return_url' => $return_url]) }}" class="btn w-100 btn-primary me-1">
                                     <span><i class="fa-solid fa-plus"></i></span>
                                 </a>
                             </div>

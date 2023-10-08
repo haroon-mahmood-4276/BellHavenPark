@@ -181,6 +181,8 @@
 
             $('#add_booking_' + cabin_id).prop('disabled', true);
 
+            pageState.return_url = window.location.href;
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),

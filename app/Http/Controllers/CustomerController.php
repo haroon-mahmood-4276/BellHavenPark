@@ -40,13 +40,18 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         abort_if(request()->ajax(), 403);
 
         $data = [
             'international_ids' => $this->internationalIdInterface->getAll(),
         ];
+
+        if ($request->has('return_url')) {
+            $data['return_url'] = $request->return_url;
+        }
+
         return view('customers.create', $data);
     }
 
@@ -63,6 +68,10 @@ class CustomerController extends Controller
         try {
             $inputs = $request->validated();
             $record = $this->customerInterface->store($inputs);
+
+            if ($request->has('return_url'))
+                return redirect()->to($request->return_url);
+
             return redirect()->route('customers.index')->withSuccess('Data saved!');
         } catch (GeneralException $ex) {
             return redirect()->route('customers.index')->withDanger('Something went wrong! ' . $ex->getMessage());
