@@ -26,6 +26,10 @@
     <form class="form form-vertical create-customer-form" action="{{ route('customers.store') }}" method="POST"
         enctype="multipart/form-data">
 
+        @if (isset($return_url))
+            <input type="hidden" name="return_url" value="{{ $return_url }}">
+        @endif
+
         <div class="row g-3">
             <div class="col-lg-9 col-md-9 col-sm-12 position-relative">
 
@@ -46,7 +50,7 @@
                                     </button>
                                 </div>
                                 <div class="col-md-12">
-                                    <a href="{{ route('customers.index') }}" class="btn btn-danger w-100 ">
+                                    <a href="{{ isset($return_url) ? $return_url : route('customers.index') }}" class="btn btn-danger w-100 ">
                                         <i class="fa-solid fa-xmark icon mx-2"></i>
                                         Cancel
                                     </a>

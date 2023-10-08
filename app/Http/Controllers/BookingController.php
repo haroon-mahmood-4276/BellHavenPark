@@ -78,6 +78,9 @@ class BookingController extends Controller
             'booking_taxes' => $this->bookingTaxInterface->get(),
         ];
 
+        if(isset($request->return_url) && !empty($request->return_url))
+            $modalData['return_url'] = $request->return_url;
+
         $data = [
             'status' => true,
             'modalPlace' => 'modalPlace',
