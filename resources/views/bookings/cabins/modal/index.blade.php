@@ -162,11 +162,10 @@
 
                     <div class="row mb-3">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="booking_tax">Customer</label>
+                            <label class="form-label" style="font-size: 15px" for="booking_tax">Tax</label>
                             <select class="select2-size-lg form-select" id="booking_tax" name="booking_tax">
                                 @foreach ($booking_taxes as $booking_tax)
-                                    {{-- @continue(isset($customer) && $customerRow->id == $customer->id) --}}
-                                    <option data-icon="fa-solid fa-angle-right" value="{{ $booking_tax->id }}">{{ $booking_tax->name }}</option>
+                                    <option data-icon="fa-solid fa-angle-right" value="{{ $booking_tax->id }}" {{ $booking_tax->is_default ? 'selected' : null }}>{{ $booking_tax->name }}</option>
                                 @endforeach
                             </select>
                             <p class="m-0">
