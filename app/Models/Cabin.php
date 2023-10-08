@@ -25,7 +25,7 @@ class Cabin extends Model
         'electric_meter',
         'daily_rate',
         'weekly_rate',
-        'monthly_rate',
+        'four_weekly_rate',
     ];
 
     protected $casts = [
@@ -42,7 +42,7 @@ class Cabin extends Model
         'electric_meter' => 'required|boolean',
         'daily_rate' => 'required|numeric|gt:-1',
         'weekly_rate' => 'required|numeric|gt:-1',
-        'monthly_rate' => 'required|numeric|gt:-1',
+        'four_weekly_rate' => 'required|numeric|gt:-1',
     ];
 
     public function __construct()

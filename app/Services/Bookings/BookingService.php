@@ -93,8 +93,8 @@ class BookingService implements BookingInterface
                 'weekly_rate' => $inputs['weekly_rate'] ?? 0,
                 'weekly_rate_less_booking_percentage' => $inputs['weekly_rate_less_booking_percentage'] ?? 0,
 
-                'monthly_rate' => $inputs['monthly_rate'] ?? 0,
-                'monthly_less_booking_percentage' => $inputs['monthly_less_booking_percentage'] ?? 0,
+                'four_weekly_rate' => $inputs['four_weekly_rate'] ?? 0,
+                'four_weekly_less_booking_percentage' => $inputs['four_weekly_less_booking_percentage'] ?? 0,
 
                 'check_in' => $inputs['check_in'],
                 'check_in_date' => $inputs['check_in'] == 'now' ? now()->timestamp : 0,

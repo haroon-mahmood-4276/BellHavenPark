@@ -60,7 +60,7 @@ class PaymentService implements PaymentInterface
             $netTotal = match ($inputs['rate_type']) {
                 'daily_rate' => floatval($inputs['txt_daily_total']),
                 'weekly_rate' => floatval($inputs['txt_weekly_total']),
-                'monthly_rate' => floatval($inputs['txt_monthly_total']),
+                'four_weekly_rate' => floatval($inputs['txt_four_weekly_total']),
             } * $inputs['days_count'];
 
             $tax = floatval(($netTotal * ($inputs['tax'] ?? 0)) / 100);

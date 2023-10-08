@@ -199,7 +199,7 @@
                             <div class="d-flex align-items-center h-100">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="rate_type"
-                                        id="rate_monthly" value="monthly_rate" />
+                                        id="rate_monthly" value="four_weekly_rate" />
                                     <label class="form-check-label" style="font-size: 15px; font-weight: bold;"
                                         for="rate_monthly">Monthly Rate</label>
                                 </div>
@@ -209,9 +209,9 @@
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                             <div class="input-group ">
                                 <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" id="txt_monthly_rate"
-                                    name="txt_monthly_rate" placeholder="monthly Rate"
-                                    value="{{ $booking->monthly_rate ?? 0 }}" disabled />
+                                <input type="text" class="form-control" id="txt_four_weekly_rate"
+                                    name="txt_four_weekly_rate" placeholder="monthly Rate"
+                                    value="{{ $booking->four_weekly_rate ?? 0 }}" disabled />
                             </div>
                         </div>
 
@@ -219,25 +219,25 @@
                             <div class="input-group ">
 
                                 @php
-                                    $percentage = $booking->monthly_less_booking_percentage ?? 0;
+                                    $percentage = $booking->four_weekly_less_booking_percentage ?? 0;
 
-                                    $monthly_less_booking = ($booking->monthly_rate * $percentage) / 100;
+                                    $four_weekly_less_booking = ($booking->four_weekly_rate * $percentage) / 100;
                                 @endphp
 
                                 <span
-                                    class="input-group-text">{{ Str::of($booking->monthly_less_booking_percentage ?? 0)->padLeft(2, '0') }}
+                                    class="input-group-text">{{ Str::of($booking->four_weekly_less_booking_percentage ?? 0)->padLeft(2, '0') }}
                                     %</span>
-                                <input type="text" id="txt_monthly_less_booking_percentage" class="form-control"
-                                    placeholder="Less Booking" value="{{ $monthly_less_booking }}" readonly />
+                                <input type="text" id="txt_four_weekly_less_booking_percentage" class="form-control"
+                                    placeholder="Less Booking" value="{{ $four_weekly_less_booking }}" readonly />
                             </div>
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                             <div class="input-group ">
                                 <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" id="txt_monthly_total"
-                                    name="txt_monthly_total" placeholder="monthly Rate"
-                                    value="{{ $booking->monthly_rate + $monthly_less_booking ?? 0 }}" readonly />
+                                <input type="text" class="form-control" id="txt_four_weekly_total"
+                                    name="txt_four_weekly_total" placeholder="monthly Rate"
+                                    value="{{ $booking->four_weekly_rate + $four_weekly_less_booking ?? 0 }}" readonly />
                             </div>
                         </div>
                     </div>
@@ -464,9 +464,9 @@
                     break;
 
                 case 'rate_monthly':
-                    table_rate_amount = parseInt($('#txt_monthly_rate').val());
-                    table_less_booking_amount = parseInt($('#txt_monthly_less_booking_percentage').val());
-                    table_sub_total = parseInt($('#txt_monthly_total').val());
+                    table_rate_amount = parseInt($('#txt_four_weekly_rate').val());
+                    table_less_booking_amount = parseInt($('#txt_four_weekly_less_booking_percentage').val());
+                    table_sub_total = parseInt($('#txt_four_weekly_total').val());
                     break;
 
                 default:

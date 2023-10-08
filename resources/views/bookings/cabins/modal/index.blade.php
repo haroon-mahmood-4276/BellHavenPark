@@ -141,7 +141,7 @@
                         </div>
 
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <input type="number" class="form-control" id="monthly_rate" name="monthly_rate"
+                            <input type="number" class="form-control" id="four_weekly_rate" name="four_weekly_rate"
                                 placeholder="Monthly Rate" value="0" min="0"
                                 {{ $differenceInDays + 1 < 28 ? 'disabled' : '' }} />
                             <p class="m-0">
@@ -151,8 +151,8 @@
 
 
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <input type="number" class="form-control" id="monthly_less_booking_percentage"
-                                name="monthly_less_booking_percentage" placeholder="Daily Rate" value="0"
+                            <input type="number" class="form-control" id="four_weekly_less_booking_percentage"
+                                name="four_weekly_less_booking_percentage" placeholder="Daily Rate" value="0"
                                 min="0" {{ $differenceInDays + 1 < 28 ? 'disabled' : '' }} />
                             <p class="m-0">
                                 <small class="text-muted">Enter monthly rate.</small>
