@@ -157,6 +157,21 @@ Breadcrumbs::for('bookings.payments.index', function (BreadcrumbTrail $trail) {
     $trail->push('Payments');
 });
 
+// Booking Taxes Breadcrumbs
+Breadcrumbs::for('booking-taxes.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Booking Taxes', route('booking-taxes.index'));
+});
+
+Breadcrumbs::for('booking-taxes.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('booking-taxes.index');
+    $trail->push('Create Booking Tax', route('booking-taxes.create'));
+});
+
+Breadcrumbs::for('booking-taxes.edit', function (BreadcrumbTrail $trail, $booking_source_id) {
+    $trail->parent('booking-taxes.index');
+    $trail->push('Edit Booking Tax',  route('booking-taxes.edit', ['booking_tax' => $booking_source_id]));
+});
 
 // Settings Breadcrumbs
 Breadcrumbs::for('settings.index', function (BreadcrumbTrail $trail) {

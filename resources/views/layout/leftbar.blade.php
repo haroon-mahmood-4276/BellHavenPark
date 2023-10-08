@@ -72,9 +72,9 @@
             <span class="menu-header-text">Booking & Customers</span>
         </li>
 
-        @canany(['booking-sources.index', 'booking-sources.create', 'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index', 'bookings.calender.index'])
+        @canany(['booking-taxes.index', 'booking-taxes.create', 'booking-sources.index', 'booking-sources.create', 'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index', 'bookings.calender.index'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['booking-sources.index', 'booking-sources.create', 'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index', 'bookings.calender.index'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(),['booking-taxes.index', 'booking-taxes.create', 'booking-sources.index', 'booking-sources.create', 'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index', 'bookings.calender.index'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-bolt menu-icon"></i>
                     <div>Bookings</div>
@@ -141,6 +141,34 @@
                                 @can('booking-sources.create')
                                     <li class="menu-item {{ request()->routeIs('booking-sources.create') ? 'active' : null }}">
                                         <a href="{{ route('booking-sources.create') }}" class="menu-link">
+                                            <div>Add New</div>
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcanany
+
+                    @canany(['booking-taxes.index', 'booking-taxes.create'])
+                        <li
+                            class="menu-item {{ in_array(request()->route()->getName(),['booking-taxes.index', 'booking-taxes.create'])? 'open active': null }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class="fa-solid fa-bolt menu-icon"></i>
+                                <div>Booking Taxes</div>
+                            </a>
+                            <ul class="menu-sub">
+
+                                @can('booking-taxes.index')
+                                    <li class="menu-item {{ request()->routeIs('booking-taxes.index') ? 'active' : null }}">
+                                        <a href="{{ route('booking-taxes.index') }}" class="menu-link">
+                                            <div>View All</div>
+                                        </a>
+                                    </li>
+                                @endcan
+
+                                @can('booking-taxes.create')
+                                    <li class="menu-item {{ request()->routeIs('booking-taxes.create') ? 'active' : null }}">
+                                        <a href="{{ route('booking-taxes.create') }}" class="menu-link">
                                             <div>Add New</div>
                                         </a>
                                     </li>

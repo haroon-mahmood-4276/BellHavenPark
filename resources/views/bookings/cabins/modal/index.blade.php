@@ -169,9 +169,13 @@
 
                     <div class="row mb-3">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="booking_tax">Tax </label>
-                            <input type="number" class="form-control" id="booking_tax" name="booking_tax"
-                                placeholder="Tax" value="10" min="0" />
+                            <label class="form-label" style="font-size: 15px" for="booking_tax">Customer</label>
+                            <select class="select2-size-lg form-select" id="booking_tax" name="booking_tax">
+                                @foreach ($booking_taxes as $booking_tax)
+                                    {{-- @continue(isset($customer) && $customerRow->id == $customer->id) --}}
+                                    <option data-icon="fa-solid fa-angle-right" value="{{ $booking_tax->id }}">{{ $booking_tax->name }}</option>
+                                @endforeach
+                            </select>
                             <p class="m-0">
                                 <small class="text-muted">Enter tax.</small>
                             </p>
@@ -425,6 +429,20 @@
         }
     });
 
+    booking_tax = $("#booking_tax");
+    booking_tax.wrap('<div class="position-relative"></div>');
+    booking_tax.select2({
+        dropdownAutoWidth: !0,
+        dropdownParent: booking_tax.parent(),
+        width: "100%",
+        containerCssClass: "select-lg",
+        templateResult: c,
+        templateSelection: c,
+        escapeMarkup: function(booking_tax) {
+            return booking_tax
+        }
+    });
+
     function c(e) {
         return e.id ? "<i class='" + $(e.element).data("icon") + " me-2'></i>" + e.text : e.text
     }
@@ -434,7 +452,6 @@
     }
 
     function formSubmit() {
-        // $('#submitForm').trigger('click');
         $('#booking_store').submit();
     }
 
