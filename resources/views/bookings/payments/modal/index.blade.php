@@ -295,9 +295,9 @@
                                         </tr>
 
                                         <tr>
-                                            <input type="hidden" name="tax" value="{{ $booking->tax }}">
-                                            <th style="vertical-align: middle;" colspan="5">Tax (
-                                                {{ $booking->tax }} % )</th>
+                                            <input type="hidden" name="tax" value="{{ $booking_tax->amount }}">
+                                            <input type="hidden" name="tax_flat" value="{{ $booking_tax->is_flat ? 'true' : 'false' }}">
+                                            <th style="vertical-align: middle;" colspan="5">Tax ( {{ $booking_tax->amount }}% )</th>
                                             <td style="vertical-align: middle;">
                                                 <p class="m-0" id="table_tax_amount">
                                                     0
@@ -483,8 +483,15 @@
             $('#table_total').text('$ ' + table_total.toFixed(2));
 
 
-            let taxPercentage = parseFloat('{{ $booking->tax }}');
-            let taxAmount = (table_total * taxPercentage) / 100;
+            let taxPercentage = parseFloat('{{ $booking_tax->amount }}');
+            let taxIsFlat = '{{ $booking_tax->is_flat }}' === 'true';
+
+            let taxAmount = 0;
+            if(taxIsFlat) {
+                taxAmount = taxPercentage;
+            } else {
+                taxAmount = (table_total * taxPercentage) / 100;
+            }
             $('#table_tax_amount').text('$ ' + taxAmount.toFixed(2));
 
             let table_gross_total = table_total + taxAmount;

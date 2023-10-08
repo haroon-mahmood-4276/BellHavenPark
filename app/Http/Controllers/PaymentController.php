@@ -9,6 +9,7 @@ use App\Services\{
     Payments\PaymentInterface
 };
 use App\Services\Bookings\BookingInterface;
+use App\Services\BookingTaxes\BookingTaxInterface;
 use App\Services\PaymentMethods\PaymentMethodInterface;
 use Carbon\Carbon;
 use Exception;
@@ -16,13 +17,19 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    private $bookingInterface, $paymentInterface, $paymentMethodInterface;
+    private $bookingInterface, $paymentInterface, $paymentMethodInterface, $bookingTaxInterface;
 
-    public function __construct(BookingInterface $bookingInterface, PaymentInterface $paymentInterface, PaymentMethodInterface $paymentMethodInterface)
+    public function __construct(
+        BookingInterface $bookingInterface,
+        PaymentInterface $paymentInterface,
+        PaymentMethodInterface $paymentMethodInterface,
+        BookingTaxInterface $bookingTaxInterface
+    )
     {
         $this->bookingInterface = $bookingInterface;
         $this->paymentInterface = $paymentInterface;
         $this->paymentMethodInterface = $paymentMethodInterface;
+        $this->bookingTaxInterface = $bookingTaxInterface;
     }
 
     public function index(BookingPaymentsDataTable $dataTable, $id)
@@ -49,9 +56,10 @@ class PaymentController extends Controller
         $modalData = [
             'booking' => $this->bookingInterface->getById($booking_id, ['cabin', 'customer', 'booking_source', 'payments']),
             'advanced_payment' => $this->paymentInterface->getAdvancedPaymentBookingId($booking_id),
-            'payment_methods' => $this->paymentMethodInterface->getAll(),
+            'payment_methods' => $this->paymentMethodInterface->getAll()
         ];
         $modalData['last_payment_date'] = $this->paymentInterface->getLastPaymentDateByBookingId($booking_id) ?? $modalData['booking']?->booking_from;
+        $modalData['booking_tax'] = $this->bookingTaxInterface->find($modalData['booking']->booking_tax_id);
 
         if (request()->ajax()) {
 
