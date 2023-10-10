@@ -16,7 +16,8 @@ class PaymentMethod extends Model
 
     protected $fillable = [
         'name',
-        'slug'
+        'slug',
+        'is_linked_with_credit_account',
     ];
 
     protected $hidden = [];
@@ -24,6 +25,7 @@ class PaymentMethod extends Model
     public $rules = [
         'name' => 'required|string|min:1|max:30',
         'slug' => 'required|string|min:1|max:30|unique:payment_methods,slug',
+        'is_linked_with_credit_account' => 'required|boolean',
     ];
 
     public function getActivitylogOptions(): LogOptions

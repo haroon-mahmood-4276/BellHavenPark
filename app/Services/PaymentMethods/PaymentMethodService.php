@@ -20,8 +20,8 @@ class PaymentMethodService implements PaymentMethodInterface
         } else if (is_string($ignore)) {
             $model = $model->where('id', '!=', $ignore);
         }
-        $model = $model->get();
-        return $model;
+
+        return $model->get();
     }
 
     public function find($id)
@@ -32,13 +32,14 @@ class PaymentMethodService implements PaymentMethodInterface
     public function store($inputs)
     {
         $returnData = DB::transaction(function () use ($inputs) {
+            $this->model()->where('is_linked_with_credit_account', true)->update(['is_linked_with_credit_account' => false]);
             $data = [
                 'name' => $inputs['name'],
                 'slug' => $inputs['slug'],
+                'is_linked_with_credit_account' => $inputs['is_linked_with_credit_account'],
             ];
 
-            $model = $this->model()->create($data);
-            return $model;
+            return $this->model()->create($data);
         });
 
         return $returnData;
@@ -47,13 +48,14 @@ class PaymentMethodService implements PaymentMethodInterface
     public function update($id, $inputs)
     {
         $returnData = DB::transaction(function () use ($id, $inputs) {
+            $this->model()->where('is_linked_with_credit_account', true)->update(['is_linked_with_credit_account' => false]);
             $data = [
                 'name' => $inputs['name'],
                 'slug' => $inputs['slug'],
+                'is_linked_with_credit_account' => $inputs['is_linked_with_credit_account'],
             ];
 
-            $model = $this->model()->find($id)->update($data);
-            return $model;
+            return $this->model()->find($id)->update($data);
         });
 
         return $returnData;
@@ -71,5 +73,14 @@ class PaymentMethodService implements PaymentMethodInterface
         });
 
         return $returnData;
+    }
+
+    public function setDefault($id)
+    {
+        return DB::transaction(function () use ($id) {
+            $model = $this->model()->where('is_linked_with_credit_account', true)->update(['is_linked_with_credit_account' => false]);
+            $model = $this->model()->find($id)->update(['is_linked_with_credit_account' => true]);
+            return $model;
+        });
     }
 }
