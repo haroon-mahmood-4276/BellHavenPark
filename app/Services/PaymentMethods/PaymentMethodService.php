@@ -12,13 +12,17 @@ class PaymentMethodService implements PaymentMethodInterface
         return new PaymentMethod();
     }
 
-    public function getAll($ignore = null)
+    public function get($ignore = null, $withoutLinkedAccounts = false)
     {
         $model = $this->model();
         if (is_array($ignore)) {
             $model = $model->whereNotIn('id', $ignore);
         } else if (is_string($ignore)) {
             $model = $model->where('id', '!=', $ignore);
+        }
+
+        if ($withoutLinkedAccounts) {
+            $model = $model->whereNull('linked_account');
         }
 
         return $model->get();

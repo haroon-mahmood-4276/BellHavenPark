@@ -4,7 +4,7 @@ namespace App\Services\PaymentMethods;
 
 interface PaymentMethodInterface
 {
-    public function getAll($ignore = null);
+    public function get($ignore = null, $withoutLinkedAccounts = false);
 
     public function find($id);
 

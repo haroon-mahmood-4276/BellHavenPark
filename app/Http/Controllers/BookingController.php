@@ -19,7 +19,13 @@ class BookingController extends Controller
 {
     private $bookingInterface, $bookingSourceInterface, $cabinInterface, $customerInterface, $bookingTaxInterface, $paymentMethodInterface;
 
-    public function __construct(BookingInterface $bookingInterface, CabinInterface $cabinInterface, CustomerInterface $customerInterface, BookingSourceInterface $bookingSourceInterface, BookingTaxInterface $bookingTaxInterface, PaymentMethodInterface $paymentMethodInterface)
+    public function __construct(
+        BookingInterface $bookingInterface,
+        CabinInterface $cabinInterface,
+        CustomerInterface $customerInterface,
+        BookingSourceInterface $bookingSourceInterface,
+        BookingTaxInterface $bookingTaxInterface,
+        PaymentMethodInterface $paymentMethodInterface)
     {
         $this->bookingInterface = $bookingInterface;
         $this->cabinInterface = $cabinInterface;
@@ -78,6 +84,7 @@ class BookingController extends Controller
             'customers' => $this->customerInterface->get(),
             'booking_sources' => $this->bookingSourceInterface->getAll(),
             'booking_taxes' => $this->bookingTaxInterface->get(),
+            'payment_methods' => $this->paymentMethodInterface->get(withoutLinkedAccounts: true),
         ];
 
         if(isset($request->return_url) && !empty($request->return_url))

@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use App\Utils\Enums\PaymentStatus;
-use App\Utils\Enums\TransactionType;
+use App\Utils\Enums\{
+    CustomerAccounts,
+    PaymentStatus,
+    TransactionType,
+};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,20 +21,22 @@ class Payment extends Model
     protected $dateFormat = 'U';
 
     protected $fillable = [
-        'customer_id',
         'booking_id',
         'payment_method_id',
+        'customer_id',
         'payment_from',
         'payment_to',
         'credit',
         'debit',
         'balance',
+        'account',
         'transaction_type',
         'status',
         'comments',
     ];
 
     protected $casts = [
+        'account' => CustomerAccounts::class,
         'payment_from' => 'integer',
         'payment_to' => 'integer',
         'credit' => 'double',
@@ -39,6 +44,9 @@ class Payment extends Model
         'balance' => 'double',
         'transaction_type' => TransactionType::class,
         'status' => PaymentStatus::class,
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
+        'deleted_at' => 'timestamp',
     ];
 
     protected $hidden = [];
@@ -58,5 +66,10 @@ class Payment extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function payment_method(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class);
     }
 }

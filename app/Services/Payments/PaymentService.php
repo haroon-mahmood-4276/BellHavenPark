@@ -27,6 +27,7 @@ class PaymentService implements PaymentInterface
                 'credit' => $inputs['credit'],
                 'debit' => $inputs['debit'],
                 'balance' => $inputs['balance'],
+                'account' => $inputs['account'],
                 'transaction_type' => $inputs['transaction_type'],
                 'status' => $inputs['status'],
                 'comments' => $inputs['comments'],

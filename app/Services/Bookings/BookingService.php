@@ -5,6 +5,7 @@ namespace App\Services\Bookings;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Services\Payments\PaymentInterface;
+use App\Utils\Enums\CustomerAccounts;
 use App\Utils\Enums\PaymentStatus;
 use App\Utils\Enums\TransactionType;
 use Carbon\Carbon;
@@ -125,12 +126,13 @@ class BookingService implements BookingInterface
                 $data = [
                     'customer_id' => $inputs['customer'],
                     'booking_id' => $booking->id,
-                    'payment_method_id' => null,
+                    'payment_method_id' => $inputs['payment_methods'],
                     'payment_from' => 0,
                     'payment_to' => 0,
                     'credit' => (float)$inputs['advance_payment'],
                     'debit' => 0,
                     'balance' => (float)$inputs['advance_payment'],
+                    'account' => CustomerAccounts::CREDIT_ACCOUNT,
                     'transaction_type' => TransactionType::ADVANCE,
                     'status' => PaymentStatus::RECEIVED,
                     'comments' => 'Advance Payment',

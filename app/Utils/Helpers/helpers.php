@@ -402,6 +402,9 @@ if (!function_exists('getImageByName')) {
 if (!function_exists('editDateTimeColumn')) {
     function editDateTimeColumn($date, $dateFormat = 'Y-m-d', $timeFormat = 'H:i:s', $withBr = true, $order = 'TD')
     {
+        if ($date < 1)
+            return '-';
+
         $date = new Carbon($date);
         switch ($order) {
             case 'TD':

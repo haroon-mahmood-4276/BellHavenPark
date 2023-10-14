@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\Enums\CustomerAccounts;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -61,19 +62,28 @@ class Booking extends Model
     public $rules = [
         'cabin_id' => 'required|numeric',
         'customer' => 'required|numeric',
+
         'booking_from' => 'required|integer',
         'booking_to' => 'required|integer',
+
         'booking_source' => 'nullable|numeric',
+
         'daily_rate' => 'nullable|numeric',
         'daily_less_booking_percentage' => 'nullable|numeric',
+
         'weekly_rate' => 'nullable|numeric',
         'weekly_less_booking_percentage' => 'nullable|numeric',
+
         'four_weekly_rate' => 'nullable|numeric',
         'four_weekly_less_booking_percentage' => 'nullable|numeric',
+
         'booking_tax' => 'required|integer',
         'check_in' => 'required|in:now,later',
+
         'payment' => 'required|in:now,later',
+
         'advance_payment' => 'required_if:payment,now|integer|gte:0',
+
         'comments' => 'nullable',
 
         'tenants' => 'nullable|array',
@@ -83,6 +93,13 @@ class Booking extends Model
     public $rulesMessages = [];
 
     public $rulesAttributes = [];
+
+    public function __construct()
+    {
+        parent::boot();
+
+        $this->rules['payment_methods'] = 'required_if:payment,now|integer|exists:payment_methods,id';
+    }
 
     public function getActivitylogOptions(): LogOptions
     {

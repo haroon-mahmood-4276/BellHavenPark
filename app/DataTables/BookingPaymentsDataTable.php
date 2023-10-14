@@ -25,15 +25,17 @@ class BookingPaymentsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->setRowId('id')
-
-            ->editColumn('payment_method_id', function ($row) {
-                return $row->payment_method_id ?? '...';
-            })
             ->editColumn('debit', function ($row) {
                 return ($row->debit) > 0 ? '$ ' . number_format($row->debit, 2) : '-';
             })
             ->editColumn('credit', function ($row) {
                 return ($row->credit) > 0 ? '$ ' . number_format($row->credit, 2) : '-';
+            })
+            ->editColumn('payment_from', function ($row) {
+                return editDateTimeColumn($row->payment_from);
+            })
+            ->editColumn('payment_to', function ($row) {
+                return editDateTimeColumn($row->payment_to);
             })
             ->editColumn('comments', function ($row) {
                 $comments = Str::of($row->comments);
@@ -60,7 +62,7 @@ class BookingPaymentsDataTable extends DataTable
      */
     public function query(Payment $model)
     {
-        return $model->newQuery()->where('booking_id', $this->booking_id);
+        return $model->newQuery()->select('payments.*')->with(['payment_method'])->where('payments.booking_id', $this->booking_id);
     }
 
     public function html(): HtmlBuilder
@@ -150,9 +152,9 @@ class BookingPaymentsDataTable extends DataTable
     protected function getColumns(): array
     {
         return [
-            Column::make('DT_RowIndex')->title('#')->addClass('text-nowrap text-center align-middle'),
+            Column::make('DT_RowIndex')->title('#')->searchable(false)->orderable(false)->addClass('text-nowrap text-center align-middle'),
             Column::make('transaction_type')->title('Transaction Type')->addClass('text-nowrap text-center align-middle'),
-            Column::make('payment_method_id')->title('Payment Method')->addClass('text-nowrap text-center align-middle'),
+            Column::make('payment_method.name')->title('Payment Method')->addClass('text-nowrap text-center align-middle'),
             Column::make('payment_from')->title('Payment From')->addClass('text-nowrap text-center align-middle'),
             Column::make('payment_to')->title('Payment To')->addClass('text-nowrap text-center align-middle'),
             Column::make('debit')->title('Debit')->addClass('text-nowrap text-center align-middle'),
