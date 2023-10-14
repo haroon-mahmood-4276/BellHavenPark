@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\{Collection};
 use Illuminate\Support\Facades\{Crypt, File};
+use App\Utils\Enums\CustomerAccounts;
 
 if (!function_exists('settings')) {
     function settings($key, $overrideCache = false)
@@ -410,6 +411,19 @@ if (!function_exists('editDateTimeColumn')) {
             case 'DT':
                 return "<span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span> " . ($withBr ? '<br>' : "") . " <span>" . $date->format($timeFormat) . "</span>";
                 break;
+        }
+    }
+}
+
+if (!function_exists('editTitleColumn')) {
+    function editTitleColumn($string)
+    {
+        if (is_null($string)) {
+            return '-';
+        } else if (is_string($string)) {
+            return Str::of($string)->replace('_', ' ')->title();
+        } else if ($string instanceof CustomerAccounts) {
+            return Str::of($string->value)->replace('_', ' ')->title();
         }
     }
 }

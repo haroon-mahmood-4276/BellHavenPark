@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\Enums\CustomerAccounts;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,19 +18,29 @@ class PaymentMethod extends Model
     protected $fillable = [
         'name',
         'slug',
-        'is_linked_with_credit_account',
+        'linked_account',
     ];
 
     protected $hidden = [];
 
+    protected $casts = [
+        'linked_account' => CustomerAccounts::class
+    ];
+
     public $rules = [
         'name' => 'required|string|min:1|max:30',
         'slug' => 'required|string|min:1|max:30|unique:payment_methods,slug',
-        'is_linked_with_credit_account' => 'required|boolean',
     ];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->useLogName(self::class)->logFillable();
+    }
+
+    public function __construct()
+    {
+        parent::boot();
+
+        $this->rules['linked_account'] = 'nullable|in:' . implode(',', CustomerAccounts::values());
     }
 }

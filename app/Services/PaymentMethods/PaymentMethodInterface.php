@@ -13,6 +13,4 @@ interface PaymentMethodInterface
     public function update($id, $inputs);
 
     public function destroy($inputs);
-
-    public function setDefault($id);
 }

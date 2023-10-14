@@ -25,28 +25,30 @@ class BookingPaymentsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->setRowId('id')
-            ->editColumn('check', function ($payment) {
-                return $payment;
+
+            ->editColumn('payment_method_id', function ($row) {
+                return $row->payment_method_id ?? '...';
             })
-            ->editColumn('debit', function ($bookingPayment) {
-                return ($bookingPayment->debit) > 0 ? '$ ' . number_format($bookingPayment->debit, 2) : '-';
+            ->editColumn('debit', function ($row) {
+                return ($row->debit) > 0 ? '$ ' . number_format($row->debit, 2) : '-';
             })
-            ->editColumn('credit', function ($bookingPayment) {
-                return ($bookingPayment->credit) > 0 ? '$ ' . number_format($bookingPayment->credit, 2) : '-';
+            ->editColumn('credit', function ($row) {
+                return ($row->credit) > 0 ? '$ ' . number_format($row->credit, 2) : '-';
             })
-            ->editColumn('type', function ($bookingPayment) {
-                return Str::of($bookingPayment->type)->ucfirst();
+            ->editColumn('comments', function ($row) {
+                $comments = Str::of($row->comments);
+                return $comments->length() > 0 ? Str::of($row->comments)->words(10) : '-';
             })
-            ->editColumn('comments', function ($bookingPayment) {
-                $comments = Str::of($bookingPayment->comments);
-                return $comments->length() > 0 ? Str::of($bookingPayment->comments)->words(10) : '-';
+            ->editColumn('transaction_type', function ($row) {
+                return Str::of($row->transaction_type->value)->replace('_', ' ')->title();
             })
-            ->editColumn('updated_at', function ($payment) {
-                return editDateTimeColumn($payment->updated_at);
+            ->editColumn('status', function ($row) {
+                return Str::of($row->status->value)->replace('_', ' ')->title();
             })
-            // ->editColumn('actions', function ($payment) {
-            //     return view('bookings.actions', ['id' => $payment->id]);
-            // })
+            ->editColumn('updated_at', function ($row) {
+                return editDateTimeColumn($row->updated_at);
+            })
+            ->addIndexColumn()
             ->rawColumns(array_merge($columns, ['action', 'check']));
     }
 
@@ -118,23 +120,23 @@ class BookingPaymentsDataTable extends DataTable
             ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
             // ->rowGroupDataSrc('parent_id')
-            ->columnDefs([
-                [
-                    'targets' => 0,
-                    'className' => 'text-center text-primary',
-                    'width' => '10%',
-                    'orderable' => false,
-                    'searchable' => false,
-                    'responsivePriority' => 3,
-                    'render' => "function (data, type, full, setting) {
-                        var role = JSON.parse(data);
-                        return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
-                    }",
-                    'checkboxes' => [
-                        'selectAllRender' =>  '<div class="form-check"> <input class="form-check-input" onchange="changeAllTableRowColor()" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>',
-                    ]
-                ],
-            ])
+            // ->columnDefs([
+            //     [
+            //         'targets' => 0,
+            //         'className' => 'text-center text-primary',
+            //         'width' => '10%',
+            //         'orderable' => false,
+            //         'searchable' => false,
+            //         'responsivePriority' => 3,
+            //         'render' => "function (data, type, full, setting) {
+            //             var role = JSON.parse(data);
+            //             return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
+            //         }",
+            //         'checkboxes' => [
+            //             'selectAllRender' =>  '<div class="form-check"> <input class="form-check-input" onchange="changeAllTableRowColor()" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>',
+            //         ]
+            //     ],
+            // ])
             ->orders([
                 [1, 'asc'],
             ]);
@@ -147,23 +149,18 @@ class BookingPaymentsDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle');
-
-        if (auth()->user()->can('bookings.payments.destroy')) {
-            $checkColumn->addClass('disabled');
-        }
-
-        $columns = [
-            $checkColumn,
+        return [
+            Column::make('DT_RowIndex')->title('#')->addClass('text-nowrap text-center align-middle'),
+            Column::make('transaction_type')->title('Transaction Type')->addClass('text-nowrap text-center align-middle'),
+            Column::make('payment_method_id')->title('Payment Method')->addClass('text-nowrap text-center align-middle'),
+            Column::make('payment_from')->title('Payment From')->addClass('text-nowrap text-center align-middle'),
+            Column::make('payment_to')->title('Payment To')->addClass('text-nowrap text-center align-middle'),
             Column::make('debit')->title('Debit')->addClass('text-nowrap text-center align-middle'),
             Column::make('credit')->title('Credit')->addClass('text-nowrap text-center align-middle'),
-            Column::make('type')->title('Type')->addClass('text-nowrap text-center align-middle'),
+            Column::make('status')->addClass('text-nowrap text-center align-middle'),
             Column::make('comments')->title('Comments')->addClass('text-nowrap text-center align-middle'),
-
-            Column::make('updated_at')->addClass('text-center text-nowarp align-middle'),
+            Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
         ];
-        // Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
-        return $columns;
     }
 
     /**

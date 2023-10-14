@@ -10,21 +10,23 @@ use App\Services\BookingSources\BookingSourceInterface;
 use App\Services\BookingTaxes\BookingTaxInterface;
 use App\Services\Cabins\CabinInterface;
 use App\Services\Customers\CustomerInterface;
+use App\Services\PaymentMethods\PaymentMethodInterface;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    private $bookingInterface, $bookingSourceInterface, $cabinInterface, $customerInterface, $bookingTaxInterface;
+    private $bookingInterface, $bookingSourceInterface, $cabinInterface, $customerInterface, $bookingTaxInterface, $paymentMethodInterface;
 
-    public function __construct(BookingInterface $bookingInterface, CabinInterface $cabinInterface, CustomerInterface $customerInterface, BookingSourceInterface $bookingSourceInterface, BookingTaxInterface $bookingTaxInterface)
+    public function __construct(BookingInterface $bookingInterface, CabinInterface $cabinInterface, CustomerInterface $customerInterface, BookingSourceInterface $bookingSourceInterface, BookingTaxInterface $bookingTaxInterface, PaymentMethodInterface $paymentMethodInterface)
     {
         $this->bookingInterface = $bookingInterface;
         $this->cabinInterface = $cabinInterface;
         $this->customerInterface = $customerInterface;
         $this->bookingSourceInterface = $bookingSourceInterface;
         $this->bookingTaxInterface = $bookingTaxInterface;
+        $this->paymentMethodInterface = $paymentMethodInterface;
     }
 
     public function index(BookingsDataTable $dataTable)

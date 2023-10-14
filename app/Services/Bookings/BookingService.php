@@ -4,12 +4,22 @@ namespace App\Services\Bookings;
 
 use App\Models\Booking;
 use App\Models\Payment;
+use App\Services\Payments\PaymentInterface;
 use App\Utils\Enums\PaymentStatus;
+use App\Utils\Enums\TransactionType;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class BookingService implements BookingInterface
 {
+
+    private $paymentInterface;
+
+    public function __construct(PaymentInterface $paymentInterface)
+    {
+        $this->paymentInterface = $paymentInterface;
+    }
+
     private function model()
     {
         return new Booking();
@@ -74,9 +84,8 @@ class BookingService implements BookingInterface
     public function store($inputs)
     {
 
-        // $returnData = DB::transaction(function () use ($inputs) {
+        return DB::transaction(function () use ($inputs) {
             $data = [
-
                 'cabin_id' => $inputs['cabin_id'],
                 'customer_id' => $inputs['customer'],
 
@@ -107,27 +116,31 @@ class BookingService implements BookingInterface
 
                 'status' => true,
             ];
+
             $booking = $this->model()->create($data);
 
             $booking->tenants()->sync($inputs['tenants'] ?? []);
 
             if ($inputs['payment'] == 'now') {
                 $data = [
+                    'customer_id' => $inputs['customer'],
                     'booking_id' => $booking->id,
+                    'payment_method_id' => null,
+                    'payment_from' => 0,
+                    'payment_to' => 0,
                     'credit' => (float)$inputs['advance_payment'],
                     'debit' => 0,
                     'balance' => (float)$inputs['advance_payment'],
-                    'status' => 'credit',
-                    'type' => PaymentStatus::ADVANCE,
+                    'transaction_type' => TransactionType::ADVANCE,
+                    'status' => PaymentStatus::RECEIVED,
+                    'comments' => 'Advance Payment',
                 ];
 
-                $paymentRecord = (new Payment())->create($data);
+                $this->paymentInterface->store($data);
             }
 
             return $booking;
-        // });
-
-        // return $returnData;
+        });
     }
 
     public function storeCheckIn($id)

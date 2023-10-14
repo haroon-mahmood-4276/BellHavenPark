@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Utils\Enums\PaymentStatus;
+use App\Utils\Enums\TransactionType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +18,7 @@ class Payment extends Model
     protected $dateFormat = 'U';
 
     protected $fillable = [
+        'customer_id',
         'booking_id',
         'payment_method_id',
         'payment_from',
@@ -23,10 +26,19 @@ class Payment extends Model
         'credit',
         'debit',
         'balance',
+        'transaction_type',
         'status',
-        'payment_type',
-        'type',
         'comments',
+    ];
+
+    protected $casts = [
+        'payment_from' => 'integer',
+        'payment_to' => 'integer',
+        'credit' => 'double',
+        'debit' => 'double',
+        'balance' => 'double',
+        'transaction_type' => TransactionType::class,
+        'status' => PaymentStatus::class,
     ];
 
     protected $hidden = [];

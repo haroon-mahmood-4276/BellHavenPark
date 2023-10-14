@@ -68,27 +68,27 @@
                     </div>
 
                     <div class="row my-3">
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                        <div class="col-xl-4 col-lg-4 col-md-12">
                             <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Type</p>
                         </div>
 
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="col-xl-8 col-lg-8 col-md-12">
                             <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Rate ($)</p>
                         </div>
 
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                             <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Less Booking (%)</p>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="row">
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                        <div class="col-xl-4 col-lg-4 col-md-12">
                             <div class="d-flex align-items-center h-100">
                                 <p class="">Daily Rate</p>
                             </div>
                         </div>
 
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="col-xl-8 col-lg-8 col-md-12">
                             <input type="number" class="form-control" id="daily_rate" name="daily_rate" step="0.5"
                                 placeholder="Daily Rate" value="0" min="0" />
                             <p class="m-0">
@@ -96,24 +96,24 @@
                             </p>
                         </div>
 
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                             <input type="number" class="form-control" id="daily_less_booking_percentage"
                                 name="daily_less_booking_percentage" placeholder="Daily Rate" value="0"
                                 step="0.5" min="0" />
                             <p class="m-0">
                                 <small class="text-muted">Enter daily rate.</small>
                             </p>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="row">
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                        <div class="col-xl-4 col-lg-4 col-md-12">
                             <div class="d-flex align-items-center h-100">
                                 <p class="m-0">Weekly Rate</p>
                             </div>
                         </div>
 
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="col-xl-8 col-lg-8 col-md-12">
                             <input type="number" class="form-control" id="weekly_rate" name="weekly_rate"
                                 placeholder="Weekly Rate" value="0" min="0"
                                 {{ $differenceInDays + 1 < 7 ? 'disabled' : '' }} />
@@ -122,25 +122,25 @@
                             </p>
                         </div>
 
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                             <input type="number" class="form-control" id="weekly_rate_less_booking_percentage"
                                 name="weekly_rate_less_booking_percentage" placeholder="Daily Rate" value="0"
                                 min="0" {{ $differenceInDays + 1 < 7 ? 'disabled' : '' }} />
                             <p class="m-0">
                                 <small class="text-muted">Enter daily rate.</small>
                             </p>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="row">
 
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                        <div class="col-xl-4 col-lg-4 col-md-12">
                             <div class="d-flex align-items-center h-100">
                                 <p class="m-0">Monthly Rate</p>
                             </div>
                         </div>
 
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="col-xl-8 col-lg-8 col-md-12">
                             <input type="number" class="form-control" id="four_weekly_rate" name="four_weekly_rate"
                                 placeholder="Monthly Rate" value="0" min="0"
                                 {{ $differenceInDays + 1 < 28 ? 'disabled' : '' }} />
@@ -150,14 +150,14 @@
                         </div>
 
 
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                             <input type="number" class="form-control" id="four_weekly_less_booking_percentage"
                                 name="four_weekly_less_booking_percentage" placeholder="Daily Rate" value="0"
                                 min="0" {{ $differenceInDays + 1 < 28 ? 'disabled' : '' }} />
                             <p class="m-0">
                                 <small class="text-muted">Enter monthly rate.</small>
                             </p>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="row mb-3">

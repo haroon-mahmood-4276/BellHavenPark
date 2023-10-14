@@ -1,5 +1,8 @@
 <?php
 
+use App\Utils\Enums\CustomerAccounts;
+use App\Utils\Enums\PaymentStatus;
+use App\Utils\Enums\TransactionType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,14 +21,19 @@ return new class extends Migration
 
             $table->foreignId('booking_id')->nullable()->constrained();
             $table->foreignId('payment_method_id')->nullable()->constrained();
+            $table->foreignId('customer_id')->constrained();
+
             $table->unsignedInteger('payment_from')->default(0);
             $table->unsignedInteger('payment_to')->default(0);
+
             $table->double('credit', 8)->nullable()->default(0);
             $table->double('debit', 8)->nullable()->default(0);
             $table->double('balance', 8)->nullable()->default(0);
-            $table->string('status', 30)->nullable();
-            $table->string('payment_type', 30)->nullable();
-            $table->string('type', 30)->nullable();
+
+            $table->enum('account', CustomerAccounts::values())->nullable();
+            $table->enum('transaction_type', TransactionType::values())->nullable();
+            $table->enum('status', PaymentStatus::values())->nullable();
+
             $table->text('comments')->nullable();
 
             $table->unsignedInteger('created_at')->nullable();

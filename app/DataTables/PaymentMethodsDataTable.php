@@ -24,8 +24,8 @@ class PaymentMethodsDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->editColumn('is_linked_with_credit_account', function ($row) {
-                return editStatusColumn($row->is_linked_with_credit_account);
+            ->editColumn('linked_account', function ($row) {
+                return editTitleColumn($row->linked_account);
             })
             ->editColumn('updated_at', function ($row) {
                 return editDateTimeColumn($row->updated_at);
@@ -151,7 +151,7 @@ class PaymentMethodsDataTable extends DataTable
             $checkColumn,
             Column::make('name')->title('Payment Method')->addClass('text-nowrap text-center align-middle'),
             Column::make('slug')->title('Slug')->addClass('text-nowrap text-center align-middle'),
-            Column::make('is_linked_with_credit_account')->title('Linked with Credit Accout')->addClass('text-nowrap text-center align-middle'),
+            Column::make('linked_account')->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];

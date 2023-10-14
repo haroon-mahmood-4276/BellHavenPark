@@ -31,56 +31,37 @@ class PaymentMethodService implements PaymentMethodInterface
 
     public function store($inputs)
     {
-        $returnData = DB::transaction(function () use ($inputs) {
-            $this->model()->where('is_linked_with_credit_account', true)->update(['is_linked_with_credit_account' => false]);
+        return DB::transaction(function () use ($inputs) {
+            $this->model()->where('linked_account', $inputs['linked_account'])->first()->update(['linked_account' => null]);
+
             $data = [
                 'name' => $inputs['name'],
                 'slug' => $inputs['slug'],
-                'is_linked_with_credit_account' => $inputs['is_linked_with_credit_account'],
+                'linked_account' => $inputs['linked_account'],
             ];
 
             return $this->model()->create($data);
         });
-
-        return $returnData;
     }
 
     public function update($id, $inputs)
     {
-        $returnData = DB::transaction(function () use ($id, $inputs) {
-            $this->model()->where('is_linked_with_credit_account', true)->update(['is_linked_with_credit_account' => false]);
+        return DB::transaction(function () use ($id, $inputs) {
+            $this->model()->where('linked_account', $inputs['linked_account'])->first()?->update(['linked_account' => null]);
             $data = [
                 'name' => $inputs['name'],
                 'slug' => $inputs['slug'],
-                'is_linked_with_credit_account' => $inputs['is_linked_with_credit_account'],
+                'linked_account' => $inputs['linked_account'],
             ];
 
             return $this->model()->find($id)->update($data);
         });
-
-        return $returnData;
     }
 
     public function destroy($inputs)
     {
-        $returnData = DB::transaction(function () use ($inputs) {
-
-            $model = $this->model()->whereIn('id', $inputs)->get()->each(function ($model) {
-                $model->delete();
-            });
-
-            return $model;
-        });
-
-        return $returnData;
-    }
-
-    public function setDefault($id)
-    {
-        return DB::transaction(function () use ($id) {
-            $model = $this->model()->where('is_linked_with_credit_account', true)->update(['is_linked_with_credit_account' => false]);
-            $model = $this->model()->find($id)->update(['is_linked_with_credit_account' => true]);
-            return $model;
+        return DB::transaction(function () use ($inputs) {
+            return $this->model()->whereIn('id', $inputs)->delete();
         });
     }
 }
