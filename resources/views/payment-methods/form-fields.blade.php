@@ -38,6 +38,7 @@
                     id="linked_account" name="linked_account">
                     <option data-icon="fa-solid fa-angle-right" value="">Select Account</option>
                     @foreach ($linked_accounts as $key => $account)
+                        @continue($key !== 'credit_account')
                         <option data-icon="fa-solid fa-angle-right"
                             {{ isset($paymentMethod) && !is_null($paymentMethod->linked_account) && $paymentMethod->linked_account->value == $key ? 'selected' : null }}
                             value="{{ $key }}">{{ $account['text'] }}</option>

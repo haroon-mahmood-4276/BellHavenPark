@@ -10,6 +10,5 @@ enum TransactionType: string
 
     case ADVANCE = 'advance';
     case REFUND = 'refund';
-    case CREDIT = 'credit';
-    case DEBIT = 'debit';
+    case CASH = 'cash';
 }

@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\DB;
 
 class BookingService implements BookingInterface
 {
-
     private $paymentInterface;
 
     public function __construct(PaymentInterface $paymentInterface)
@@ -61,7 +60,7 @@ class BookingService implements BookingInterface
         return $booking;
     }
 
-    public function getById($id, $relationships = [])
+    public function find($id, $relationships = [])
     {
         $booking = $this->model();
 
@@ -129,8 +128,7 @@ class BookingService implements BookingInterface
                     'payment_method_id' => $inputs['payment_methods'],
                     'payment_from' => 0,
                     'payment_to' => 0,
-                    'credit' => (float)$inputs['advance_payment'],
-                    'debit' => 0,
+                    'amount' => (float)$inputs['advance_payment'],
                     'balance' => (float)$inputs['advance_payment'],
                     'account' => CustomerAccounts::CREDIT_ACCOUNT,
                     'transaction_type' => TransactionType::ADVANCE,

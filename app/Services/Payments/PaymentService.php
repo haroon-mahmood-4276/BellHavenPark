@@ -3,6 +3,7 @@
 namespace App\Services\Payments;
 
 use App\Models\Payment;
+use App\Utils\Enums\CustomerAccounts;
 use App\Utils\Enums\PaymentStatus;
 use Carbon\Carbon;
 use Exception;
@@ -24,8 +25,7 @@ class PaymentService implements PaymentInterface
                 'payment_method_id' => $inputs['payment_method_id'],
                 'payment_from' => $inputs['payment_from'],
                 'payment_to' => $inputs['payment_to'],
-                'credit' => $inputs['credit'],
-                'debit' => $inputs['debit'],
+                'amount' => $inputs['amount'],
                 'balance' => $inputs['balance'],
                 'account' => $inputs['account'],
                 'transaction_type' => $inputs['transaction_type'],
@@ -35,5 +35,20 @@ class PaymentService implements PaymentInterface
 
             return $this->model()->create($data);
         });
+    }
+
+    public function advancePayments($customer_id)
+    {
+        // $total_credit = $this->model()->where([
+        //     'customer_id' => $customer_id,
+        //     'account' => CustomerAccounts::CREDIT_ACCOUNT
+        // ])->sum('amount');
+
+        // $total_debit = $this->model()->where([
+        //     'customer_id' => $customer_id,
+        //     'account' => CustomerAccounts::CREDIT_ACCOUNT
+        // ])->sum('amount');
+
+        // $advancedPayment = $total_credit - $total_debit;
     }
 }

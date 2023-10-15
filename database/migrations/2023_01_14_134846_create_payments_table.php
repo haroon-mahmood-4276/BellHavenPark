@@ -26,8 +26,7 @@ return new class extends Migration
             $table->unsignedInteger('payment_from')->default(0);
             $table->unsignedInteger('payment_to')->default(0);
 
-            $table->double('credit', 8)->nullable()->default(0);
-            $table->double('debit', 8)->nullable()->default(0);
+            $table->double('amount', 8)->nullable()->default(0);
             $table->double('balance', 8)->nullable()->default(0);
 
             $table->enum('account', CustomerAccounts::values())->nullable();

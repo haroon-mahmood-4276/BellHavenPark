@@ -35,7 +35,7 @@ class PaymentController extends Controller
     public function index(BookingPaymentsDataTable $dataTable, $id)
     {
 
-        $booking = $this->bookingInterface->getById($id);
+        $booking = $this->bookingInterface->find($id);
         if (!$booking) {
             return redirect()->route('bookings.index')->withDanger('Booking not found');
         }
@@ -54,12 +54,17 @@ class PaymentController extends Controller
     public function create(Request $request, $booking_id)
     {
         $modalData = [
-            'booking' => $this->bookingInterface->getById($booking_id, ['cabin', 'customer', 'booking_source', 'payments']),
-            'advanced_payment' => $this->paymentInterface->getAdvancedPaymentBookingId($booking_id),
-            'payment_methods' => $this->paymentMethodInterface->getAll()
+            'booking' => $this->bookingInterface->find($booking_id, ['cabin', 'customer', 'booking_source', 'payments']),
+            'payment_methods' => $this->paymentMethodInterface->get()
         ];
-        $modalData['last_payment_date'] = $this->paymentInterface->getLastPaymentDateByBookingId($booking_id) ?? $modalData['booking']?->booking_from;
-        $modalData['booking_tax'] = $this->bookingTaxInterface->find($modalData['booking']->booking_tax_id);
+
+        $modalData['advanced_payment'] = $this->paymentInterface->advancePayments($modalData['booking']->customer->id);
+
+        // 'advanced_payment' => $this->paymentInterface->getAdvancedPaymentBookingId($booking_id),
+        // $modalData['last_payment_date'] = $this->paymentInterface->getLastPaymentDateByBookingId($booking_id) ?? $modalData['booking']?->booking_from;
+        // $modalData['booking_tax'] = $this->bookingTaxInterface->find($modalData['booking']->booking_tax_id);
+
+        dd($modalData['advanced_payment']);
 
         if (request()->ajax()) {
 
