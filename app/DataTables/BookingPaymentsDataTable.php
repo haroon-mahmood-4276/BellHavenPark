@@ -66,7 +66,7 @@ class BookingPaymentsDataTable extends DataTable
     {
         $buttons = [];
 
-        if (auth()->user()->can('bookings.create')) {
+        if (auth()->user()->can('bookings.payments.create')) {
             $buttons[] = Button::raw('add-new')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New')
@@ -75,7 +75,7 @@ class BookingPaymentsDataTable extends DataTable
                 ]);
         }
 
-        if (auth()->user()->can('bookings.export')) {
+        if (auth()->user()->can('bookings.payments.export')) {
             $buttons[] = Button::make('export')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1')
                 ->buttons([
@@ -91,15 +91,6 @@ class BookingPaymentsDataTable extends DataTable
             Button::make('reset')->addClass('btn btn-danger waves-effect waves-float waves-light m-1'),
             Button::make('reload')->addClass('btn btn-primary waves-effect waves-float waves-light m-1'),
         ]);
-
-        if (auth()->user()->can('bookings.payments.destroy')) {
-            $buttons[] = Button::raw('delete-selected')
-                ->addClass('btn btn-danger waves-effect waves-float waves-light m-1')
-                ->text('<i class="fa-solid fa-minus"></i>&nbsp;&nbsp;Delete Selected')
-                ->attr([
-                    'onclick' => 'deleteSelected()',
-                ]);
-        }
 
         return $this->builder()
             ->setTableId('booking-table')

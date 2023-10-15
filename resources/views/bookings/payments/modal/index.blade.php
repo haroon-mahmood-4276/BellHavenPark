@@ -37,7 +37,216 @@
 
                     </div>
 
+                    <div class="row mb-3 text-center">
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Type</p>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-6">
+                            <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Rate</p>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Total</p>
+                        </div>
+
+                        {{-- <div class="col-xl-3 col-lg-3 col-md-3">
+                            <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Less Booking</p>
+                        </div> --}}
+                    </div>
+
+                    {{-- Daily Rate --}}
                     <div class="row mb-3">
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <div class="d-flex align-items-center h-100">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rate_type" id="rate_daily"
+                                        value="daily_rate" checked />
+                                    <label class="form-check-label" style="font-size: 15px; font-weight: bold;"
+                                        for="rate_daily">Daily Rate</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-6">
+                            <div class="input-group ">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" id="txt_daily_rate" name="txt_daily_rate"
+                                    placeholder="Daily Rate" value="{{ $booking->daily_rate ?? 0 }}" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <div class="input-group ">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" id="txt_daily_total" name="txt_daily_total"
+                                    placeholder="Daily Rate" value="{{ $booking->daily_rate ?? 0 }}" disabled />
+                            </div>
+                        </div>
+
+                        {{-- <div class="col-xl-3 col-lg-3 col-md-3">
+                            <div class="input-group ">
+
+                                @php
+                                    $percentage = $booking->daily_less_booking_percentage ?? 0;
+
+                                    $daily_less_booking = ($booking->daily_rate * $percentage) / 100;
+                                @endphp
+
+                                <span
+                                    class="input-group-text">{{ Str::of($booking->daily_less_booking_percentage ?? 0)->padLeft(2, '0') }}
+                                    %</span>
+                                <input type="text" id="txt_daily_less_booking_percentage" class="form-control"
+                                    placeholder="Less Booking" value="{{ $daily_less_booking }}" readonly />
+                            </div>
+                        </div> --}}
+                    </div>
+
+                    {{-- Weekly Rate --}}
+                    <div class="row mb-3">
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <div class="d-flex align-items-center h-100">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rate_type" id="rate_weekly"
+                                        value="weekly_rate" />
+                                    <label class="form-check-label" style="font-size: 15px; font-weight: bold;"
+                                        for="rate_weekly">Weekly Rate</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-6">
+                            <div class="input-group ">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" id="txt_weekly_rate"
+                                    name="txt_weekly_rate" placeholder="Weekly Rate"
+                                    value="{{ $booking->weekly_rate ?? 0 }}" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <div class="input-group ">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" id="txt_weekly_total"
+                                    name="txt_weekly_total" placeholder="Weekly Rate"
+                                    value="{{ $booking->weekly_rate ?? 0 }}" disabled />
+                            </div>
+                        </div>
+
+                        {{-- <div class="col-xl-3 col-lg-3 col-md-3">
+                            <div class="input-group ">
+
+                                @php
+                                    $percentage = $booking->weekly_rate_less_booking_percentage ?? 0;
+
+                                    $weekly_less_booking = ($booking->weekly_rate * $percentage) / 100;
+                                @endphp
+
+                                <span
+                                    class="input-group-text">{{ Str::of($booking->weekly_rate_less_booking_percentage ?? 0)->padLeft(2, '0') }}
+                                    %</span>
+                                <input type="text" id="txt_weekly_less_booking_percentage" class="form-control"
+                                    placeholder="Less Booking" value="{{ $weekly_less_booking }}" readonly />
+                            </div>
+                        </div> --}}
+                    </div>
+
+                    {{-- Four Weekly Rate --}}
+                    <div class="row mb-3">
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <div class="d-flex align-items-center h-100">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rate_type"
+                                        id="rate_monthly" value="four_weekly_rate" />
+                                    <label class="form-check-label" style="font-size: 15px; font-weight: bold;"
+                                        for="rate_monthly">Monthly Rate</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-6">
+                            <div class="input-group ">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" id="txt_four_weekly_rate"
+                                    name="txt_four_weekly_rate" placeholder="monthly Rate"
+                                    value="{{ $booking->four_weekly_rate ?? 0 }}" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <div class="input-group ">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" id="txt_four_weekly_total"
+                                    name="txt_four_weekly_total" placeholder="monthly Rate"
+                                    value="{{ $booking->four_weekly_rate ?? 0 }}" disabled />
+                            </div>
+                        </div>
+
+                        {{-- <div class="col-xl-3 col-lg-3 col-md-3">
+                            <div class="input-group ">
+
+                                @php
+                                    $percentage = $booking->four_weekly_less_booking_percentage ?? 0;
+
+                                    $four_weekly_less_booking = ($booking->four_weekly_rate * $percentage) / 100;
+                                @endphp
+
+                                <span
+                                    class="input-group-text">{{ Str::of($booking->four_weekly_less_booking_percentage ?? 0)->padLeft(2, '0') }}
+                                    %</span>
+                                <input type="text" id="txt_four_weekly_less_booking_percentage" class="form-control"
+                                    placeholder="Less Booking" value="{{ $four_weekly_less_booking }}" readonly />
+                            </div>
+                        </div> --}}
+                    </div>
+
+                    {{-- Date Range --}}
+                    <div class="row mb-3">
+
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <label class="form-label" style="font-size: 15px" for="payment_from">Payment From
+                                        <span class="text-danger">*</span></label>
+                                    <input type="text" id="payment_from" class="payment_dates form-control"
+                                        placeholder="Payment From" readonly aria-label="Payment From"
+                                        value="{{ Carbon\Carbon::parse($last_payment_date)->format('F j, Y') }}"
+                                        name="payment_from" />
+                                </div>
+
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+
+                                    <label class="form-label" style="font-size: 15px" for="payment_to">Payment To
+                                        <span class="text-danger">*</span></label>
+                                    <input type="text" id="payment_to" class="payment_dates form-control"
+                                        placeholder="Payment To" aria-label="Payment To"
+                                        value="{{ Carbon\Carbon::parse($last_payment_date)->addDay()->format('F j, Y') }}"
+                                        name="payment_to" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <input type="hidden" id="days_count" value="1" name="days_count" />
+                                    <p class="m-0" style="font-size: 15px">Days count: <span id="text_days_count"
+                                            class="text-primary">1</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="form-label" style="font-size: 15px" for="advance_booking_payment">Advance
+                                Payment</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="text" id="advance_booking_payment" name="advance_payment"
+                                    class="form-control" placeholder="Advance Payment" aria-label="Advance Payment "
+                                    readonly value="{{ number_format($advanced_payment, 2) }}" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- <div class="row mb-3">
 
                         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
                             <div class="row">
@@ -76,168 +285,6 @@
                                 <input type="text" id="advance_booking_payment" name="advance_payment"
                                     class="form-control" placeholder="Advance Payment" aria-label="Advance Payment "
                                     readonly value="{{ number_format($advanced_payment, 2) }}" />
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="row mb-3">
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Type</p>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-3 col-md-6">
-                            <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Rate</p>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-3 col-md-3">
-                            <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Less Booking</p>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-3 col-md-3">
-                            <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Total</p>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="d-flex align-items-center h-100">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="rate_type" id="rate_daily"
-                                        value="daily_rate" checked />
-                                    <label class="form-check-label" style="font-size: 15px; font-weight: bold;"
-                                        for="rate_daily">Daily Rate</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="input-group ">
-                                <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" id="txt_daily_rate" name="txt_daily_rate"
-                                    placeholder="Daily Rate" value="{{ $booking->daily_rate ?? 0 }}" disabled />
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-3 col-md-3">
-                            <div class="input-group ">
-
-                                @php
-                                    $percentage = $booking->daily_less_booking_percentage ?? 0;
-
-                                    $daily_less_booking = ($booking->daily_rate * $percentage) / 100;
-                                @endphp
-
-                                <span
-                                    class="input-group-text">{{ Str::of($booking->daily_less_booking_percentage ?? 0)->padLeft(2, '0') }}
-                                    %</span>
-                                <input type="text" id="txt_daily_less_booking_percentage" class="form-control"
-                                    placeholder="Less Booking" value="{{ $daily_less_booking }}" readonly />
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="input-group ">
-                                <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" id="txt_daily_total"
-                                    name="txt_daily_total" placeholder="Daily Rate"
-                                    value="{{ $booking->daily_rate + $daily_less_booking ?? 0 }}" readonly />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="d-flex align-items-center h-100">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="rate_type" id="rate_weekly"
-                                        value="weekly_rate" />
-                                    <label class="form-check-label" style="font-size: 15px; font-weight: bold;"
-                                        for="rate_weekly">Weekly Rate</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="input-group ">
-                                <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" id="txt_weekly_rate"
-                                    name="txt_weekly_rate" placeholder="Weekly Rate"
-                                    value="{{ $booking->weekly_rate ?? 0 }}" disabled />
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-3 col-md-3">
-                            <div class="input-group ">
-
-                                @php
-                                    $percentage = $booking->weekly_rate_less_booking_percentage ?? 0;
-
-                                    $weekly_less_booking = ($booking->weekly_rate * $percentage) / 100;
-                                @endphp
-
-                                <span
-                                    class="input-group-text">{{ Str::of($booking->weekly_rate_less_booking_percentage ?? 0)->padLeft(2, '0') }}
-                                    %</span>
-                                <input type="text" id="txt_weekly_less_booking_percentage" class="form-control"
-                                    placeholder="Less Booking" value="{{ $weekly_less_booking }}" readonly />
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="input-group ">
-                                <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" id="txt_weekly_total"
-                                    name="txt_weekly_total" placeholder="Weekly Rate"
-                                    value="{{ $booking->weekly_rate + $weekly_less_booking ?? 0 }}" readonly />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="d-flex align-items-center h-100">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="rate_type"
-                                        id="rate_monthly" value="four_weekly_rate" />
-                                    <label class="form-check-label" style="font-size: 15px; font-weight: bold;"
-                                        for="rate_monthly">Monthly Rate</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="input-group ">
-                                <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" id="txt_four_weekly_rate"
-                                    name="txt_four_weekly_rate" placeholder="monthly Rate"
-                                    value="{{ $booking->four_weekly_rate ?? 0 }}" disabled />
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-3 col-md-3">
-                            <div class="input-group ">
-
-                                @php
-                                    $percentage = $booking->four_weekly_less_booking_percentage ?? 0;
-
-                                    $four_weekly_less_booking = ($booking->four_weekly_rate * $percentage) / 100;
-                                @endphp
-
-                                <span
-                                    class="input-group-text">{{ Str::of($booking->four_weekly_less_booking_percentage ?? 0)->padLeft(2, '0') }}
-                                    %</span>
-                                <input type="text" id="txt_four_weekly_less_booking_percentage" class="form-control"
-                                    placeholder="Less Booking" value="{{ $four_weekly_less_booking }}" readonly />
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="input-group ">
-                                <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" id="txt_four_weekly_total"
-                                    name="txt_four_weekly_total" placeholder="monthly Rate"
-                                    value="{{ $booking->four_weekly_rate + $four_weekly_less_booking ?? 0 }}" readonly />
                             </div>
                         </div>
                     </div>
@@ -368,7 +415,7 @@
                             <textarea id="comments" name="comments" class="form-control" placeholder="Comments" aria-label="comments"
                                 rows="5"></textarea>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <button type="submit" class="d-none" id="submitForm">
                     </button>
@@ -487,7 +534,7 @@
             let taxIsFlat = '{{ $booking_tax->is_flat }}' === 'true';
 
             let taxAmount = 0;
-            if(taxIsFlat) {
+            if (taxIsFlat) {
                 taxAmount = taxPercentage;
             } else {
                 taxAmount = (table_total * taxPercentage) / 100;

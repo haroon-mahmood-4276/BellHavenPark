@@ -60,11 +60,8 @@ class PaymentController extends Controller
 
         $modalData['advanced_payment'] = $this->paymentInterface->advancePayments($modalData['booking']->customer->id);
 
-        // 'advanced_payment' => $this->paymentInterface->getAdvancedPaymentBookingId($booking_id),
-        // $modalData['last_payment_date'] = $this->paymentInterface->getLastPaymentDateByBookingId($booking_id) ?? $modalData['booking']?->booking_from;
-        // $modalData['booking_tax'] = $this->bookingTaxInterface->find($modalData['booking']->booking_tax_id);
-
-        dd($modalData['advanced_payment']);
+        $modalData['last_payment_date'] = $this->paymentInterface->lastPaymentDate($booking_id) ?? $modalData['booking']?->booking_from;
+        $modalData['booking_tax'] = $this->bookingTaxInterface->find($modalData['booking']->booking_tax_id);
 
         if (request()->ajax()) {
 

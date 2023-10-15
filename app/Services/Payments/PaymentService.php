@@ -39,16 +39,23 @@ class PaymentService implements PaymentInterface
 
     public function advancePayments($customer_id)
     {
-        // $total_credit = $this->model()->where([
-        //     'customer_id' => $customer_id,
-        //     'account' => CustomerAccounts::CREDIT_ACCOUNT
-        // ])->sum('amount');
+        $total_credit = $this->model()->where([
+            'customer_id' => $customer_id,
+            'account' => CustomerAccounts::CREDIT_ACCOUNT,
+            'status' => PaymentStatus::RECEIVED
+        ])->sum('amount');
 
-        // $total_debit = $this->model()->where([
-        //     'customer_id' => $customer_id,
-        //     'account' => CustomerAccounts::CREDIT_ACCOUNT
-        // ])->sum('amount');
+        $total_debit = $this->model()->where([
+            'customer_id' => $customer_id,
+            'account' => CustomerAccounts::CREDIT_ACCOUNT,
+            'status' => PaymentStatus::PAID
+        ])->sum('amount');
 
-        // $advancedPayment = $total_credit - $total_debit;
+        return $total_credit - $total_debit;
+    }
+
+    public function lastPaymentDate($booking_id)
+    {
+        return Carbon::parse($this->model()->where(['booking_id' => $booking_id, 'status' => PaymentStatus::RECEIVED])->latest('payment_to')->first()?->payment_to);
     }
 }
