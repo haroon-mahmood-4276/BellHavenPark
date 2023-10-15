@@ -23,6 +23,12 @@ class BookingTax extends Model
 
     protected $hidden = [];
 
+    protected $casts = [
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
+        'deleted_at' => 'timestamp',
+    ];
+
     public $rules = [
         'name' => 'required|string|min:1|max:30',
         'amount' => 'required|numeric|min:0|max:100',

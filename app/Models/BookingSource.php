@@ -20,6 +20,12 @@ class BookingSource extends Model
         'description',
     ];
 
+    protected $casts = [
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
+        'deleted_at' => 'timestamp',
+    ];
+
     public $rules = [
         'name' => "required|string|between:1,50",
         'slug' => 'required|string|min:1|max:50|unique:booking_sources,slug',

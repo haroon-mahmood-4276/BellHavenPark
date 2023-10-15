@@ -29,7 +29,10 @@ class Cabin extends Model
     ];
 
     protected $casts = [
-        'cabin_status' => CabinStatus::class
+        'cabin_status' => CabinStatus::class,
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
+        'deleted_at' => 'timestamp',
     ];
 
     public $rules = [

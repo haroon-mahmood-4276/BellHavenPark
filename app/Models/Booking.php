@@ -55,6 +55,9 @@ class Booking extends Model
         'status' => 'boolean',
         'comments' => 'string',
         'payment' => 'string',
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
+        'deleted_at' => 'timestamp',
     ];
 
     protected $hidden = [];

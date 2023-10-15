@@ -24,7 +24,10 @@ class PaymentMethod extends Model
     protected $hidden = [];
 
     protected $casts = [
-        'linked_account' => CustomerAccounts::class
+        'linked_account' => CustomerAccounts::class,
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
+        'deleted_at' => 'timestamp',
     ];
 
     public $rules = [

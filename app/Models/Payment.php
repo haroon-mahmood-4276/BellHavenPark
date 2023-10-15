@@ -44,6 +44,8 @@ class Payment extends Model
         'balance' => 'double',
         'transaction_type' => TransactionType::class,
         'status' => PaymentStatus::class,
+        'payment_from' => 'timestamp',
+        'payment_to' => 'timestamp',
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
