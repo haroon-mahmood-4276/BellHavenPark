@@ -37,7 +37,7 @@ class PaymentService implements PaymentInterface
         });
     }
 
-    public function advancePayments($customer_id)
+    public function creditAccountPayment($customer_id)
     {
         $total_credit = $this->model()->where([
             'customer_id' => $customer_id,
@@ -56,6 +56,9 @@ class PaymentService implements PaymentInterface
 
     public function lastPaymentDate($booking_id)
     {
-        return Carbon::parse($this->model()->where(['booking_id' => $booking_id, 'status' => PaymentStatus::RECEIVED])->latest('payment_to')->first()?->payment_to);
+        $epochDate = $this->model()->where(['booking_id' => $booking_id, 'account' => CustomerAccounts::RENT, 'status' => PaymentStatus::RECEIVED])->latest('payment_to')->first()?->payment_to;
+        if (!is_null($epochDate))
+            return Carbon::parse($epochDate);
+        return null;
     }
 }

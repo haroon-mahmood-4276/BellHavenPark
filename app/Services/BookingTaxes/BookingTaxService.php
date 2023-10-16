@@ -12,7 +12,7 @@ class BookingTaxService implements BookingTaxInterface
         return new BookingTax();
     }
 
-    public function get($ignore = null, $relationships = [], $where = [])
+    public function get($ignore = null, $relationships = [], $where = [], $default = false)
     {
         $model = $this->model();
         if (is_array($ignore)) {
@@ -29,8 +29,11 @@ class BookingTaxService implements BookingTaxInterface
             $model = $model->where($where);
         }
 
-        $model = $model->get();
-        return $model;
+        if ($default) {
+            return $model->where('is_default', true)->first();
+        }
+
+        return $model->get();
     }
 
     public function find($id)
@@ -45,8 +48,8 @@ class BookingTaxService implements BookingTaxInterface
             $data = [
                 'name' => $inputs['name'],
                 'amount' => (int)$inputs['amount'],
-                'is_flat' => (boolean)$inputs['is_flat'],
-                'is_default' => (boolean)$inputs['is_default'],
+                'is_flat' => (bool)$inputs['is_flat'],
+                'is_default' => (bool)$inputs['is_default'],
             ];
 
             $model = $this->model()->create($data);
@@ -61,8 +64,8 @@ class BookingTaxService implements BookingTaxInterface
             $data = [
                 'name' => $inputs['name'],
                 'amount' => (int)$inputs['amount'],
-                'is_flat' => (boolean)$inputs['is_flat'],
-                'is_default' => (boolean)$inputs['is_default'],
+                'is_flat' => (bool)$inputs['is_flat'],
+                'is_default' => (bool)$inputs['is_default'],
             ];
 
             $model = $this->model()->find($id)->update($data);

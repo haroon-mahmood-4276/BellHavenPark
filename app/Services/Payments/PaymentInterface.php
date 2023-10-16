@@ -6,7 +6,7 @@ interface PaymentInterface
 {
     public function store($inputs);
 
-    public function advancePayments($customer_id);
+    public function creditAccountPayment($customer_id);
 
-    public function lastPaymentDate($booking_id);
+    public function lastPaymentDate($booking);
 }

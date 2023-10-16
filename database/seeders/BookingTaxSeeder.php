@@ -23,13 +23,13 @@ class BookingTaxSeeder extends Seeder
             ],
             [
                 'name' => 'GST 10%',
-                'amount' => 7,
+                'amount' => 10,
                 'is_flat' => false,
                 'is_default' => true,
             ],
             [
                 'name' => 'GST 10Rs',
-                'amount' => 7,
+                'amount' => 10,
                 'is_flat' => true,
                 'is_default' => false,
             ],

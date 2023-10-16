@@ -54,11 +54,11 @@ class PaymentController extends Controller
     public function create(Request $request, $booking_id)
     {
         $modalData = [
-            'booking' => $this->bookingInterface->find($booking_id, ['cabin', 'customer', 'booking_source', 'payments']),
+            'booking' => $this->bookingInterface->find($booking_id, ['cabin', 'customer', 'booking_source', 'booking_tax', 'payments']),
             'payment_methods' => $this->paymentMethodInterface->get()
         ];
 
-        $modalData['advanced_payment'] = $this->paymentInterface->advancePayments($modalData['booking']->customer->id);
+        $modalData['credit_account'] = $this->paymentInterface->creditAccountPayment($modalData['booking']->customer->id);
 
         $modalData['last_payment_date'] = $this->paymentInterface->lastPaymentDate($booking_id) ?? $modalData['booking']?->booking_from;
         $modalData['booking_tax'] = $this->bookingTaxInterface->find($modalData['booking']->booking_tax_id);

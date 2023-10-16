@@ -203,188 +203,49 @@
                     {{-- Date Range --}}
                     <div class="row mb-3">
 
-                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    <label class="form-label" style="font-size: 15px" for="payment_from">Payment From
-                                        <span class="text-danger">*</span></label>
-                                    <input type="text" id="payment_from" class="payment_dates form-control"
-                                        placeholder="Payment From" readonly aria-label="Payment From"
-                                        value="{{ Carbon\Carbon::parse($last_payment_date)->format('F j, Y') }}"
-                                        name="payment_from" />
-                                </div>
-
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-
-                                    <label class="form-label" style="font-size: 15px" for="payment_to">Payment To
-                                        <span class="text-danger">*</span></label>
-                                    <input type="text" id="payment_to" class="payment_dates form-control"
-                                        placeholder="Payment To" aria-label="Payment To"
-                                        value="{{ Carbon\Carbon::parse($last_payment_date)->addDay()->format('F j, Y') }}"
-                                        name="payment_to" />
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                    <input type="hidden" id="days_count" value="1" name="days_count" />
-                                    <p class="m-0" style="font-size: 15px">Days count: <span id="text_days_count"
-                                            class="text-primary">1</span></p>
-                                </div>
-                            </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 position-relative">
+                            <label class="form-label" style="font-size: 15px" for="payment_from">Payment From
+                                <span class="text-danger">*</span></label>
+                            <input type="text" id="payment_from" class="payment_dates form-control"
+                                placeholder="Payment From" readonly aria-label="Payment From"
+                                value="{{ Carbon\Carbon::parse($last_payment_date)->format('F j, Y') }}"
+                                name="payment_from" />
                         </div>
 
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="advance_booking_payment">Advance
-                                Payment</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="text" id="advance_booking_payment" name="advance_payment"
-                                    class="form-control" placeholder="Advance Payment" aria-label="Advance Payment "
-                                    readonly value="{{ number_format($advanced_payment, 2) }}" />
-                            </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 position-relative">
+                            <label class="form-label" style="font-size: 15px" for="payment_to">Payment To
+                                <span class="text-danger">*</span></label>
+                            <input type="text" id="payment_to" class="payment_dates form-control"
+                                placeholder="Payment To" aria-label="Payment To"
+                                value="{{ Carbon\Carbon::parse($last_payment_date)->addDay()->format('F j, Y') }}"
+                                name="payment_to" />
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 position-relative">
+                            <label class="form-label" style="font-size: 15px" for="text_days_count">Days
+                                Count</label>
+                            <input type="number" id="text_days_count" name="text_days_count" class="form-control"
+                                placeholder="Days Count" value="1" min="1"
+                                max="{{ $booking->booking_to->diffInDays($booking->booking_from) }}" />
                         </div>
                     </div>
 
-                    {{-- <div class="row mb-3">
-
-                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    <label class="form-label" style="font-size: 15px" for="payment_from">Payment From
-                                        <span class="text-danger">*</span></label>
-                                    <input type="text" id="payment_from" class="payment_dates form-control"
-                                        placeholder="Payment From" readonly aria-label="Payment From"
-                                        value="{{ Carbon\Carbon::parse($last_payment_date)->format('F j, Y') }}" name="payment_from" />
-                                </div>
-
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-
-                                    <label class="form-label" style="font-size: 15px" for="payment_to">Payment To <span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="payment_to" class="payment_dates form-control"
-                                        placeholder="Payment To" aria-label="Payment To"
-                                        value="{{ Carbon\Carbon::parse($last_payment_date)->addDay()->format('F j, Y') }}" name="payment_to" />
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                    <input type="hidden" id="days_count" value="1" name="days_count" />
-                                    <p class="m-0" style="font-size: 15px">Days count: <span id="text_days_count"
-                                            class="text-primary">1</span></p>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row mb-3">
 
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="advance_booking_payment">Advance
-                                Payment</label>
-                            <div class="input-group ">
+                            <label class="form-label" style="font-size: 15px" for="credit_account">Credit
+                                Account</label>
+                            <div class="input-group">
                                 <span class="input-group-text">$</span>
-                                <input type="text" id="advance_booking_payment" name="advance_payment"
-                                    class="form-control" placeholder="Advance Payment" aria-label="Advance Payment "
-                                    readonly value="{{ number_format($advanced_payment, 2) }}" />
+                                <input type="text" id="credit_account" class="form-control"
+                                    placeholder="Credit Account" readonly value="{{ $credit_account }}" name="credit_account" />
                             </div>
                         </div>
+
                     </div>
 
                     <div class="px-5">
                         <hr>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                            <div class="table-responsive-xl">
-                                <table class="table table-hover table-hover-animation">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th style="vertical-align: middle; width: 20%;" scope="col">Type</th>
-                                            <th style="vertical-align: middle;" scope="col">Rate</th>
-                                            <th style="vertical-align: middle;" scope="col">Less Booking</th>
-                                            <th style="vertical-align: middle;" scope="col">Sub Total</th>
-                                            <th style="vertical-align: middle;" scope="col">Days</th>
-                                            <th style="vertical-align: middle;" scope="col">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th class="text-nowrap" style="vertical-align: middle;">
-                                                <p class="m-0" id="table_rate_type">
-                                                    Daily Rate
-                                                </p>
-                                            </th>
-                                            <td class="text-nowrap" style="vertical-align: middle;">
-                                                <p class="m-0" id="table_rate_amount">
-                                                    0
-                                                </p>
-                                            </td>
-                                            <td class="text-nowrap" style="vertical-align: middle;">
-                                                <p class="m-0" id="table_less_booking_amount">
-                                                    0
-                                                </p>
-                                            </td>
-                                            <td class="text-nowrap" style="vertical-align: middle;">
-                                                <p class="m-0" id="table_sub_total">
-                                                    0
-                                                </p>
-                                            </td>
-                                            <td class="text-nowrap" style="vertical-align: middle;">
-                                                <p class="m-0" id="table_days_count">
-                                                    1 Day(s)
-                                                </p>
-                                            </td>
-                                            <td class="text-nowrap" style="vertical-align: middle;">
-                                                <p class="m-0" id="table_total">
-                                                    0
-                                                </p>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <input type="hidden" name="tax" value="{{ $booking_tax->amount }}">
-                                            <input type="hidden" name="tax_flat" value="{{ $booking_tax->is_flat ? 'true' : 'false' }}">
-                                            <th style="vertical-align: middle;" colspan="5">Tax ( {{ $booking_tax->amount }}% )</th>
-                                            <td style="vertical-align: middle;">
-                                                <p class="m-0" id="table_tax_amount">
-                                                    0
-                                                </p>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="vertical-align: middle;" colspan="5">Sub Total</th>
-                                            <td style="vertical-align: middle;">
-                                                <p class="m-0" id="table_gross_total">
-                                                    0
-                                                </p>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="vertical-align: middle;" colspan="5">Advance
-                                                Payment</th>
-                                            <td style="vertical-align: middle;">
-                                                <p class="m-0" id="table_advanced_payment">
-                                                    $ {{ $advanced_payment }}.00
-                                                </p>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="vertical-align: middle;" colspan="5"
-                                                id="table_text_total_receivables">Total Receivable</th>
-                                            <th style="vertical-align: middle;">
-                                                <p class="m-0" id="table_total_receivables">
-                                                    0
-                                                </p>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
                     </div>
 
                     <div class="row mb-3">
@@ -409,13 +270,93 @@
                         </div>
                     </div>
 
+                    <div class="row mb-3">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="table-responsive-xl">
+                                <table class="table table-hover table-hover-animation rounded overflow-hidden border">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="vertical-align: middle; width: 20%;" scope="col">Type</th>
+                                            <th style="vertical-align: middle;" scope="col">Rate</th>
+                                            <th style="vertical-align: middle;" scope="col">Sub Total</th>
+                                            <th style="vertical-align: middle;" scope="col">Days</th>
+                                            <th style="vertical-align: middle;" scope="col">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-nowrap" style="vertical-align: middle;">
+                                                <p class="m-0" id="table_rate_type">
+                                                    Daily Rate
+                                                </p>
+                                            </th>
+                                            <td class="text-nowrap" style="vertical-align: middle;">
+                                                <p class="m-0" id="table_rate_amount">
+                                                    0
+                                                </p>
+                                            </td>
+                                            <td class="text-nowrap" style="vertical-align: middle;">
+                                                <p class="m-0" id="table_sub_total">
+                                                    0
+                                                </p>
+                                            </td>
+                                            <td class="text-nowrap" style="vertical-align: middle;">
+                                                <p class="m-0" id="table_days_count">
+                                                    1 Day(s)
+                                                </p>
+                                            </td>
+                                            <td class="text-nowrap" style="vertical-align: middle;">
+                                                <p class="m-0" id="table_total">
+                                                    0
+                                                </p>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <input type="hidden" name="tax" value="{{ $booking_tax->amount }}">
+                                            <input type="hidden" name="tax_flat"
+                                                value="{{ $booking_tax->is_flat ? 'true' : 'false' }}">
+                                            <th style="vertical-align: middle;" colspan="4">Tax (
+                                                {{ $booking_tax->amount }}% )</th>
+                                            <td style="vertical-align: middle;">
+                                                <p class="m-0" id="table_tax_amount">
+                                                    0
+                                                </p>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th style="vertical-align: middle;" colspan="4">Sub Total</th>
+                                            <td style="vertical-align: middle;">
+                                                <p class="m-0" id="table_gross_total">
+                                                    0
+                                                </p>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="table-light">
+                                            <th style="vertical-align: middle;" colspan="4"
+                                                id="table_text_total_receivables">Total Receivable</th>
+                                            <th style="vertical-align: middle;">
+                                                <p class="m-0" id="table_total_receivables">
+                                                    0
+                                                </p>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <label class="form-label" style="font-size: 15px" for="comments">Comments</label>
                             <textarea id="comments" name="comments" class="form-control" placeholder="Comments" aria-label="comments"
                                 rows="5"></textarea>
                         </div>
-                    </div> --}}
+                    </div>
 
                     <button type="submit" class="d-none" id="submitForm">
                     </button>
@@ -476,11 +417,24 @@
 
             let diffInDays = date2.diff(date1, 'days');
 
-            $('#text_days_count').html(diffInDays);
-            $('#days_count').val(diffInDays);
+            $('#text_days_count').val(diffInDays);
 
             $('input[id^="rate_"]:checked').trigger('change');
         },
+    });
+
+    $('#text_days_count').on('change', function() {
+
+        let paymentDate = moment($('#payment_from').val()).add(parseInt($('#text_days_count').val()) + 1,
+            'days');
+
+        $('#payment_to').val(paymentDate.format('MMMM DD, YYYY'));
+
+        document.querySelector('#payment_to').datedropper('set', {
+            defaultDate: paymentDate.format('YYYY/MM/DD')
+        });
+
+        $('input[id^="rate_"]:checked').trigger('change');
     });
 
     function ucFirst(string) {
@@ -493,26 +447,22 @@
 
             let table_rate_type = ucFirst($(this).val()).replaceAll('_', ' ');
             let table_rate_amount = '';
-            let table_less_booking_amount = '';
             let table_sub_total = '';
-            let table_daysCount = parseInt($('#days_count').val());
+            let table_daysCount = parseInt($('#text_days_count').val());
 
             switch ($(this).attr('id')) {
                 case 'rate_daily':
-                    table_rate_amount = parseInt($('#txt_daily_rate').val());
-                    table_less_booking_amount = parseInt($('#txt_daily_less_booking_percentage').val());
+                    table_rate_amount = parseFloat($('#txt_daily_rate').val());
                     table_sub_total = parseInt($('#txt_daily_total').val());
                     break;
 
                 case 'rate_weekly':
-                    table_rate_amount = parseInt($('#txt_weekly_rate').val());
-                    table_less_booking_amount = parseInt($('#txt_weekly_less_booking_percentage').val());
+                    table_rate_amount = parseFloat($('#txt_weekly_rate').val());
                     table_sub_total = parseInt($('#txt_weekly_total').val());
                     break;
 
                 case 'rate_monthly':
-                    table_rate_amount = parseInt($('#txt_four_weekly_rate').val());
-                    table_less_booking_amount = parseInt($('#txt_four_weekly_less_booking_percentage').val());
+                    table_rate_amount = parseFloat($('#txt_four_weekly_rate').val());
                     table_sub_total = parseInt($('#txt_four_weekly_total').val());
                     break;
 
@@ -524,11 +474,9 @@
 
             $('#table_rate_type').text(table_rate_type);
             $('#table_rate_amount').text('$ ' + table_rate_amount.toFixed(2));
-            $('#table_less_booking_amount').text('$ ' + table_less_booking_amount.toFixed(2));
             $('#table_sub_total').text('$ ' + table_sub_total.toFixed(2));
             $('#table_days_count').text(table_daysCount + ' Day(s)');
             $('#table_total').text('$ ' + table_total.toFixed(2));
-
 
             let taxPercentage = parseFloat('{{ $booking_tax->amount }}');
             let taxIsFlat = '{{ $booking_tax->is_flat }}' === 'true';
@@ -541,16 +489,12 @@
             }
             $('#table_tax_amount').text('$ ' + taxAmount.toFixed(2));
 
-            let table_gross_total = table_total + taxAmount;
-            $('#table_gross_total').text('$ ' + table_gross_total.toFixed(2));
-
-            let advancePayment = parseFloat('{{ $advanced_payment }}');
-            let totalReceivables = table_gross_total - advancePayment;
+            let totalReceivables = table_total + taxAmount;
+            $('#table_gross_total').text('$ ' + totalReceivables.toFixed(2));
 
             $('#table_text_total_receivables').html((totalReceivables.toFixed(2) < 0 ? 'Total Payable' :
                 'Total Receivable'));
-            $('#table_total_receivables').text('$ ' + (totalReceivables.toFixed(2) < 0 ? '(' + Math.abs(
-                totalReceivables).toFixed(2) + ')' : totalReceivables.toFixed(2)));
+            $('#table_total_receivables').text('$ ' + (totalReceivables.toFixed(2) < 0 ? '(' + Math.abs(totalReceivables).toFixed(2) + ')' : totalReceivables.toFixed(2)));
         }
 
     });
@@ -558,24 +502,6 @@
     function formReset() {
         $('#form_booking_store')[0].reset();
     }
-
-    // $('#form_booking_store').validate({
-    //     rules: {
-    //         txt_daily_rate: {
-    //             required: true
-    //         },
-
-    //     },
-    //     validClass: "is-valid",
-    //     errorClass: 'is-invalid',
-    //     errorElement: "span",
-    //     // wrapper: "div",
-    //     // do other things for a valid form
-    //     submitHandler: function(form) {
-    //         // Swal.fire('asdasdasdasd');
-    //         form.submit();
-    //     }
-    // });
 
     function formSubmit() {
         $('#submitForm').trigger('click');
