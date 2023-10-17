@@ -13,20 +13,19 @@ use Illuminate\Support\Facades\DB;
 class PaymentService implements PaymentInterface
 {
 
-    private $paymentMethodInterface, $paymentInterface;
+    private $paymentMethodInterface;
 
-    public function __construct(PaymentMethodInterface $paymentMethodInterface, PaymentInterface $paymentInterface,)
+    public function __construct(PaymentMethodInterface $paymentMethodInterface)
     {
         $this->paymentMethodInterface = $paymentMethodInterface;
-        $this->paymentInterface = $paymentInterface;
     }
 
-    private function model()
+    public function model()
     {
         return new Payment();
     }
 
-    public function store($booking, $inputs)
+    public function storeRentPayment($booking, $inputs)
     {
         return DB::transaction(function () use ($booking, $inputs) {
 
@@ -37,6 +36,11 @@ class PaymentService implements PaymentInterface
             };
 
             $amount = floatval($rate * intval($inputs['text_days_count']));
+
+            $amount += floatval(match(boolval($inputs['tax_flat'])) {
+                true => floatval($inputs['tax']),
+                false => (floatval($amount)  * floatval($inputs['tax'])) / 100,
+            });
 
             $data = [
                 'booking_id' => $booking->id,
@@ -51,6 +55,7 @@ class PaymentService implements PaymentInterface
                 'status' => PaymentStatus::RECEIVED,
                 'comments' => $inputs['comments'],
             ];
+
             $this->model()->create($data);
 
             $isPyamentMethodLinked = $this->paymentMethodInterface->find(intval($inputs['payment_methods']))?->linked_account;
@@ -66,7 +71,7 @@ class PaymentService implements PaymentInterface
                     'transaction_type' => TransactionType::CASH,
                     'comments' => $inputs['comments'],
                 ];
-                switch ($isPyamentMethodLinked) {
+                switch ($isPyamentMethodLinked->value) {
                     case 'credit_account':
                         $data['account'] = CustomerAccounts::CREDIT_ACCOUNT;
                         $data['status'] = PaymentStatus::PAID;

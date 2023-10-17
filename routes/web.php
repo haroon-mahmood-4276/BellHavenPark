@@ -195,35 +195,34 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/', 'index')->middleware('permission:bookings.index')->name('index');
 
-        // Route::group(['middleware' => 'permission:bookings.create'], function () {
-        //     Route::get('/create', 'create')->name('create');
-        //     Route::get('/create/modal', 'createModal')->name('create.modal');
-        //     Route::post('/store', 'store')->name('store');
-        // });
+        Route::group(['middleware' => 'permission:bookings.create'], function () {
+            Route::get('/create', 'create')->name('create');
+            Route::get('/create/modal', 'createModal')->name('create.modal');
+            Route::post('/store', 'store')->name('store');
+        });
 
-        // Route::group(['middleware' => 'permission:bookings.checkin.index'], function () {
-        //     Route::get('/check-in', 'checkInIndex')->name('checkin.index');
-        //     Route::post('/{id}/check-in', 'checkInStore')->name('checkin.store');
-        // });
+        Route::group(['middleware' => 'permission:bookings.checkin.index'], function () {
+            Route::get('/check-in', 'checkInIndex')->name('checkin.index');
+            Route::post('/{booking}/check-in', 'checkInStore')->name('checkin.store');
+        });
 
-        // Route::group(['middleware' => 'permission:bookings.checkout.index'], function () {
-        //     Route::get('/check-out', 'checkOutIndex')->name('checkout.index');
-        //     Route::post('/{id}/check-out', 'checkOutStore')->name('checkout.store');
-        // });
+        Route::group(['middleware' => 'permission:bookings.checkout.index'], function () {
+            Route::get('/check-out', 'checkOutIndex')->name('checkout.index');
+            Route::post('/{booking}/check-out', 'checkOutStore')->name('checkout.store');
+        });
 
-        // Route::as('payments.')->prefix('/{booking}/payments')->controller(PaymentController::class)->group(function () {
+        Route::as('payments.')->prefix('/{booking}/payments')->controller(PaymentController::class)->group(function () {
+            Route::get('/', 'index')->middleware('permission:bookings.payments.index')->name('index');
 
-        //     Route::get('/', 'index')->middleware('permission:bookings.payments.index')->name('index');
+            Route::group(['middleware' => 'permission:bookings.payments.create'], function () {
+                Route::get('create', 'create')->name('create');
+                Route::post('store', 'store')->name('store');
+            });
+        });
 
-        //     Route::group(['middleware' => 'permission:bookings.payments.create'], function () {
-        //         Route::get('create', 'create')->name('create');
-        //         Route::post('store', 'store')->name('store');
-        //     });
-        // });
-
-        // Route::group(['middleware' => 'permission:bookings.calender.index', 'as' => 'calender.'], function () {
-        //     Route::get('/calender', 'calenderView')->name('index');
-        // });
+        Route::group(['middleware' => 'permission:bookings.calender.index', 'as' => 'calender.'], function () {
+            Route::get('/calender', 'calenderView')->name('index');
+        });
 
 
         // Route::get('/{booking}/show', [BookingsController::class, 'show'])->name('show');

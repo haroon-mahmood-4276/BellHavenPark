@@ -81,7 +81,7 @@
                 </a>
                 <ul class="menu-sub">
 
-                     @can('bookings.index')
+                    @can('bookings.index')
                         <li class="menu-item {{ request()->routeIs('bookings.index') ? 'active' : null }}">
                             <a href="{{ route('bookings.index') }}" class="menu-link">
                                 <div>View All</div>
@@ -89,7 +89,7 @@
                         </li>
                     @endcan
 
-                    {{-- @can('bookings.create')
+                    @can('bookings.create')
                         <li class="menu-item {{ request()->routeIs('bookings.create') ? 'active' : null }}">
                             <a href="{{ route('bookings.create') }}" class="menu-link">
                                 <div>Add New</div>
@@ -119,7 +119,7 @@
                                 <div><i class="menu-icon fa-regular fa-calender"></i>Calender</div>
                             </a>
                         </li>
-                    @endcan --}}
+                    @endcan
 
                     @canany(['booking-sources.index', 'booking-sources.create'])
                         <li

@@ -1,8 +1,8 @@
 <div class="d-flex justify-content-center align-items-center">
-    {{-- @if (!is_null($filter))
+    @if (!is_null($filter))
         @if ($filter == 'checkin')
             @can('bookings.checkin.index')
-                <form action="{{ route('bookings.checkin.store', ['id' => $id]) }}" method="post">
+                <form action="{{ route('bookings.checkin.store', ['booking' => $booking]) }}" method="post">
                     @csrf
                     <button type="submit" class="btn btn-primary m-1" data-bs-toggle="tooltip" data-bs-placement="top"
                         title="Booking Payment">
@@ -14,7 +14,7 @@
 
         @if ($filter == 'checkout')
             @can('bookings.checkout.index')
-                <form action="{{ route('bookings.checkout.store', ['id' => $id]) }}" method="post">
+                <form action="{{ route('bookings.checkout.store', ['booking' => $booking]) }}" method="post">
                     @csrf
                     <button type="submit" class="btn btn-primary m-1" data-bs-toggle="tooltip" data-bs-placement="top"
                         title="Booking Payment">
@@ -22,11 +22,11 @@
                 </form>
             @endcan
         @endif
-    @endif --}}
-    {{-- @can('bookings.payments.create')
+    @endif
+    @can('bookings.payments.create')
         <a class="btn btn-primary m-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Booking Payment"
-            href="{{ route('bookings.payments.index', ['booking' => $id]) }}">
+            href="{{ route('bookings.payments.index', ['booking' => $booking]) }}">
             <i class="fa-solid fa-dollar-sign" style="font-size: 1.1rem" class="m-10"></i>
         </a>
-    @endcan --}}
+    @endcan
 </div>

@@ -136,7 +136,7 @@ class BookingService implements BookingInterface
                     'comments' => 'Advance Payment',
                 ];
 
-                $this->paymentInterface->store($data);
+                $this->paymentInterface->model()->create($data);
             }
 
             return $booking;

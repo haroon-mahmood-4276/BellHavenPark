@@ -57,6 +57,9 @@ if (!function_exists('editTimeColumn')) {
 if (!function_exists('editDateColumn')) {
     function editDateColumn($date, $format = 'Y-m-d')
     {
+        if ($date < 1)
+            return '-';
+
         $date = new Carbon($date);
 
         return "<span class='text-primary fw-bold'>" . $date->format($format) . "</span>";

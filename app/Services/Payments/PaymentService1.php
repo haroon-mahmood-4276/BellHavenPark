@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class PaymentService1 implements PaymentInterface
+class PaymentService1
 {
     private function model()
     {

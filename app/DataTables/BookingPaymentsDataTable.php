@@ -29,10 +29,10 @@ class BookingPaymentsDataTable extends DataTable
                 return editPaymentColumn($row->amount);
             })
             ->editColumn('payment_from', function ($row) {
-                return editDateTimeColumn($row->payment_from);
+                return editDateColumn($row->payment_from, 'F j, Y');
             })
             ->editColumn('payment_to', function ($row) {
-                return editDateTimeColumn($row->payment_to);
+                return editDateColumn($row->payment_to, 'F j, Y');
             })
             ->editColumn('comments', function ($row) {
                 $comments = Str::of($row->comments);

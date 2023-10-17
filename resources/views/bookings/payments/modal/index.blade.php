@@ -32,7 +32,7 @@
                                 Date</label>
                             <input type="text" id="booking_date" name="booking_date" class="form-control"
                                 placeholder="Booking Date" aria-label="Booking Date" readonly
-                                value="{{ date('F j, Y', strtotime($booking->created_at)) }}" />
+                                value="{{ date('F j, Y', $booking->created_at) }}" />
                         </div>
 
                     </div>
@@ -318,7 +318,7 @@
                                         <tr>
                                             <input type="hidden" name="tax" value="{{ $booking_tax->amount }}">
                                             <input type="hidden" name="tax_flat"
-                                                value="{{ $booking_tax->is_flat ? 'true' : 'false' }}">
+                                                value="{{ $booking_tax->is_flat ? 1 : 0 }}">
                                             <th style="vertical-align: middle;" colspan="4">Tax (
                                                 {{ $booking_tax->amount }}% )</th>
                                             <td style="vertical-align: middle;">
@@ -419,6 +419,8 @@
         return e.id ? "<i class='" + $(e.element).data("icon") + " me-2'></i>" + e.text : e.text
     }
 
+    var daysLimit = parseInt('{{ $booking->booking_to->diffInDays($booking->booking_from) }}')
+
     new dateDropper({
         // overlay: true,
         // expandedDefault: true,
@@ -445,16 +447,20 @@
 
     $('#text_days_count').on('change', function() {
 
-        let paymentDate = moment($('#payment_from').val()).add(parseInt($('#text_days_count').val()) + 1,
-            'days');
+        if (parseInt($(this).val()) <= daysLimit) {
+            let paymentDate = moment($('#payment_from').val()).add(parseInt($('#text_days_count').val()) + 1,
+                'days');
 
-        $('#payment_to').val(paymentDate.format('MMMM DD, YYYY'));
+            $('#payment_to').val(paymentDate.format('MMMM DD, YYYY'));
 
-        document.querySelector('#payment_to').datedropper('set', {
-            defaultDate: paymentDate.format('YYYY/MM/DD')
-        });
-
-        $('input[id^="rate_"]:checked').trigger('change');
+            document.querySelector('#payment_to').datedropper('set', {
+                defaultDate: paymentDate.format('YYYY/MM/DD')
+            });
+            $('input[id^="rate_"]:checked').trigger('change');
+        } else {
+            $(this).val(parseInt(daysLimit));
+            $('#text_days_count').trigger('change');
+        }
     });
 
     function ucFirst(string) {

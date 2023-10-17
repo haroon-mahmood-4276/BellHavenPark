@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    private $bookingInterface, $paymentInterface, $paymentMethodInterface, $bookingTaxInterface;
+    private $bookingTaxInterface, $paymentMethodInterface, $paymentInterface, $bookingInterface;
 
     public function __construct(
         BookingInterface $bookingInterface,
@@ -32,16 +32,14 @@ class PaymentController extends Controller
         $this->bookingTaxInterface = $bookingTaxInterface;
     }
 
-    public function index(BookingPaymentsDataTable $dataTable, $id)
+    public function index(BookingPaymentsDataTable $dataTable, Booking $booking)
     {
-
-        $booking = $this->bookingInterface->find($id);
         if (!$booking) {
             return redirect()->route('bookings.index')->withDanger('Booking not found');
         }
 
         $data = [
-            'booking_id' => $id,
+            'booking_id' => $booking->id,
         ];
 
         if (request()->ajax()) {
@@ -92,7 +90,6 @@ class PaymentController extends Controller
 
             return response()->json($data);
         } else {
-            return $modalData;
             abort(403);
         }
     }
@@ -102,16 +99,14 @@ class PaymentController extends Controller
     {
         abort_if(request()->ajax(), 403);
 
-        try {
-
+        // try {
             $inputs = $request->input();
-            dd($inputs, $booking);
-            $record = $this->paymentInterface->store($booking, $inputs);
-            return redirect()->route('bookings.payments.index', ['id' => $booking->id])->withSuccess('Data saved!');
-        } catch (GeneralException $ex) {
-            return redirect()->route('bookings.payments.index', ['id' => $booking->id])->withDanger('Something went wrong! ' . $ex->getMessage());
-        } catch (Exception $ex) {
-            return redirect()->route('bookings.payments.index', ['id' => $booking->id])->withDanger('Something went wrong!');
-        }
+            $record = $this->paymentInterface->storeRentPayment($booking, $inputs);
+            return redirect()->route('bookings.payments.index', ['booking' => $booking])->withSuccess('Data saved!');
+        // } catch (GeneralException $ex) {
+        //     return redirect()->route('bookings.payments.index', ['booking' => $booking])->withDanger('Something went wrong! ' . $ex->getMessage());
+        // } catch (Exception $ex) {
+        //     return redirect()->route('bookings.payments.index', ['booking' => $booking])->withDanger('Something went wrong!');
+        // }
     }
 }
