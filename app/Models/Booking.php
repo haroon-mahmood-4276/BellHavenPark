@@ -41,6 +41,8 @@ class Booking extends Model
 
     protected $casts = [
         'booking_number' => 'integer',
+        'booking_from' => 'date',
+        'booking_to' => 'date',
         'daily_rate' => 'float',
         'daily_less_booking_percentage' => 'float',
         'weekly_rate' => 'float',
@@ -53,8 +55,6 @@ class Booking extends Model
         'status' => 'boolean',
         'comments' => 'string',
         'payment' => 'string',
-        'booking_from' => 'timestamp',
-        'booking_to' => 'timestamp',
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',

@@ -3,6 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\Payment;
+use App\Utils\Enums\CustomerAccounts;
+use App\Utils\Enums\PaymentStatus;
+use App\Utils\Enums\TransactionType;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -59,7 +62,14 @@ class BookingPaymentsDataTable extends DataTable
      */
     public function query(Payment $model)
     {
-        return $model->newQuery()->select('payments.*')->with(['payment_method'])->where('payments.booking_id', $this->booking_id);
+        return $model->newQuery()
+            ->select('payments.*')
+            ->with(['payment_method'])
+            ->where('payments.booking_id', $this->booking_id)
+            ->where(function (QueryBuilder $query) {
+                $query->where('payments.account', '!=', CustomerAccounts::CREDIT_ACCOUNT)
+                    ->orwhere('payments.status', '!=', PaymentStatus::PAID);
+            });
     }
 
     public function html(): HtmlBuilder

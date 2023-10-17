@@ -6,7 +6,7 @@ use App\Utils\Enums\CustomerAccounts;
 if (!function_exists('editDateTimeColumn')) {
     function editDateTimeColumn($date, $dateFormat = 'Y-m-d', $timeFormat = 'H:i:s', $withBr = true, $order = 'TD')
     {
-        if ($date < 1)
+        if (($date instanceof Carbon ? $date->timestamp : $date) < 1)
             return '-';
 
         $date = new Carbon($date);
@@ -48,6 +48,9 @@ if (!function_exists('editTitleColumn')) {
 if (!function_exists('editTimeColumn')) {
     function editTimeColumn($date)
     {
+        if (($date instanceof Carbon ? $date->timestamp : $date) < 1)
+            return '-';
+
         $date = new Carbon($date);
 
         return "<span>" . $date->format('H:i:s') . "</span>";
@@ -57,7 +60,7 @@ if (!function_exists('editTimeColumn')) {
 if (!function_exists('editDateColumn')) {
     function editDateColumn($date, $format = 'Y-m-d')
     {
-        if ($date < 1)
+        if (($date instanceof Carbon ? $date->timestamp : $date) < 1)
             return '-';
 
         $date = new Carbon($date);
