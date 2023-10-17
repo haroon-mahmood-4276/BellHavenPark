@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\DataTables\BookingPaymentsDataTable;
 use App\Exceptions\GeneralException;
-use App\Http\Requests\Payments\storeRequest;
-use App\Services\{
-    Payments\PaymentInterface
-};
+
+;
+use App\Models\Booking;
+use App\Services\Payments\PaymentInterface;
 use App\Services\Bookings\BookingInterface;
 use App\Services\BookingTaxes\BookingTaxInterface;
 use App\Services\PaymentMethods\PaymentMethodInterface;
@@ -98,19 +98,20 @@ class PaymentController extends Controller
     }
 
 
-    public function store(Request $request, $booking_id)
+    public function store(Request $request, Booking $booking)
     {
         abort_if(request()->ajax(), 403);
 
         try {
 
             $inputs = $request->input();
-            $record = $this->paymentInterface->store($booking_id, $inputs);
-            return redirect()->route('bookings.payments.index', ['id' => $booking_id])->withSuccess('Data saved!');
+            dd($inputs, $booking);
+            $record = $this->paymentInterface->store($booking, $inputs);
+            return redirect()->route('bookings.payments.index', ['id' => $booking->id])->withSuccess('Data saved!');
         } catch (GeneralException $ex) {
-            return redirect()->route('bookings.payments.index', ['id' => $booking_id])->withDanger('Something went wrong! ' . $ex->getMessage());
+            return redirect()->route('bookings.payments.index', ['id' => $booking->id])->withDanger('Something went wrong! ' . $ex->getMessage());
         } catch (Exception $ex) {
-            return redirect()->route('bookings.payments.index', ['id' => $booking_id])->withDanger('Something went wrong!');
+            return redirect()->route('bookings.payments.index', ['id' => $booking->id])->withDanger('Something went wrong!');
         }
     }
 }

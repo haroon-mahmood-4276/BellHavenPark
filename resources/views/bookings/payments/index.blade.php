@@ -93,7 +93,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 },
-                url: "{{ route('bookings.payments.create', ['id' => ':id']) }}".replace(':id',
+                url: "{{ route('bookings.payments.create', ['booking' => ':id']) }}".replace(':id',
                     '{{ $booking_id }}'),
                 data: data,
                 type: 'GET',

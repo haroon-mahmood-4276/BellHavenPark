@@ -8,22 +8,22 @@
             </div>
 
             <div class="modal-body mb-0">
-                <form action="{{ route('bookings.payments.store', ['id' => $booking->id]) }}" method="POST"
+                <form action="{{ route('bookings.payments.store', ['booking' => $booking->id]) }}" method="POST"
                     id="form_booking_store">
                     @csrf
 
                     <div class="row mb-3">
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                             <input type="hidden" name="booking_id" value="{{ $booking->id }}">
-
                             <label class="form-label" style="font-size: 15px" for="booking_id">Booking ID</label>
                             <input type="text" class="form-control" id="booking_id"
                                 value="{{ $booking->booking_number }}" placeholder="Booking ID" readonly />
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <label class="form-label" style="font-size: 15px" for="customer">Customer</label>
-                            <input type="text" id="customer" class="form-control" placeholder="Customer"
+                            <input type="hidden" name="customer_id" value="{{ $booking->customer->id }}">
+                            <label class="form-label" style="font-size: 15px" for="customer_id">Customer</label>
+                            <input type="text" id="customer_id" class="form-control" placeholder="Customer"
                                 aria-label="Customer" readonly value="{{ $booking->customer->name }}" />
                         </div>
 
@@ -238,7 +238,8 @@
                             <div class="input-group">
                                 <span class="input-group-text">$</span>
                                 <input type="text" id="credit_account" class="form-control"
-                                    placeholder="Credit Account" readonly value="{{ $credit_account }}" name="credit_account" />
+                                    placeholder="Credit Account" readonly value="{{ $credit_account }}"
+                                    name="credit_account" />
                             </div>
                         </div>
 
@@ -255,7 +256,9 @@
                             <select class="select2InModal select2-size-lg form-select" id="payment_methods"
                                 name="payment_methods">
                                 @foreach ($payment_methods as $payment_method)
-                                    <option data-icon="fa-solid fa-angle-right" value="{{ $payment_method->id }}">
+                                    <option data-icon="fa-solid fa-angle-right"
+                                        data-linked-account='{{ $payment_method->linked_account }}'
+                                        value="{{ $payment_method->id }}">
                                         {{ $payment_method->name }}</option>
                                 @endforeach
                             </select>
@@ -326,19 +329,30 @@
                                         </tr>
 
                                         <tr>
-                                            <th style="vertical-align: middle;" colspan="4">Sub Total</th>
+                                            <th style="vertical-align: middle;" id="table_sub_total_text"
+                                                colspan="4">Total</th>
                                             <td style="vertical-align: middle;">
-                                                <p class="m-0" id="table_gross_total">
+                                                <p class="m-0" id="table_sub_total_value">
                                                     0
                                                 </p>
                                             </td>
                                         </tr>
 
-                                        <tr class="table-light">
+                                        <tr id="tr_credit_account" style="display: none;">
+                                            <th style="vertical-align: middle;" colspan="4">Account Credit</th>
+                                            <td style="vertical-align: middle;">
+                                                <p class="m-0" id="table_account_credit">$
+                                                    {{ number_format($credit_account, 2, '.', '') }}</p>
+                                            </td>
+                                        </tr>
+
+                                        <tr id="tr_total_amount" class="table-light" style="display: none;">
                                             <th style="vertical-align: middle;" colspan="4"
-                                                id="table_text_total_receivables">Total Receivable</th>
+                                                id="table_remaining_credit_amount">Remaining Credit Account</th>
                                             <th style="vertical-align: middle;">
-                                                <p class="m-0" id="table_total_receivables">
+                                                <input type="hidden" id="remaining_credit_amount"
+                                                    name="remaining_credit_amount" value="0">
+                                                <p class="m-0" id="txt_remaining_credit_amount">
                                                     0
                                                 </p>
                                             </th>
@@ -392,6 +406,12 @@
             escapeMarkup: function(booking_source) {
                 return booking_source
             }
+        }).on("change", function() {
+            $('#tr_credit_account, #tr_total_amount').hide();
+            if ($("#payment_methods").find(':selected').data('linked-account') == 'credit_account') {
+                $('#tr_credit_account, #tr_total_amount').show();
+            }
+            $('input[id^="rate_"]:checked').trigger('change');
         });
     });
 
@@ -490,11 +510,16 @@
             $('#table_tax_amount').text('$ ' + taxAmount.toFixed(2));
 
             let totalReceivables = table_total + taxAmount;
-            $('#table_gross_total').text('$ ' + totalReceivables.toFixed(2));
+            $('#table_sub_total_value').text('$ ' + totalReceivables.toFixed(2));
 
-            $('#table_text_total_receivables').html((totalReceivables.toFixed(2) < 0 ? 'Total Payable' :
-                'Total Receivable'));
-            $('#table_total_receivables').text('$ ' + (totalReceivables.toFixed(2) < 0 ? '(' + Math.abs(totalReceivables).toFixed(2) + ')' : totalReceivables.toFixed(2)));
+            let creditAmount = parseFloat('{{ $credit_account }}');
+
+            if ($("#payment_methods").find(':selected').data('linked-account') == 'credit_account') {
+                totalReceivables = creditAmount - totalReceivables;
+                $('#remaining_credit_amount').val(totalReceivables);
+                $('#txt_remaining_credit_amount').text('$ ' + (totalReceivables.toFixed(2) < 0 ? '(' + Math.abs(
+                    totalReceivables).toFixed(2) + ')' : totalReceivables.toFixed(2)));
+            }
         }
 
     });

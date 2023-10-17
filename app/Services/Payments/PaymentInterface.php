@@ -4,7 +4,7 @@ namespace App\Services\Payments;
 
 interface PaymentInterface
 {
-    public function store($inputs);
+    public function store($booking, $inputs);
 
     public function creditAccountPayment($customer_id);
 
