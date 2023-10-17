@@ -12,7 +12,7 @@ class PaymentMethodService implements PaymentMethodInterface
         return new PaymentMethod();
     }
 
-    public function getAll($ignore = null)
+    public function get($ignore = null, $withoutLinkedAccounts = false)
     {
         $model = $this->model();
         if (is_array($ignore)) {
@@ -20,8 +20,12 @@ class PaymentMethodService implements PaymentMethodInterface
         } else if (is_string($ignore)) {
             $model = $model->where('id', '!=', $ignore);
         }
-        $model = $model->get();
-        return $model;
+
+        if ($withoutLinkedAccounts) {
+            $model = $model->whereNull('linked_account');
+        }
+
+        return $model->get();
     }
 
     public function find($id)
@@ -31,45 +35,37 @@ class PaymentMethodService implements PaymentMethodInterface
 
     public function store($inputs)
     {
-        $returnData = DB::transaction(function () use ($inputs) {
+        return DB::transaction(function () use ($inputs) {
+            $this->model()->where('linked_account', $inputs['linked_account'])->first()->update(['linked_account' => null]);
+
             $data = [
                 'name' => $inputs['name'],
                 'slug' => $inputs['slug'],
+                'linked_account' => $inputs['linked_account'],
             ];
 
-            $model = $this->model()->create($data);
-            return $model;
+            return $this->model()->create($data);
         });
-
-        return $returnData;
     }
 
     public function update($id, $inputs)
     {
-        $returnData = DB::transaction(function () use ($id, $inputs) {
+        return DB::transaction(function () use ($id, $inputs) {
+            $this->model()->where('linked_account', $inputs['linked_account'])->first()?->update(['linked_account' => null]);
             $data = [
                 'name' => $inputs['name'],
                 'slug' => $inputs['slug'],
+                'linked_account' => $inputs['linked_account'],
             ];
 
-            $model = $this->model()->find($id)->update($data);
-            return $model;
+            return $this->model()->find($id)->update($data);
         });
-
-        return $returnData;
     }
 
     public function destroy($inputs)
     {
-        $returnData = DB::transaction(function () use ($inputs) {
-
-            $model = $this->model()->whereIn('id', $inputs)->get()->each(function ($model) {
-                $model->delete();
-            });
-
-            return $model;
+        return DB::transaction(function () use ($inputs) {
+            return $this->model()->whereIn('id', $inputs)->delete();
         });
-
-        return $returnData;
     }
 }

@@ -24,6 +24,7 @@ class storeRequest extends FormRequest
      */
     public function rules()
     {
-        return (new PaymentMethod())->rules;
+        $rules = (new PaymentMethod())->rules;
+        return $rules;
     }
 }

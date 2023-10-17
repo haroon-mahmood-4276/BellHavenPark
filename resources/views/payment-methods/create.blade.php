@@ -81,5 +81,5 @@
 @endsection
 
 @section('custom-js')
-    @include('payment-methods.form-fields-js')
+    @include('payment-methods.form-fields-js', ['from' => 'create'])
 @endsection

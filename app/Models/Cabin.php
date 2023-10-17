@@ -25,11 +25,14 @@ class Cabin extends Model
         'electric_meter',
         'daily_rate',
         'weekly_rate',
-        'monthly_rate',
+        'four_weekly_rate',
     ];
 
     protected $casts = [
-        'cabin_status' => CabinStatus::class
+        'cabin_status' => CabinStatus::class,
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
+        'deleted_at' => 'timestamp',
     ];
 
     public $rules = [
@@ -42,7 +45,7 @@ class Cabin extends Model
         'electric_meter' => 'required|boolean',
         'daily_rate' => 'required|numeric|gt:-1',
         'weekly_rate' => 'required|numeric|gt:-1',
-        'monthly_rate' => 'required|numeric|gt:-1',
+        'four_weekly_rate' => 'required|numeric|gt:-1',
     ];
 
     public function __construct()

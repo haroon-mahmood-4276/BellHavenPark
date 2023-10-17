@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\DataTables\BookingPaymentsDataTable;
 use App\Exceptions\GeneralException;
-use App\Http\Requests\Payments\storeRequest;
-use App\Services\{
-    Payments\PaymentInterface
-};
+
+;
+use App\Models\Booking;
+use App\Services\Payments\PaymentInterface;
 use App\Services\Bookings\BookingInterface;
+use App\Services\BookingTaxes\BookingTaxInterface;
 use App\Services\PaymentMethods\PaymentMethodInterface;
 use Carbon\Carbon;
 use Exception;
@@ -16,25 +17,29 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    private $bookingInterface, $paymentInterface, $paymentMethodInterface;
+    private $bookingTaxInterface, $paymentMethodInterface, $paymentInterface, $bookingInterface;
 
-    public function __construct(BookingInterface $bookingInterface, PaymentInterface $paymentInterface, PaymentMethodInterface $paymentMethodInterface)
+    public function __construct(
+        BookingInterface $bookingInterface,
+        PaymentInterface $paymentInterface,
+        PaymentMethodInterface $paymentMethodInterface,
+        BookingTaxInterface $bookingTaxInterface
+    )
     {
         $this->bookingInterface = $bookingInterface;
         $this->paymentInterface = $paymentInterface;
         $this->paymentMethodInterface = $paymentMethodInterface;
+        $this->bookingTaxInterface = $bookingTaxInterface;
     }
 
-    public function index(BookingPaymentsDataTable $dataTable, $id)
+    public function index(BookingPaymentsDataTable $dataTable, Booking $booking)
     {
-
-        $booking = $this->bookingInterface->getById($id);
         if (!$booking) {
             return redirect()->route('bookings.index')->withDanger('Booking not found');
         }
 
         $data = [
-            'booking_id' => $id,
+            'booking_id' => $booking->id,
         ];
 
         if (request()->ajax()) {
@@ -47,11 +52,14 @@ class PaymentController extends Controller
     public function create(Request $request, $booking_id)
     {
         $modalData = [
-            'booking' => $this->bookingInterface->getById($booking_id, ['cabin', 'customer', 'booking_source', 'payments']),
-            'advanced_payment' => $this->paymentInterface->getAdvancedPaymentBookingId($booking_id),
-            'payment_methods' => $this->paymentMethodInterface->getAll(),
+            'booking' => $this->bookingInterface->find($booking_id, ['cabin', 'customer', 'booking_source', 'booking_tax', 'payments']),
+            'payment_methods' => $this->paymentMethodInterface->get()
         ];
-        $modalData['last_payment_date'] = $this->paymentInterface->getLastPaymentDateByBookingId($booking_id) ?? $modalData['booking']?->booking_from;
+
+        $modalData['credit_account'] = $this->paymentInterface->creditAccountPayment($modalData['booking']->customer->id);
+
+        $modalData['last_payment_date'] = $this->paymentInterface->lastPaymentDate($booking_id) ?? $modalData['booking']?->booking_from;
+        $modalData['booking_tax'] = $this->bookingTaxInterface->find($modalData['booking']->booking_tax_id);
 
         if (request()->ajax()) {
 
@@ -82,25 +90,23 @@ class PaymentController extends Controller
 
             return response()->json($data);
         } else {
-            return $modalData;
             abort(403);
         }
     }
 
 
-    public function store(Request $request, $booking_id)
+    public function store(Request $request, Booking $booking)
     {
         abort_if(request()->ajax(), 403);
 
-        try {
-
+        // try {
             $inputs = $request->input();
-            $record = $this->paymentInterface->store($booking_id, $inputs);
-            return redirect()->route('bookings.payments.index', ['id' => $booking_id])->withSuccess('Data saved!');
-        } catch (GeneralException $ex) {
-            return redirect()->route('bookings.payments.index', ['id' => $booking_id])->withDanger('Something went wrong! ' . $ex->getMessage());
-        } catch (Exception $ex) {
-            return redirect()->route('bookings.payments.index', ['id' => $booking_id])->withDanger('Something went wrong!');
-        }
+            $record = $this->paymentInterface->storeRentPayment($booking, $inputs);
+            return redirect()->route('bookings.payments.index', ['booking' => $booking])->withSuccess('Data saved!');
+        // } catch (GeneralException $ex) {
+        //     return redirect()->route('bookings.payments.index', ['booking' => $booking])->withDanger('Something went wrong! ' . $ex->getMessage());
+        // } catch (Exception $ex) {
+        //     return redirect()->route('bookings.payments.index', ['booking' => $booking])->withDanger('Something went wrong!');
+        // }
     }
 }

@@ -4,7 +4,7 @@ namespace App\Services\BookingTaxes;
 
 interface BookingTaxInterface
 {
-    public function get($ignore = null, $relationships = [], $where = []);
+    public function get($ignore = null, $relationships = [], $where = [], $default = false);
 
     public function find($id);
 

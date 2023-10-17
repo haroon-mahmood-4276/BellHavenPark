@@ -203,20 +203,19 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['middleware' => 'permission:bookings.checkin.index'], function () {
             Route::get('/check-in', 'checkInIndex')->name('checkin.index');
-            Route::post('/{id}/check-in', 'checkInStore')->name('checkin.store');
+            Route::post('/{booking}/check-in', 'checkInStore')->name('checkin.store');
         });
 
         Route::group(['middleware' => 'permission:bookings.checkout.index'], function () {
             Route::get('/check-out', 'checkOutIndex')->name('checkout.index');
-            Route::post('/{id}/check-out', 'checkOutStore')->name('checkout.store');
+            Route::post('/{booking}/check-out', 'checkOutStore')->name('checkout.store');
         });
 
-
-        Route::as('payments.')->prefix('/{id}')->controller(PaymentController::class)->group(function () {
-            Route::get('/payments', 'index')->middleware('permission:bookings.payments.index')->name('index');
+        Route::as('payments.')->prefix('/{booking}/payments')->controller(PaymentController::class)->group(function () {
+            Route::get('/', 'index')->middleware('permission:bookings.payments.index')->name('index');
 
             Route::group(['middleware' => 'permission:bookings.payments.create'], function () {
-                Route::get('/payments/create', 'create')->name('create');
+                Route::get('create', 'create')->name('create');
                 Route::post('store', 'store')->name('store');
             });
         });

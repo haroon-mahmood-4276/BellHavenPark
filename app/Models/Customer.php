@@ -35,10 +35,10 @@ class Customer extends Model
     ];
 
     protected $casts = [
+        'average_rating' => 'float',
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
-        'average_rating' => 'float'
     ];
 
     protected $hidden = [];

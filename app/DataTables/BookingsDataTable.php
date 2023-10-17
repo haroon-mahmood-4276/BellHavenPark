@@ -46,7 +46,7 @@ class BookingsDataTable extends DataTable
                 return editDateTimeColumn($booking->updated_at, 'F j, Y');
             })
             ->editColumn('actions', function ($booking) {
-                return view('bookings.actions', ['id' => $booking->id, 'filter' => $this->filter]);
+                return view('bookings.actions', ['booking' => $booking, 'filter' => $this->filter]);
             })
             ->rawColumns(array_merge($columns, ['action', 'check']));
     }

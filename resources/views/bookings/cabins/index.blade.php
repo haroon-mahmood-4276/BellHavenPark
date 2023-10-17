@@ -122,7 +122,7 @@
             // overlay: true,
             // expandable: true,
             // expandedDefault: true,
-            // doubleView: true,
+            doubleView: true,
             expandedOnly: true,
             selector: '#booking_date_range',
             format: 'MM dd, y',
