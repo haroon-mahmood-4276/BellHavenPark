@@ -40,6 +40,7 @@ class PaymentController extends Controller
 
         $data = [
             'booking_id' => $booking->id,
+            'credit_account' => $this->paymentInterface->creditAccountPayment($booking->customer->id),
         ];
 
         if (request()->ajax()) {
