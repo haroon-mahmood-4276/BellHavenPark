@@ -29,7 +29,7 @@ class BookingPaymentsDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->setRowId('id')
             ->editColumn('amount', function ($row) {
-                return editPaymentColumn($row->amount);
+                return editPaymentColumn($row->amount, 2);
             })
             ->editColumn('payment_from', function ($row) {
                 return editDateColumn($row->payment_from, 'F j, Y');

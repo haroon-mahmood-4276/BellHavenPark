@@ -226,7 +226,7 @@
                                 Count</label>
                             <input type="number" id="text_days_count" name="text_days_count" class="form-control"
                                 placeholder="Days Count" value="1" min="1"
-                                max="{{ $booking->booking_to->diffInDays($booking->booking_from) }}" />
+                                max="{{ $booking->booking_to->diffInDays($last_payment_date) }}" />
                         </div>
                     </div>
 
