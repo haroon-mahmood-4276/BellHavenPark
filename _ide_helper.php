@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 10.28.0.
+ * Generated for Laravel 10.37.2.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -435,6 +435,18 @@
         {
                         /** @var \Illuminate\Foundation\Application $instance */
                         return $instance->runningInConsole();
+        }
+                    /**
+         * Determine if the application is running any of the given console commands.
+         *
+         * @param string|array $commands
+         * @return bool 
+         * @static 
+         */ 
+        public static function runningConsoleCommand(...$commands)
+        {
+                        /** @var \Illuminate\Foundation\Application $instance */
+                        return $instance->runningConsoleCommand(...$commands);
         }
                     /**
          * Determine if the application is running unit tests.
@@ -3508,6 +3520,18 @@
                         $instance->assertDispatchedWithoutChain($command, $callback);
         }
                     /**
+         * Create a new assertion about a chained batch.
+         *
+         * @param \Closure $callback
+         * @return \Illuminate\Support\Testing\Fakes\ChainedBatchTruthTest 
+         * @static 
+         */ 
+        public static function chainedBatch($callback)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        return $instance->chainedBatch($callback);
+        }
+                    /**
          * Assert if a batch was dispatched based on a truth-test callback.
          *
          * @param callable $callback
@@ -5285,14 +5309,28 @@
                         return $instance->macroCall($method, $parameters);
         }
                     /**
+         * Execute a Closure within a transaction.
+         *
+         * @param \Closure $callback
+         * @param int $attempts
+         * @return mixed 
+         * @throws \Throwable
+         * @static 
+         */ 
+        public static function transaction($callback, $attempts = 1)
+        {
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+                        return $instance->transaction($callback, $attempts);
+        }
+                    /**
          * Get a schema builder instance for the connection.
          *
-         * @return \Illuminate\Database\Schema\PostgresBuilder 
+         * @return \Illuminate\Database\Schema\SqlServerBuilder 
          * @static 
          */ 
         public static function getSchemaBuilder()
         {
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getSchemaBuilder();
         }
                     /**
@@ -5300,12 +5338,12 @@
          *
          * @param \Illuminate\Filesystem\Filesystem|null $files
          * @param callable|null $processFactory
-         * @return \Illuminate\Database\Schema\PostgresSchemaState 
+         * @throws \RuntimeException
          * @static 
          */ 
         public static function getSchemaState($files = null, $processFactory = null)
         {
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getSchemaState($files, $processFactory);
         }
                     /**
@@ -5316,7 +5354,7 @@
          */ 
         public static function useDefaultQueryGrammar()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->useDefaultQueryGrammar();
         }
                     /**
@@ -5327,7 +5365,7 @@
          */ 
         public static function useDefaultSchemaGrammar()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->useDefaultSchemaGrammar();
         }
                     /**
@@ -5338,7 +5376,7 @@
          */ 
         public static function useDefaultPostProcessor()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->useDefaultPostProcessor();
         }
                     /**
@@ -5351,7 +5389,7 @@
          */ 
         public static function table($table, $as = null)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->table($table, $as);
         }
                     /**
@@ -5362,7 +5400,7 @@
          */ 
         public static function query()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->query();
         }
                     /**
@@ -5376,7 +5414,7 @@
          */ 
         public static function selectOne($query, $bindings = [], $useReadPdo = true)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->selectOne($query, $bindings, $useReadPdo);
         }
                     /**
@@ -5391,7 +5429,7 @@
          */ 
         public static function scalar($query, $bindings = [], $useReadPdo = true)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->scalar($query, $bindings, $useReadPdo);
         }
                     /**
@@ -5404,7 +5442,7 @@
          */ 
         public static function selectFromWriteConnection($query, $bindings = [])
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->selectFromWriteConnection($query, $bindings);
         }
                     /**
@@ -5418,7 +5456,7 @@
          */ 
         public static function select($query, $bindings = [], $useReadPdo = true)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->select($query, $bindings, $useReadPdo);
         }
                     /**
@@ -5432,7 +5470,7 @@
          */ 
         public static function selectResultSets($query, $bindings = [], $useReadPdo = true)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->selectResultSets($query, $bindings, $useReadPdo);
         }
                     /**
@@ -5446,7 +5484,7 @@
          */ 
         public static function cursor($query, $bindings = [], $useReadPdo = true)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->cursor($query, $bindings, $useReadPdo);
         }
                     /**
@@ -5459,7 +5497,7 @@
          */ 
         public static function insert($query, $bindings = [])
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->insert($query, $bindings);
         }
                     /**
@@ -5472,7 +5510,7 @@
          */ 
         public static function update($query, $bindings = [])
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->update($query, $bindings);
         }
                     /**
@@ -5485,7 +5523,7 @@
          */ 
         public static function delete($query, $bindings = [])
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->delete($query, $bindings);
         }
                     /**
@@ -5498,7 +5536,7 @@
          */ 
         public static function statement($query, $bindings = [])
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->statement($query, $bindings);
         }
                     /**
@@ -5511,7 +5549,7 @@
          */ 
         public static function affectingStatement($query, $bindings = [])
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->affectingStatement($query, $bindings);
         }
                     /**
@@ -5523,7 +5561,7 @@
          */ 
         public static function unprepared($query)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->unprepared($query);
         }
                     /**
@@ -5535,8 +5573,20 @@
          */ 
         public static function pretend($callback)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->pretend($callback);
+        }
+                    /**
+         * Execute the given callback without "pretending".
+         *
+         * @param \Closure $callback
+         * @return mixed 
+         * @static 
+         */ 
+        public static function withoutPretending($callback)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+                        return $instance->withoutPretending($callback);
         }
                     /**
          * Bind values to their parameters in the given statement.
@@ -5548,7 +5598,7 @@
          */ 
         public static function bindValues($statement, $bindings)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->bindValues($statement, $bindings);
         }
                     /**
@@ -5560,7 +5610,7 @@
          */ 
         public static function prepareBindings($bindings)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->prepareBindings($bindings);
         }
                     /**
@@ -5574,7 +5624,7 @@
          */ 
         public static function logQuery($query, $bindings, $time = null)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->logQuery($query, $bindings, $time);
         }
                     /**
@@ -5587,7 +5637,7 @@
          */ 
         public static function whenQueryingForLongerThan($threshold, $handler)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->whenQueryingForLongerThan($threshold, $handler);
         }
                     /**
@@ -5598,7 +5648,7 @@
          */ 
         public static function allowQueryDurationHandlersToRunAgain()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->allowQueryDurationHandlersToRunAgain();
         }
                     /**
@@ -5609,7 +5659,7 @@
          */ 
         public static function totalQueryDuration()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->totalQueryDuration();
         }
                     /**
@@ -5620,7 +5670,7 @@
          */ 
         public static function resetTotalQueryDuration()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->resetTotalQueryDuration();
         }
                     /**
@@ -5631,19 +5681,19 @@
          */ 
         public static function reconnectIfMissingConnection()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->reconnectIfMissingConnection();
         }
                     /**
          * Register a hook to be run just before a database query is executed.
          *
          * @param \Closure $callback
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function beforeExecuting($callback)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->beforeExecuting($callback);
         }
                     /**
@@ -5655,7 +5705,7 @@
          */ 
         public static function listen($callback)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->listen($callback);
         }
                     /**
@@ -5667,7 +5717,7 @@
          */ 
         public static function raw($value)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->raw($value);
         }
                     /**
@@ -5680,7 +5730,7 @@
          */ 
         public static function escape($value, $binary = false)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->escape($value, $binary);
         }
                     /**
@@ -5691,7 +5741,7 @@
          */ 
         public static function hasModifiedRecords()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->hasModifiedRecords();
         }
                     /**
@@ -5703,19 +5753,19 @@
          */ 
         public static function recordsHaveBeenModified($value = true)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->recordsHaveBeenModified($value);
         }
                     /**
          * Set the record modification state.
          *
          * @param bool $value
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function setRecordModificationState($value)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->setRecordModificationState($value);
         }
                     /**
@@ -5726,19 +5776,19 @@
          */ 
         public static function forgetRecordModificationState()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->forgetRecordModificationState();
         }
                     /**
          * Indicate that the connection should use the write PDO connection for reads.
          *
          * @param bool $value
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function useWriteConnectionWhenReading($value = true)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->useWriteConnectionWhenReading($value);
         }
                     /**
@@ -5749,7 +5799,7 @@
          */ 
         public static function isDoctrineAvailable()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->isDoctrineAvailable();
         }
                     /**
@@ -5760,7 +5810,7 @@
          */ 
         public static function usingNativeSchemaOperations()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->usingNativeSchemaOperations();
         }
                     /**
@@ -5773,7 +5823,7 @@
          */ 
         public static function getDoctrineColumn($table, $column)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getDoctrineColumn($table, $column);
         }
                     /**
@@ -5784,7 +5834,7 @@
          */ 
         public static function getDoctrineSchemaManager()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getDoctrineSchemaManager();
         }
                     /**
@@ -5795,7 +5845,7 @@
          */ 
         public static function getDoctrineConnection()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getDoctrineConnection();
         }
                     /**
@@ -5806,7 +5856,7 @@
          */ 
         public static function getPdo()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getPdo();
         }
                     /**
@@ -5817,7 +5867,7 @@
          */ 
         public static function getRawPdo()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getRawPdo();
         }
                     /**
@@ -5828,7 +5878,7 @@
          */ 
         public static function getReadPdo()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getReadPdo();
         }
                     /**
@@ -5839,31 +5889,31 @@
          */ 
         public static function getRawReadPdo()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getRawReadPdo();
         }
                     /**
          * Set the PDO connection.
          *
          * @param \PDO|\Closure|null $pdo
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function setPdo($pdo)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->setPdo($pdo);
         }
                     /**
          * Set the PDO connection used for reading.
          *
          * @param \PDO|\Closure|null $pdo
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function setReadPdo($pdo)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->setReadPdo($pdo);
         }
                     /**
@@ -5874,7 +5924,7 @@
          */ 
         public static function getName()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getName();
         }
                     /**
@@ -5885,7 +5935,7 @@
          */ 
         public static function getNameWithReadWriteType()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getNameWithReadWriteType();
         }
                     /**
@@ -5897,7 +5947,7 @@
          */ 
         public static function getConfig($option = null)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getConfig($option);
         }
                     /**
@@ -5908,7 +5958,7 @@
          */ 
         public static function getDriverName()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getDriverName();
         }
                     /**
@@ -5919,19 +5969,19 @@
          */ 
         public static function getQueryGrammar()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getQueryGrammar();
         }
                     /**
          * Set the query grammar used by the connection.
          *
          * @param \Illuminate\Database\Query\Grammars\Grammar $grammar
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function setQueryGrammar($grammar)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->setQueryGrammar($grammar);
         }
                     /**
@@ -5942,19 +5992,19 @@
          */ 
         public static function getSchemaGrammar()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getSchemaGrammar();
         }
                     /**
          * Set the schema grammar used by the connection.
          *
          * @param \Illuminate\Database\Schema\Grammars\Grammar $grammar
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function setSchemaGrammar($grammar)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->setSchemaGrammar($grammar);
         }
                     /**
@@ -5965,19 +6015,19 @@
          */ 
         public static function getPostProcessor()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getPostProcessor();
         }
                     /**
          * Set the query post processor used by the connection.
          *
          * @param \Illuminate\Database\Query\Processors\Processor $processor
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function setPostProcessor($processor)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->setPostProcessor($processor);
         }
                     /**
@@ -5988,19 +6038,19 @@
          */ 
         public static function getEventDispatcher()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getEventDispatcher();
         }
                     /**
          * Set the event dispatcher instance on the connection.
          *
          * @param \Illuminate\Contracts\Events\Dispatcher $events
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function setEventDispatcher($events)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->setEventDispatcher($events);
         }
                     /**
@@ -6011,19 +6061,19 @@
          */ 
         public static function unsetEventDispatcher()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->unsetEventDispatcher();
         }
                     /**
          * Set the transaction manager instance on the connection.
          *
          * @param \Illuminate\Database\DatabaseTransactionsManager $manager
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function setTransactionManager($manager)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->setTransactionManager($manager);
         }
                     /**
@@ -6034,7 +6084,7 @@
          */ 
         public static function unsetTransactionManager()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->unsetTransactionManager();
         }
                     /**
@@ -6045,7 +6095,7 @@
          */ 
         public static function pretending()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->pretending();
         }
                     /**
@@ -6056,7 +6106,7 @@
          */ 
         public static function getQueryLog()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getQueryLog();
         }
                     /**
@@ -6067,7 +6117,7 @@
          */ 
         public static function getRawQueryLog()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getRawQueryLog();
         }
                     /**
@@ -6078,7 +6128,7 @@
          */ 
         public static function flushQueryLog()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->flushQueryLog();
         }
                     /**
@@ -6089,7 +6139,7 @@
          */ 
         public static function enableQueryLog()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->enableQueryLog();
         }
                     /**
@@ -6100,7 +6150,7 @@
          */ 
         public static function disableQueryLog()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->disableQueryLog();
         }
                     /**
@@ -6111,7 +6161,7 @@
          */ 
         public static function logging()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->logging();
         }
                     /**
@@ -6122,31 +6172,31 @@
          */ 
         public static function getDatabaseName()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getDatabaseName();
         }
                     /**
          * Set the name of the connected database.
          *
          * @param string $database
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function setDatabaseName($database)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->setDatabaseName($database);
         }
                     /**
          * Set the read / write type of the connection.
          *
          * @param string|null $readWriteType
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function setReadWriteType($readWriteType)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->setReadWriteType($readWriteType);
         }
                     /**
@@ -6157,19 +6207,19 @@
          */ 
         public static function getTablePrefix()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getTablePrefix();
         }
                     /**
          * Set the table prefix in use by the connection.
          *
          * @param string $prefix
-         * @return \Illuminate\Database\PostgresConnection 
+         * @return \Illuminate\Database\SqlServerConnection 
          * @static 
          */ 
         public static function setTablePrefix($prefix)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->setTablePrefix($prefix);
         }
                     /**
@@ -6181,7 +6231,7 @@
          */ 
         public static function withTablePrefix($grammar)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->withTablePrefix($grammar);
         }
                     /**
@@ -6194,7 +6244,7 @@
          */ 
         public static function resolverFor($driver, $callback)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        \Illuminate\Database\PostgresConnection::resolverFor($driver, $callback);
+                        \Illuminate\Database\SqlServerConnection::resolverFor($driver, $callback);
         }
                     /**
          * Get the connection resolver for the given driver.
@@ -6205,21 +6255,7 @@
          */ 
         public static function getResolver($driver)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        return \Illuminate\Database\PostgresConnection::getResolver($driver);
-        }
-                    /**
-         * Execute a Closure within a transaction.
-         *
-         * @param \Closure $callback
-         * @param int $attempts
-         * @return mixed 
-         * @throws \Throwable
-         * @static 
-         */ 
-        public static function transaction($callback, $attempts = 1)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
-                        return $instance->transaction($callback, $attempts);
+                        return \Illuminate\Database\SqlServerConnection::getResolver($driver);
         }
                     /**
          * Start a new database transaction.
@@ -6230,7 +6266,7 @@
          */ 
         public static function beginTransaction()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->beginTransaction();
         }
                     /**
@@ -6242,7 +6278,7 @@
          */ 
         public static function commit()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->commit();
         }
                     /**
@@ -6255,7 +6291,7 @@
          */ 
         public static function rollBack($toLevel = null)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->rollBack($toLevel);
         }
                     /**
@@ -6266,7 +6302,7 @@
          */ 
         public static function transactionLevel()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->transactionLevel();
         }
                     /**
@@ -6279,7 +6315,7 @@
          */ 
         public static function afterCommit($callback)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         $instance->afterCommit($callback);
         }
          
@@ -6464,6 +6500,18 @@
         {
                         /** @var \Illuminate\Events\Dispatcher $instance */
                         return $instance->setQueueResolver($resolver);
+        }
+                    /**
+         * Set the database transaction manager resolver implementation.
+         *
+         * @param callable $resolver
+         * @return \Illuminate\Events\Dispatcher 
+         * @static 
+         */ 
+        public static function setTransactionManagerResolver($resolver)
+        {
+                        /** @var \Illuminate\Events\Dispatcher $instance */
+                        return $instance->setTransactionManagerResolver($resolver);
         }
                     /**
          * Gets the raw, unprepared listeners.
@@ -6809,13 +6857,14 @@
          *
          * @param string $path
          * @param string $data
+         * @param bool $lock
          * @return int 
          * @static 
          */ 
-        public static function append($path, $data)
+        public static function append($path, $data, $lock = false)
         {
                         /** @var \Illuminate\Filesystem\Filesystem $instance */
-                        return $instance->append($path, $data);
+                        return $instance->append($path, $data, $lock);
         }
                     /**
          * Get or set UNIX mode of a file or directory.
@@ -8132,6 +8181,17 @@
                         return $instance->getDispatcher();
         }
                     /**
+         * Get the array of global middleware.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getGlobalMiddleware()
+        {
+                        /** @var \Illuminate\Http\Client\Factory $instance */
+                        return $instance->getGlobalMiddleware();
+        }
+                    /**
          * Register a custom macro.
          *
          * @param string $name
@@ -8283,6 +8343,18 @@
         {
                         /** @var \Illuminate\Translation\Translator $instance */
                         $instance->load($namespace, $group, $locale);
+        }
+                    /**
+         * Register a callback that is responsible for handling missing translation keys.
+         *
+         * @param callable|null $callback
+         * @return static 
+         * @static 
+         */ 
+        public static function handleMissingKeysUsing($callback)
+        {
+                        /** @var \Illuminate\Translation\Translator $instance */
+                        return $instance->handleMissingKeysUsing($callback);
         }
                     /**
          * Add a new namespace to the loader.
@@ -13541,6 +13613,7 @@
      * @method static \Illuminate\Routing\RouteRegistrar controller(string $controller)
      * @method static \Illuminate\Routing\RouteRegistrar domain(string $value)
      * @method static \Illuminate\Routing\RouteRegistrar middleware(array|string|null $middleware)
+     * @method static \Illuminate\Routing\RouteRegistrar missing(\Closure $missing)
      * @method static \Illuminate\Routing\RouteRegistrar name(string $value)
      * @method static \Illuminate\Routing\RouteRegistrar namespace(string|null $value)
      * @method static \Illuminate\Routing\RouteRegistrar prefix(string $prefix)
@@ -13997,6 +14070,18 @@
         {
                         /** @var \Illuminate\Routing\Router $instance */
                         $instance->substituteImplicitBindings($route);
+        }
+                    /**
+         * Register a callback to to run after implicit bindings are substituted.
+         *
+         * @param callable $callback
+         * @return \Illuminate\Routing\Router 
+         * @static 
+         */ 
+        public static function substituteImplicitBindingsUsing($callback)
+        {
+                        /** @var \Illuminate\Routing\Router $instance */
+                        return $instance->substituteImplicitBindingsUsing($callback);
         }
                     /**
          * Register a route matched event listener.
@@ -14520,7 +14605,7 @@
          */ 
         public static function createDatabase($name)
         {
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->createDatabase($name);
         }
                     /**
@@ -14532,20 +14617,8 @@
          */ 
         public static function dropDatabaseIfExists($name)
         {
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->dropDatabaseIfExists($name);
-        }
-                    /**
-         * Determine if the given table exists.
-         *
-         * @param string $table
-         * @return bool 
-         * @static 
-         */ 
-        public static function hasTable($table)
-        {
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
-                        return $instance->hasTable($table);
         }
                     /**
          * Drop all tables from the database.
@@ -14555,7 +14628,7 @@
          */ 
         public static function dropAllTables()
         {
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->dropAllTables();
         }
                     /**
@@ -14566,64 +14639,32 @@
          */ 
         public static function dropAllViews()
         {
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->dropAllViews();
         }
                     /**
-         * Drop all types from the database.
+         * Drop all tables from the database.
          *
-         * @return void 
-         * @static 
-         */ 
-        public static function dropAllTypes()
-        {
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
-                        $instance->dropAllTypes();
-        }
-                    /**
-         * Get all of the table names for the database.
-         *
+         * @deprecated Will be removed in a future Laravel version.
          * @return array 
          * @static 
          */ 
         public static function getAllTables()
         {
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->getAllTables();
         }
                     /**
          * Get all of the view names for the database.
          *
+         * @deprecated Will be removed in a future Laravel version.
          * @return array 
          * @static 
          */ 
         public static function getAllViews()
         {
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->getAllViews();
-        }
-                    /**
-         * Get all of the type names for the database.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getAllTypes()
-        {
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
-                        return $instance->getAllTypes();
-        }
-                    /**
-         * Get the column listing for a given table.
-         *
-         * @param string $table
-         * @return array 
-         * @static 
-         */ 
-        public static function getColumnListing($table)
-        {
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
-                        return $instance->getColumnListing($table);
         }
                     /**
          * Set the default string length for migrations.
@@ -14634,7 +14675,7 @@
          */ 
         public static function defaultStringLength($length)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Illuminate\Database\Schema\PostgresBuilder::defaultStringLength($length);
+                        \Illuminate\Database\Schema\SqlServerBuilder::defaultStringLength($length);
         }
                     /**
          * Set the default morph key type for migrations.
@@ -14646,7 +14687,7 @@
          */ 
         public static function defaultMorphKeyType($type)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Illuminate\Database\Schema\PostgresBuilder::defaultMorphKeyType($type);
+                        \Illuminate\Database\Schema\SqlServerBuilder::defaultMorphKeyType($type);
         }
                     /**
          * Set the default morph key type for migrations to UUIDs.
@@ -14656,7 +14697,7 @@
          */ 
         public static function morphUsingUuids()
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Illuminate\Database\Schema\PostgresBuilder::morphUsingUuids();
+                        \Illuminate\Database\Schema\SqlServerBuilder::morphUsingUuids();
         }
                     /**
          * Set the default morph key type for migrations to ULIDs.
@@ -14666,7 +14707,7 @@
          */ 
         public static function morphUsingUlids()
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Illuminate\Database\Schema\PostgresBuilder::morphUsingUlids();
+                        \Illuminate\Database\Schema\SqlServerBuilder::morphUsingUlids();
         }
                     /**
          * Attempt to use native schema operations for dropping, renaming, and modifying columns, even if Doctrine DBAL is installed.
@@ -14677,7 +14718,64 @@
          */ 
         public static function useNativeSchemaOperationsIfPossible($value = true)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Illuminate\Database\Schema\PostgresBuilder::useNativeSchemaOperationsIfPossible($value);
+                        \Illuminate\Database\Schema\SqlServerBuilder::useNativeSchemaOperationsIfPossible($value);
+        }
+                    /**
+         * Determine if the given table exists.
+         *
+         * @param string $table
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasTable($table)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->hasTable($table);
+        }
+                    /**
+         * Determine if the given view exists.
+         *
+         * @param string $view
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasView($view)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->hasView($view);
+        }
+                    /**
+         * Get the tables that belong to the database.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getTables()
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getTables();
+        }
+                    /**
+         * Get the views that belong to the database.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getViews()
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getViews();
+        }
+                    /**
+         * Get the user-defined types that belong to the database.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getTypes()
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getTypes();
         }
                     /**
          * Determine if the given table has a given column.
@@ -14689,7 +14787,7 @@
          */ 
         public static function hasColumn($table, $column)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->hasColumn($table, $column);
         }
                     /**
@@ -14702,7 +14800,7 @@
          */ 
         public static function hasColumns($table, $columns)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->hasColumns($table, $columns);
         }
                     /**
@@ -14716,7 +14814,7 @@
          */ 
         public static function whenTableHasColumn($table, $column, $callback)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->whenTableHasColumn($table, $column, $callback);
         }
                     /**
@@ -14730,7 +14828,7 @@
          */ 
         public static function whenTableDoesntHaveColumn($table, $column, $callback)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->whenTableDoesntHaveColumn($table, $column, $callback);
         }
                     /**
@@ -14738,13 +14836,62 @@
          *
          * @param string $table
          * @param string $column
+         * @param bool $fullDefinition
          * @return string 
          * @static 
          */ 
-        public static function getColumnType($table, $column)
+        public static function getColumnType($table, $column, $fullDefinition = false)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
-                        return $instance->getColumnType($table, $column);
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getColumnType($table, $column, $fullDefinition);
+        }
+                    /**
+         * Get the column listing for a given table.
+         *
+         * @param string $table
+         * @return array 
+         * @static 
+         */ 
+        public static function getColumnListing($table)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getColumnListing($table);
+        }
+                    /**
+         * Get the columns for a given table.
+         *
+         * @param string $table
+         * @return array 
+         * @static 
+         */ 
+        public static function getColumns($table)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getColumns($table);
+        }
+                    /**
+         * Get the indexes for a given table.
+         *
+         * @param string $table
+         * @return array 
+         * @static 
+         */ 
+        public static function getIndexes($table)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getIndexes($table);
+        }
+                    /**
+         * Get the foreign keys for a given table.
+         *
+         * @param string $table
+         * @return array 
+         * @static 
+         */ 
+        public static function getForeignKeys($table)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getForeignKeys($table);
         }
                     /**
          * Modify a table on the schema.
@@ -14756,7 +14903,7 @@
          */ 
         public static function table($table, $callback)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->table($table, $callback);
         }
                     /**
@@ -14769,7 +14916,7 @@
          */ 
         public static function create($table, $callback)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->create($table, $callback);
         }
                     /**
@@ -14781,7 +14928,7 @@
          */ 
         public static function drop($table)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->drop($table);
         }
                     /**
@@ -14793,7 +14940,7 @@
          */ 
         public static function dropIfExists($table)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->dropIfExists($table);
         }
                     /**
@@ -14806,8 +14953,20 @@
          */ 
         public static function dropColumns($table, $columns)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->dropColumns($table, $columns);
+        }
+                    /**
+         * Drop all types from the database.
+         *
+         * @return void 
+         * @throws \LogicException
+         * @static 
+         */ 
+        public static function dropAllTypes()
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        $instance->dropAllTypes();
         }
                     /**
          * Rename a table on the schema.
@@ -14819,7 +14978,7 @@
          */ 
         public static function rename($from, $to)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->rename($from, $to);
         }
                     /**
@@ -14830,7 +14989,7 @@
          */ 
         public static function enableForeignKeyConstraints()
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->enableForeignKeyConstraints();
         }
                     /**
@@ -14841,7 +15000,7 @@
          */ 
         public static function disableForeignKeyConstraints()
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->disableForeignKeyConstraints();
         }
                     /**
@@ -14853,7 +15012,7 @@
          */ 
         public static function withoutForeignKeyConstraints($callback)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->withoutForeignKeyConstraints($callback);
         }
                     /**
@@ -14864,19 +15023,19 @@
          */ 
         public static function getConnection()
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->getConnection();
         }
                     /**
          * Set the database connection instance.
          *
          * @param \Illuminate\Database\Connection $connection
-         * @return \Illuminate\Database\Schema\PostgresBuilder 
+         * @return \Illuminate\Database\Schema\SqlServerBuilder 
          * @static 
          */ 
         public static function setConnection($connection)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->setConnection($connection);
         }
                     /**
@@ -14888,7 +15047,7 @@
          */ 
         public static function blueprintResolver($resolver)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\PostgresBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->blueprintResolver($resolver);
         }
          
@@ -14920,6 +15079,28 @@
         {
                         /** @var \Illuminate\Session\SessionManager $instance */
                         return $instance->blockDriver();
+        }
+                    /**
+         * Get the maximum number of seconds the session lock should be held for.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function defaultRouteBlockLockSeconds()
+        {
+                        /** @var \Illuminate\Session\SessionManager $instance */
+                        return $instance->defaultRouteBlockLockSeconds();
+        }
+                    /**
+         * Get the maximum number of seconds to wait while attempting to acquire a route block session lock.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function defaultRouteBlockWaitSeconds()
+        {
+                        /** @var \Illuminate\Session\SessionManager $instance */
+                        return $instance->defaultRouteBlockWaitSeconds();
         }
                     /**
          * Get the session configuration.
@@ -18427,6 +18608,13 @@
      * 
      *
      */ 
+        class Number {
+         
+    }
+            /**
+     * 
+     *
+     */ 
         class Str {
          
     }
@@ -19886,6 +20074,315 @@
      
 }
 
+    namespace Laravel\Pulse\Facades { 
+            /**
+     * 
+     *
+     * @method static void trim()
+     * @method static void purge(array $types = null)
+     * @method static \Illuminate\Support\Collection values(string $type, array $keys = null)
+     * @method static \Illuminate\Support\Collection graph(array $types, string $aggregate, \Carbon\CarbonInterval $interval)
+     * @method static \Illuminate\Support\Collection aggregate(string $type, string|array $aggregates, \Carbon\CarbonInterval $interval, string|null $orderBy = null, string $direction = 'desc', int $limit = 101)
+     * @method static \Illuminate\Support\Collection aggregateTypes(string|array $types, string $aggregate, \Carbon\CarbonInterval $interval, string|null $orderBy = null, string $direction = 'desc', int $limit = 101)
+     * @method static \Illuminate\Support\Collection aggregateTotal(string|array $types, string $aggregate, \Carbon\CarbonInterval $interval)
+     * @see \Laravel\Pulse\Pulse
+     */ 
+        class Pulse {
+                    /**
+         * Register a recorder.
+         *
+         * @param array<class-string, array<mixed>|boolean> $recorders
+         * @static 
+         */ 
+        public static function register($recorders)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->register($recorders);
+        }
+                    /**
+         * Record an entry.
+         *
+         * @static 
+         */ 
+        public static function record($type, $key, $value = null, $timestamp = null)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->record($type, $key, $value, $timestamp);
+        }
+                    /**
+         * Record a value.
+         *
+         * @static 
+         */ 
+        public static function set($type, $key, $value, $timestamp = null)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->set($type, $key, $value, $timestamp);
+        }
+                    /**
+         * Lazily capture items.
+         *
+         * @static 
+         */ 
+        public static function lazy($closure)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->lazy($closure);
+        }
+                    /**
+         * Report the throwable exception to Pulse.
+         *
+         * @static 
+         */ 
+        public static function report($e)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->report($e);
+        }
+                    /**
+         * Start recording.
+         *
+         * @static 
+         */ 
+        public static function startRecording()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->startRecording();
+        }
+                    /**
+         * Stop recording.
+         *
+         * @static 
+         */ 
+        public static function stopRecording()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->stopRecording();
+        }
+                    /**
+         * Execute the given callback without recording.
+         *
+         * @template TReturn
+         * @param \Laravel\Pulse\(callable():  TReturn)  $callback
+         * @return \Laravel\Pulse\TReturn 
+         * @static 
+         */ 
+        public static function ignore($callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->ignore($callback);
+        }
+                    /**
+         * Flush the queue.
+         *
+         * @static 
+         */ 
+        public static function flush()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->flush();
+        }
+                    /**
+         * Filter items before storage using the provided filter.
+         *
+         * @param \Laravel\Pulse\(callable(\Laravel\Pulse\Entry|\Laravel\Pulse\Value):  bool)  $filter
+         * @static 
+         */ 
+        public static function filter($filter)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->filter($filter);
+        }
+                    /**
+         * Store the queued items.
+         *
+         * @static 
+         */ 
+        public static function store()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->store();
+        }
+                    /**
+         * Get the registered recorders.
+         *
+         * @return \Illuminate\Support\Collection<int, object> 
+         * @static 
+         */ 
+        public static function recorders()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->recorders();
+        }
+                    /**
+         * Resolve the user details for the given user IDs.
+         *
+         * @param \Illuminate\Support\Collection<int, string|int> $ids
+         * @return \Illuminate\Support\Collection<int, array{id: string|int, name: string, email?: ?string, avatar?: ?string, extra?: ?string}>
+         * @static 
+         */ 
+        public static function resolveUsers($ids)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->resolveUsers($ids);
+        }
+                    /**
+         * Resolve the user's details using the given closure.
+         *
+         * @param \Laravel\Pulse\(callable(\Illuminate\Support\Collection<int, string|int>):  iterable<int, array{id: string|int, name: string, email?: ?string, avatar?: ?string, extra?: ?string}>)  $callback
+         * @static 
+         */ 
+        public static function users($callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->users($callback);
+        }
+                    /**
+         * Get the authenticated user ID resolver.
+         *
+         * @return \Laravel\Pulse\callable(): (int|string|null)
+         * @static 
+         */ 
+        public static function authenticatedUserIdResolver()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->authenticatedUserIdResolver();
+        }
+                    /**
+         * Resolve the authenticated user id.
+         *
+         * @static 
+         */ 
+        public static function resolveAuthenticatedUserId()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->resolveAuthenticatedUserId();
+        }
+                    /**
+         * Resolve the authenticated user ID with the given callback.
+         *
+         * @static 
+         */ 
+        public static function resolveAuthenticatedUserIdUsing($callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->resolveAuthenticatedUserIdUsing($callback);
+        }
+                    /**
+         * Set the user for the given callback.
+         *
+         * @template TReturn
+         * @param \Laravel\Pulse\(callable():  TReturn)  $callback
+         * @return \Laravel\Pulse\TReturn 
+         * @static 
+         */ 
+        public static function withUser($user, $callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->withUser($user, $callback);
+        }
+                    /**
+         * Remember the authenticated user's ID.
+         *
+         * @static 
+         */ 
+        public static function rememberUser($user)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->rememberUser($user);
+        }
+                    /**
+         * Register or return CSS for the Pulse dashboard.
+         *
+         * @param string|\Illuminate\Contracts\Support\Htmlable|\Laravel\Pulse\list<string|Htmlable>|null $css
+         * @static 
+         */ 
+        public static function css($css = null)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->css($css);
+        }
+                    /**
+         * Return the compiled JavaScript from the vendor directory.
+         *
+         * @static 
+         */ 
+        public static function js()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->js();
+        }
+                    /**
+         * Determine if Pulse may register routes.
+         *
+         * @static 
+         */ 
+        public static function registersRoutes()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->registersRoutes();
+        }
+                    /**
+         * Configure Pulse to not register its routes.
+         *
+         * @static 
+         */ 
+        public static function ignoreRoutes()
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->ignoreRoutes();
+        }
+                    /**
+         * Handle exceptions using the given callback.
+         *
+         * @param \Laravel\Pulse\(callable(\Throwable):  mixed)  $callback
+         * @static 
+         */ 
+        public static function handleExceptionsUsing($callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->handleExceptionsUsing($callback);
+        }
+                    /**
+         * Execute the given callback handling any exceptions.
+         *
+         * @template TReturn
+         * @param \Laravel\Pulse\(callable():  TReturn)  $callback
+         * @return \Laravel\Pulse\TReturn|null 
+         * @static 
+         */ 
+        public static function rescue($callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->rescue($callback);
+        }
+                    /**
+         * Set the container instance.
+         *
+         * @param \Illuminate\Contracts\Foundation\Application $container
+         * @return \Laravel\Pulse\Pulse 
+         * @static 
+         */ 
+        public static function setContainer($container)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->setContainer($container);
+        }
+                    /**
+         * Configure the class after resolving.
+         *
+         * @static 
+         */ 
+        public static function afterResolving($app, $class, $callback)
+        {
+                        /** @var \Laravel\Pulse\Pulse $instance */
+                        return $instance->afterResolving($app, $class, $callback);
+        }
+         
+    }
+     
+}
+
     namespace Collective\Html { 
             /**
      * 
@@ -21018,6 +21515,418 @@
      
 }
 
+    namespace Livewire { 
+            /**
+     * 
+     *
+     * @see \Livewire\LivewireManager
+     */ 
+        class Livewire {
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setProvider($provider)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->setProvider($provider);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function provide($callback)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->provide($callback);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function component($name, $class = null)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->component($name, $class);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function componentHook($hook)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->componentHook($hook);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function propertySynthesizer($synth)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->propertySynthesizer($synth);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function directive($name, $callback)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->directive($name, $callback);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function precompiler($callback)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->precompiler($callback);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function new($name, $id = null)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->new($name, $id);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isDiscoverable($componentNameOrClass)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->isDiscoverable($componentNameOrClass);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function resolveMissingComponent($resolver)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->resolveMissingComponent($resolver);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function mount($name, $params = [], $key = null)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->mount($name, $params, $key);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function snapshot($component)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->snapshot($component);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function fromSnapshot($snapshot)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->fromSnapshot($snapshot);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function listen($eventName, $callback)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->listen($eventName, $callback);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function current()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->current();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function update($snapshot, $diff, $calls)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->update($snapshot, $diff, $calls);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function updateProperty($component, $path, $value)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->updateProperty($component, $path, $value);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isLivewireRequest()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->isLivewireRequest();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function componentHasBeenRendered()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->componentHasBeenRendered();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function forceAssetInjection()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->forceAssetInjection();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setUpdateRoute($callback)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->setUpdateRoute($callback);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getUpdateUri()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->getUpdateUri();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setScriptRoute($callback)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->setScriptRoute($callback);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function useScriptTagAttributes($attributes)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->useScriptTagAttributes($attributes);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function withUrlParams($params)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->withUrlParams($params);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function withQueryParams($params)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->withQueryParams($params);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function withCookie($name, $value)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->withCookie($name, $value);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function withCookies($cookies)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->withCookies($cookies);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function withHeaders($headers)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->withHeaders($headers);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function test($name, $params = [])
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->test($name, $params);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function visit($name)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->visit($name);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function actingAs($user, $driver = null)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->actingAs($user, $driver);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isRunningServerless()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->isRunningServerless();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function addPersistentMiddleware($middleware)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->addPersistentMiddleware($middleware);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setPersistentMiddleware($middleware)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->setPersistentMiddleware($middleware);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getPersistentMiddleware()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->getPersistentMiddleware();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function flushState()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->flushState();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function originalUrl()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->originalUrl();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function originalPath()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->originalPath();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function originalMethod()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->originalMethod();
+        }
+         
+    }
+     
+}
+
     namespace Spatie\LaravelIgnition\Facades { 
             /**
      * 
@@ -21700,6 +22609,17 @@
                     /**
          * 
          *
+         * @see \Livewire\Features\SupportLazyLoading\SupportLazyLoading::registerRouteMacro()
+         * @param mixed $enabled
+         * @static 
+         */ 
+        public static function lazy($enabled = true)
+        {
+                        return \Illuminate\Routing\Route::lazy($enabled);
+        }
+                    /**
+         * 
+         *
          * @see \Spatie\Permission\PermissionServiceProvider::registerMacroHelpers()
          * @param mixed $roles
          * @static 
@@ -21718,6 +22638,114 @@
         public static function permission($permissions = [])
         {
                         return \Illuminate\Routing\Route::permission($permissions);
+        }
+         
+    }
+     
+}
+
+    namespace Illuminate\View { 
+            /**
+     * 
+     *
+     */ 
+        class ComponentAttributeBag {
+                    /**
+         * 
+         *
+         * @see \Livewire\Features\SupportBladeAttributes\SupportBladeAttributes::provide()
+         * @param mixed $name
+         * @static 
+         */ 
+        public static function wire($name)
+        {
+                        return \Illuminate\View\ComponentAttributeBag::wire($name);
+        }
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class View {
+                    /**
+         * 
+         *
+         * @see \Livewire\Features\SupportPageComponents\SupportPageComponents::registerLayoutViewMacros()
+         * @param mixed $data
+         * @static 
+         */ 
+        public static function layoutData($data = [])
+        {
+                        return \Illuminate\View\View::layoutData($data);
+        }
+                    /**
+         * 
+         *
+         * @see \Livewire\Features\SupportPageComponents\SupportPageComponents::registerLayoutViewMacros()
+         * @param mixed $section
+         * @static 
+         */ 
+        public static function section($section)
+        {
+                        return \Illuminate\View\View::section($section);
+        }
+                    /**
+         * 
+         *
+         * @see \Livewire\Features\SupportPageComponents\SupportPageComponents::registerLayoutViewMacros()
+         * @param mixed $title
+         * @static 
+         */ 
+        public static function title($title)
+        {
+                        return \Illuminate\View\View::title($title);
+        }
+                    /**
+         * 
+         *
+         * @see \Livewire\Features\SupportPageComponents\SupportPageComponents::registerLayoutViewMacros()
+         * @param mixed $slot
+         * @static 
+         */ 
+        public static function slot($slot)
+        {
+                        return \Illuminate\View\View::slot($slot);
+        }
+                    /**
+         * 
+         *
+         * @see \Livewire\Features\SupportPageComponents\SupportPageComponents::registerLayoutViewMacros()
+         * @param mixed $view
+         * @param mixed $params
+         * @static 
+         */ 
+        public static function extends($view, $params = [])
+        {
+                        return \Illuminate\View\View::extends($view, $params);
+        }
+                    /**
+         * 
+         *
+         * @see \Livewire\Features\SupportPageComponents\SupportPageComponents::registerLayoutViewMacros()
+         * @param mixed $view
+         * @param mixed $params
+         * @static 
+         */ 
+        public static function layout($view, $params = [])
+        {
+                        return \Illuminate\View\View::layout($view, $params);
+        }
+                    /**
+         * 
+         *
+         * @see \Livewire\Features\SupportPageComponents\SupportPageComponents::registerLayoutViewMacros()
+         * @param callable $callback
+         * @static 
+         */ 
+        public static function response($callback)
+        {
+                        return \Illuminate\View\View::response($callback);
         }
          
     }
@@ -25714,6 +26742,7 @@ namespace  {
             class Log extends \Illuminate\Support\Facades\Log {}
             class Mail extends \Illuminate\Support\Facades\Mail {}
             class Notification extends \Illuminate\Support\Facades\Notification {}
+            class Number extends \Illuminate\Support\Number {}
             class Password extends \Illuminate\Support\Facades\Password {}
             class Process extends \Illuminate\Support\Facades\Process {}
             class Queue extends \Illuminate\Support\Facades\Queue {}
@@ -25736,8 +26765,10 @@ namespace  {
             class PDF extends \Barryvdh\DomPDF\Facade\Pdf {}
             class Breadcrumbs extends \Diglactic\Breadcrumbs\Breadcrumbs {}
             class Image extends \Intervention\Image\Facades\Image {}
+            class Pulse extends \Laravel\Pulse\Facades\Pulse {}
             class Form extends \Collective\Html\FormFacade {}
             class Html extends \Collective\Html\HtmlFacade {}
+            class Livewire extends \Livewire\Livewire {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
             class DataTables extends \Yajra\DataTables\Facades\DataTables {}
      

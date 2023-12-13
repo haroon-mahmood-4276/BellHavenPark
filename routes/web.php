@@ -15,6 +15,7 @@ use App\Http\Controllers\{
     RoleController,
     SettingController,
 };
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +30,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
+    // dd(DB::connection('sqlsrv')->table('Cabin_Status')->get());
+
     return redirect()->route('login');
 });
 
