@@ -31,6 +31,35 @@
             </li>
         @endif
 
+        {{-- Users --}}
+        @canany(['users.index', 'users.create'])
+            <li
+                class="menu-item {{ in_array(request()->route()->getName(),['users.index', 'users.create'])? 'open active': null }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="fa-solid fa-user menu-icon"></i>
+                    <div>Users</div>
+                </a>
+                <ul class="menu-sub">
+
+                    @can('users.index')
+                        <li class="menu-item {{ request()->routeIs('users.index') ? 'active' : null }}">
+                            <a href="{{ route('users.index') }}" class="menu-link">
+                                <div>View All</div>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('users.create')
+                        <li class="menu-item {{ request()->routeIs('users.create') ? 'active' : null }}">
+                            <a href="{{ route('users.create') }}" class="menu-link">
+                                <div>Add New</div>
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+            </li>
+        @endcanany
+
         {{-- Roles & Permissions --}}
         @canany(['permissions.index', 'roles.index'])
             <li

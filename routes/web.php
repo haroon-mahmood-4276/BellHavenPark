@@ -14,6 +14,7 @@ use App\Http\Controllers\{
     PermissionController,
     RoleController,
     SettingController,
+    UserController,
 };
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,22 @@ Route::group(['middleware' => 'auth'], function () {
         return redirect()->back()->withSuccess('Site cache refreshed.');
     })->name('cache.flush');
 
+    //User Routes
+    Route::controller(UserController::class)->name('users.')->prefix('users')->group(function () {
+        Route::get('/', 'index')->middleware('permission:users.index')->name('index');
+
+        Route::group(['middleware' => 'permission:users.create'], function () {
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+        });
+
+        Route::get('delete', 'destroy')->middleware('permission:users.destroy')->name('destroy');
+
+        Route::group(['prefix' => '/{user}', 'middleware' => 'permission:users.edit'], function () {
+            Route::get('edit', 'edit')->name('edit');
+            Route::put('update', 'update')->name('update');
+        });
+    });
 
     //Role Routes
     Route::group(['prefix' => 'roles', 'as' => 'roles.'], function () {
