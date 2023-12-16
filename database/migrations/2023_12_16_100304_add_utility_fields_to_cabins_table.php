@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cabins', function (Blueprint $table) {
-            $table->boolean('gas_meter')->after('electric_meter')->default(false);
-            $table->boolean('water_meter')->after('electric_meter')->default(false);
+            $table->boolean('gas_meter')->default(false)->after('electric_meter');
+            $table->boolean('water_meter')->default(false)->after('electric_meter');
         });
     }
 
