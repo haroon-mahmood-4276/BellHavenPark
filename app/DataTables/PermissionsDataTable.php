@@ -9,6 +9,7 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
 
 class PermissionsDataTable extends DataTable
 {
@@ -31,6 +32,12 @@ class PermissionsDataTable extends DataTable
             })
             ->editColumn('updated_at', function ($permission) {
                 return editDateColumn($permission->updated_at);
+            })
+            ->editColumn('show_name', function ($permission) {
+                return explode(' - ', $permission->show_name, 2)[1];
+            })
+            ->editColumn('class', function ($permission) {
+                return Str::of(explode('.', $permission->name)[0])->headline();
             })
             ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
@@ -86,13 +93,13 @@ class PermissionsDataTable extends DataTable
             ->serverSide()
             ->processing()
             ->deferRender()
-            ->dom('BlfrtipC')
+            ->rowGroupDataSrc('class')
             ->pagingType('full_numbers')
             ->lengthMenu([
                 [30, 50, 70, 100, 120, 150, -1],
                 [30, 50, 70, 100, 120, 150, "All"],
             ])
-            ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
+            ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>><"d-flex justify-content-between mx-0 pb-2 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
             ->scrollX()
             ->fixedColumns([
@@ -119,6 +126,7 @@ class PermissionsDataTable extends DataTable
         $colArray = [
             Column::computed('DT_RowIndex')->title('#'),
             Column::make('show_name')->title('Permission Name')->addClass('text-nowrap')->ucfirst(),
+            Column::computed('class')->visible(false),
         ];
 
         foreach ($roles as $key => $role) {
@@ -143,27 +151,5 @@ class PermissionsDataTable extends DataTable
 
         // $colArray[] = Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center');
         return $colArray;
-    }
-
-
-    /**
-     * Get filename for export.
-     *
-     * @return string
-     */
-    protected function filename(): string
-    {
-        return 'Permissions_' . date('YmdHis');
-    }
-
-    /**
-     * Export PDF using DOMPDF
-     * @return mixed
-     */
-    public function pdf()
-    {
-        $data = $this->getDataForPrint();
-        $pdf = Pdf::loadView($this->printPreview, ['data' => $data])->setOption(['defaultFont' => 'sans-serif']);
-        return $pdf->download($this->filename() . '.pdf');
     }
 }

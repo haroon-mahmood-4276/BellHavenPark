@@ -9,6 +9,7 @@ use App\Services\Cabins\{CabinInterface, CabinService};
 use App\Services\CustomerRatings\{CustomerRatingInterface, CustomerRatingService};
 use App\Services\Customers\{CustomerInterface, CustomerService};
 use App\Services\Roles\{RoleInterface, RoleService};
+use App\Services\Users\{UserInterface, UserService};
 use App\Services\PaymentMethods\{PaymentMethodInterface, PaymentMethodService};
 use App\Services\InternationalIds\{InternationalIdInterface, InternationalIdService};
 use App\Services\CabinTypes\{CabinTypeInterface, CabinTypeService};
@@ -25,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(UserInterface::class, UserService::class);
         $this->app->bind(RoleInterface::class, RoleService::class);
         $this->app->bind(PaymentMethodInterface::class, PaymentMethodService::class);
         $this->app->bind(InternationalIdInterface::class, InternationalIdService::class);

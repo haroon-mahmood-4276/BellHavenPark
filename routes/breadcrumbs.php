@@ -7,6 +7,22 @@ Breadcrumbs::for('dashboard', function (BreadcrumbTrail $trail) {
     $trail->push('Dashboard', route('dashboard.index'));
 });
 
+// Users Breadcrumbs
+Breadcrumbs::for('users.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Users', route('users.index'));
+});
+
+Breadcrumbs::for('users.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('users.index');
+    $trail->push('Create User');
+});
+
+Breadcrumbs::for('users.edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('users.index');
+    $trail->push('Edit User');
+});
+
 // Roles Breadcrumbs
 Breadcrumbs::for('roles.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');

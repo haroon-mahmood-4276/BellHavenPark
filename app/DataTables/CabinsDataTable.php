@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Cabin;
+use App\Utils\Traits\DataTableTrait;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -14,27 +15,29 @@ use Illuminate\Support\Str;
 
 class CabinsDataTable extends DataTable
 {
-    /**
-     * Build DataTable class.
-     *
-     * @param QueryBuilder $query Results from query() method.
-     * @return \Yajra\DataTables\EloquentDataTable
-     */
+    use DataTableTrait;
+
     public function dataTable(QueryBuilder $query)
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
+            ->editColumn('check', function ($model) {
+                return $model;
+            })
+            ->editColumn('long_term', function ($model) {
+                return editStatusColumn($model->long_term);
+            })
+            ->editColumn('utilities', function ($model) {
+                return "<span class='badge bg-" . ($model->electric_meter ? "success" : "danger") . " bg-glow me-1'>E</span><span class='badge bg-" . ($model->gas_meter ? "success" : "danger") . " bg-glow me-1'>G</span><span class='badge bg-" . ($model->water_meter ? "success" : "danger") . " bg-glow me-1'>W</span>";
+            })
             ->editColumn('cabin_status', function ($model) {
-                return Str::of($model->cabin_status->name)->replace('_', " ")->title();
+                return editCabinStatusColumn($model->cabin_status->value);
             })
             ->editColumn('updated_at', function ($model) {
                 return editDateTimeColumn($model->updated_at);
             })
             ->editColumn('actions', function ($model) {
                 return view('cabins.actions', ['id' => $model->id]);
-            })
-            ->editColumn('check', function ($model) {
-                return $model;
             })
             ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
@@ -98,14 +101,14 @@ class CabinsDataTable extends DataTable
             ->serverSide()
             ->processing()
             ->deferRender()
-            ->dom('BlfrtipC')
+
             ->scrollX()
             ->pagingType('full_numbers')
             ->lengthMenu([
                 [30, 50, 70, 100, 120, 150, -1],
                 [30, 50, 70, 100, 120, 150, "All"],
             ])
-            ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
+            ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>><"d-flex justify-content-between mx-0 pb-2 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
             // ->rowGroupDataSrc('parent_id')
             ->columnDefs([
@@ -130,7 +133,7 @@ class CabinsDataTable extends DataTable
                 'right' => 1,
             ])
             ->orders([
-                [4, 'desc'],
+                [6, 'desc'],
             ]);
     }
 
@@ -152,30 +155,11 @@ class CabinsDataTable extends DataTable
             Column::make('name')->addClass('text-nowrap text-center align-middle'),
             Column::make('cabin_status')->title('Status')->addClass('text-nowrap text-center align-middle'),
             Column::make('cabin_type.name')->title('Type')->addClass('text-nowrap text-center align-middle'),
+            Column::make('long_term')->addClass('text-nowrap text-center align-middle'),
+            Column::computed('utilities')->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];
         return $columns;
-    }
-
-    /**
-     * Get filename for export.
-     *
-     * @return string
-     */
-    protected function filename(): string
-    {
-        return 'Cabins_' . date('YmdHis');
-    }
-
-    /**
-     * Export PDF using DOMPDF
-     * @return mixed
-     */
-    public function pdf()
-    {
-        $data = $this->getDataForPrint();
-        $pdf = Pdf::loadView($this->printPreview, ['data' => $data])->setOption(['defaultFont' => 'sans-serif']);
-        return $pdf->download($this->filename() . '.pdf');
     }
 }
