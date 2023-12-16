@@ -1,5 +1,6 @@
 <?php
 
+use App\Utils\Enums\CabinStatus;
 use Carbon\Carbon;
 use App\Utils\Enums\CustomerAccounts;
 
@@ -101,6 +102,43 @@ if (!function_exists('editStatusColumn')) {
 
             case 'objected':
                 $badge = "<span class='badge bg-warning bg-glow me-1'>Objected</span>";
+                break;
+
+            default:
+                $badge = "<span class='badge bg-primary bg-glow me-1'>" . $status . "</span>";
+                break;
+        }
+        return $badge;
+    }
+}
+
+if (!function_exists('editCabinStatusColumn')) {
+    function editCabinStatusColumn($status)
+    {
+        $badge = '';
+        switch ($status) {
+            case CabinStatus::VACANT->value:
+                $badge = "<span class='badge bg-success bg-glow me-1'>" . Str::of(CabinStatus::VACANT->value)->headline() . "</span>";
+                break;
+
+            case CabinStatus::CLOSED_PERMANENTLY->value:
+                $badge = "<span class='badge bg-danger bg-glow me-1'>" . Str::of(CabinStatus::CLOSED_PERMANENTLY->value)->headline() . "</span>";
+                break;
+
+            case CabinStatus::CLOSED_TEMPORARILY->value:
+                $badge = "<span class='badge bg-warning bg-glow me-1'>" . Str::of(CabinStatus::CLOSED_TEMPORARILY->value)->headline() . "</span>";
+                break;
+
+            case CabinStatus::OCCUPIED->value:
+                $badge = "<span class='badge bg-danger bg-glow me-1'>" . Str::of(CabinStatus::OCCUPIED->value)->headline() . "</span>";
+                break;
+
+            case CabinStatus::NEEDS_CLEANING->value:
+                $badge = "<span class='badge bg-warning bg-glow me-1'>" . Str::of(CabinStatus::NEEDS_CLEANING->value)->headline() . "</span>";
+                break;
+
+            case CabinStatus::MAINTENANCE->value:
+                $badge = "<span class='badge bg-info bg-glow me-1'>" . Str::of(CabinStatus::MAINTENANCE->value)->headline() . "</span>";
                 break;
 
             default:

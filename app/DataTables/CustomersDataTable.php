@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Customer;
+use App\Utils\Traits\DataTableTrait;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -13,12 +14,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class CustomersDataTable extends DataTable
 {
-    /**
-     * Build DataTable class.
-     *
-     * @param QueryBuilder $query Results from query() method.
-     * @return \Yajra\DataTables\EloquentDataTable
-     */
+    use DataTableTrait; 
+    
     public function dataTable(QueryBuilder $query)
     {
         $columns = array_column($this->getColumns(), 'data');
@@ -117,8 +114,8 @@ class CustomersDataTable extends DataTable
             ->scrollX()
             ->pagingType('full_numbers')
             ->lengthMenu([
-                [30, 50, 70, 100, 120, 150, -1],
-                [30, 50, 70, 100, 120, 150, "All"],
+                [30, 50, 70, 100, 120, 150, 200],
+                [30, 50, 70, 100, 120, 150, 200],
             ])
             ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>><"d-flex justify-content-between mx-0 pb-2 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
@@ -145,7 +142,7 @@ class CustomersDataTable extends DataTable
                 'right' => 1,
             ])
             ->orders([
-                [6, 'desc'],
+                [1, 'asc'],
             ]);
     }
 
@@ -164,6 +161,7 @@ class CustomersDataTable extends DataTable
 
         $columns = [
             $checkColumn,
+            Column::make('id')->addClass('text-nowrap text-center align-middle'),
             Column::make('name')->addClass('text-nowrap text-center align-middle'),
             Column::make('email')->addClass('text-nowrap text-center align-middle'),
             Column::make('average_rating')->addClass('text-nowrap text-center align-middle'),
@@ -173,26 +171,5 @@ class CustomersDataTable extends DataTable
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];
         return $columns;
-    }
-
-    /**
-     * Get filename for export.
-     *
-     * @return string
-     */
-    protected function filename(): string
-    {
-        return 'Customers_' . date('YmdHis');
-    }
-
-    /**
-     * Export PDF using DOMPDF
-     * @return mixed
-     */
-    public function pdf()
-    {
-        $data = $this->getDataForPrint();
-        $pdf = Pdf::loadView($this->printPreview, ['data' => $data])->setOption(['defaultFont' => 'sans-serif']);
-        return $pdf->download($this->filename() . '.pdf');
     }
 }

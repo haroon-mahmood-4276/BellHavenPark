@@ -23,6 +23,8 @@ class Cabin extends Model
         'closed_to',
         'long_term',
         'electric_meter',
+        'gas_meter',
+        'water_meter',
         'daily_rate',
         'weekly_rate',
         'four_weekly_rate',
