@@ -2,7 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Models\Cabin;
+use App\Models\User;
+use App\Utils\Traits\DataTableTrait;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -10,52 +11,41 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Str;
 
-class CabinsDataTable extends DataTable
+class UsersDataTable extends DataTable
 {
-    /**
-     * Build DataTable class.
-     *
-     * @param QueryBuilder $query Results from query() method.
-     * @return \Yajra\DataTables\EloquentDataTable
-     */
+    use DataTableTrait;
+    
     public function dataTable(QueryBuilder $query)
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->editColumn('cabin_status', function ($model) {
-                return Str::of($model->cabin_status->name)->replace('_', " ")->title();
+            ->editColumn('check', function ($model) {
+                return $model;
+            })
+            ->editColumn('created_at', function ($model) {
+                return editDateTimeColumn($model->created_at);
             })
             ->editColumn('updated_at', function ($model) {
                 return editDateTimeColumn($model->updated_at);
             })
             ->editColumn('actions', function ($model) {
-                return view('cabins.actions', ['id' => $model->id]);
-            })
-            ->editColumn('check', function ($model) {
-                return $model;
+                return view('users.actions', ['id' => $model->id]);
             })
             ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
     }
-
-    /**
-     * Get query source of dataTable.
-     *
-     * @param \App\Models\Cabin $model
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function query(Cabin $model): QueryBuilder
+    
+    public function query(User $model): QueryBuilder
     {
-        return $model->newQuery()->select('cabins.*')->with(['cabin_type']);
+        return $model->newQuery();
     }
 
     public function html(): HtmlBuilder
     {
         $buttons = [];
 
-        if (auth()->user()->can('cabins.create')) {
+        if (auth()->user()->can('users.create')) {
             $buttons[] = Button::raw('add-new')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New')
@@ -64,7 +54,7 @@ class CabinsDataTable extends DataTable
                 ]);
         }
 
-        if (auth()->user()->can('cabins.export')) {
+        if (auth()->user()->can('users.export')) {
             $buttons[] = Button::make('export')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1')
                 ->buttons([
@@ -81,7 +71,7 @@ class CabinsDataTable extends DataTable
             Button::make('reload')->addClass('btn btn-primary waves-effect waves-float waves-light m-1'),
         ]);
 
-        if (auth()->user()->can('cabins.destroy')) {
+        if (auth()->user()->can('users.destroy')) {
             $buttons[] = Button::raw('delete-selected')
                 ->addClass('btn btn-danger waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-minus"></i>&nbsp;&nbsp;Delete Selected')
@@ -91,15 +81,12 @@ class CabinsDataTable extends DataTable
         }
 
         return $this->builder()
-            ->setTableId('cabins-table')
-            ->addTableClass('table-borderless table-striped table-hover')
+            ->setTableId('roles-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->serverSide()
             ->processing()
             ->deferRender()
-            
-            ->scrollX()
             ->pagingType('full_numbers')
             ->lengthMenu([
                 [30, 50, 70, 100, 120, 150, -1],
@@ -107,7 +94,8 @@ class CabinsDataTable extends DataTable
             ])
             ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>><"d-flex justify-content-between mx-0 pb-2 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
-            // ->rowGroupDataSrc('parent_id')
+            ->scrollX()
+            ->rowGroupDataSrc('parent_id')
             ->columnDefs([
                 [
                     'targets' => 0,
@@ -118,19 +106,25 @@ class CabinsDataTable extends DataTable
                     'responsivePriority' => 3,
                     'render' => "function (data, type, full, setting) {
                         var role = JSON.parse(data);
-                        return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
+                        if(role.name != 'Admin') {
+                            return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkUser_' + role.id + '\"></label></div>';
+                        }
+                        return null;
                     }",
                     'checkboxes' => [
                         'selectAllRender' =>  '<div class="form-check"> <input class="form-check-input" onchange="changeAllTableRowColor()" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>',
                     ]
                 ],
             ])
+            ->select([
+                'style' => 'multi',
+            ])
             ->fixedColumns([
                 'left' => 0,
                 'right' => 1,
             ])
             ->orders([
-                [4, 'desc'],
+                [1, 'asc'],
             ]);
     }
 
@@ -141,41 +135,20 @@ class CabinsDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle');
 
-        if (auth()->user()->can('cabins.destroy')) {
+        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60);
+        if (auth()->user()->can('users.destroy')) {
             $checkColumn->addClass('disabled');
         }
 
         $columns = [
             $checkColumn,
-            Column::make('name')->addClass('text-nowrap text-center align-middle'),
-            Column::make('cabin_status')->title('Status')->addClass('text-nowrap text-center align-middle'),
-            Column::make('cabin_type.name')->title('Type')->addClass('text-nowrap text-center align-middle'),
-            Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
-            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
+            Column::make('name'),
+            Column::make('email'),
+            Column::make('created_at'),
+            Column::make('updated_at'),
+            Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-center'),
         ];
         return $columns;
-    }
-
-    /**
-     * Get filename for export.
-     *
-     * @return string
-     */
-    protected function filename(): string
-    {
-        return 'Cabins_' . date('YmdHis');
-    }
-
-    /**
-     * Export PDF using DOMPDF
-     * @return mixed
-     */
-    public function pdf()
-    {
-        $data = $this->getDataForPrint();
-        $pdf = Pdf::loadView($this->printPreview, ['data' => $data])->setOption(['defaultFont' => 'sans-serif']);
-        return $pdf->download($this->filename() . '.pdf');
     }
 }
