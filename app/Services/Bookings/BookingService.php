@@ -4,12 +4,22 @@ namespace App\Services\Bookings;
 
 use App\Models\Booking;
 use App\Models\Payment;
+use App\Services\Payments\PaymentInterface;
+use App\Utils\Enums\CustomerAccounts;
 use App\Utils\Enums\PaymentStatus;
+use App\Utils\Enums\TransactionType;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class BookingService implements BookingInterface
 {
+    private $paymentInterface;
+
+    public function __construct(PaymentInterface $paymentInterface)
+    {
+        $this->paymentInterface = $paymentInterface;
+    }
+
     private function model()
     {
         return new Booking();
@@ -50,7 +60,7 @@ class BookingService implements BookingInterface
         return $booking;
     }
 
-    public function getById($id, $relationships = [])
+    public function find($id, $relationships = [])
     {
         $booking = $this->model();
 
@@ -74,9 +84,8 @@ class BookingService implements BookingInterface
     public function store($inputs)
     {
 
-        // $returnData = DB::transaction(function () use ($inputs) {
+        return DB::transaction(function () use ($inputs) {
             $data = [
-
                 'cabin_id' => $inputs['cabin_id'],
                 'customer_id' => $inputs['customer'],
 
@@ -93,41 +102,45 @@ class BookingService implements BookingInterface
                 'weekly_rate' => $inputs['weekly_rate'] ?? 0,
                 'weekly_rate_less_booking_percentage' => $inputs['weekly_rate_less_booking_percentage'] ?? 0,
 
-                'monthly_rate' => $inputs['monthly_rate'] ?? 0,
-                'monthly_less_booking_percentage' => $inputs['monthly_less_booking_percentage'] ?? 0,
+                'four_weekly_rate' => $inputs['four_weekly_rate'] ?? 0,
+                'four_weekly_less_booking_percentage' => $inputs['four_weekly_less_booking_percentage'] ?? 0,
 
                 'check_in' => $inputs['check_in'],
                 'check_in_date' => $inputs['check_in'] == 'now' ? now()->timestamp : 0,
 
                 'check_out_date' => 0,
-                'tax' => (int)$inputs['booking_tax'],
+                'booking_tax_id' => (int)$inputs['booking_tax'],
 
                 'comments' => $inputs['comments'],
                 'payment' => $inputs['payment'],
 
                 'status' => true,
             ];
+
             $booking = $this->model()->create($data);
 
             $booking->tenants()->sync($inputs['tenants'] ?? []);
 
             if ($inputs['payment'] == 'now') {
                 $data = [
+                    'customer_id' => $inputs['customer'],
                     'booking_id' => $booking->id,
-                    'credit' => (float)$inputs['advance_payment'],
-                    'debit' => 0,
+                    'payment_method_id' => $inputs['payment_methods'],
+                    'payment_from' => 0,
+                    'payment_to' => 0,
+                    'amount' => (float)$inputs['advance_payment'],
                     'balance' => (float)$inputs['advance_payment'],
-                    'status' => 'credit',
-                    'type' => PaymentStatus::ADVANCE,
+                    'account' => CustomerAccounts::CREDIT_ACCOUNT,
+                    'transaction_type' => TransactionType::ADVANCE,
+                    'status' => PaymentStatus::RECEIVED,
+                    'comments' => 'Advance Payment',
                 ];
 
-                $paymentRecord = (new Payment())->create($data);
+                $this->paymentInterface->model()->create($data);
             }
 
             return $booking;
-        // });
-
-        // return $returnData;
+        });
     }
 
     public function storeCheckIn($id)

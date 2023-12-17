@@ -31,7 +31,7 @@ class CabinSeeder extends Seeder
                     'electric_meter' => true,
                     'daily_rate' => 0,
                     'weekly_rate' => 0,
-                    'monthly_rate' => 0,
+                    'four_weekly_rate' => 0,
                 ]);
             }
         }

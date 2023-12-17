@@ -24,14 +24,17 @@ class PaymentMethodsDataTable extends DataTable
     {
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
-            ->editColumn('updated_at', function ($payment_method) {
-                return editDateTimeColumn($payment_method->updated_at);
+            ->editColumn('linked_account', function ($row) {
+                return editTitleColumn($row->linked_account);
             })
-            ->editColumn('actions', function ($payment_method) {
-                return view('payment-methods.actions', ['id' => $payment_method->id]);
+            ->editColumn('updated_at', function ($row) {
+                return editDateTimeColumn($row->updated_at);
             })
-            ->editColumn('check', function ($payment_method) {
-                return $payment_method;
+            ->editColumn('actions', function ($row) {
+                return view('payment-methods.actions', ['id' => $row->id]);
+            })
+            ->editColumn('check', function ($row) {
+                return $row;
             })
             ->setRowId('id')
             ->rawColumns(array_merge($columns, ['action', 'check']));
@@ -95,14 +98,14 @@ class PaymentMethodsDataTable extends DataTable
             ->serverSide()
             ->processing()
             ->deferRender()
-            ->dom('BlfrtipC')
+            
             ->scrollX()
             ->pagingType('full_numbers')
             ->lengthMenu([
                 [30, 50, 70, 100, 120, 150, -1],
                 [30, 50, 70, 100, 120, 150, "All"],
             ])
-            ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
+            ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>><"d-flex justify-content-between mx-0 pb-2 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
             // ->rowGroupDataSrc('parent_id')
             ->fixedColumns([
@@ -127,7 +130,7 @@ class PaymentMethodsDataTable extends DataTable
                 ],
             ])
             ->orders([
-                [3, 'asc'],
+                [4, 'desc'],
             ]);
     }
 
@@ -148,6 +151,7 @@ class PaymentMethodsDataTable extends DataTable
             $checkColumn,
             Column::make('name')->title('Payment Method')->addClass('text-nowrap text-center align-middle'),
             Column::make('slug')->title('Slug')->addClass('text-nowrap text-center align-middle'),
+            Column::make('linked_account')->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];

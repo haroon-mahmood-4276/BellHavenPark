@@ -134,12 +134,12 @@
             </div>
 
             <div class="col-lg-4 col-md-4 col-sm-4 position-relative">
-                <label class="form-label" style="font-size: 15px" for="monthly_rate">Monthly Rate <span
+                <label class="form-label" style="font-size: 15px" for="four_weekly_rate">Monthly Rate <span
                         class="text-danger">*</span></label>
-                <input type="number" class="form-control @error('monthly_rate') is-invalid @enderror"
-                    id="monthly_rate" name="monthly_rate" placeholder="Monthly Rate"
-                    value="{{ isset($cabin) ? $cabin->monthly_rate : old('monthly_rate') ?? '0' }}" min="0" />
-                @error('monthly_rate')
+                <input type="number" class="form-control @error('four_weekly_rate') is-invalid @enderror"
+                    id="four_weekly_rate" name="four_weekly_rate" placeholder="Monthly Rate"
+                    value="{{ isset($cabin) ? $cabin->four_weekly_rate : old('four_weekly_rate') ?? '0' }}" min="0" />
+                @error('four_weekly_rate')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @else
                     <p class="m-0">

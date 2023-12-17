@@ -3,118 +3,108 @@
 namespace App\Services\Payments;
 
 use App\Models\Payment;
+use App\Services\PaymentMethods\PaymentMethodInterface;
+use App\Utils\Enums\CustomerAccounts;
 use App\Utils\Enums\PaymentStatus;
+use App\Utils\Enums\TransactionType;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Support\Facades\DB;
 
 class PaymentService implements PaymentInterface
 {
-    private function model()
+
+    private $paymentMethodInterface;
+
+    public function __construct(PaymentMethodInterface $paymentMethodInterface)
+    {
+        $this->paymentMethodInterface = $paymentMethodInterface;
+    }
+
+    public function model()
     {
         return new Payment();
     }
 
-    public function getAll($ignore = null)
+    public function storeRentPayment($booking, $inputs)
     {
-        $payment_method = $this->model();
-        if (is_array($ignore)) {
-            $payment_method = $payment_method->whereNotIn('id', $ignore);
-        } else if (is_string($ignore)) {
-            $payment_method = $payment_method->where('id', '!=', $ignore);
-        }
-        $payment_method = $payment_method->get();
-        return $payment_method;
-    }
+        return DB::transaction(function () use ($booking, $inputs) {
 
-    public function getById($id, $relationships = [])
-    {
-        $brand = $this->model();
+            $rate = match ($inputs['rate_type']) {
+                'daily_rate' => $booking->daily_rate,
+                'weekly_rate' => $booking->weekly_rate,
+                'four_weekly_rate' => $booking->four_weekly_rate,
+            };
 
-        if (count($relationships) > 0) {
-            $brand = $brand->with($relationships);
-        }
+            $amount = floatval($rate * intval($inputs['text_days_count']));
 
-        return $brand->find($id);
-    }
-
-    public function getAdvancedPaymentBookingId($booking_id)
-    {
-        if ($advancedPayment = $this->model()->where(['booking_id' => $booking_id, 'type' => PaymentStatus::ADVANCE])->first()) {
-            return $advancedPayment->credit;
-        }
-        return 0;
-    }
-
-    public function getLastPaymentDateByBookingId($booking_id)
-    {
-        return Carbon::parse($this->model()->where(['booking_id' => $booking_id, 'type' => PaymentStatus::RECEIVED])->latest('payment_to')->first()?->payment_to);
-    }
-
-    public function store($booking_id, $inputs)
-    {
-        $returnData = 1;
-        $returnData = DB::transaction(function () use ($booking_id, $inputs) {
-
-            // $netTotal is without tax
-            $netTotal = match ($inputs['rate_type']) {
-                'daily_rate' => floatval($inputs['txt_daily_total']),
-                'weekly_rate' => floatval($inputs['txt_weekly_total']),
-                'monthly_rate' => floatval($inputs['txt_monthly_total']),
-            } * $inputs['days_count'];
-
-            $tax = floatval(($netTotal * ($inputs['tax'] ?? 0)) / 100);
-
-            $subTotal = floatval($netTotal + $tax);
-
-            $grossTotal = floatval($subTotal - floatval($inputs['advance_payment']));
+            $amount += floatval(match(boolval($inputs['tax_flat'])) {
+                true => floatval($inputs['tax']),
+                false => (floatval($amount)  * floatval($inputs['tax'])) / 100,
+            });
 
             $data = [
-                'booking_id' => $booking_id,
+                'booking_id' => $booking->id,
                 'payment_method_id' => $inputs['payment_methods'],
-                'payment_from' => Carbon::parse($inputs['payment_from'])->startOfDay()->addSeconds(18000)->timestamp,
-                'payment_to' => Carbon::parse($inputs['payment_to'])->startOfDay()->addSeconds(18000)->timestamp,
-                'credit' => $grossTotal,
-                'debit' => null,
+                'customer_id' => $booking->customer_id,
+                'payment_from' => Carbon::parse($inputs['payment_from'])->timestamp,
+                'payment_to' => Carbon::parse($inputs['payment_to'])->timestamp,
+                'amount' => $amount,
                 'balance' => 0,
-                'status' => 'credit',
-                'payment_type' => $inputs['rate_type'],
-                'type' => PaymentStatus::RECEIVED,
+                'account' => CustomerAccounts::RENT,
+                'transaction_type' => TransactionType::CASH,
+                'status' => PaymentStatus::RECEIVED,
                 'comments' => $inputs['comments'],
             ];
 
-            $payment_method = $this->model()->create($data);
-            return $payment_method;
-        });
+            $this->model()->create($data);
 
-        return $returnData;
+            $isPyamentMethodLinked = $this->paymentMethodInterface->find(intval($inputs['payment_methods']))?->linked_account;
+            if (!is_null($isPyamentMethodLinked)) {
+                $data = [
+                    'booking_id' => $booking->id,
+                    'payment_method_id' => $inputs['payment_methods'],
+                    'customer_id' => $booking->customer_id,
+                    'payment_from' => Carbon::parse($inputs['payment_from'])->timestamp,
+                    'payment_to' => Carbon::parse($inputs['payment_to'])->timestamp,
+                    'amount' => $amount,
+                    'balance' => 0,
+                    'transaction_type' => TransactionType::CASH,
+                    'comments' => $inputs['comments'],
+                ];
+                switch ($isPyamentMethodLinked->value) {
+                    case 'credit_account':
+                        $data['account'] = CustomerAccounts::CREDIT_ACCOUNT;
+                        $data['status'] = PaymentStatus::PAID;
+                        break;
+                }
+
+                $this->model()->create($data);
+            }
+        });
     }
 
-    public function update($id, $inputs)
+    public function creditAccountPayment($customer_id)
     {
-        $returnData = DB::transaction(function () use ($id, $inputs) {
-            $data = [
-                'name' => $inputs['name'],
-            ];
+        $total_credit = $this->model()->where([
+            'customer_id' => $customer_id,
+            'account' => CustomerAccounts::CREDIT_ACCOUNT,
+            'status' => PaymentStatus::RECEIVED
+        ])->sum('amount');
 
-            $payment_method = $this->model()->find($id)->update($data);
-            return $payment_method;
-        });
+        $total_debit = $this->model()->where([
+            'customer_id' => $customer_id,
+            'account' => CustomerAccounts::CREDIT_ACCOUNT,
+            'status' => PaymentStatus::PAID
+        ])->sum('amount');
 
-        return $returnData;
+        return $total_credit - $total_debit;
     }
 
-    public function destroy($inputs)
+    public function lastPaymentDate($booking_id)
     {
-        $returnData = DB::transaction(function () use ($inputs) {
-
-            $payment_method = $this->model()->whereIn('id', $inputs)->get()->each(function ($payment_method) {
-                $payment_method->delete();
-            });
-
-            return $payment_method;
-        });
-
-        return $returnData;
+        $epochDate = $this->model()->where(['booking_id' => $booking_id, 'account' => CustomerAccounts::RENT, 'status' => PaymentStatus::RECEIVED])->latest('payment_to')->first()?->payment_to;
+        if (!is_null($epochDate))
+            return Carbon::parse($epochDate);
+        return null;
     }
 }

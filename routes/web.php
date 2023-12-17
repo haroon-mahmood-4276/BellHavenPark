@@ -4,6 +4,7 @@ use App\Http\Controllers\{
     BookingController,
     BookingSourceController,
     CabinAssetController,
+    BookingTaxController,
     CabinController,
     CabinTypeController,
     CustomerController,
@@ -14,7 +15,9 @@ use App\Http\Controllers\{
     PermissionController,
     RoleController,
     SettingController,
+    UserController,
 };
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +32,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
+    // dd(DB::connection('sqlsrv')->table('Cabin_Status')->get());
+
     return redirect()->route('login');
 });
 
@@ -43,6 +49,22 @@ Route::group(['middleware' => 'auth'], function () {
         return redirect()->back()->withSuccess('Site cache refreshed.');
     })->name('cache.flush');
 
+    //User Routes
+    Route::controller(UserController::class)->name('users.')->prefix('users')->group(function () {
+        Route::get('/', 'index')->middleware('permission:users.index')->name('index');
+
+        Route::group(['middleware' => 'permission:users.create'], function () {
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+        });
+
+        Route::get('delete', 'destroy')->middleware('permission:users.destroy')->name('destroy');
+
+        Route::group(['prefix' => '/{user}', 'middleware' => 'permission:users.edit'], function () {
+            Route::get('edit', 'edit')->name('edit');
+            Route::put('update', 'update')->name('update');
+        });
+    });
 
     //Role Routes
     Route::group(['prefix' => 'roles', 'as' => 'roles.'], function () {
@@ -171,6 +193,25 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
+    // Booking Taxes Routes
+    Route::prefix('booking-taxes')->name('booking-taxes.')->controller(BookingTaxController::class)->group(function () {
+        Route::get('/', 'index')->middleware('permission:booking-taxes.index')->name('index');
+
+        Route::group(['middleware' => 'permission:booking-taxes.create'], function () {
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+        });
+
+        Route::get('delete', 'destroy')->name('destroy');
+
+        Route::group(['prefix' => '/{booking_tax}', 'middleware' => 'permission:booking-taxes.edit'], function () {
+            Route::get('edit', 'edit')->name('edit');
+            Route::put('update', 'update')->name('update');
+
+            Route::get('set-default', 'setDefault')->name('set-default');
+        });
+    });
+
     // Customers Routes
     Route::prefix('customers')->name('customers.')->controller(CustomerController::class)->group(function () {
         Route::get('/', 'index')->middleware('permission:customers.index')->name('index');
@@ -201,20 +242,19 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['middleware' => 'permission:bookings.checkin.index'], function () {
             Route::get('/check-in', 'checkInIndex')->name('checkin.index');
-            Route::post('/{id}/check-in', 'checkInStore')->name('checkin.store');
+            Route::post('/{booking}/check-in', 'checkInStore')->name('checkin.store');
         });
 
         Route::group(['middleware' => 'permission:bookings.checkout.index'], function () {
             Route::get('/check-out', 'checkOutIndex')->name('checkout.index');
-            Route::post('/{id}/check-out', 'checkOutStore')->name('checkout.store');
+            Route::post('/{booking}/check-out', 'checkOutStore')->name('checkout.store');
         });
 
-
-        Route::as('payments.')->prefix('/{id}')->controller(PaymentController::class)->group(function () {
-            Route::get('/payments', 'index')->middleware('permission:bookings.payments.index')->name('index');
+        Route::as('payments.')->prefix('/{booking}/payments')->controller(PaymentController::class)->group(function () {
+            Route::get('/', 'index')->middleware('permission:bookings.payments.index')->name('index');
 
             Route::group(['middleware' => 'permission:bookings.payments.create'], function () {
-                Route::get('/payments/create', 'create')->name('create');
+                Route::get('create', 'create')->name('create');
                 Route::post('store', 'store')->name('store');
             });
         });

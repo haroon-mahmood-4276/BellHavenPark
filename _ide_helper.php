@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 10.24.0.
+ * Generated for Laravel 10.37.2.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -435,6 +435,18 @@
         {
                         /** @var \Illuminate\Foundation\Application $instance */
                         return $instance->runningInConsole();
+        }
+                    /**
+         * Determine if the application is running any of the given console commands.
+         *
+         * @param string|array $commands
+         * @return bool 
+         * @static 
+         */ 
+        public static function runningConsoleCommand(...$commands)
+        {
+                        /** @var \Illuminate\Foundation\Application $instance */
+                        return $instance->runningConsoleCommand(...$commands);
         }
                     /**
          * Determine if the application is running unit tests.
@@ -3508,6 +3520,18 @@
                         $instance->assertDispatchedWithoutChain($command, $callback);
         }
                     /**
+         * Create a new assertion about a chained batch.
+         *
+         * @param \Closure $callback
+         * @return \Illuminate\Support\Testing\Fakes\ChainedBatchTruthTest 
+         * @static 
+         */ 
+        public static function chainedBatch($callback)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        return $instance->chainedBatch($callback);
+        }
+                    /**
          * Assert if a batch was dispatched based on a truth-test callback.
          *
          * @param callable $callback
@@ -4807,6 +4831,102 @@
             /**
      *
      *
+     * @see \Illuminate\Encryption\Encrypter
+     */ 
+        class Crypt {
+                    /**
+         * Determine if the given key and cipher combination is valid.
+         *
+         * @param string $key
+         * @param string $cipher
+         * @return bool 
+         * @static 
+         */ 
+        public static function supported($key, $cipher)
+        {
+                        return \Illuminate\Encryption\Encrypter::supported($key, $cipher);
+        }
+                    /**
+         * Create a new encryption key for the given cipher.
+         *
+         * @param string $cipher
+         * @return string 
+         * @static 
+         */ 
+        public static function generateKey($cipher)
+        {
+                        return \Illuminate\Encryption\Encrypter::generateKey($cipher);
+        }
+                    /**
+         * Encrypt the given value.
+         *
+         * @param mixed $value
+         * @param bool $serialize
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\EncryptException
+         * @static 
+         */ 
+        public static function encrypt($value, $serialize = true)
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->encrypt($value, $serialize);
+        }
+                    /**
+         * Encrypt a string without serialization.
+         *
+         * @param string $value
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\EncryptException
+         * @static 
+         */ 
+        public static function encryptString($value)
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->encryptString($value);
+        }
+                    /**
+         * Decrypt the given value.
+         *
+         * @param string $payload
+         * @param bool $unserialize
+         * @return mixed 
+         * @throws \Illuminate\Contracts\Encryption\DecryptException
+         * @static 
+         */ 
+        public static function decrypt($payload, $unserialize = true)
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->decrypt($payload, $unserialize);
+        }
+                    /**
+         * Decrypt the given string without unserialization.
+         *
+         * @param string $payload
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\DecryptException
+         * @static 
+         */ 
+        public static function decryptString($payload)
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->decryptString($payload);
+        }
+                    /**
+         * Get the encryption key that the encrypter is currently using.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getKey()
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->getKey();
+        }
+         
+    }
+            /**
+     * 
+     *
      * @see https://carbon.nesbot.com/docs/
      * @see https://github.com/briannesbitt/Carbon/blob/master/src/Carbon/Factory.php
      * @method static \Illuminate\Support\Carbon create($year = 0, $month = 1, $day = 1, $hour = 0, $minute = 0, $second = 0, $tz = null)
@@ -5189,25 +5309,41 @@
                         return $instance->macroCall($method, $parameters);
         }
                     /**
-         * Determine if the connected database is a MariaDB database.
+         * Execute a Closure within a transaction.
          *
+<<<<<<< HEAD
          * @return bool
          * @static
          */
         public static function isMaria()
+=======
+         * @param \Closure $callback
+         * @param int $attempts
+         * @return mixed 
+         * @throws \Throwable
+         * @static 
+         */ 
+        public static function transaction($callback, $attempts = 1)
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         {
-                        /** @var \Illuminate\Database\MySqlConnection $instance */
-                        return $instance->isMaria();
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+                        return $instance->transaction($callback, $attempts);
         }
                     /**
          * Get a schema builder instance for the connection.
          *
+<<<<<<< HEAD
          * @return \Illuminate\Database\Schema\MySqlBuilder
          * @static
          */
+=======
+         * @return \Illuminate\Database\Schema\SqlServerBuilder 
+         * @static 
+         */ 
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         public static function getSchemaBuilder()
         {
-                        /** @var \Illuminate\Database\MySqlConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getSchemaBuilder();
         }
                     /**
@@ -5215,12 +5351,18 @@
          *
          * @param \Illuminate\Filesystem\Filesystem|null $files
          * @param callable|null $processFactory
+<<<<<<< HEAD
          * @return \Illuminate\Database\Schema\MySqlSchemaState
          * @static
          */
+=======
+         * @throws \RuntimeException
+         * @static 
+         */ 
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         public static function getSchemaState($files = null, $processFactory = null)
         {
-                        /** @var \Illuminate\Database\MySqlConnection $instance */
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
                         return $instance->getSchemaState($files, $processFactory);
         }
                     /**
@@ -5230,8 +5372,13 @@
          * @static
          */
         public static function useDefaultQueryGrammar()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->useDefaultQueryGrammar();
         }
                     /**
@@ -5241,8 +5388,13 @@
          * @static
          */
         public static function useDefaultSchemaGrammar()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->useDefaultSchemaGrammar();
         }
                     /**
@@ -5252,8 +5404,13 @@
          * @static
          */
         public static function useDefaultPostProcessor()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->useDefaultPostProcessor();
         }
                     /**
@@ -5265,8 +5422,13 @@
          * @static
          */
         public static function table($table, $as = null)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->table($table, $as);
         }
                     /**
@@ -5276,8 +5438,13 @@
          * @static
          */
         public static function query()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->query();
         }
                     /**
@@ -5290,8 +5457,13 @@
          * @static
          */
         public static function selectOne($query, $bindings = [], $useReadPdo = true)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->selectOne($query, $bindings, $useReadPdo);
         }
                     /**
@@ -5305,8 +5477,13 @@
          * @static
          */
         public static function scalar($query, $bindings = [], $useReadPdo = true)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->scalar($query, $bindings, $useReadPdo);
         }
                     /**
@@ -5318,8 +5495,13 @@
          * @static
          */
         public static function selectFromWriteConnection($query, $bindings = [])
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->selectFromWriteConnection($query, $bindings);
         }
                     /**
@@ -5332,8 +5514,13 @@
          * @static
          */
         public static function select($query, $bindings = [], $useReadPdo = true)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->select($query, $bindings, $useReadPdo);
         }
                     /**
@@ -5346,8 +5533,13 @@
          * @static
          */
         public static function selectResultSets($query, $bindings = [], $useReadPdo = true)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->selectResultSets($query, $bindings, $useReadPdo);
         }
                     /**
@@ -5360,8 +5552,13 @@
          * @static
          */
         public static function cursor($query, $bindings = [], $useReadPdo = true)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->cursor($query, $bindings, $useReadPdo);
         }
                     /**
@@ -5373,8 +5570,13 @@
          * @static
          */
         public static function insert($query, $bindings = [])
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->insert($query, $bindings);
         }
                     /**
@@ -5386,8 +5588,13 @@
          * @static
          */
         public static function update($query, $bindings = [])
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->update($query, $bindings);
         }
                     /**
@@ -5399,8 +5606,13 @@
          * @static
          */
         public static function delete($query, $bindings = [])
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->delete($query, $bindings);
         }
                     /**
@@ -5412,8 +5624,13 @@
          * @static
          */
         public static function statement($query, $bindings = [])
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->statement($query, $bindings);
         }
                     /**
@@ -5425,8 +5642,13 @@
          * @static
          */
         public static function affectingStatement($query, $bindings = [])
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->affectingStatement($query, $bindings);
         }
                     /**
@@ -5437,8 +5659,13 @@
          * @static
          */
         public static function unprepared($query)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->unprepared($query);
         }
                     /**
@@ -5449,9 +5676,26 @@
          * @static
          */
         public static function pretend($callback)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->pretend($callback);
+        }
+                    /**
+         * Execute the given callback without "pretending".
+         *
+         * @param \Closure $callback
+         * @return mixed 
+         * @static 
+         */ 
+        public static function withoutPretending($callback)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+                        return $instance->withoutPretending($callback);
         }
                     /**
          * Bind values to their parameters in the given statement.
@@ -5462,8 +5706,13 @@
          * @static
          */
         public static function bindValues($statement, $bindings)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->bindValues($statement, $bindings);
         }
                     /**
@@ -5474,8 +5723,13 @@
          * @static
          */
         public static function prepareBindings($bindings)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->prepareBindings($bindings);
         }
                     /**
@@ -5488,8 +5742,13 @@
          * @static
          */
         public static function logQuery($query, $bindings, $time = null)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->logQuery($query, $bindings, $time);
         }
                     /**
@@ -5501,8 +5760,13 @@
          * @static
          */
         public static function whenQueryingForLongerThan($threshold, $handler)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->whenQueryingForLongerThan($threshold, $handler);
         }
                     /**
@@ -5512,8 +5776,13 @@
          * @static
          */
         public static function allowQueryDurationHandlersToRunAgain()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->allowQueryDurationHandlersToRunAgain();
         }
                     /**
@@ -5523,8 +5792,13 @@
          * @static
          */
         public static function totalQueryDuration()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->totalQueryDuration();
         }
                     /**
@@ -5534,8 +5808,13 @@
          * @static
          */
         public static function resetTotalQueryDuration()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->resetTotalQueryDuration();
         }
                     /**
@@ -5545,20 +5824,34 @@
          * @static
          */
         public static function reconnectIfMissingConnection()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->reconnectIfMissingConnection();
         }
                     /**
          * Register a hook to be run just before a database query is executed.
          *
          * @param \Closure $callback
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function beforeExecuting($callback)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function beforeExecuting($callback)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->beforeExecuting($callback);
         }
                     /**
@@ -5569,8 +5862,13 @@
          * @static
          */
         public static function listen($callback)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->listen($callback);
         }
                     /**
@@ -5581,8 +5879,13 @@
          * @static
          */
         public static function raw($value)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->raw($value);
         }
                     /**
@@ -5594,8 +5897,13 @@
          * @static
          */
         public static function escape($value, $binary = false)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->escape($value, $binary);
         }
                     /**
@@ -5605,8 +5913,13 @@
          * @static
          */
         public static function hasModifiedRecords()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->hasModifiedRecords();
         }
                     /**
@@ -5617,20 +5930,34 @@
          * @static
          */
         public static function recordsHaveBeenModified($value = true)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->recordsHaveBeenModified($value);
         }
                     /**
          * Set the record modification state.
          *
          * @param bool $value
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function setRecordModificationState($value)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function setRecordModificationState($value)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->setRecordModificationState($value);
         }
                     /**
@@ -5640,20 +5967,34 @@
          * @static
          */
         public static function forgetRecordModificationState()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->forgetRecordModificationState();
         }
                     /**
          * Indicate that the connection should use the write PDO connection for reads.
          *
          * @param bool $value
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function useWriteConnectionWhenReading($value = true)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function useWriteConnectionWhenReading($value = true)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->useWriteConnectionWhenReading($value);
         }
                     /**
@@ -5663,8 +6004,13 @@
          * @static
          */
         public static function isDoctrineAvailable()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->isDoctrineAvailable();
         }
                     /**
@@ -5674,8 +6020,13 @@
          * @static
          */
         public static function usingNativeSchemaOperations()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->usingNativeSchemaOperations();
         }
                     /**
@@ -5687,8 +6038,13 @@
          * @static
          */
         public static function getDoctrineColumn($table, $column)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getDoctrineColumn($table, $column);
         }
                     /**
@@ -5698,8 +6054,13 @@
          * @static
          */
         public static function getDoctrineSchemaManager()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getDoctrineSchemaManager();
         }
                     /**
@@ -5709,8 +6070,13 @@
          * @static
          */
         public static function getDoctrineConnection()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getDoctrineConnection();
         }
                     /**
@@ -5720,8 +6086,13 @@
          * @static
          */
         public static function getPdo()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getPdo();
         }
                     /**
@@ -5731,8 +6102,13 @@
          * @static
          */
         public static function getRawPdo()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getRawPdo();
         }
                     /**
@@ -5742,8 +6118,13 @@
          * @static
          */
         public static function getReadPdo()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getReadPdo();
         }
                     /**
@@ -5753,32 +6134,55 @@
          * @static
          */
         public static function getRawReadPdo()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getRawReadPdo();
         }
                     /**
          * Set the PDO connection.
          *
          * @param \PDO|\Closure|null $pdo
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function setPdo($pdo)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function setPdo($pdo)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->setPdo($pdo);
         }
                     /**
          * Set the PDO connection used for reading.
          *
          * @param \PDO|\Closure|null $pdo
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function setReadPdo($pdo)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function setReadPdo($pdo)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->setReadPdo($pdo);
         }
                     /**
@@ -5788,8 +6192,13 @@
          * @static
          */
         public static function getName()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getName();
         }
                     /**
@@ -5799,8 +6208,13 @@
          * @static
          */
         public static function getNameWithReadWriteType()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getNameWithReadWriteType();
         }
                     /**
@@ -5811,8 +6225,13 @@
          * @static
          */
         public static function getConfig($option = null)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getConfig($option);
         }
                     /**
@@ -5822,8 +6241,13 @@
          * @static
          */
         public static function getDriverName()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getDriverName();
         }
                     /**
@@ -5833,20 +6257,34 @@
          * @static
          */
         public static function getQueryGrammar()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getQueryGrammar();
         }
                     /**
          * Set the query grammar used by the connection.
          *
          * @param \Illuminate\Database\Query\Grammars\Grammar $grammar
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function setQueryGrammar($grammar)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function setQueryGrammar($grammar)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->setQueryGrammar($grammar);
         }
                     /**
@@ -5856,20 +6294,34 @@
          * @static
          */
         public static function getSchemaGrammar()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getSchemaGrammar();
         }
                     /**
          * Set the schema grammar used by the connection.
          *
          * @param \Illuminate\Database\Schema\Grammars\Grammar $grammar
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function setSchemaGrammar($grammar)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function setSchemaGrammar($grammar)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->setSchemaGrammar($grammar);
         }
                     /**
@@ -5879,20 +6331,34 @@
          * @static
          */
         public static function getPostProcessor()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getPostProcessor();
         }
                     /**
          * Set the query post processor used by the connection.
          *
          * @param \Illuminate\Database\Query\Processors\Processor $processor
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function setPostProcessor($processor)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function setPostProcessor($processor)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->setPostProcessor($processor);
         }
                     /**
@@ -5902,20 +6368,34 @@
          * @static
          */
         public static function getEventDispatcher()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getEventDispatcher();
         }
                     /**
          * Set the event dispatcher instance on the connection.
          *
          * @param \Illuminate\Contracts\Events\Dispatcher $events
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function setEventDispatcher($events)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function setEventDispatcher($events)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->setEventDispatcher($events);
         }
                     /**
@@ -5925,20 +6405,34 @@
          * @static
          */
         public static function unsetEventDispatcher()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->unsetEventDispatcher();
         }
                     /**
          * Set the transaction manager instance on the connection.
          *
          * @param \Illuminate\Database\DatabaseTransactionsManager $manager
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function setTransactionManager($manager)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function setTransactionManager($manager)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->setTransactionManager($manager);
         }
                     /**
@@ -5948,8 +6442,13 @@
          * @static
          */
         public static function unsetTransactionManager()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->unsetTransactionManager();
         }
                     /**
@@ -5959,8 +6458,13 @@
          * @static
          */
         public static function pretending()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->pretending();
         }
                     /**
@@ -5970,8 +6474,13 @@
          * @static
          */
         public static function getQueryLog()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getQueryLog();
         }
                     /**
@@ -5981,8 +6490,13 @@
          * @static
          */
         public static function getRawQueryLog()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getRawQueryLog();
         }
                     /**
@@ -5992,8 +6506,13 @@
          * @static
          */
         public static function flushQueryLog()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->flushQueryLog();
         }
                     /**
@@ -6003,8 +6522,13 @@
          * @static
          */
         public static function enableQueryLog()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->enableQueryLog();
         }
                     /**
@@ -6014,8 +6538,13 @@
          * @static
          */
         public static function disableQueryLog()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->disableQueryLog();
         }
                     /**
@@ -6025,8 +6554,13 @@
          * @static
          */
         public static function logging()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->logging();
         }
                     /**
@@ -6036,32 +6570,55 @@
          * @static
          */
         public static function getDatabaseName()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getDatabaseName();
         }
                     /**
          * Set the name of the connected database.
          *
          * @param string $database
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function setDatabaseName($database)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function setDatabaseName($database)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->setDatabaseName($database);
         }
                     /**
          * Set the read / write type of the connection.
          *
          * @param string|null $readWriteType
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function setReadWriteType($readWriteType)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function setReadWriteType($readWriteType)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->setReadWriteType($readWriteType);
         }
                     /**
@@ -6071,20 +6628,34 @@
          * @static
          */
         public static function getTablePrefix()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getTablePrefix();
         }
                     /**
          * Set the table prefix in use by the connection.
          *
          * @param string $prefix
+<<<<<<< HEAD
          * @return \Illuminate\Database\MySqlConnection
          * @static
          */
         public static function setTablePrefix($prefix)
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+         * @return \Illuminate\Database\SqlServerConnection 
+         * @static 
+         */ 
+        public static function setTablePrefix($prefix)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->setTablePrefix($prefix);
         }
                     /**
@@ -6095,8 +6666,13 @@
          * @static
          */
         public static function withTablePrefix($grammar)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->withTablePrefix($grammar);
         }
                     /**
@@ -6108,8 +6684,13 @@
          * @static
          */
         public static function resolverFor($driver, $callback)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         \Illuminate\Database\MySqlConnection::resolverFor($driver, $callback);
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        \Illuminate\Database\SqlServerConnection::resolverFor($driver, $callback);
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         }
                     /**
          * Get the connection resolver for the given driver.
@@ -6119,6 +6700,7 @@
          * @static
          */
         public static function getResolver($driver)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         return \Illuminate\Database\MySqlConnection::getResolver($driver);
         }
@@ -6135,6 +6717,10 @@
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->transaction($callback, $attempts);
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        return \Illuminate\Database\SqlServerConnection::getResolver($driver);
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         }
                     /**
          * Start a new database transaction.
@@ -6144,8 +6730,13 @@
          * @static
          */
         public static function beginTransaction()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->beginTransaction();
         }
                     /**
@@ -6156,8 +6747,13 @@
          * @static
          */
         public static function commit()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->commit();
         }
                     /**
@@ -6169,8 +6765,13 @@
          * @static
          */
         public static function rollBack($toLevel = null)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->rollBack($toLevel);
         }
                     /**
@@ -6180,8 +6781,13 @@
          * @static
          */
         public static function transactionLevel()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->transactionLevel();
         }
                     /**
@@ -6193,8 +6799,13 @@
          * @static
          */
         public static function afterCommit($callback)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SqlServerConnection $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->afterCommit($callback);
         }
 
@@ -6379,6 +6990,18 @@
         {
                         /** @var \Illuminate\Events\Dispatcher $instance */
                         return $instance->setQueueResolver($resolver);
+        }
+                    /**
+         * Set the database transaction manager resolver implementation.
+         *
+         * @param callable $resolver
+         * @return \Illuminate\Events\Dispatcher 
+         * @static 
+         */ 
+        public static function setTransactionManagerResolver($resolver)
+        {
+                        /** @var \Illuminate\Events\Dispatcher $instance */
+                        return $instance->setTransactionManagerResolver($resolver);
         }
                     /**
          * Gets the raw, unprepared listeners.
@@ -6724,13 +7347,21 @@
          *
          * @param string $path
          * @param string $data
+<<<<<<< HEAD
          * @return int
          * @static
          */
         public static function append($path, $data)
+=======
+         * @param bool $lock
+         * @return int 
+         * @static 
+         */ 
+        public static function append($path, $data, $lock = false)
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         {
                         /** @var \Illuminate\Filesystem\Filesystem $instance */
-                        return $instance->append($path, $data);
+                        return $instance->append($path, $data, $lock);
         }
                     /**
          * Get or set UNIX mode of a file or directory.
@@ -8047,6 +8678,17 @@
                         return $instance->getDispatcher();
         }
                     /**
+         * Get the array of global middleware.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getGlobalMiddleware()
+        {
+                        /** @var \Illuminate\Http\Client\Factory $instance */
+                        return $instance->getGlobalMiddleware();
+        }
+                    /**
          * Register a custom macro.
          *
          * @param string $name
@@ -8198,6 +8840,18 @@
         {
                         /** @var \Illuminate\Translation\Translator $instance */
                         $instance->load($namespace, $group, $locale);
+        }
+                    /**
+         * Register a callback that is responsible for handling missing translation keys.
+         *
+         * @param callable|null $callback
+         * @return static 
+         * @static 
+         */ 
+        public static function handleMissingKeysUsing($callback)
+        {
+                        /** @var \Illuminate\Translation\Translator $instance */
+                        return $instance->handleMissingKeysUsing($callback);
         }
                     /**
          * Add a new namespace to the loader.
@@ -10362,6 +11016,83 @@
                         return $instance->setConnectionName($name);
         }
                     /**
+         * Release a reserved job back onto the queue after (n) seconds.
+         *
+         * @param string $queue
+         * @param \Illuminate\Queue\Jobs\DatabaseJobRecord $job
+         * @param int $delay
+         * @return mixed 
+         * @static 
+         */ 
+        public static function release($queue, $job, $delay)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->release($queue, $job, $delay);
+        }
+                    /**
+         * Delete a reserved job from the queue.
+         *
+         * @param string $queue
+         * @param string $id
+         * @return void 
+         * @throws \Throwable
+         * @static 
+         */ 
+        public static function deleteReserved($queue, $id)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        $instance->deleteReserved($queue, $id);
+        }
+                    /**
+         * Delete a reserved job from the reserved queue and release it.
+         *
+         * @param string $queue
+         * @param \Illuminate\Queue\Jobs\DatabaseJob $job
+         * @param int $delay
+         * @return void 
+         * @static 
+         */ 
+        public static function deleteAndRelease($queue, $job, $delay)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        $instance->deleteAndRelease($queue, $job, $delay);
+        }
+                    /**
+         * Delete all of the jobs from the queue.
+         *
+         * @param string $queue
+         * @return int 
+         * @static 
+         */ 
+        public static function clear($queue)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->clear($queue);
+        }
+                    /**
+         * Get the queue or return the default.
+         *
+         * @param string|null $queue
+         * @return string 
+         * @static 
+         */ 
+        public static function getQueue($queue)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->getQueue($queue);
+        }
+                    /**
+         * Get the underlying database instance.
+         *
+         * @return \Illuminate\Database\Connection 
+         * @static 
+         */ 
+        public static function getDatabase()
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->getDatabase();
+        }
+                    /**
          * Get the backoff for an object-based queue handler.
          *
          * @param mixed $job
@@ -10369,8 +11100,13 @@
          * @static
          */
         public static function getJobBackoff($job)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Queue\Queue
                         /** @var \Illuminate\Queue\SyncQueue $instance */
+=======
+        {            //Method inherited from \Illuminate\Queue\Queue         
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getJobBackoff($job);
         }
                     /**
@@ -10381,8 +11117,13 @@
          * @static
          */
         public static function getJobExpiration($job)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Queue\Queue
                         /** @var \Illuminate\Queue\SyncQueue $instance */
+=======
+        {            //Method inherited from \Illuminate\Queue\Queue         
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getJobExpiration($job);
         }
                     /**
@@ -10393,8 +11134,13 @@
          * @static
          */
         public static function createPayloadUsing($callback)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Queue\Queue
                         \Illuminate\Queue\SyncQueue::createPayloadUsing($callback);
+=======
+        {            //Method inherited from \Illuminate\Queue\Queue         
+                        \Illuminate\Queue\DatabaseQueue::createPayloadUsing($callback);
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         }
                     /**
          * Get the container instance being used by the connection.
@@ -10403,8 +11149,13 @@
          * @static
          */
         public static function getContainer()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Queue\Queue
                         /** @var \Illuminate\Queue\SyncQueue $instance */
+=======
+        {            //Method inherited from \Illuminate\Queue\Queue         
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getContainer();
         }
                     /**
@@ -10415,8 +11166,13 @@
          * @static
          */
         public static function setContainer($container)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Queue\Queue
                         /** @var \Illuminate\Queue\SyncQueue $instance */
+=======
+        {            //Method inherited from \Illuminate\Queue\Queue         
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->setContainer($container);
         }
 
@@ -13379,6 +14135,7 @@
      * @method static \Illuminate\Routing\RouteRegistrar controller(string $controller)
      * @method static \Illuminate\Routing\RouteRegistrar domain(string $value)
      * @method static \Illuminate\Routing\RouteRegistrar middleware(array|string|null $middleware)
+     * @method static \Illuminate\Routing\RouteRegistrar missing(\Closure $missing)
      * @method static \Illuminate\Routing\RouteRegistrar name(string $value)
      * @method static \Illuminate\Routing\RouteRegistrar namespace(string|null $value)
      * @method static \Illuminate\Routing\RouteRegistrar prefix(string $prefix)
@@ -13835,6 +14592,18 @@
         {
                         /** @var \Illuminate\Routing\Router $instance */
                         $instance->substituteImplicitBindings($route);
+        }
+                    /**
+         * Register a callback to to run after implicit bindings are substituted.
+         *
+         * @param callable $callback
+         * @return \Illuminate\Routing\Router 
+         * @static 
+         */ 
+        public static function substituteImplicitBindingsUsing($callback)
+        {
+                        /** @var \Illuminate\Routing\Router $instance */
+                        return $instance->substituteImplicitBindingsUsing($callback);
         }
                     /**
          * Register a route matched event listener.
@@ -14358,7 +15127,7 @@
          */
         public static function createDatabase($name)
         {
-                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->createDatabase($name);
         }
                     /**
@@ -14370,10 +15139,11 @@
          */
         public static function dropDatabaseIfExists($name)
         {
-                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->dropDatabaseIfExists($name);
         }
                     /**
+<<<<<<< HEAD
          * Determine if the given table exists.
          *
          * @param string $table
@@ -14398,6 +15168,8 @@
                         return $instance->getColumnListing($table);
         }
                     /**
+=======
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
          * Drop all tables from the database.
          *
          * @return void
@@ -14405,7 +15177,7 @@
          */
         public static function dropAllTables()
         {
-                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->dropAllTables();
         }
                     /**
@@ -14416,29 +15188,43 @@
          */
         public static function dropAllViews()
         {
-                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         $instance->dropAllViews();
         }
                     /**
-         * Get all of the table names for the database.
+         * Drop all tables from the database.
          *
+<<<<<<< HEAD
          * @return array
          * @static
          */
+=======
+         * @deprecated Will be removed in a future Laravel version.
+         * @return array 
+         * @static 
+         */ 
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         public static function getAllTables()
         {
-                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->getAllTables();
         }
                     /**
          * Get all of the view names for the database.
          *
+<<<<<<< HEAD
          * @return array
          * @static
          */
+=======
+         * @deprecated Will be removed in a future Laravel version.
+         * @return array 
+         * @static 
+         */ 
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         public static function getAllViews()
         {
-                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
                         return $instance->getAllViews();
         }
                     /**
@@ -14449,8 +15235,13 @@
          * @static
          */
         public static function defaultStringLength($length)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         \Illuminate\Database\Schema\MySqlBuilder::defaultStringLength($length);
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        \Illuminate\Database\Schema\SqlServerBuilder::defaultStringLength($length);
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         }
                     /**
          * Set the default morph key type for migrations.
@@ -14461,8 +15252,13 @@
          * @static
          */
         public static function defaultMorphKeyType($type)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         \Illuminate\Database\Schema\MySqlBuilder::defaultMorphKeyType($type);
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        \Illuminate\Database\Schema\SqlServerBuilder::defaultMorphKeyType($type);
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         }
                     /**
          * Set the default morph key type for migrations to UUIDs.
@@ -14471,8 +15267,13 @@
          * @static
          */
         public static function morphUsingUuids()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         \Illuminate\Database\Schema\MySqlBuilder::morphUsingUuids();
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        \Illuminate\Database\Schema\SqlServerBuilder::morphUsingUuids();
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         }
                     /**
          * Set the default morph key type for migrations to ULIDs.
@@ -14481,8 +15282,13 @@
          * @static
          */
         public static function morphUsingUlids()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         \Illuminate\Database\Schema\MySqlBuilder::morphUsingUlids();
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        \Illuminate\Database\Schema\SqlServerBuilder::morphUsingUlids();
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         }
                     /**
          * Attempt to use native schema operations for dropping, renaming, and modifying columns, even if Doctrine DBAL is installed.
@@ -14492,8 +15298,70 @@
          * @static
          */
         public static function useNativeSchemaOperationsIfPossible($value = true)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         \Illuminate\Database\Schema\MySqlBuilder::useNativeSchemaOperationsIfPossible($value);
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        \Illuminate\Database\Schema\SqlServerBuilder::useNativeSchemaOperationsIfPossible($value);
+        }
+                    /**
+         * Determine if the given table exists.
+         *
+         * @param string $table
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasTable($table)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->hasTable($table);
+        }
+                    /**
+         * Determine if the given view exists.
+         *
+         * @param string $view
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasView($view)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->hasView($view);
+        }
+                    /**
+         * Get the tables that belong to the database.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getTables()
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getTables();
+        }
+                    /**
+         * Get the views that belong to the database.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getViews()
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getViews();
+        }
+                    /**
+         * Get the user-defined types that belong to the database.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getTypes()
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getTypes();
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         }
                     /**
          * Determine if the given table has a given column.
@@ -14504,8 +15372,13 @@
          * @static
          */
         public static function hasColumn($table, $column)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->hasColumn($table, $column);
         }
                     /**
@@ -14517,8 +15390,13 @@
          * @static
          */
         public static function hasColumns($table, $columns)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->hasColumns($table, $columns);
         }
                     /**
@@ -14531,8 +15409,13 @@
          * @static
          */
         public static function whenTableHasColumn($table, $column, $callback)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->whenTableHasColumn($table, $column, $callback);
         }
                     /**
@@ -14545,8 +15428,13 @@
          * @static
          */
         public static function whenTableDoesntHaveColumn($table, $column, $callback)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->whenTableDoesntHaveColumn($table, $column, $callback);
         }
                     /**
@@ -14554,6 +15442,7 @@
          *
          * @param string $table
          * @param string $column
+<<<<<<< HEAD
          * @return string
          * @static
          */
@@ -14561,6 +15450,64 @@
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->getColumnType($table, $column);
+=======
+         * @param bool $fullDefinition
+         * @return string 
+         * @static 
+         */ 
+        public static function getColumnType($table, $column, $fullDefinition = false)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getColumnType($table, $column, $fullDefinition);
+        }
+                    /**
+         * Get the column listing for a given table.
+         *
+         * @param string $table
+         * @return array 
+         * @static 
+         */ 
+        public static function getColumnListing($table)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getColumnListing($table);
+        }
+                    /**
+         * Get the columns for a given table.
+         *
+         * @param string $table
+         * @return array 
+         * @static 
+         */ 
+        public static function getColumns($table)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getColumns($table);
+        }
+                    /**
+         * Get the indexes for a given table.
+         *
+         * @param string $table
+         * @return array 
+         * @static 
+         */ 
+        public static function getIndexes($table)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getIndexes($table);
+        }
+                    /**
+         * Get the foreign keys for a given table.
+         *
+         * @param string $table
+         * @return array 
+         * @static 
+         */ 
+        public static function getForeignKeys($table)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+                        return $instance->getForeignKeys($table);
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         }
                     /**
          * Modify a table on the schema.
@@ -14571,8 +15518,13 @@
          * @static
          */
         public static function table($table, $callback)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->table($table, $callback);
         }
                     /**
@@ -14584,8 +15536,13 @@
          * @static
          */
         public static function create($table, $callback)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->create($table, $callback);
         }
                     /**
@@ -14596,8 +15553,13 @@
          * @static
          */
         public static function drop($table)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->drop($table);
         }
                     /**
@@ -14608,8 +15570,13 @@
          * @static
          */
         public static function dropIfExists($table)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->dropIfExists($table);
         }
                     /**
@@ -14621,8 +15588,13 @@
          * @static
          */
         public static function dropColumns($table, $columns)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->dropColumns($table, $columns);
         }
                     /**
@@ -14633,8 +15605,13 @@
          * @static
          */
         public static function dropAllTypes()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->dropAllTypes();
         }
                     /**
@@ -14646,8 +15623,13 @@
          * @static
          */
         public static function rename($from, $to)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->rename($from, $to);
         }
                     /**
@@ -14657,8 +15639,13 @@
          * @static
          */
         public static function enableForeignKeyConstraints()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->enableForeignKeyConstraints();
         }
                     /**
@@ -14668,8 +15655,13 @@
          * @static
          */
         public static function disableForeignKeyConstraints()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->disableForeignKeyConstraints();
         }
                     /**
@@ -14680,8 +15672,13 @@
          * @static
          */
         public static function withoutForeignKeyConstraints($callback)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->withoutForeignKeyConstraints($callback);
         }
                     /**
@@ -14691,20 +15688,34 @@
          * @static
          */
         public static function getConnection()
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->getConnection();
         }
                     /**
          * Set the database connection instance.
          *
          * @param \Illuminate\Database\Connection $connection
+<<<<<<< HEAD
          * @return \Illuminate\Database\Schema\MySqlBuilder
          * @static
          */
         public static function setConnection($connection)
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+         * @return \Illuminate\Database\Schema\SqlServerBuilder 
+         * @static 
+         */ 
+        public static function setConnection($connection)
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         return $instance->setConnection($connection);
         }
                     /**
@@ -14715,8 +15726,13 @@
          * @static
          */
         public static function blueprintResolver($resolver)
+<<<<<<< HEAD
         {            //Method inherited from \Illuminate\Database\Schema\Builder
                         /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+=======
+        {            //Method inherited from \Illuminate\Database\Schema\Builder         
+                        /** @var \Illuminate\Database\Schema\SqlServerBuilder $instance */
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
                         $instance->blueprintResolver($resolver);
         }
 
@@ -14748,6 +15764,28 @@
         {
                         /** @var \Illuminate\Session\SessionManager $instance */
                         return $instance->blockDriver();
+        }
+                    /**
+         * Get the maximum number of seconds the session lock should be held for.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function defaultRouteBlockLockSeconds()
+        {
+                        /** @var \Illuminate\Session\SessionManager $instance */
+                        return $instance->defaultRouteBlockLockSeconds();
+        }
+                    /**
+         * Get the maximum number of seconds to wait while attempting to acquire a route block session lock.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function defaultRouteBlockWaitSeconds()
+        {
+                        /** @var \Illuminate\Session\SessionManager $instance */
+                        return $instance->defaultRouteBlockWaitSeconds();
         }
                     /**
          * Get the session configuration.
@@ -18253,8 +19291,19 @@
     }
             /**
      *
+<<<<<<< HEAD
      *
      */
+=======
+     */ 
+        class Number {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
         class Str {
 
     }
@@ -18270,6 +19319,7 @@
                     /**
          *
          *
+<<<<<<< HEAD
          * @see \Barryvdh\Debugbar\ServiceProvider::register()
          * @static
          */
@@ -18280,6 +19330,8 @@
                     /**
          *
          *
+=======
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
          * @see \Maatwebsite\Excel\Mixins\DownloadCollection::downloadExcel()
          * @param string $fileName
          * @param string|null $writerType
@@ -18310,6 +19362,7 @@
 
 }
 
+<<<<<<< HEAD
         namespace Barryvdh\Debugbar\Facades {
             /**
      *
@@ -18848,6 +19901,9 @@
 }
 
     namespace Maatwebsite\Excel\Facades {
+=======
+        namespace Maatwebsite\Excel\Facades { 
+>>>>>>> 3c0f73497823dab52ccfed00a5c4817bd636be94
             /**
      *
      *
@@ -21611,6 +22667,7 @@ namespace  {
             class Cache extends \Illuminate\Support\Facades\Cache {}
             class Config extends \Illuminate\Support\Facades\Config {}
             class Cookie extends \Illuminate\Support\Facades\Cookie {}
+            class Crypt extends \Illuminate\Support\Facades\Crypt {}
             class Date extends \Illuminate\Support\Facades\Date {}
             class DB extends \Illuminate\Support\Facades\DB {}
             class Eloquent extends \Illuminate\Database\Eloquent\Model {
@@ -22555,6 +23612,39 @@ namespace  {
                                 return $instance->chunkById($count, $callback, $column, $alias);
             }
 
+                /**
+             * Chunk the results of a query by comparing IDs in descending order.
+             *
+             * @param int $count
+             * @param callable $callback
+             * @param string|null $column
+             * @param string|null $alias
+             * @return bool 
+             * @static 
+             */ 
+            public static function chunkByIdDesc($count, $callback, $column = null, $alias = null)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->chunkByIdDesc($count, $callback, $column, $alias);
+            }
+             
+                /**
+             * Chunk the results of a query by comparing IDs in a given order.
+             *
+             * @param int $count
+             * @param callable $callback
+             * @param string|null $column
+             * @param string|null $alias
+             * @param bool $descending
+             * @return bool 
+             * @static 
+             */ 
+            public static function orderedChunkById($count, $callback, $column = null, $alias = null, $descending = false)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->orderedChunkById($count, $callback, $column, $alias, $descending);
+            }
+             
                 /**
              * Execute a callback over each item while chunking by ID.
              *
@@ -25508,6 +26598,7 @@ namespace  {
             class Log extends \Illuminate\Support\Facades\Log {}
             class Mail extends \Illuminate\Support\Facades\Mail {}
             class Notification extends \Illuminate\Support\Facades\Notification {}
+            class Number extends \Illuminate\Support\Number {}
             class Password extends \Illuminate\Support\Facades\Password {}
             class Process extends \Illuminate\Support\Facades\Process {}
             class Queue extends \Illuminate\Support\Facades\Queue {}
@@ -25524,7 +26615,6 @@ namespace  {
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
             class Vite extends \Illuminate\Support\Facades\Vite {}
-            class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
             class Excel extends \Maatwebsite\Excel\Facades\Excel {}
             class Pdf extends \Barryvdh\DomPDF\Facade\Pdf {}
             class PDF extends \Barryvdh\DomPDF\Facade\Pdf {}

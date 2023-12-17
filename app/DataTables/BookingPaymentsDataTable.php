@@ -3,6 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\Payment;
+use App\Utils\Enums\CustomerAccounts;
+use App\Utils\Enums\PaymentStatus;
+use App\Utils\Enums\TransactionType;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -25,28 +28,29 @@ class BookingPaymentsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->setRowId('id')
-            ->editColumn('check', function ($payment) {
-                return $payment;
+            ->editColumn('amount', function ($row) {
+                return editPaymentColumn($row->amount, 2);
             })
-            ->editColumn('debit', function ($bookingPayment) {
-                return ($bookingPayment->debit) > 0 ? '$ ' . number_format($bookingPayment->debit, 2) : '-';
+            ->editColumn('payment_from', function ($row) {
+                return editDateColumn($row->payment_from, 'F j, Y');
             })
-            ->editColumn('credit', function ($bookingPayment) {
-                return ($bookingPayment->credit) > 0 ? '$ ' . number_format($bookingPayment->credit, 2) : '-';
+            ->editColumn('payment_to', function ($row) {
+                return editDateColumn($row->payment_to, 'F j, Y');
             })
-            ->editColumn('type', function ($bookingPayment) {
-                return Str::of($bookingPayment->type)->ucfirst();
+            ->editColumn('comments', function ($row) {
+                $comments = Str::of($row->comments);
+                return $comments->length() > 0 ? Str::of($row->comments)->words(10) : '-';
             })
-            ->editColumn('comments', function ($bookingPayment) {
-                $comments = Str::of($bookingPayment->comments);
-                return $comments->length() > 0 ? Str::of($bookingPayment->comments)->words(10) : '-';
+            ->editColumn('transaction_type', function ($row) {
+                return Str::of($row->transaction_type->value)->replace('_', ' ')->title();
             })
-            ->editColumn('updated_at', function ($payment) {
-                return editDateTimeColumn($payment->updated_at);
+            ->editColumn('status', function ($row) {
+                return Str::of($row->status->value)->replace('_', ' ')->title();
             })
-            // ->editColumn('actions', function ($payment) {
-            //     return view('bookings.actions', ['id' => $payment->id]);
-            // })
+            ->editColumn('updated_at', function ($row) {
+                return editDateTimeColumn($row->updated_at);
+            })
+            ->addIndexColumn()
             ->rawColumns(array_merge($columns, ['action', 'check']));
     }
 
@@ -58,14 +62,21 @@ class BookingPaymentsDataTable extends DataTable
      */
     public function query(Payment $model)
     {
-        return $model->newQuery()->where('booking_id', $this->booking_id);
+        return $model->newQuery()
+            ->select('payments.*')
+            ->with(['payment_method'])
+            ->where('payments.booking_id', $this->booking_id)
+            ->where(function (QueryBuilder $query) {
+                $query->where('payments.account', '!=', CustomerAccounts::CREDIT_ACCOUNT)
+                    ->orwhere('payments.status', '!=', PaymentStatus::PAID);
+            });
     }
 
     public function html(): HtmlBuilder
     {
         $buttons = [];
 
-        if (auth()->user()->can('bookings.create')) {
+        if (auth()->user()->can('bookings.payments.create')) {
             $buttons[] = Button::raw('add-new')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
                 ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New')
@@ -74,7 +85,7 @@ class BookingPaymentsDataTable extends DataTable
                 ]);
         }
 
-        if (auth()->user()->can('bookings.export')) {
+        if (auth()->user()->can('bookings.payments.export')) {
             $buttons[] = Button::make('export')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1')
                 ->buttons([
@@ -91,15 +102,6 @@ class BookingPaymentsDataTable extends DataTable
             Button::make('reload')->addClass('btn btn-primary waves-effect waves-float waves-light m-1'),
         ]);
 
-        if (auth()->user()->can('bookings.payments.destroy')) {
-            $buttons[] = Button::raw('delete-selected')
-                ->addClass('btn btn-danger waves-effect waves-float waves-light m-1')
-                ->text('<i class="fa-solid fa-minus"></i>&nbsp;&nbsp;Delete Selected')
-                ->attr([
-                    'onclick' => 'deleteSelected()',
-                ]);
-        }
-
         return $this->builder()
             ->setTableId('booking-table')
             ->addTableClass('table-borderless table-striped table-hover')
@@ -108,33 +110,33 @@ class BookingPaymentsDataTable extends DataTable
             ->serverSide()
             ->processing()
             ->deferRender()
-            ->dom('BlfrtipC')
+            
             ->scrollX()
             ->pagingType('full_numbers')
             ->lengthMenu([
                 [30, 50, 70, 100, 120, 150, -1],
                 [30, 50, 70, 100, 120, 150, "All"],
             ])
-            ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
+            ->dom('<"card-header pt-0"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>><"d-flex justify-content-between mx-0 pb-2 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>> C<"clear">')
             ->buttons($buttons)
             // ->rowGroupDataSrc('parent_id')
-            ->columnDefs([
-                [
-                    'targets' => 0,
-                    'className' => 'text-center text-primary',
-                    'width' => '10%',
-                    'orderable' => false,
-                    'searchable' => false,
-                    'responsivePriority' => 3,
-                    'render' => "function (data, type, full, setting) {
-                        var role = JSON.parse(data);
-                        return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
-                    }",
-                    'checkboxes' => [
-                        'selectAllRender' =>  '<div class="form-check"> <input class="form-check-input" onchange="changeAllTableRowColor()" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>',
-                    ]
-                ],
-            ])
+            // ->columnDefs([
+            //     [
+            //         'targets' => 0,
+            //         'className' => 'text-center text-primary',
+            //         'width' => '10%',
+            //         'orderable' => false,
+            //         'searchable' => false,
+            //         'responsivePriority' => 3,
+            //         'render' => "function (data, type, full, setting) {
+            //             var role = JSON.parse(data);
+            //             return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
+            //         }",
+            //         'checkboxes' => [
+            //             'selectAllRender' =>  '<div class="form-check"> <input class="form-check-input" onchange="changeAllTableRowColor()" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>',
+            //         ]
+            //     ],
+            // ])
             ->orders([
                 [1, 'asc'],
             ]);
@@ -147,23 +149,17 @@ class BookingPaymentsDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle');
-
-        if (auth()->user()->can('bookings.payments.destroy')) {
-            $checkColumn->addClass('disabled');
-        }
-
-        $columns = [
-            $checkColumn,
-            Column::make('debit')->title('Debit')->addClass('text-nowrap text-center align-middle'),
-            Column::make('credit')->title('Credit')->addClass('text-nowrap text-center align-middle'),
-            Column::make('type')->title('Type')->addClass('text-nowrap text-center align-middle'),
+        return [
+            Column::make('DT_RowIndex')->title('#')->searchable(false)->orderable(false)->addClass('text-nowrap text-center align-middle'),
+            Column::make('transaction_type')->title('Transaction Type')->addClass('text-nowrap text-center align-middle'),
+            Column::make('payment_method.name')->title('Payment Method')->addClass('text-nowrap text-center align-middle'),
+            Column::make('payment_from')->title('Payment From')->addClass('text-nowrap text-center align-middle'),
+            Column::make('payment_to')->title('Payment To')->addClass('text-nowrap text-center align-middle'),
+            Column::make('amount')->addClass('text-nowrap text-center align-middle'),
+            Column::make('status')->addClass('text-nowrap text-center align-middle'),
             Column::make('comments')->title('Comments')->addClass('text-nowrap text-center align-middle'),
-
-            Column::make('updated_at')->addClass('text-center text-nowarp align-middle'),
+            Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
         ];
-        // Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
-        return $columns;
     }
 
     /**

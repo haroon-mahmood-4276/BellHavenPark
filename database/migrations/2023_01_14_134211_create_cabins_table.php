@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('electric_meter')->default(false);
             $table->float('daily_rate')->default(0);
             $table->float('weekly_rate')->default(0);
-            $table->float('monthly_rate')->default(0);
+            $table->float('four_weekly_rate')->default(0);
 
             $table->unsignedInteger('created_at')->nullable();
             $table->unsignedInteger('updated_at')->nullable();

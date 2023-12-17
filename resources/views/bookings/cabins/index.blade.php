@@ -122,7 +122,7 @@
             // overlay: true,
             // expandable: true,
             // expandedDefault: true,
-            // doubleView: true,
+            doubleView: true,
             expandedOnly: true,
             selector: '#booking_date_range',
             format: 'MM dd, y',
@@ -180,6 +180,8 @@
                 pageState.cabin_id + '&booking_from=' + pageState.booking_from + '&booking_to=' + pageState.booking_to);
 
             $('#add_booking_' + cabin_id).prop('disabled', true);
+
+            pageState.return_url = window.location.href;
 
             $.ajax({
                 headers: {

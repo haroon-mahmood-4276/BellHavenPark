@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             UserSeeder::class,
             BookingSourceSeeder::class,
+            BookingTaxSeeder::class,
             CabinTypeSeeder::class,
             CabinAssetSeeder::class,
             CabinSeeder::class,

@@ -9,6 +9,7 @@ use App\Http\Requests\PaymentMethods\{
     storeRequest,
     updateRequest
 };
+use App\Utils\Enums\CustomerAccounts;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -43,7 +44,9 @@ class PaymentMethodController extends Controller
     {
         abort_if(request()->ajax(), 403);
 
-        $data = [];
+        $data = [
+            'linked_accounts' => CustomerAccounts::array(withText: true),
+        ];
         return view('payment-methods.create', $data);
     }
 
@@ -94,6 +97,7 @@ class PaymentMethodController extends Controller
 
             if ($payment_method && !empty($payment_method)) {
                 $data = [
+                    'linked_accounts' => CustomerAccounts::array(withText: true),
                     'paymentMethod' => $payment_method,
                 ];
 
@@ -119,11 +123,8 @@ class PaymentMethodController extends Controller
     {
         abort_if(request()->ajax(), 403);
         try {
-
             $inputs = $request->validated();
-
             $record = $this->paymentMethodInterface->update($id, $inputs);
-
             return redirect()->route('payment-methods.index')->withSuccess('Data saved!');
         } catch (GeneralException $ex) {
             return redirect()->route('payment-methods.index')->withDanger('Something went wrong! ' . $ex->getMessage());

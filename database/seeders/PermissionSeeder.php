@@ -29,27 +29,27 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'roles.create',
                 'guard_name' => 'web',
-                'show_name' => 'Role - Can Create',
+                'show_name' => 'Roles - Can Create',
             ],
             [
                 'name' => 'roles.store',
                 'guard_name' => 'web',
-                'show_name' => 'Role - Can Store',
+                'show_name' => 'Roles - Can Store',
             ],
             [
                 'name' => 'roles.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Role - Can Edit',
+                'show_name' => 'Roles - Can Edit',
             ],
             [
                 'name' => 'roles.update',
                 'guard_name' => 'web',
-                'show_name' => 'Role - Can Update',
+                'show_name' => 'Roles - Can Update',
             ],
             [
                 'name' => 'roles.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Role - Can Delete',
+                'show_name' => 'Roles - Can Delete',
             ],
             [
                 'name' => 'roles.export',
@@ -63,11 +63,11 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'show_name' => 'Permissions - Can View',
             ],
-            [
-                'name' => 'permissions.view_all',
-                'guard_name' => 'web',
-                'show_name' => 'All Site Roles Permissions - Can View',
-            ],
+            // [
+            //     'name' => 'permissions.view_all',
+            //     'guard_name' => 'web',
+            //     'show_name' => 'Can View All Site Roles Permissions',
+            // ],
             // [
             //     'name' => 'permissions.create',
             //     'guard_name' => 'web',
@@ -101,17 +101,17 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'permissions.assign-permission',
                 'guard_name' => 'web',
-                'show_name' => 'Permission - Can Assign',
+                'show_name' => 'Permissions - Can Assign',
             ],
             [
                 'name' => 'permissions.revoke-permission',
                 'guard_name' => 'web',
-                'show_name' => 'Permission - Can Revoke',
+                'show_name' => 'Permissions - Can Revoke',
             ],
             [
                 'name' => 'permissions.edit-own-permission',
                 'guard_name' => 'web',
-                'show_name' => 'Own Permission - Can Edit',
+                'show_name' => 'Permissions - Can Edit Own',
             ],
 
             // Sites Routes
@@ -120,6 +120,13 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'show_name' => 'Site Cache - Can Refresh',
             ],
+
+            // Commands Routes
+            // [
+            //     'name' => 'commands.command',
+            //     'guard_name' => 'web',
+            //     'show_name' => 'Can Run Artisan Commands',
+            // ],
 
             // Payment Method Routes
             [
@@ -130,27 +137,27 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'payment-methods.create',
                 'guard_name' => 'web',
-                'show_name' => 'Payment Method - Can Create',
+                'show_name' => 'Payment Methods - Can Create',
             ],
             [
                 'name' => 'payment-methods.store',
                 'guard_name' => 'web',
-                'show_name' => 'Payment Method - Can Store',
+                'show_name' => 'Payment Methods - Can Store',
             ],
             [
                 'name' => 'payment-methods.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Payment Method - Can Edit',
+                'show_name' => 'Payment Methods - Can Edit',
             ],
             [
                 'name' => 'payment-methods.update',
                 'guard_name' => 'web',
-                'show_name' => 'Payment Method - Can Update',
+                'show_name' => 'Payment Methods - Can Update',
             ],
             [
                 'name' => 'payment-methods.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Payment Method - Can Delete',
+                'show_name' => 'Payment Methods - Can Delete',
             ],
             [
                 'name' => 'payment-methods.export',
@@ -167,27 +174,27 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'international-ids.create',
                 'guard_name' => 'web',
-                'show_name' => 'International Id - Can Create',
+                'show_name' => 'International Ids - Can Create',
             ],
             [
                 'name' => 'international-ids.store',
                 'guard_name' => 'web',
-                'show_name' => 'International Id - Can Store',
+                'show_name' => 'International Ids - Can Store',
             ],
             [
                 'name' => 'international-ids.edit',
                 'guard_name' => 'web',
-                'show_name' => 'International Id - Can Edit',
+                'show_name' => 'International Ids - Can Edit',
             ],
             [
                 'name' => 'international-ids.update',
                 'guard_name' => 'web',
-                'show_name' => 'International Id - Can Update',
+                'show_name' => 'International Ids - Can Update',
             ],
             [
                 'name' => 'international-ids.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'International Id - Can Delete',
+                'show_name' => 'International Ids - Can Delete',
             ],
             [
                 'name' => 'international-ids.export',
@@ -204,27 +211,27 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'cabins.types.create',
                 'guard_name' => 'web',
-                'show_name' => 'Cabin Type - Can Create',
+                'show_name' => 'Cabin Types - Can Create',
             ],
             [
                 'name' => 'cabins.types.store',
                 'guard_name' => 'web',
-                'show_name' => 'Cabin Type - Can Store',
+                'show_name' => 'Cabin Types - Can Store',
             ],
             [
                 'name' => 'cabins.types.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Cabin Type - Can Edit',
+                'show_name' => 'Cabin Types - Can Edit',
             ],
             [
                 'name' => 'cabins.types.update',
                 'guard_name' => 'web',
-                'show_name' => 'Cabin Type - Can Update',
+                'show_name' => 'Cabin Types - Can Update',
             ],
             [
                 'name' => 'cabins.types.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Cabin Type - Can Delete',
+                'show_name' => 'Cabin Types - Can Delete',
             ],
             [
                 'name' => 'cabins.types.export',
@@ -278,27 +285,27 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'cabins.create',
                 'guard_name' => 'web',
-                'show_name' => 'Cabin - Can Create',
+                'show_name' => 'Cabins - Can Create',
             ],
             [
                 'name' => 'cabins.store',
                 'guard_name' => 'web',
-                'show_name' => 'Cabin - Can Store',
+                'show_name' => 'Cabins - Can Store',
             ],
             [
                 'name' => 'cabins.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Cabin - Can Edit',
+                'show_name' => 'Cabins - Can Edit',
             ],
             [
                 'name' => 'cabins.update',
                 'guard_name' => 'web',
-                'show_name' => 'Cabin - Can Update',
+                'show_name' => 'Cabins - Can Update',
             ],
             [
                 'name' => 'cabins.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Cabin - Can Delete',
+                'show_name' => 'Cabins - Can Delete',
             ],
             [
                 'name' => 'cabins.export',
@@ -315,27 +322,27 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'booking-sources.create',
                 'guard_name' => 'web',
-                'show_name' => 'Booking Source - Can Create',
+                'show_name' => 'Booking Sources - Can Create',
             ],
             [
                 'name' => 'booking-sources.store',
                 'guard_name' => 'web',
-                'show_name' => 'Booking Source - Can Store',
+                'show_name' => 'Booking Sources - Can Store',
             ],
             [
                 'name' => 'booking-sources.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Booking Source - Can Edit',
+                'show_name' => 'Booking Sources - Can Edit',
             ],
             [
                 'name' => 'booking-sources.update',
                 'guard_name' => 'web',
-                'show_name' => 'Booking Source - Can Update',
+                'show_name' => 'Booking Sources - Can Update',
             ],
             [
                 'name' => 'booking-sources.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Booking Source - Can Delete',
+                'show_name' => 'Booking Sources - Can Delete',
             ],
             [
                 'name' => 'booking-sources.export',
@@ -352,27 +359,27 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'customers.create',
                 'guard_name' => 'web',
-                'show_name' => 'Customer - Can Create',
+                'show_name' => 'Customers - Can Create',
             ],
             [
                 'name' => 'customers.store',
                 'guard_name' => 'web',
-                'show_name' => 'Customer - Can Store',
+                'show_name' => 'Customers - Can Store',
             ],
             [
                 'name' => 'customers.edit',
                 'guard_name' => 'web',
-                'show_name' => 'Customer - Can Edit',
+                'show_name' => 'Customers - Can Edit',
             ],
             [
                 'name' => 'customers.update',
                 'guard_name' => 'web',
-                'show_name' => 'Customer - Can Update',
+                'show_name' => 'Customers - Can Update',
             ],
             [
                 'name' => 'customers.destroy',
                 'guard_name' => 'web',
-                'show_name' => 'Customer - Can Delete',
+                'show_name' => 'Customers - Can Delete',
             ],
             [
                 'name' => 'customers.export',
@@ -384,26 +391,26 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'bookings.index',
                 'guard_name' => 'web',
-                'show_name' => 'Bookings - Can View',
+                'show_name' => 'Booking - Can View',
             ],
             [
                 'name' => 'bookings.create',
                 'guard_name' => 'web',
-                'show_name' => 'Booking - Can Create',
+                'show_name' => 'Booking - Can Create Booking',
             ],
             [
                 'name' => 'bookings.checkin.index',
-                'show_name' => 'Checkin - Can View',
+                'show_name' => 'Booking - Can View Checkin',
                 'guard_name' => 'web',
             ],
             [
                 'name' => 'bookings.checkout.index',
-                'show_name' => 'Checkout - Can View',
+                'show_name' => 'Booking - Can View Checkout',
                 'guard_name' => 'web',
             ],
             [
                 'name' => 'bookings.calender.index',
-                'show_name' => 'Booking Calender - Can View',
+                'show_name' => 'Booking - Can View Calender',
                 'guard_name' => 'web',
             ],
 
@@ -411,17 +418,59 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'bookings.payments.index',
                 'guard_name' => 'web',
-                'show_name' => 'Bookings Payment List - Can View',
+                'show_name' => 'Bookings Payments - Can View',
             ],
             [
                 'name' => 'bookings.payments.create',
                 'guard_name' => 'web',
-                'show_name' => 'Booking Payment - Can Create',
+                'show_name' => 'Bookings Payments - Can Create',
             ],
             [
                 'name' => 'bookings.payments.export',
                 'guard_name' => 'web',
-                'show_name' => 'Payments - Can Export',
+                'show_name' => 'Bookings Payments - Can Export',
+            ],
+
+            // Booking Taxes Routes
+            [
+                'name' => 'booking-taxes.index',
+                'guard_name' => 'web',
+                'show_name' => 'Booking Taxes - Can View',
+            ],
+            [
+                'name' => 'booking-taxes.create',
+                'guard_name' => 'web',
+                'show_name' => 'Booking Taxes - Can Create',
+            ],
+            [
+                'name' => 'booking-taxes.store',
+                'guard_name' => 'web',
+                'show_name' => 'Booking Taxes - Can Store',
+            ],
+            [
+                'name' => 'booking-taxes.edit',
+                'guard_name' => 'web',
+                'show_name' => 'Booking Taxes - Can Edit',
+            ],
+            [
+                'name' => 'booking-taxes.update',
+                'guard_name' => 'web',
+                'show_name' => 'Booking Taxes - Can Update',
+            ],
+            [
+                'name' => 'booking-taxes.destroy',
+                'guard_name' => 'web',
+                'show_name' => 'Booking Taxes - Can Delete',
+            ],
+            [
+                'name' => 'booking-taxes.export',
+                'guard_name' => 'web',
+                'show_name' => 'Booking Taxes - Can Export',
+            ],
+            [
+                'name' => 'booking-taxes.set-default',
+                'guard_name' => 'web',
+                'show_name' => 'Booking Taxes - Can Set',
             ],
         ];
 

@@ -23,6 +23,7 @@ jobs:
             git reset --hard
             git checkout main
             git pull "https://${{ secrets.GB_USERNAME }}:${{ secrets.GB_ACCESSTOKEN }}@github.com/haroon-mahmood-4276/BellHavenPark.git" main
+            php artisan migrate
             php artisan optimize:clear
             php artisan cache:clear
             php artisan config:clear

@@ -265,11 +265,10 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset('assets') }}/img/avatars/1.png" alt=""
-                            class="h-auto rounded-circle">
+                        <img src="{{ asset('assets') }}/img/avatars/1.png" alt="" class="h-auto rounded-circle">
                     </div>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul class="dropdown-menu dropdown-menu-end pb-1">
                     <li>
                         <a class="dropdown-item" href="javascript:void(0);">
                             <div class="d-flex">
@@ -301,7 +300,7 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ route('logout') }}">
+                        <a class="dropdown-item btn-danger" href="{{ route('logout') }}">
                             <i class="ti ti-logout me-2 ti-sm"></i>
                             <span class="align-middle">Log Out</span>
                         </a>
@@ -311,7 +310,6 @@
             <!--/ User -->
         </ul>
     </div>
-
 
     <!-- Search Small Screens -->
     <div class="navbar-search-wrapper search-input-wrapper d-none">
@@ -338,7 +336,4 @@
         </span>
         <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
     </div>
-
-
-
 </nav>

@@ -7,22 +7,32 @@ use App\Exceptions\GeneralException;
 use App\Http\Requests\Bookings\storeRequest;
 use App\Services\Bookings\BookingInterface;
 use App\Services\BookingSources\BookingSourceInterface;
+use App\Services\BookingTaxes\BookingTaxInterface;
 use App\Services\Cabins\CabinInterface;
 use App\Services\Customers\CustomerInterface;
+use App\Services\PaymentMethods\PaymentMethodInterface;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    private $bookingInterface, $bookingSourceInterface, $cabinInterface, $customerInterface;
+    private $bookingInterface, $bookingSourceInterface, $cabinInterface, $customerInterface, $bookingTaxInterface, $paymentMethodInterface;
 
-    public function __construct(BookingInterface $bookingInterface, CabinInterface $cabinInterface, CustomerInterface $customerInterface, BookingSourceInterface $bookingSourceInterface)
+    public function __construct(
+        BookingInterface $bookingInterface,
+        CabinInterface $cabinInterface,
+        CustomerInterface $customerInterface,
+        BookingSourceInterface $bookingSourceInterface,
+        BookingTaxInterface $bookingTaxInterface,
+        PaymentMethodInterface $paymentMethodInterface)
     {
         $this->bookingInterface = $bookingInterface;
         $this->cabinInterface = $cabinInterface;
         $this->customerInterface = $customerInterface;
         $this->bookingSourceInterface = $bookingSourceInterface;
+        $this->bookingTaxInterface = $bookingTaxInterface;
+        $this->paymentMethodInterface = $paymentMethodInterface;
     }
 
     public function index(BookingsDataTable $dataTable)
@@ -73,7 +83,12 @@ class BookingController extends Controller
             'cabin' => $this->cabinInterface->getById($inputs['cabin_id']),
             'customers' => $this->customerInterface->get(),
             'booking_sources' => $this->bookingSourceInterface->getAll(),
+            'booking_taxes' => $this->bookingTaxInterface->get(),
+            'payment_methods' => $this->paymentMethodInterface->get(withoutLinkedAccounts: true),
         ];
+
+        if(isset($request->return_url) && !empty($request->return_url))
+            $modalData['return_url'] = $request->return_url;
 
         $data = [
             'status' => true,
@@ -89,15 +104,15 @@ class BookingController extends Controller
     {
         abort_if(request()->ajax(), 403);
 
-        // try {
+        try {
             $inputs = $request->validated();
             $record = $this->bookingInterface->store($inputs);
             return redirect()->route('bookings.index')->withSuccess('Data saved!');
-        // } catch (GeneralException $ex) {
-        //     return redirect()->route('bookings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
-        // } catch (Exception $ex) {
-        //     return redirect()->route('bookings.index')->withDanger('Something went wrong!');
-        // }
+        } catch (GeneralException $ex) {
+            return redirect()->route('bookings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+        } catch (Exception $ex) {
+            return redirect()->route('bookings.index')->withDanger('Something went wrong!');
+        }
     }
 
     public function CheckInIndex(BookingsDataTable $dataTable)

@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\{Role, Setting};
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\{Collection};
 use Illuminate\Support\Facades\{Crypt, File};
@@ -395,98 +394,6 @@ if (!function_exists('getImageByName')) {
         }
 
         return [$img, $imgThumb];
-    }
-}
-
-if (!function_exists('editDateTimeColumn')) {
-    function editDateTimeColumn($date, $dateFormat = 'Y-m-d', $timeFormat = 'H:i:s', $withBr = true, $order = 'TD')
-    {
-        $date = new Carbon($date);
-        switch ($order) {
-            case 'TD':
-                return "<span>" . $date->format($timeFormat) . "</span> " . ($withBr ? '<br>' : "") . " <span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span>";
-                break;
-
-            case 'DT':
-                return "<span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span> " . ($withBr ? '<br>' : "") . " <span>" . $date->format($timeFormat) . "</span>";
-                break;
-        }
-    }
-}
-
-if (!function_exists('editTimeColumn')) {
-    function editTimeColumn($date)
-    {
-        $date = new Carbon($date);
-
-        return "<span>" . $date->format('H:i:s') . "</span>";
-    }
-}
-
-if (!function_exists('editDateColumn')) {
-    function editDateColumn($date, $format = 'Y-m-d')
-    {
-        $date = new Carbon($date);
-
-        return "<span class='text-primary fw-bold'>" . $date->format($format) . "</span>";
-    }
-}
-
-if (!function_exists('editImageColumn')) {
-    function editImageColumn($image, $name = '', $width = 100)
-    {
-        return "<img style='border: 1px dashed #eee;border-radius: 10px' src='" . $image . "' alt='" . $name . "' width='" . $width . "'>";
-    }
-}
-
-if (!function_exists('editBooleanColumn')) {
-    function editBooleanColumn($boolean)
-    {
-        if ($boolean) {
-            return "<span class='badge rounded-pill bg-label-primary me-1'>" . __('app.commons.yes') . "</span>";
-        } else {
-            return "<span class='badge rounded-pill bg-label-danger me-1'>" . __('app.commons.no') . "</span>";
-        }
-    }
-}
-
-if (!function_exists('editStatusColumn')) {
-    function editStatusColumn($status)
-    {
-        $badge = '';
-        switch ($status) {
-            case 'yes':
-                $badge = "<span class='badge bg-success bg-glow me-1'>" . __('app.commons.yes') . "</span>";
-                break;
-
-            case 'no':
-                $badge = "<span class='badge bg-danger bg-glow me-1'>" . __('app.commons.no') . "</span>";
-                break;
-
-            case 'active':
-                $badge = "<span class='badge bg-success bg-glow me-1'>" . __('app.commons.active') . "</span>";
-                break;
-
-            case 'inactive':
-                $badge = "<span class='badge bg-danger bg-glow me-1'>" . __('app.commons.inactive') . "</span>";
-                break;
-
-            case 'objected':
-                $badge = "<span class='badge bg-warning bg-glow me-1'>" . __('app.commons.objected') . "</span>";
-                break;
-
-            default:
-                $badge = "<span class='badge bg-primary bg-glow me-1'>" . $status . "</span>";
-                break;
-        }
-        return $badge;
-    }
-}
-
-if (!function_exists('editBadgeColumn')) {
-    function editBadgeColumn($value)
-    {
-        return "<span class='badge rounded-pill bg-label-primary me-1'>" . $value . "</span>";
     }
 }
 

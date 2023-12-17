@@ -49,6 +49,10 @@
 @section('custom-js')
     {{ $dataTable->scripts() }}
     <script>
+        $(document).ready(function() {
+            $('div.head-label').html('<h4 class="m-0">Credit Amount: ${{ $credit_account }}</h4>');
+        });
+
         function deleteSelected() {
             var selectedCheckboxes = $('.dt-checkboxes:checked').length;
             if (selectedCheckboxes > 0) {
@@ -93,7 +97,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 },
-                url: "{{ route('bookings.payments.create', ['id' => ':id']) }}".replace(':id',
+                url: "{{ route('bookings.payments.create', ['booking' => ':id']) }}".replace(':id',
                     '{{ $booking_id }}'),
                 data: data,
                 type: 'GET',

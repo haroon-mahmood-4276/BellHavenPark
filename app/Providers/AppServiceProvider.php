@@ -2,17 +2,19 @@
 
 namespace App\Providers;
 
+use App\Services\Bookings\{BookingInterface, BookingService};
+use App\Services\BookingSources\{BookingSourceInterface, BookingSourceService};
+use App\Services\BookingTaxes\{BookingTaxInterface, BookingTaxService};
+use App\Services\Cabins\{CabinInterface, CabinService};
+use App\Services\CustomerRatings\{CustomerRatingInterface, CustomerRatingService};
+use App\Services\Customers\{CustomerInterface, CustomerService};
 use App\Services\Roles\{RoleInterface, RoleService};
+use App\Services\Users\{UserInterface, UserService};
 use App\Services\PaymentMethods\{PaymentMethodInterface, PaymentMethodService};
 use App\Services\InternationalIds\{InternationalIdInterface, InternationalIdService};
 use App\Services\CabinTypes\{CabinTypeInterface, CabinTypeService};
 use App\Services\CabinAssets\{CabinAssetInterface, CabinAssetService};
-use App\Services\Cabins\{CabinInterface, CabinService};
-use App\Services\BookingSources\{BookingSourceInterface, BookingSourceService};
-use App\Services\Customers\{CustomerInterface, CustomerService};
-use App\Services\Bookings\{BookingInterface, BookingService};
 use App\Services\Payments\{PaymentInterface, PaymentService};
-use App\Services\CustomerRatings\{CustomerRatingInterface, CustomerRatingService};
 
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(UserInterface::class, UserService::class);
         $this->app->bind(RoleInterface::class, RoleService::class);
         $this->app->bind(PaymentMethodInterface::class, PaymentMethodService::class);
         $this->app->bind(InternationalIdInterface::class, InternationalIdService::class);
@@ -35,8 +38,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CustomerInterface::class, CustomerService::class);
         $this->app->bind(BookingInterface::class, BookingService::class);
         $this->app->bind(PaymentInterface::class, PaymentService::class);
-
         $this->app->bind(CustomerRatingInterface::class, CustomerRatingService::class);
+        $this->app->bind(BookingTaxInterface::class, BookingTaxService::class);
     }
 
     /**

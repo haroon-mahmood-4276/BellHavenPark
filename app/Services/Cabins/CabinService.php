@@ -40,7 +40,7 @@ class CabinService implements CabinInterface
                 'electric_meter' => $inputs['electric_meter'],
                 'daily_rate' => $inputs['daily_rate'],
                 'weekly_rate' => $inputs['weekly_rate'],
-                'monthly_rate' => $inputs['monthly_rate'],
+                'four_weekly_rate' => $inputs['four_weekly_rate'],
             ];
             switch ($inputs['cabin_status']) {
                 case 'closed_permanently':
@@ -72,7 +72,7 @@ class CabinService implements CabinInterface
                 'electric_meter' => $inputs['electric_meter'],
                 'daily_rate' => $inputs['daily_rate'],
                 'weekly_rate' => $inputs['weekly_rate'],
-                'monthly_rate' => $inputs['monthly_rate'],
+                'four_weekly_rate' => $inputs['four_weekly_rate'],
             ];
             switch ($inputs['cabin_status']) {
                 case 'closed_permanently':

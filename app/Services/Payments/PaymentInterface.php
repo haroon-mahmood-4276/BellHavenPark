@@ -4,17 +4,11 @@ namespace App\Services\Payments;
 
 interface PaymentInterface
 {
-    public function getAll($ignore = null);
+    public function model();
 
-    public function getById($id, $relationships = []);
+    public function storeRentPayment($booking, $inputs);
 
-    public function getAdvancedPaymentBookingId($booking_id);
+    public function creditAccountPayment($customer_id);
 
-    public function getLastPaymentDateByBookingId($booking_id);
-
-    public function store($booking_id, $inputs);
-
-    public function update($id, $inputs);
-
-    public function destroy($inputs);
+    public function lastPaymentDate($booking);
 }
