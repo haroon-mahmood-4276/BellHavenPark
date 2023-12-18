@@ -4,7 +4,9 @@ namespace App\Services\Bookings;
 
 use App\Models\Booking;
 use App\Models\Payment;
+use App\Services\Cabins\CabinInterface;
 use App\Services\Payments\PaymentInterface;
+use App\Utils\Enums\CabinStatus;
 use App\Utils\Enums\CustomerAccounts;
 use App\Utils\Enums\PaymentStatus;
 use App\Utils\Enums\TransactionType;
@@ -14,10 +16,12 @@ use Illuminate\Support\Facades\DB;
 class BookingService implements BookingInterface
 {
     private $paymentInterface;
+    private $cabinInterface;
 
-    public function __construct(PaymentInterface $paymentInterface)
+    public function __construct(CabinInterface $cabinInterface, PaymentInterface $paymentInterface)
     {
         $this->paymentInterface = $paymentInterface;
+        $this->cabinInterface = $cabinInterface;
     }
 
     private function model()
@@ -160,10 +164,15 @@ class BookingService implements BookingInterface
     public function storeCheckOut($id)
     {
         $returnData = DB::transaction(function () use ($id) {
+            $booking = $this->model()->find($id);
+            
             $data = [
                 'check_out_date' => now()->timestamp,
             ];
-            $booking = $this->model()->find($id)->update($data);
+
+            $booking->update($data);
+
+            $this->cabinInterface->setStatus($booking->cabin_id, CabinStatus::NEEDS_CLEANING);
 
             return $booking;
         });

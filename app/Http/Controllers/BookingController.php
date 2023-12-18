@@ -115,7 +115,7 @@ class BookingController extends Controller
         }
     }
 
-    public function CheckInIndex(BookingsDataTable $dataTable)
+    public function checkInIndex(BookingsDataTable $dataTable)
     {
         $data = [
             'filter' => 'checkin',
@@ -127,7 +127,7 @@ class BookingController extends Controller
         return $dataTable->with($data)->render('bookings.index');
     }
 
-    public function CheckInStore(Request $request, $booking_id)
+    public function checkInStore(Request $request, $booking_id)
     {
         abort_if(request()->ajax(), 403);
 
@@ -141,7 +141,7 @@ class BookingController extends Controller
         }
     }
 
-    public function CheckOutIndex(BookingsDataTable $dataTable)
+    public function checkOutIndex(BookingsDataTable $dataTable)
     {
         $data = [
             'filter' => 'checkout',
@@ -153,17 +153,17 @@ class BookingController extends Controller
         return $dataTable->with($data)->render('bookings.index');
     }
 
-    public function CheckOutStore(Request $request, $booking_id)
+    public function checkOutStore(Request $request, $booking_id)
     {
         abort_if(request()->ajax(), 403);
 
         try {
             $record = $this->bookingInterface->storeCheckOut($booking_id);
-            return redirect()->route('bookings.index')->withSuccess('Data saved!');
+            return redirect()->route('bookings.checkout.index')->withSuccess('Data saved!');
         } catch (GeneralException $ex) {
-            return redirect()->route('bookings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+            return redirect()->route('bookings.checkout.index')->withDanger('Something went wrong! ' . $ex->getMessage());
         } catch (Exception $ex) {
-            return redirect()->route('bookings.index')->withDanger('Something went wrong!');
+            return redirect()->route('bookings.checkout.index')->withDanger('Something went wrong!');
         }
     }
 
@@ -172,7 +172,7 @@ class BookingController extends Controller
         abort_if(request()->ajax(), 403);
 
         $data = [
-            'bookings' => $this->bookingInterface->get(relationships: ['customer', 'cabin']),
+            'bookings' => $this->bookingInterface->get(relationships: ['customer', 'cabin'], only: 'checkedin'),
         ];
 
         return view('bookings.calender.index', $data);

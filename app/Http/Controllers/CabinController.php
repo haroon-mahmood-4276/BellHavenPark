@@ -25,13 +25,16 @@ class CabinController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(CabinsDataTable $dataTable)
+    public function index(Request $request, CabinsDataTable $dataTable)
     {
+
+        $data = ['cabin_statuses' => CabinStatus::array(), 'filters' => $request->filters ?: []];
+        
         if (request()->ajax()) {
-            return $dataTable->ajax();
+            return $dataTable->with($data)->ajax();
         }
 
-        return $dataTable->render('cabins.index');
+        return $dataTable->with($data)->render('cabins.index', $data);
     }
 
     /**

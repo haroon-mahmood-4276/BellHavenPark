@@ -5,9 +5,8 @@
                 <form action="{{ route('bookings.checkin.store', ['booking' => $booking]) }}" method="post">
                     @csrf
                     <button type="submit" class="btn btn-primary m-1" data-bs-toggle="tooltip" data-bs-placement="top"
-                        title="Booking Payment">
-                        <i class="fa-solid fa-arrow-right-to-bracket" style="font-size: 1.1rem"></i>&nbsp;&nbsp;
-                        Check In</button>
+                        title="Check in">
+                        <i class="fa-solid fa-arrow-right-to-bracket" style="font-size: 1.1rem"></i></button>
                 </form>
             @endcan
         @endif
@@ -17,8 +16,8 @@
                 <form action="{{ route('bookings.checkout.store', ['booking' => $booking]) }}" method="post">
                     @csrf
                     <button type="submit" class="btn btn-primary m-1" data-bs-toggle="tooltip" data-bs-placement="top"
-                        title="Booking Payment">
-                        <i class="fa-solid fa-arrow-right-from-bracket" style="font-size: 1.1rem"></i>&nbsp;&nbsp;Check Out</button>
+                        title="Check out">
+                        <i class="fa-solid fa-arrow-right-from-bracket" style="font-size: 1.1rem"></i></button>
                 </form>
             @endcan
         @endif

@@ -16,4 +16,6 @@ interface CabinInterface
     public function update($id, $inputs);
 
     public function destroy($inputs);
+    
+    public function setStatus($id, $status);
 }

@@ -106,4 +106,11 @@ class CabinService implements CabinInterface
 
         return $returnData;
     }
+
+    public function setStatus($id, $status)
+    {
+        return DB::transaction(function () use ($id, $status) {
+            return $this->getById($id)->update(['cabin_status' => $status]);
+        });
+    }
 }
