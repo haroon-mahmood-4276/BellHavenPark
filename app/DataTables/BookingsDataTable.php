@@ -118,8 +118,7 @@ class BookingsDataTable extends DataTable
             ->minifiedAjax()
             ->serverSide()
             ->processing()
-            ->deferRender()
-            
+            ->deferRender()    
             ->scrollX()
             ->pagingType('full_numbers')
             ->lengthMenu([

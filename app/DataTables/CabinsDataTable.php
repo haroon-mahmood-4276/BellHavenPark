@@ -43,15 +43,12 @@ class CabinsDataTable extends DataTable
             ->rawColumns(array_merge($columns, ['action', 'check']));
     }
 
-    /**
-     * Get query source of dataTable.
-     *
-     * @param \App\Models\Cabin $model
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function query(Cabin $model): QueryBuilder
     {
-        return $model->newQuery()->select('cabins.*')->with(['cabin_type']);
+        $filters = count($this->filters) > 0 ? $this->filters : [];
+        return $model->newQuery()->select('cabins.*')->when($filters && isset($filters['cabin_status']) && $filters['cabin_status'] !== 'all', function($query) use ($filters) {
+            $query->where('cabins.cabin_status', $filters['cabin_status']);
+        })->with(['cabin_type']);
     }
 
     public function html(): HtmlBuilder
