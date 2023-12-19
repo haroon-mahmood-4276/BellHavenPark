@@ -36,9 +36,8 @@
                             <label class="form-label" style="font-size: 15px" for="cabin_status">Cabin Type</label>
                             <select class="select2-size-lg form-select" id="cabin_status" name="cabin_status">
                                 <option value="all">All</option>
-                                @foreach ($cabin_statuses as $name => $cabin_status)
-                                    <option value="{{ $cabin_status }}">
-                                        {{ Str::of($name)->replace('_', ' ')->lower()->headline() }}</option>
+                                @foreach ($cabin_statuses as $key => $cabin_status)
+                                    <option value="{{ $key }}">{{ $cabin_status['text'] }}</option>
                                 @endforeach
                             </select>
                         </div>

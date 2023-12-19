@@ -27,10 +27,15 @@ trait EnumHelpers
         foreach (self::cases() as $case) {
             $enumArray[$case->value] = [
                 'name' => $case->name,
-                'text' => Str::of($case->name)->replace("_", " ")->title()->value()
+                'text' => Str::of($case->value)->headline()->value()
             ];
         }
 
         return $enumArray;
+    }
+
+    public function text(): string
+    {
+        return Str::of($this->value)->headline()->value();
     }
 }

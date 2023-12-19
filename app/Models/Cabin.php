@@ -25,6 +25,7 @@ class Cabin extends Model
         'daily_rate',
         'weekly_rate',
         'four_weekly_rate',
+        'reason'
     ];
 
     protected $casts = [
@@ -37,11 +38,13 @@ class Cabin extends Model
     public $rules = [
         'name' => 'required|string|between:3,50',
         'cabin_type' => 'required|numeric|gte:0',
-        'closed_permanent_till' => 'required|numeric|gte:0',
+        'closed_permanent_till' => 'nullable|numeric|gte:0',
         'closed_temporarily_till_from' => 'required|numeric|gte:0',
         'closed_temporarily_till_to' => 'required|numeric|gte:0',
         'long_term' => 'required|boolean',
         'electric_meter' => 'required|boolean',
+        'gas_meter' => 'required|boolean',
+        'water_meter' => 'required|boolean',
         'daily_rate' => 'required|numeric|gt:-1',
         'weekly_rate' => 'required|numeric|gt:-1',
         'four_weekly_rate' => 'required|numeric|gt:-1',
@@ -52,6 +55,7 @@ class Cabin extends Model
         parent::boot();
 
         $this->rules['cabin_status'] = 'required|string|in:' . implode(',', CabinStatus::values());
+        $this->rules['reason'] = 'required_if:cabin_status,' . implode(',', [CabinStatus::CLOSED_PERMANENTLY->value, CabinStatus::CLOSED_TEMPORARILY->value, CabinStatus::MAINTENANCE->value]);
     }
 
     public function cabin_type()
