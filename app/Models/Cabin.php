@@ -3,15 +3,12 @@
 namespace App\Models;
 
 use App\Utils\Enums\CabinStatus;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class Cabin extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes;
+    use SoftDeletes;
 
     protected $dateFormat = 'U';
 
@@ -55,11 +52,6 @@ class Cabin extends Model
         parent::boot();
 
         $this->rules['cabin_status'] = 'required|string|in:' . implode(',', CabinStatus::values());
-    }
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()->useLogName(self::class)->logFillable();
     }
 
     public function cabin_type()

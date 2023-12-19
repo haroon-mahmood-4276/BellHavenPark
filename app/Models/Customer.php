@@ -3,18 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class Customer extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes, Searchable;
+    use SoftDeletes, Searchable;
 
     protected $dateFormat = 'U';
 
@@ -59,12 +56,7 @@ class Customer extends Model
         'address' => 'nullable|string|min:3,max:250',
         'referenced_by' => 'nullable|string|min:3|max:50',
     ];
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()->useLogName(self::class)->logFillable();
-    }
-
+    
     protected function name(): Attribute
     {
         return Attribute::make(

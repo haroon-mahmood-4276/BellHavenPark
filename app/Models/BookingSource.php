@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class BookingSource extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes;
+    use SoftDeletes;
 
     protected $dateFormat = 'U';
 
@@ -31,9 +28,4 @@ class BookingSource extends Model
         'slug' => 'required|string|min:1|max:50|unique:booking_sources,slug',
         'description' => "nullable|string|between:1,254",
     ];
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()->useLogName(self::class)->logFillable();
-    }
 }
