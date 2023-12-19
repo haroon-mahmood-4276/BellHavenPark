@@ -61,7 +61,8 @@
                                 <div class="alert-body">
 
                                     <span class="text-danger">*</span> means required field. <br>
-                                    <span class="text-danger">**</span> means required field and must be unique.
+                                    <span class="text-danger">**</span> means required field and must be unique. <br>
+                                    <span class="text-danger">*c</span> means required with condition.
                                 </div>
                                 {{-- <button type="button" class="btn-close" data-bs-dismiss="alert"
                             aria-label="Close"></button> --}}

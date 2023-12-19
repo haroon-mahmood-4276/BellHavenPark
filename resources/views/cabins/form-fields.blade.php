@@ -57,7 +57,7 @@
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-6 position-relative">
-                <div class="{{ isset($cabin) && $cabin->cabin_status->value == 'closed_permanently' ? null : 'd-none' }}"
+                {{-- <div class="{{ isset($cabin) && $cabin->cabin_status->value == 'closed_permanently' ? null : 'd-none' }}"
                     id="div_closed_permanent_till">
                     <label class="form-label" style="font-size: 15px" for="closed_permanent_till">Permanently Closed
                         Till <span class="text-danger"></span></label>
@@ -75,7 +75,7 @@
                             <small class="text-muted">Select the date until the cabin is closed permanently.</small>
                         </p>
                     @enderror
-                </div>
+                </div> --}}
 
                 <div class="{{ isset($cabin) && $cabin->cabin_status->value == 'closed_temporarily' ? null : 'd-none' }}"
                     id="div_closed_temporarily_till">
@@ -138,7 +138,8 @@
                         class="text-danger">*</span></label>
                 <input type="number" class="form-control @error('four_weekly_rate') is-invalid @enderror"
                     id="four_weekly_rate" name="four_weekly_rate" placeholder="Monthly Rate"
-                    value="{{ isset($cabin) ? $cabin->four_weekly_rate : old('four_weekly_rate') ?? '0' }}" min="0" />
+                    value="{{ isset($cabin) ? $cabin->four_weekly_rate : old('four_weekly_rate') ?? '0' }}"
+                    min="0" />
                 @error('four_weekly_rate')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @else
@@ -150,7 +151,7 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-lg-4 col-md-4 col-sm-4 position-relative">
+            <div class="col-lg-3 col-md-3 col-sm-3 position-relative">
                 <label class="switch switch-square">
                     <input type="hidden" name="long_term" value="0" />
                     <input type="checkbox" name="long_term" value="1" class="switch-input"
@@ -170,7 +171,7 @@
                 @enderror
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-4 position-relative">
+            <div class="col-lg-3 col-md-3 col-sm-3 position-relative">
                 <label class="switch switch-square">
                     <input type="hidden" name="electric_meter" value="0" />
                     <input type="checkbox" name="electric_meter" value="1" class="switch-input"
@@ -179,13 +180,68 @@
                         <span class="switch-on"><i class="ti ti-check"></i></span>
                         <span class="switch-off"><i class="ti ti-x"></i></span>
                     </span>
-                    <span class="switch-label">Electric Meter</span>
+                    <span class="switch-label">Electric Meter Installed</span>
                 </label>
                 @error('electric_meter')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @else
                     <p class="m-0">
                         <small class="text-muted">Check if it has electric meter.</small>
+                    </p>
+                @enderror
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 position-relative">
+                <label class="switch switch-square">
+                    <input type="hidden" name="gas_meter" value="0" />
+                    <input type="checkbox" name="gas_meter" value="1" class="switch-input"
+                        {{ (isset($cabin) ? $cabin->gas_meter : old('gas_meter')) ? 'checked' : '' }}>
+                    <span class="switch-toggle-slider">
+                        <span class="switch-on"><i class="ti ti-check"></i></span>
+                        <span class="switch-off"><i class="ti ti-x"></i></span>
+                    </span>
+                    <span class="switch-label">Gas Meter Installed</span>
+                </label>
+                @error('gas_meter')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @else
+                    <p class="m-0">
+                        <small class="text-muted">Check if it has gas meter.</small>
+                    </p>
+                @enderror
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 position-relative">
+                <label class="switch switch-square">
+                    <input type="hidden" name="water_meter" value="0" />
+                    <input type="checkbox" name="water_meter" value="1" class="switch-input"
+                        {{ (isset($cabin) ? $cabin->water_meter : old('water_meter')) ? 'checked' : '' }}>
+                    <span class="switch-toggle-slider">
+                        <span class="switch-on"><i class="ti ti-check"></i></span>
+                        <span class="switch-off"><i class="ti ti-x"></i></span>
+                    </span>
+                    <span class="switch-label">Water Meter Installed</span>
+                </label>
+                @error('water_meter')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @else
+                    <p class="m-0">
+                        <small class="text-muted">Check if it has water meter.</small>
+                    </p>
+                @enderror
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-lg-12 col-md-12 col-sm-12 position-relative">
+                <label class="form-label" style="font-size: 15px" for="reason">Reason <span class="text-danger">*c</span></label>
+                <textarea class="form-control @error('reason') is-invalid @enderror" id="reason"
+                    name="reason" placeholder="ex. reason for under maintenance, closed, etc" rows="5">{{ isset($cabin) ? $cabin->reason : old('reason') }}</textarea>
+                @error('reason')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @else
+                    <p class="m-0">
+                        <small class="text-muted">Enter reason.</small>
                     </p>
                 @enderror
             </div>

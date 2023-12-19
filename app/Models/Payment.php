@@ -7,16 +7,13 @@ use App\Utils\Enums\{
     PaymentStatus,
     TransactionType,
 };
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class Payment extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes;
+    use SoftDeletes;
 
     protected $dateFormat = 'U';
 
@@ -52,11 +49,6 @@ class Payment extends Model
     protected $hidden = [];
 
     public $rules = [];
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()->useLogName(self::class)->logFillable();
-    }
 
     public function booking(): BelongsTo
     {

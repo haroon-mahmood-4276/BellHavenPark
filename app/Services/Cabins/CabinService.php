@@ -38,15 +38,18 @@ class CabinService implements CabinInterface
                 'cabin_status' => $inputs['cabin_status'],
                 'long_term' => $inputs['long_term'],
                 'electric_meter' => $inputs['electric_meter'],
+                'gas_meter' => $inputs['gas_meter'],
+                'water_meter' => $inputs['water_meter'],
                 'daily_rate' => $inputs['daily_rate'],
                 'weekly_rate' => $inputs['weekly_rate'],
                 'four_weekly_rate' => $inputs['four_weekly_rate'],
+                'reason' => $inputs['reason'],
             ];
             switch ($inputs['cabin_status']) {
-                case 'closed_permanently':
-                    $data['closed_from'] = intval($inputs['closed_permanent_till']);
-                    $data['closed_to'] = intval($inputs['closed_permanent_till']);
-                    break;
+                // case 'closed_permanently':
+                //     $data['closed_from'] = intval($inputs['closed_permanent_till']);
+                //     $data['closed_to'] = intval($inputs['closed_permanent_till']);
+                //     break;
 
                 case 'closed_temporarily':
                     $data['closed_from'] = intval($inputs['closed_temporarily_till_from']);
@@ -70,15 +73,18 @@ class CabinService implements CabinInterface
                 'cabin_status' => $inputs['cabin_status'],
                 'long_term' => $inputs['long_term'],
                 'electric_meter' => $inputs['electric_meter'],
+                'gas_meter' => $inputs['gas_meter'],
+                'water_meter' => $inputs['water_meter'],
                 'daily_rate' => $inputs['daily_rate'],
                 'weekly_rate' => $inputs['weekly_rate'],
                 'four_weekly_rate' => $inputs['four_weekly_rate'],
+                'reason' => $inputs['reason'],
             ];
             switch ($inputs['cabin_status']) {
-                case 'closed_permanently':
-                    $data['closed_from'] = intval($inputs['closed_permanent_till']);
-                    $data['closed_to'] = intval($inputs['closed_permanent_till']);
-                    break;
+                // case 'closed_permanently':
+                //     $data['closed_from'] = intval($inputs['closed_permanent_till']);
+                //     $data['closed_to'] = intval($inputs['closed_permanent_till']);
+                //     break;
 
                 case 'closed_temporarily':
                     $data['closed_from'] = intval($inputs['closed_temporarily_till_from']);

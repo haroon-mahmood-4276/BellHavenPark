@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class BookingTax extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes;
+    use SoftDeletes;
 
     protected $dateFormat = 'U';
 
@@ -35,9 +32,4 @@ class BookingTax extends Model
         'is_flat' => 'required|boolean',
         'is_default' => 'required|boolean',
     ];
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()->useLogName(self::class)->logFillable();
-    }
 }

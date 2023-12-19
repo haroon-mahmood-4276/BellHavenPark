@@ -2,18 +2,18 @@
 <script>
     $(document).ready(function() {
 
-        new dateDropper({
-            selector: '#closed_permanent_till',
-            format: "MM dd, y",
-            showArrowsOnHover: true,
-            expandable: true,
-            startFromMonday: true,
-            defaultDate: "{{ isset($cabin)? \Carbon\Carbon::parse($cabin->closed_to)->format('Y/m/d') : now()->format('Y/m/d') }}",
-            minDate: "{{ isset($cabin)? \Carbon\Carbon::parse($cabin->closed_to)->format('Y/m/d') : now()->format('Y/m/d') }}",
-            onChange: function(res) {
-                $('input[name="closed_permanent_till"]').val(moment(res.output.string).add(1, 'days').startOf('day').unix());
-            }
-        });
+        // new dateDropper({
+        //     selector: '#closed_permanent_till',
+        //     format: "MM dd, y",
+        //     showArrowsOnHover: true,
+        //     expandable: true,
+        //     startFromMonday: true,
+        //     defaultDate: "{{ isset($cabin)? \Carbon\Carbon::parse($cabin->closed_to)->format('Y/m/d') : now()->format('Y/m/d') }}",
+        //     minDate: "{{ isset($cabin)? \Carbon\Carbon::parse($cabin->closed_to)->format('Y/m/d') : now()->format('Y/m/d') }}",
+        //     onChange: function(res) {
+        //         $('input[name="closed_permanent_till"]').val(moment(res.output.string).add(1, 'days').startOf('day').unix());
+        //     }
+        // });
 
 
         new dateDropper({
