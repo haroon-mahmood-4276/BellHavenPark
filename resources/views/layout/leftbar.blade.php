@@ -297,9 +297,9 @@
             </li>
         @endcanany
 
-        @canany(['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create'])
+        @canany(['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create', 'cabins.needs-cleaning.index'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(),['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create', 'cabins.needs-cleaning.index'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-door-open menu-icon"></i>
                     <div>Cabins</div>
@@ -318,6 +318,14 @@
                         <li class="menu-item {{ request()->routeIs('cabins.create') ? 'active' : null }}">
                             <a href="{{ route('cabins.create') }}" class="menu-link">
                                 <div>Add New</div>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('cabins.needs-cleaning.update')
+                        <li class="menu-item {{ request()->routeIs('cabins.needs-cleaning.index') ? 'active' : null }}">
+                            <a href="{{ route('cabins.needs-cleaning.index') }}" class="menu-link">
+                                <div>Needs Cleaning Cabins</div>
                             </a>
                         </li>
                     @endcan

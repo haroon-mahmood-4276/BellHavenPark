@@ -153,6 +153,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('edit', 'edit')->name('edit');
             Route::put('update', 'update')->name('update');
         });
+
+        Route::group(['prefix' => 'list', 'middleware' => 'permission:cabins.needs-cleaning.update'], function () {
+            Route::get('needs-cleaning', 'listNeedsCleaningIndex')->name('needs-cleaning.index');
+            Route::put('needs-cleaning', 'listNeedsCleaningUpdate')->name('needs-cleaning.update');
+        });
     });
 
     // Booking Sources Routes

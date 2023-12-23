@@ -24,9 +24,13 @@ class CabinService implements CabinInterface
         return $model;
     }
 
-    public function getById($id)
+    public function getById(int|array $id)
     {
-        return $this->model()->find($id);
+        $model = $this->model();
+        if (is_iterable($id)) {
+            return $model->whereIn('id', $id)->get();
+        }
+        return $model->find($id);
     }
 
     public function store($inputs)
@@ -46,10 +50,10 @@ class CabinService implements CabinInterface
                 'reason' => $inputs['reason'],
             ];
             switch ($inputs['cabin_status']) {
-                // case 'closed_permanently':
-                //     $data['closed_from'] = intval($inputs['closed_permanent_till']);
-                //     $data['closed_to'] = intval($inputs['closed_permanent_till']);
-                //     break;
+                    // case 'closed_permanently':
+                    //     $data['closed_from'] = intval($inputs['closed_permanent_till']);
+                    //     $data['closed_to'] = intval($inputs['closed_permanent_till']);
+                    //     break;
 
                 case 'closed_temporarily':
                     $data['closed_from'] = intval($inputs['closed_temporarily_till_from']);
@@ -81,10 +85,10 @@ class CabinService implements CabinInterface
                 'reason' => $inputs['reason'],
             ];
             switch ($inputs['cabin_status']) {
-                // case 'closed_permanently':
-                //     $data['closed_from'] = intval($inputs['closed_permanent_till']);
-                //     $data['closed_to'] = intval($inputs['closed_permanent_till']);
-                //     break;
+                    // case 'closed_permanently':
+                    //     $data['closed_from'] = intval($inputs['closed_permanent_till']);
+                    //     $data['closed_to'] = intval($inputs['closed_permanent_till']);
+                    //     break;
 
                 case 'closed_temporarily':
                     $data['closed_from'] = intval($inputs['closed_temporarily_till_from']);
@@ -113,9 +117,12 @@ class CabinService implements CabinInterface
         return $returnData;
     }
 
-    public function setStatus($id, $status)
+    public function setStatus(int|array $id, $status)
     {
         return DB::transaction(function () use ($id, $status) {
+            if (is_iterable($id)) {
+                return $this->getById($id)->each->update(['cabin_status' => $status]);
+            }
             return $this->getById($id)->update(['cabin_status' => $status]);
         });
     }

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\{Role, Permission};
+use Illuminate\Support\Facades\Artisan;
 
 class PermissionSeeder extends Seeder
 {
@@ -15,9 +16,12 @@ class PermissionSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         Permission::truncate();
+
+        Artisan::call('cache:clear');
+
         $data = [
 
             // Roles Routes
@@ -275,6 +279,11 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'show_name' => 'Cabins - Can Export',
             ],
+            [
+                'name' => 'cabins.needs-cleaning.update',
+                'guard_name' => 'web',
+                'show_name' => 'Cabins - Can Update Need Cleaning Cabins',
+            ],
 
             // Booking Sources Routes
             [
@@ -433,7 +442,7 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'booking-taxes.set-default',
                 'guard_name' => 'web',
-                'show_name' => 'Booking Taxes - Can Set',
+                'show_name' => 'Booking Taxes - Can Set Default',
             ],
         ];
 
