@@ -9,7 +9,7 @@ interface CabinInterface
 
     public function getAll($ignore = null);
 
-    public function getById($id);
+    public function getById(int|array $id);
 
     public function store($inputs);
 
@@ -17,5 +17,5 @@ interface CabinInterface
 
     public function destroy($inputs);
     
-    public function setStatus($id, $status);
+    public function setStatus(int|array $id, $status);
 }
