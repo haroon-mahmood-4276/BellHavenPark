@@ -154,9 +154,14 @@ Route::group(['middleware' => 'auth'], function () {
             Route::put('update', 'update')->name('update');
         });
 
-        Route::group(['prefix' => 'list', 'middleware' => 'permission:cabins.needs-cleaning.update'], function () {
+        Route::group(['middleware' => 'permission:cabins.needs-cleaning.update'], function () {
             Route::get('needs-cleaning', 'listNeedsCleaningIndex')->name('needs-cleaning.index');
             Route::put('needs-cleaning', 'listNeedsCleaningUpdate')->name('needs-cleaning.update');
+        });
+
+        Route::group(['middleware' => 'permission:cabins.maintenance.update'], function () {
+            Route::get('maintenance', 'addCabinToMaintenanceIndex')->name('maintenance.index');
+            Route::post('maintenance', 'addCabinToMaintenanceStore')->name('maintenance.store');
         });
     });
 

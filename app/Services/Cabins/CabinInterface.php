@@ -7,7 +7,7 @@ interface CabinInterface
 
     public function model();
 
-    public function getAll($ignore = null);
+    public function getAll($ignore = null, $ignore_status = null);
 
     public function getById(int|array $id);
 
@@ -17,5 +17,5 @@ interface CabinInterface
 
     public function destroy($inputs);
     
-    public function setStatus(int|array $id, $status);
+    public function setStatus(int|array $id, $status, $reason = '');
 }

@@ -18,7 +18,7 @@
 
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
-        <h2 class="content-header-title float-start mb-0 mx-3">Cabins (Needs Cleaning)</h2>
+        <h2 class="content-header-title float-start mb-0 mx-3">Cabins (Maintenance)</h2>
         {{ Breadcrumbs::render('cabins.index') }}
     </div>
 @endsection
@@ -28,15 +28,13 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('cabins.needs-cleaning.update') }}" id="cabins-table-form" method="POST">
-                        @csrf
-                        @method('PUT')
-                        {{ $dataTable->table() }}
-                    </form>
+                    {{ $dataTable->table() }}
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="modalPlace"></div>
 @endsection
 
 @section('vendor-js')
@@ -83,6 +81,36 @@
                     },
                 });
             }
+        }
+
+        function addCabinToMaintenance() {
+            $.ajax({
+                url: ("{{ route('ajax.cabins.modal.maintenance.add-cabin') }}"),
+                type: 'GET',
+                cache: false,
+                beforeSend: function() {
+                    showBlockUI();
+                },
+                success: function(response) {
+                    if (response.status) {
+                        $('#' + response.data.modalPlace).html(response.data.modal);
+                        $('#' + response.data.currentModal).modal('show');
+                        hideBlockUI();
+                    }
+                },
+                error: function(jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    var errorsHtml = '';
+
+                    $.each(errors['errors'], function(index, value) {
+                        errorsHtml += "<span class='badge rounded-pill bg-danger p-3 m-3'>" + index +
+                            " -> " + value + "</span>";
+                    });
+                },
+                complete: function() {
+                    hideBlockUI();
+                },
+            });
         }
     </script>
 @endsection

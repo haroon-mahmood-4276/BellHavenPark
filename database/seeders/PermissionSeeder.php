@@ -36,19 +36,9 @@ class PermissionSeeder extends Seeder
                 'show_name' => 'Roles - Can Create',
             ],
             [
-                'name' => 'roles.store',
-                'guard_name' => 'web',
-                'show_name' => 'Roles - Can Store',
-            ],
-            [
                 'name' => 'roles.edit',
                 'guard_name' => 'web',
                 'show_name' => 'Roles - Can Edit',
-            ],
-            [
-                'name' => 'roles.update',
-                'guard_name' => 'web',
-                'show_name' => 'Roles - Can Update',
             ],
             [
                 'name' => 'roles.destroy',
@@ -76,11 +66,6 @@ class PermissionSeeder extends Seeder
             //     'name' => 'permissions.create',
             //     'guard_name' => 'web',
             //     'show_name' => 'Can Create Permissions',
-            // ],
-            // [
-            //     'name' => 'permissions.store',
-            //     'guard_name' => 'web',
-            //     'show_name' => 'Can Store Permissions',
             // ],
             // [
             //     'name' => 'permissions.edit',
@@ -144,19 +129,9 @@ class PermissionSeeder extends Seeder
                 'show_name' => 'Payment Methods - Can Create',
             ],
             [
-                'name' => 'payment-methods.store',
-                'guard_name' => 'web',
-                'show_name' => 'Payment Methods - Can Store',
-            ],
-            [
                 'name' => 'payment-methods.edit',
                 'guard_name' => 'web',
                 'show_name' => 'Payment Methods - Can Edit',
-            ],
-            [
-                'name' => 'payment-methods.update',
-                'guard_name' => 'web',
-                'show_name' => 'Payment Methods - Can Update',
             ],
             [
                 'name' => 'payment-methods.destroy',
@@ -181,19 +156,9 @@ class PermissionSeeder extends Seeder
                 'show_name' => 'International Ids - Can Create',
             ],
             [
-                'name' => 'international-ids.store',
-                'guard_name' => 'web',
-                'show_name' => 'International Ids - Can Store',
-            ],
-            [
                 'name' => 'international-ids.edit',
                 'guard_name' => 'web',
                 'show_name' => 'International Ids - Can Edit',
-            ],
-            [
-                'name' => 'international-ids.update',
-                'guard_name' => 'web',
-                'show_name' => 'International Ids - Can Update',
             ],
             [
                 'name' => 'international-ids.destroy',
@@ -218,19 +183,9 @@ class PermissionSeeder extends Seeder
                 'show_name' => 'Cabin Types - Can Create',
             ],
             [
-                'name' => 'cabin-types.store',
-                'guard_name' => 'web',
-                'show_name' => 'Cabin Types - Can Store',
-            ],
-            [
                 'name' => 'cabin-types.edit',
                 'guard_name' => 'web',
                 'show_name' => 'Cabin Types - Can Edit',
-            ],
-            [
-                'name' => 'cabin-types.update',
-                'guard_name' => 'web',
-                'show_name' => 'Cabin Types - Can Update',
             ],
             [
                 'name' => 'cabin-types.destroy',
@@ -255,19 +210,9 @@ class PermissionSeeder extends Seeder
                 'show_name' => 'Cabins - Can Create',
             ],
             [
-                'name' => 'cabins.store',
-                'guard_name' => 'web',
-                'show_name' => 'Cabins - Can Store',
-            ],
-            [
                 'name' => 'cabins.edit',
                 'guard_name' => 'web',
                 'show_name' => 'Cabins - Can Edit',
-            ],
-            [
-                'name' => 'cabins.update',
-                'guard_name' => 'web',
-                'show_name' => 'Cabins - Can Update',
             ],
             [
                 'name' => 'cabins.destroy',
@@ -282,7 +227,12 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'cabins.needs-cleaning.update',
                 'guard_name' => 'web',
-                'show_name' => 'Cabins - Can Update Need Cleaning Cabins',
+                'show_name' => 'Cabins - Can add/remove cabins from cleaning list',
+            ],
+            [
+                'name' => 'cabins.maintenance.update',
+                'guard_name' => 'web',
+                'show_name' => 'Cabins - Can add/remove cabins in maintenance',
             ],
 
             // Booking Sources Routes
@@ -297,19 +247,9 @@ class PermissionSeeder extends Seeder
                 'show_name' => 'Booking Sources - Can Create',
             ],
             [
-                'name' => 'booking-sources.store',
-                'guard_name' => 'web',
-                'show_name' => 'Booking Sources - Can Store',
-            ],
-            [
                 'name' => 'booking-sources.edit',
                 'guard_name' => 'web',
                 'show_name' => 'Booking Sources - Can Edit',
-            ],
-            [
-                'name' => 'booking-sources.update',
-                'guard_name' => 'web',
-                'show_name' => 'Booking Sources - Can Update',
             ],
             [
                 'name' => 'booking-sources.destroy',
@@ -334,19 +274,9 @@ class PermissionSeeder extends Seeder
                 'show_name' => 'Customers - Can Create',
             ],
             [
-                'name' => 'customers.store',
-                'guard_name' => 'web',
-                'show_name' => 'Customers - Can Store',
-            ],
-            [
                 'name' => 'customers.edit',
                 'guard_name' => 'web',
                 'show_name' => 'Customers - Can Edit',
-            ],
-            [
-                'name' => 'customers.update',
-                'guard_name' => 'web',
-                'show_name' => 'Customers - Can Update',
             ],
             [
                 'name' => 'customers.destroy',
@@ -415,19 +345,9 @@ class PermissionSeeder extends Seeder
                 'show_name' => 'Booking Taxes - Can Create',
             ],
             [
-                'name' => 'booking-taxes.store',
-                'guard_name' => 'web',
-                'show_name' => 'Booking Taxes - Can Store',
-            ],
-            [
                 'name' => 'booking-taxes.edit',
                 'guard_name' => 'web',
                 'show_name' => 'Booking Taxes - Can Edit',
-            ],
-            [
-                'name' => 'booking-taxes.update',
-                'guard_name' => 'web',
-                'show_name' => 'Booking Taxes - Can Update',
             ],
             [
                 'name' => 'booking-taxes.destroy',

@@ -12,7 +12,7 @@ class CabinService implements CabinInterface
         return new Cabin();
     }
 
-    public function getAll($ignore = null)
+    public function getAll($ignore = null, $ignore_status = null)
     {
         $model = $this->model();
         if (is_array($ignore)) {
@@ -20,7 +20,9 @@ class CabinService implements CabinInterface
         } else if (is_string($ignore)) {
             $model = $model->where('id', '!=', $ignore);
         }
-        $model = $model->get();
+        $model = $model->when($ignore_status, function ($query, $ignore_status) {
+            $query->where('cabin_status', '!=', $ignore_status);
+        })->get();
         return $model;
     }
 
@@ -117,13 +119,14 @@ class CabinService implements CabinInterface
         return $returnData;
     }
 
-    public function setStatus(int|array $id, $status)
+    public function setStatus(int|array $id, $status, $reason = '')
     {
-        return DB::transaction(function () use ($id, $status) {
+        return DB::transaction(function () use ($id, $status, $reason) {
+            $data = ['cabin_status' => $status, 'reason' => $reason];
             if (is_iterable($id)) {
-                return $this->getById($id)->each->update(['cabin_status' => $status]);
+                return $this->getById($id)->each->update($data);
             }
-            return $this->getById($id)->update(['cabin_status' => $status]);
+            return $this->getById($id)->update($data);
         });
     }
 }

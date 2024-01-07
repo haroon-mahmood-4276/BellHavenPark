@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\{CabinNeedCleaningDataTable, CabinsDataTable};
+use App\DataTables\{CabinMaintenanceDataTable, CabinNeedCleaningDataTable, CabinsDataTable};
 use App\Exceptions\GeneralException;
 use App\Http\Requests\Cabins\{storeRequest, updateRequest};
-use App\Models\Booking;
 use App\Services\{Cabins\CabinInterface, CabinTypes\CabinTypeInterface};
 use App\Utils\Enums\CabinStatus;
-use Exception;
 use Illuminate\Http\Request;
+use Exception;
 
 class CabinController extends Controller
 {
@@ -154,6 +153,38 @@ class CabinController extends Controller
             return redirect()->route('cabins.needs-cleaning.index')->withDanger('Something went wrong! ' . $ex->getMessage());
         } catch (Exception $ex) {
             return redirect()->route('cabins.needs-cleaning.index')->withDanger('Something went wrong!');
+        }
+    }
+
+    public function addCabinToMaintenanceIndex(Request $request, CabinMaintenanceDataTable $dataTable)
+    {
+        $data = [];
+
+        if (request()->ajax()) {
+            return $dataTable->with($data)->ajax();
+        }
+
+        return $dataTable->with($data)->render('cabins.maintenance.index', $data);
+    }
+
+    public function addCabinToMaintenanceStore(Request $request)
+    {
+        abort_if(request()->ajax(), 403);
+
+        try {
+            if ($request->has('cabins')) {
+
+                $record = $this->cabinInterface->setStatus($request->cabins, CabinStatus::MAINTENANCE->value, $request->reason);
+
+                if (!$record) {
+                    return redirect()->route('cabins.maintenance.index')->withDanger('Data not found!');
+                }
+                return redirect()->route('cabins.maintenance.index')->withSuccess('Cabin Updated!');
+            }
+        } catch (GeneralException $ex) {
+            return redirect()->route('cabins.maintenance.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+        } catch (Exception $ex) {
+            return redirect()->route('cabins.maintenance.index')->withDanger('Something went wrong!');
         }
     }
 }
