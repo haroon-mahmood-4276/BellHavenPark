@@ -124,7 +124,7 @@ class CabinController extends Controller
         }
     }
 
-    public function listNeedsCleaningIndex(Request $request, CabinNeedCleaningDataTable $dataTable)
+    public function addCabinToNeedsCleaningIndex(Request $request, CabinNeedCleaningDataTable $dataTable)
     {
         $data = [];
 
@@ -133,27 +133,6 @@ class CabinController extends Controller
         }
 
         return $dataTable->with($data)->render('cabins.needs-cleaning.index', $data);
-    }
-
-    public function listNeedsCleaningUpdate(Request $request)
-    {
-        abort_if(request()->ajax(), 403);
-
-        try {
-            if ($request->has('checkForUpdate')) {
-
-                $record = $this->cabinInterface->setStatus($request->checkForUpdate, CabinStatus::VACANT->value);
-
-                if (!$record) {
-                    return redirect()->route('cabins.needs-cleaning.index')->withDanger('Data not found!');
-                }
-            }
-            return redirect()->route('cabins.needs-cleaning.index')->withSuccess('Cabin Updated!');
-        } catch (GeneralException $ex) {
-            return redirect()->route('cabins.needs-cleaning.index')->withDanger('Something went wrong! ' . $ex->getMessage());
-        } catch (Exception $ex) {
-            return redirect()->route('cabins.needs-cleaning.index')->withDanger('Something went wrong!');
-        }
     }
 
     public function addCabinToMaintenanceIndex(Request $request, CabinMaintenanceDataTable $dataTable)
@@ -208,6 +187,50 @@ class CabinController extends Controller
             return redirect()->route('cabins.maintenance.index')->withDanger('Something went wrong! ' . $ex->getMessage());
         } catch (Exception $ex) {
             return redirect()->route('cabins.maintenance.index')->withDanger('Something went wrong!');
+        }
+    }
+
+    public function addToNeedsCleaning(Request $request)
+    {
+        abort_if(request()->ajax(), 403);
+
+        try {
+            if ($request->has('cabins')) {
+
+                $record = $this->cabinInterface->setStatus($request->cabins, CabinStatus::NEEDS_CLEANING->value, $request->reason);
+
+                if (!$record) {
+                    return redirect()->route('cabins.needs-cleaning.index')->withDanger('Data not found!');
+                }
+                return redirect()->route('cabins.needs-cleaning.index')->withSuccess('Cabin Updated!');
+            }
+            return redirect()->route('cabins.needs-cleaning.index')->withWarning('Atleast select one cabin!');
+        } catch (GeneralException $ex) {
+            return redirect()->route('cabins.needs-cleaning.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+        } catch (Exception $ex) {
+            return redirect()->route('cabins.needs-cleaning.index')->withDanger('Something went wrong!');
+        }
+    }
+    
+    public function removeFromNeedsCleaning(Request $request)
+    {
+        abort_if(request()->ajax(), 403);
+
+        try {
+            if ($request->has('cabins')) {
+
+                $record = $this->cabinInterface->setStatus($request->cabins, CabinStatus::VACANT->value, $request->reason);
+
+                if (!$record) {
+                    return redirect()->route('cabins.needs-cleaning.index')->withDanger('Data not found!');
+                }
+                return redirect()->route('cabins.needs-cleaning.index')->withSuccess('Cabin Updated!');
+            }
+            return redirect()->route('cabins.needs-cleaning.index')->withWarning('Atleast select one cabin!');
+        } catch (GeneralException $ex) {
+            return redirect()->route('cabins.needs-cleaning.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+        } catch (Exception $ex) {
+            return redirect()->route('cabins.needs-cleaning.index')->withDanger('Something went wrong!');
         }
     }
 }

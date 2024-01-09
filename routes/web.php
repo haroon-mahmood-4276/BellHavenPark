@@ -155,8 +155,9 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::group(['middleware' => 'permission:cabins.needs-cleaning.update'], function () {
-            Route::get('needs-cleaning', 'listNeedsCleaningIndex')->name('needs-cleaning.index');
-            Route::put('needs-cleaning', 'listNeedsCleaningUpdate')->name('needs-cleaning.update');
+            Route::get('needs-cleaning', 'addCabinToNeedsCleaningIndex')->name('needs-cleaning.index');
+            Route::post('needs-cleaning', 'addToNeedsCleaning')->name('needs-cleaning.store');
+            Route::delete('needs-cleaning', 'removeFromNeedsCleaning')->name('needs-cleaning.delete');
         });
 
         Route::group(['middleware' => 'permission:cabins.maintenance.update'], function () {

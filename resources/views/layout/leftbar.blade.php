@@ -297,7 +297,7 @@
             </li>
         @endcanany
 
-        @canany(['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create', 'cabins.needs-cleaning.index', 'cabins.maintenance.index'])
+        @canany(['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create', 'cabins.needs-cleaning.update', 'cabins.maintenance.update'])
             <li
                 class="menu-item {{ in_array(request()->route()->getName(),['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create', 'cabins.needs-cleaning.index', 'cabins.maintenance.index'])? 'open active': null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">

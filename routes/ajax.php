@@ -32,4 +32,9 @@ Route::group(['as' => 'ajax.'], function () {
         Route::get('modal-add-to-maintenance', 'modalAddToMaintenance')->name('modal.maintenance.add');
         Route::get('modal-remove-from-maintenance', 'modalRemoveFromMaintenance')->name('modal.maintenance.remove');
     });
+
+    Route::prefix('cabins')->name('cabins.')->controller(CabinController::class)->group(function () {
+        Route::get('modal-add-to-needs-cleaning', 'modalAddToNeedsCleaning')->name('modal.needs-cleaning.add');
+        Route::get('modal-remove-from-needs-cleaning', 'modalRemoveFromNeedsCleaning')->name('modal.needs-cleaning.remove');
+    });
 });

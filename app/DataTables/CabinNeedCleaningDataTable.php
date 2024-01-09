@@ -24,38 +24,46 @@ class CabinNeedCleaningDataTable extends DataTable
             ->editColumn('check', function ($model) {
                 return $model;
             })
+            ->editColumn('long_term', function ($model) {
+                return editStatusColumn($model->long_term);
+            })
+            ->editColumn('utilities', function ($model) {
+                return "<span class='badge bg-" . ($model->electric_meter ? "success" : "danger") . " bg-glow me-1'>E</span><span class='badge bg-" . ($model->gas_meter ? "success" : "danger") . " bg-glow me-1'>G</span><span class='badge bg-" . ($model->water_meter ? "success" : "danger") . " bg-glow me-1'>W</span>";
+            })
             ->editColumn('cabin_status', function ($model) {
                 return editCabinStatusColumn($model->cabin_status->value);
             })
             ->editColumn('updated_at', function ($model) {
                 return editDateTimeColumn($model->updated_at);
             })
-            ->editColumn('actions', function ($model) {
-                return view('cabins.needs-cleaning.actions', ['id' => $model->id]);
-            })
             ->setRowId('id')
-            ->rawColumns($columns);
+            ->rawColumns(array_merge($columns, ['action', 'check']));
     }
 
     public function query(Cabin $model): QueryBuilder
     {
-        return $model->newQuery()
-            ->select('cabins.*')
-            ->where('cabin_status', CabinStatus::NEEDS_CLEANING)
-            ->orWhereIn('id', Booking::whereBetween('booking_to', [now()->startOfDay()->timestamp, now()->endOfDay()->timestamp])->pluck('cabin_id')->toArray())
-            ->with(['cabin_type']);
+        return $model->newQuery()->select('cabins.*')->with(['cabin_type'])->where('cabin_status', CabinStatus::NEEDS_CLEANING);
     }
 
     public function html(): HtmlBuilder
     {
         $buttons = [];
 
-        if (auth()->user()->can('cabins.needs-cleaning.update')) {
-            $buttons[] = Button::raw('update-for-checkin-cabins')
+        if (auth()->user()->can('cabins.create')) {
+            $buttons[] = Button::raw('add-new')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
-                ->text('<i class="fa-solid fa-check"></i>&nbsp;&nbsp; Available for check in')
+                ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add to cleaning')
                 ->attr([
-                    'onclick' => 'updateForCheckInCabins()',
+                    'onclick' => 'addCabinToNeedsCleaning()',
+                ]);
+        }
+
+        if (auth()->user()->can('cabins.destroy')) {
+            $buttons[] = Button::raw('delete-selected')
+                ->addClass('btn btn-danger waves-effect waves-float waves-light m-1')
+                ->text('<i class="fa-solid fa-minus"></i>&nbsp;&nbsp;Remove from cleaning')
+                ->attr([
+                    'onclick' => 'removeFromNeedsCleaning()',
                 ]);
         }
 
@@ -65,7 +73,7 @@ class CabinNeedCleaningDataTable extends DataTable
         ]);
 
         return $this->builder()
-            ->setTableId('cabins-table')
+            ->setTableId('needs-cleaning-cabins-table')
             ->addTableClass('table-borderless table-striped table-hover')
             ->columns($this->getColumns())
             ->minifiedAjax()
@@ -91,11 +99,8 @@ class CabinNeedCleaningDataTable extends DataTable
                     'searchable' => false,
                     'responsivePriority' => 3,
                     'render' => "function (data, type, full, setting) {
-                        data = JSON.parse(data);
-                        if('needs_cleaning' === data.cabin_status) {
-                            return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + data.id + '\" name=\"checkForUpdate[]\" id=\"checkForUpdate_' + data.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + data.id + '\"></label></div>';
-                        } 
-                        return 'Available <br> on checkout';
+                        var role = JSON.parse(data);
+                        return '<div class=\"form-check\"> <input class=\"form-check-input dt-checkboxes\" onchange=\"changeTableRowColor(this)\" type=\"checkbox\" value=\"' + role.id + '\" name=\"checkForDelete[]\" id=\"checkForDelete_' + role.id + '\" /><label class=\"form-check-label\" for=\"chkRole_' + role.id + '\"></label></div>';
                     }",
                     'checkboxes' => [
                         'selectAllRender' =>  '<div class="form-check"> <input class="form-check-input" onchange="changeAllTableRowColor()" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>',
@@ -103,7 +108,7 @@ class CabinNeedCleaningDataTable extends DataTable
                 ],
             ])
             ->orders([
-                [3, 'desc'],
+                [6, 'desc'],
             ]);
     }
 
@@ -114,7 +119,7 @@ class CabinNeedCleaningDataTable extends DataTable
      */
     protected function getColumns(): array
     {
-        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle ');
+        $checkColumn = Column::computed('check')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle');
 
         if (auth()->user()->can('cabins.destroy')) {
             $checkColumn->addClass('disabled');
@@ -124,6 +129,9 @@ class CabinNeedCleaningDataTable extends DataTable
             $checkColumn,
             Column::make('name')->addClass('text-nowrap text-center align-middle'),
             Column::make('cabin_status')->title('Status')->addClass('text-nowrap text-center align-middle'),
+            Column::make('cabin_type.name')->title('Type')->addClass('text-nowrap text-center align-middle'),
+            Column::make('long_term')->addClass('text-nowrap text-center align-middle'),
+            Column::computed('utilities')->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
         ];
         return $columns;

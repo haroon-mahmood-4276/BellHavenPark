@@ -4,7 +4,7 @@
     {{ Breadcrumbs::view('breadcrumbs::json-ld', 'cabins.index') }}
 @endsection
 
-@section('page-title', 'Cabins')
+@section('page-title', 'Cabins (Needs Cleaning)')
 
 @section('page-vendor')
     {{ view('layout.libs.datatables.css') }}
@@ -28,15 +28,15 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('cabins.needs-cleaning.update') }}" id="cabins-table-form" method="POST">
-                        @csrf
-                        @method('PUT')
+                    <form action="#" method="get" id="form_needs_cleaning_cabins_list">
                         {{ $dataTable->table() }}
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="modalPlace"></div>
 @endsection
 
 @section('vendor-js')
@@ -49,37 +49,72 @@
 @section('custom-js')
     {{ $dataTable->scripts() }}
     <script>
-        function updateForCheckInCabins() {
-            var selectedCheckboxes = $('.dt-checkboxes:checked').length;
-            if (selectedCheckboxes > 0) {
-
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Warning',
-                    text: 'Are you sure you want to update the selected items?',
-                    showCancelButton: true,
-                    cancelButtonText: 'No',
-                    confirmButtonText: 'Yes',
-                    confirmButtonClass: 'btn-success',
-                    buttonsStyling: false,
-                    customClass: {
-                        confirmButton: 'btn btn-success me-1',
-                        cancelButton: 'btn btn-danger me-1'
-                    },
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $('#cabins-table-form').submit();
+        function addCabinToNeedsCleaning() {
+            $.ajax({
+                url: ("{{ route('ajax.cabins.modal.needs-cleaning.add') }}"),
+                type: 'GET',
+                cache: false,
+                beforeSend: function() {
+                    showBlockUI();
+                },
+                success: function(response) {
+                    if (response.status) {
+                        $('#' + response.data.modalPlace).html(response.data.modal);
+                        $('#' + response.data.currentModal).modal('show');
+                        hideBlockUI();
                     }
-                });
-            } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Warning',
-                    text: 'Please select at least one item!',
-                    buttonsStyling: false,
-                    customClass: {
-                        confirmButton: 'btn btn-success me-1',
-                        cancelButton: 'btn btn-danger me-1'
+                },
+                error: function(jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    var errorsHtml = '';
+
+                    $.each(errors['errors'], function(index, value) {
+                        errorsHtml += "<span class='badge rounded-pill bg-danger p-3 m-3'>" + index +
+                            " -> " + value + "</span>";
+                    });
+                },
+                complete: function() {
+                    hideBlockUI();
+                },
+            });
+        }
+
+        function removeFromNeedsCleaning() {
+            let data = []
+            $('#needs-cleaning-cabins-table input[id^="checkForDelete_"]:checked').each(function(element) {
+                data.push(parseInt($(this).attr('id').replace('checkForDelete_', '')))
+            })
+
+            if (data.length > 0) {
+                $.ajax({
+                    url: ("{{ route('ajax.cabins.modal.needs-cleaning.remove') }}"),
+                    type: 'GET',
+                    cache: false,
+                    data: {
+                        cabins: data
+                    },
+                    beforeSend: function() {
+                        showBlockUI();
+                    },
+                    success: function(response) {
+                        if (response.status) {
+                            $('#' + response.data.modalPlace).html(response.data.modal);
+                            $('#' + response.data.currentModal).modal('show');
+                            hideBlockUI();
+                        }
+                    },
+                    error: function(jqXhr, json, errorThrown) {
+                        var errors = jqXhr.responseJSON;
+                        var errorsHtml = '';
+
+                        $.each(errors['errors'], function(index, value) {
+                            errorsHtml += "<span class='badge rounded-pill bg-danger p-3 m-3'>" +
+                                index +
+                                " -> " + value + "</span>";
+                        });
+                    },
+                    complete: function() {
+                        hideBlockUI();
                     },
                 });
             }
