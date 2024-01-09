@@ -5,17 +5,19 @@ on:
     branches: [ "main" ]
 
 jobs:
-  laravel-deployment:
-    name: Laravel-Deploy
+  pakdss-deployment:
+    name: BellHavenPark-Deploy
+    permissions:
+      deployments: write
     runs-on: ubuntu-latest
     steps:
       - name: Create GitHub deployment
-          id: deployment
-          uses: chrnorm/deployment-action@v2
-          with:
-            token: '${{ github.token }}'
-            environment: production
-            environment-url: https://bellhavenpark.com.au
+        id: deployment
+        uses: chrnorm/deployment-action@v2
+        with:
+          token: '${{ github.token }}'
+          environment: production
+          environment-url: https://bellhavenpark.com.au
       
       - name: BellHavenPark Deployment
         uses: appleboy/ssh-action@v0.1.9
