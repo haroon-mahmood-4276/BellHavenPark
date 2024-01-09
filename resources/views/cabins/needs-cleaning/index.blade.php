@@ -18,7 +18,7 @@
 
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
-        <h2 class="content-header-title float-start mb-0 mx-3">Cabins (Needs Cleani)</h2>
+        <h2 class="content-header-title float-start mb-0 mx-3">Cabins (Needs Cleaning)</h2>
         {{ Breadcrumbs::render('cabins.index') }}
     </div>
 @endsection
