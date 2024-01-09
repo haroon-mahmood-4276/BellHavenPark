@@ -2,6 +2,8 @@
 
 namespace App\Services\Cabins;
 
+use App\Utils\Enums\CabinStatus;
+
 interface CabinInterface
 {
 

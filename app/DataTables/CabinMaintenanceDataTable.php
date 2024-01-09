@@ -52,9 +52,18 @@ class CabinMaintenanceDataTable extends DataTable
         if (auth()->user()->can('cabins.create')) {
             $buttons[] = Button::raw('add-new')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
-                ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add cabin to maintenance')
+                ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add to maintenance')
                 ->attr([
                     'onclick' => 'addCabinToMaintenance()',
+                ]);
+        }
+
+        if (auth()->user()->can('cabins.destroy')) {
+            $buttons[] = Button::raw('delete-selected')
+                ->addClass('btn btn-danger waves-effect waves-float waves-light m-1')
+                ->text('<i class="fa-solid fa-minus"></i>&nbsp;&nbsp;Remove from maintenance')
+                ->attr([
+                    'onclick' => 'removeFromMaintenance()',
                 ]);
         }
 
@@ -63,17 +72,8 @@ class CabinMaintenanceDataTable extends DataTable
             Button::make('reload')->addClass('btn btn-primary waves-effect waves-float waves-light m-1'),
         ]);
 
-        if (auth()->user()->can('cabins.destroy')) {
-            $buttons[] = Button::raw('delete-selected')
-                ->addClass('btn btn-danger waves-effect waves-float waves-light m-1')
-                ->text('<i class="fa-solid fa-minus"></i>&nbsp;&nbsp;Delete Selected')
-                ->attr([
-                    'onclick' => 'deleteSelected()',
-                ]);
-        }
-
         return $this->builder()
-            ->setTableId('cabins-table')
+            ->setTableId('maintenance-cabins-table')
             ->addTableClass('table-borderless table-striped table-hover')
             ->columns($this->getColumns())
             ->minifiedAjax()
@@ -106,10 +106,6 @@ class CabinMaintenanceDataTable extends DataTable
                         'selectAllRender' =>  '<div class="form-check"> <input class="form-check-input" onchange="changeAllTableRowColor()" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>',
                     ]
                 ],
-            ])
-            ->fixedColumns([
-                'left' => 0,
-                'right' => 1,
             ])
             ->orders([
                 [6, 'desc'],

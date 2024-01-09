@@ -18,17 +18,45 @@ class CabinController extends Controller
         $this->cabinInterface = $cabinInterface;
     }
 
-    public function modalAddCabinToMaintenance(Request $request)
+    public function modalAddToMaintenance(Request $request)
     {
         try {
             abort_if(!request()->ajax(), 403);
 
-            $cabins = $this->cabinInterface->getAll(ignore_status: CabinStatus::MAINTENANCE->value)->toArray();
+            $cabins = $this->cabinInterface->getAll(ignore_status: [CabinStatus::MAINTENANCE])->toArray();
 
             $data = [
                 'modalPlace' => 'modalPlace',
                 'currentModal' => 'basicModal',
-                'modal' => view('cabins.maintenance.modal.index', ['cabins' => $cabins])->render(),
+                'modal' => view('cabins.maintenance.modal.create', ['cabins' => $cabins])->render(),
+            ];
+
+            return apiSuccessResponse($data);
+        } catch (Exception $ex) {
+            return apiErrorResponse(data: ['line_number' => $ex->getLine(),], message: $ex->getMessage(), code: $ex->getCode() > 0 ? $ex->getCode() : 400);
+        }
+    }
+
+    public function modalRemoveFromMaintenance(Request $request)
+    {
+        try {
+            abort_if(!request()->ajax(), 403);
+
+                $cabins = $this->cabinInterface->getAll(ignore_status: [
+                    CabinStatus::VACANT,
+                    CabinStatus::CLOSED_PERMANENTLY,
+                    CabinStatus::CLOSED_TEMPORARILY,
+                    CabinStatus::NEEDS_CLEANING,
+                    CabinStatus::OCCUPIED,
+                ])->toArray();
+            
+
+            $cabinToRemove = $request->cabins ?? [];
+
+            $data = [
+                'modalPlace' => 'modalPlace',
+                'currentModal' => 'basicModal',
+                'modal' => view('cabins.maintenance.modal.delete', ['cabins' => $cabins, 'cabinToRemove' => $cabinToRemove])->render(),
             ];
 
             return apiSuccessResponse($data);

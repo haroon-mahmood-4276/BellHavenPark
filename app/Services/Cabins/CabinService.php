@@ -3,6 +3,7 @@
 namespace App\Services\Cabins;
 
 use App\Models\Cabin;
+use App\Utils\Enums\CabinStatus;
 use Illuminate\Support\Facades\DB;
 
 class CabinService implements CabinInterface
@@ -21,7 +22,11 @@ class CabinService implements CabinInterface
             $model = $model->where('id', '!=', $ignore);
         }
         $model = $model->when($ignore_status, function ($query, $ignore_status) {
-            $query->where('cabin_status', '!=', $ignore_status);
+            if (is_array($ignore_status)) {
+                $query->whereNotIn('cabin_status', $ignore_status);
+            } else if (is_string($ignore_status)) {
+                $query->where('cabin_status', '!=', $ignore_status);
+            }
         })->get();
         return $model;
     }

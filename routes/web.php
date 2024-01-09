@@ -161,7 +161,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['middleware' => 'permission:cabins.maintenance.update'], function () {
             Route::get('maintenance', 'addCabinToMaintenanceIndex')->name('maintenance.index');
-            Route::post('maintenance', 'addCabinToMaintenanceStore')->name('maintenance.store');
+            Route::post('maintenance', 'addToMaintenance')->name('maintenance.store');
+            Route::delete('maintenance', 'removeFromMaintenance')->name('maintenance.delete');
         });
     });
 
