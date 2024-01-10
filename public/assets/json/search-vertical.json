@@ -1,23 +1,13 @@
 {
     "pages": [{
-            "name": "Dashboard Analytics",
+            "name": "Dashboard",
             "icon": "ti-smart-home",
-            "url": "index.html"
+            "url": "/"
         },
         {
-            "name": "Dashboard CRM",
-            "icon": "ti-smart-home",
-            "url": "dashboards-crm.html"
-        },
-        {
-            "name": "Dashboard eCommerce",
-            "icon": "ti-smart-home",
-            "url": "dashboards-ecommerce.html"
-        },
-        {
-            "name": "Layout Collapsed menu",
-            "icon": "ti-layout-sidebar",
-            "url": "layouts-collapsed-menu.html"
+            "name": "Roles",
+            "icon": "ti-shield-checkered",
+            "url": "/roles"
         },
         {
             "name": "Layout Content navbar",
@@ -103,11 +93,6 @@
             "name": "User View - Connections",
             "icon": "ti-brand-google",
             "url": "app-user-view-connections.html"
-        },
-        {
-            "name": "Roles",
-            "icon": "ti-shield-checkered",
-            "url": "app-access-roles.html"
         },
         {
             "name": "Permission",
