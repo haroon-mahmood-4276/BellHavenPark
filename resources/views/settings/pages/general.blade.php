@@ -77,4 +77,9 @@
 @endsection
 
 @section('custom-js')
+    <script>
+        @if (session()->has('toaster_success'))
+            toastr.success('Settings Updated')
+        @endif
+    </script>
 @endsection
