@@ -6,14 +6,14 @@ use Illuminate\Support\{Collection};
 use Illuminate\Support\Facades\{Crypt, File};
 
 if (!function_exists('settings')) {
-    function settings($key, $overrideCache = false)
+    function settings($key, $default = '', $overrideCache = false)
     {
         if ($overrideCache) {
-            return (new Setting())->firstWhere('key', $key)?->value;
+            return (new Setting())->firstWhere('key', $key)?->value ?? $default;
         }
 
-        return Cache::remember($key, now()->addSeconds(env('CACHE_TIME_TO_LIVE', 3600)), function () use ($key) {
-            return (new Setting())->firstWhere('key', $key)?->value;
+        return Cache::remember($key, now()->addSeconds(env('CACHE_TIME_TO_LIVE', 3600)), function () use ($key, $default) {
+            return (new Setting())->firstWhere('key', $key)?->value ?? $default;
         });
     }
 }
