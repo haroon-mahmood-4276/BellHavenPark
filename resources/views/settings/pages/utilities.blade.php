@@ -98,7 +98,7 @@
                         <div class="row mb-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 position-relative">
                                 <label class="form-label" style="font-size: 15px" for="gas_base_rate">Base Rate
-                                    (kWh) <span class="text-danger">*</span></label>
+                                    (M<sup>3</sup>) <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control @error('gas_base_rate') is-invalid @enderror"
                                     id="gas_base_rate" name="gas_base_rate" placeholder="Ex. 400"
                                     value="{{ settings('gas_base_rate', 0) }}" min="0" />
@@ -162,7 +162,7 @@
                         <div class="row mb-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 position-relative">
                                 <label class="form-label" style="font-size: 15px" for="water_base_rate">Base Rate
-                                    (kWh) <span class="text-danger">*</span></label>
+                                    (M<sup>3</sup>) <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control @error('water_base_rate') is-invalid @enderror"
                                     id="water_base_rate" name="water_base_rate" placeholder="Ex. 400"
                                     value="{{ settings('water_base_rate', 0) }}" min="0" />
