@@ -25,7 +25,7 @@ class CustomerController extends Controller
         try {
             $customers = [];
             if ($request->type === 'query' && strlen($request->q) > 1) {
-                $customers = $this->customerInterface->search($request->q, ($request->has('ignoredCustomerId') ? intval($request->ignoredCustomerId) : 0));
+                $customers = $this->customerInterface->search($request->q, per_page: $request->per_page, ignore_id: ($request->has('ignoredCustomerId') ? intval($request->ignoredCustomerId) : 0));
             }
             return apiSuccessResponse($customers);
         } catch (Exception $ex) {

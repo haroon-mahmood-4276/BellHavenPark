@@ -12,16 +12,6 @@
                     @csrf
                     <input type="hidden" name="cabin_id" value="{{ $cabin->id }}">
 
-                    {{-- <div class='d-flex flex-column'>
-                        <div class='d-flex flex-row'>
-                            <div class='fw-bold fs-5'>Customer Name</div>
-                            <div class='dot-divider'></div>
-                            <div class='fw-bold fs-5'>3.5 <i class="fa-solid fa-star-half-stroke"></i></div>
-                        </div>
-                        <div>Email: haroon.mahmood.4276@gmail.com</div>
-                        <div>Phone: +923034243233</div>
-                    </div> --}}
-
                     <div class="row mb-3">
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                             <label class="form-label" style="font-size: 15px" for="booking_from">Booking
@@ -77,10 +67,6 @@
                         <div class="col-xl-8 col-lg-8 col-md-12">
                             <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Rate ($)</p>
                         </div>
-
-                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Less Booking (%)</p>
-                        </div> --}}
                     </div>
 
                     <div class="row">
@@ -97,15 +83,6 @@
                                 <small class="text-muted">Enter daily rate.</small>
                             </p>
                         </div>
-
-                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <input type="number" class="form-control" id="daily_less_booking_percentage"
-                                name="daily_less_booking_percentage" placeholder="Daily Rate" value="0"
-                                step="0.5" min="0" />
-                            <p class="m-0">
-                                <small class="text-muted">Enter daily rate.</small>
-                            </p>
-                        </div> --}}
                     </div>
 
                     <div class="row">
@@ -123,15 +100,6 @@
                                 <small class="text-muted">Enter weekly rate.</small>
                             </p>
                         </div>
-
-                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <input type="number" class="form-control" id="weekly_rate_less_booking_percentage"
-                                name="weekly_rate_less_booking_percentage" placeholder="Daily Rate" value="0"
-                                min="0" {{ $differenceInDays + 1 < 7 ? 'disabled' : '' }} />
-                            <p class="m-0">
-                                <small class="text-muted">Enter daily rate.</small>
-                            </p>
-                        </div> --}}
                     </div>
 
                     <div class="row">
@@ -150,16 +118,6 @@
                                 <small class="text-muted">Enter monthly rate.</small>
                             </p>
                         </div>
-
-
-                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <input type="number" class="form-control" id="four_weekly_less_booking_percentage"
-                                name="four_weekly_less_booking_percentage" placeholder="Daily Rate" value="0"
-                                min="0" {{ $differenceInDays + 1 < 28 ? 'disabled' : '' }} />
-                            <p class="m-0">
-                                <small class="text-muted">Enter monthly rate.</small>
-                            </p>
-                        </div> --}}
                     </div>
 
                     <div class="row mb-3">
@@ -292,16 +250,16 @@
                 return {
                     q: params.term,
                     type: "query",
-                    // page: params.page
+                    page: params.page,
+                    per_page: 15,
                 };
             },
             processResults: function(response, params) {
-                // params.page = params.page || 1;
                 return {
-                    results: response.data,
-                    // pagination: {
-                    //     more: (params.page * 30) < data.total_count
-                    // }
+                    results: response.data.data,
+                    pagination: {
+                        more: response.data.next_page_url !== null
+                    }
                 };
             },
             cache: true
