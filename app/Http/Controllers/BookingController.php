@@ -81,7 +81,6 @@ class BookingController extends Controller
             'date_to' => intval($inputs['booking_to']),
             'differenceInDays' => $differenceInDays,
             'cabin' => $this->cabinInterface->getById($inputs['cabin_id']),
-            'customers' => $this->customerInterface->get(),
             'booking_sources' => $this->bookingSourceInterface->getAll(),
             'booking_taxes' => $this->bookingTaxInterface->get(),
             'payment_methods' => $this->paymentMethodInterface->get(withoutLinkedAccounts: true),

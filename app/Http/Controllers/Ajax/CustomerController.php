@@ -29,6 +29,7 @@ class CustomerController extends Controller
             }
             return apiSuccessResponse($customers);
         } catch (Exception $ex) {
+            dd($ex);
             return apiErrorResponse(message: $ex->getMessage(), code: $ex->getCode());
         }
     }

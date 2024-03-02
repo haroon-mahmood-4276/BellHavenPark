@@ -119,12 +119,11 @@ class CustomerService implements CustomerInterface
     public function search($search, $per_page = 15, $ignore_id = 0)
     {
         $model = $this->model()
-            ->where('first_name', 'LIKE', '%' . $search . '%')
-            ->orWhere('last_name', 'LIKE', '%' . $search . '%');
-
-        if ($ignore_id > 0) {
-            $model = $model->query(fn (QueryBuilder $query) => $query->whereNot('id', $ignore_id));
-        }
+            ->where(function (QueryBuilder $query) use ($search) {
+                $query->where('first_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+            })
+            ->when($ignore_id > 0, fn (QueryBuilder $query) => $query->whereNot('id', $ignore_id));
 
         return $model->simplePaginate($per_page);
     }
