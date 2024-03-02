@@ -93,9 +93,9 @@ class Booking extends Model
 
     public $rulesAttributes = [];
 
-    public function __construct()
+    public function __construct(array $attributes = array())
     {
-        parent::boot();
+        parent::__construct($attributes);
 
         $this->rules['payment_methods'] = 'required_if:payment,now|integer|exists:payment_methods,id';
     }

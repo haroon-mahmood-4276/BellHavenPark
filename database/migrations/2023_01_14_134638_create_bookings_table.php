@@ -31,6 +31,11 @@ return new class extends Migration
             $table->string('check_in', 10)->nullable();
             $table->unsignedInteger('check_in_date')->default(0);
             $table->unsignedInteger('check_out_date')->default(0);
+            
+            $table->boolean('bill_for_electricity')->default(false);
+            $table->boolean('bill_for_gas')->default(false);
+            $table->boolean('bill_for_water')->default(false);
+            
             $table->float('tax')->nullable();
             $table->text('comments')->nullable();
             $table->string('payment', 5)->nullable();
