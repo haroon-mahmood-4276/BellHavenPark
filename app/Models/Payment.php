@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Utils\Enums\{
     CustomerAccounts,
     PaymentStatus,
+    PaymentType,
     TransactionType,
 };
 use Illuminate\Database\Eloquent\Model;
@@ -24,26 +25,36 @@ class Payment extends Model
         'payment_from',
         'payment_to',
         'amount',
-        'balance',
         'account',
         'transaction_type',
         'status',
+        'payment_type',
+        'utility_reading',
+        'additional_data',
         'comments',
     ];
 
     protected $casts = [
         'account' => CustomerAccounts::class,
-        'payment_from' => 'integer',
-        'payment_to' => 'integer',
+        
         'amount' => 'double',
+        
         'balance' => 'double',
-        'transaction_type' => TransactionType::class,
-        'status' => PaymentStatus::class,
+        
         'payment_from' => 'timestamp',
         'payment_to' => 'timestamp',
+        
+        'transaction_type' => TransactionType::class,
+        'status' => PaymentStatus::class,
+        
+        'utility_reading' => 'integer',
+        'additional_data' => 'array',
+
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
+        
+        'payment_type' => PaymentType::class,
     ];
 
     protected $hidden = [];
