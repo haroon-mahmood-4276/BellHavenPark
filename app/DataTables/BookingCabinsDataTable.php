@@ -38,6 +38,12 @@ class BookingCabinsDataTable extends DataTable
             ->editColumn('cabin_status', function ($model) {
                 return Str::of($model->cabin_status->name)->replace('_', " ")->title();
             })
+            ->editColumn('long_term', function ($model) {
+                return editStatusColumn($model->long_term);
+            })
+            ->editColumn('utilities', function ($model) {
+                return "<span class='badge bg-" . ($model->electric_meter ? "success" : "danger") . " bg-glow me-1'>E</span><span class='badge bg-" . ($model->gas_meter ? "success" : "danger") . " bg-glow me-1'>G</span><span class='badge bg-" . ($model->water_meter ? "success" : "danger") . " bg-glow me-1'>W</span>";
+            })
             ->editColumn('updated_at', function ($cabin) {
                 return editDateTimeColumn($cabin->updated_at);
             })
@@ -95,6 +101,7 @@ class BookingCabinsDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->serverSide()
+            ->stateSave()
             ->processing()
             ->deferRender()
             
@@ -127,6 +134,8 @@ class BookingCabinsDataTable extends DataTable
             Column::make('name')->addClass('text-nowrap text-center align-middle'),
             Column::make('cabin_status')->title('Cabin Status')->addClass('text-nowrap text-center align-middle'),
             Column::make('cabin_type.name')->title('Cabin Type')->addClass('text-nowrap text-center align-middle'),
+            Column::make('long_term')->addClass('text-nowrap text-center align-middle'),
+            Column::computed('utilities')->addClass('text-nowrap text-center align-middle'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];
         return $columns;

@@ -75,7 +75,7 @@ class BookingPaymentsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         $buttons = [];
-
+        
         if (auth()->user()->can('bookings.payments.create')) {
             $buttons[] = Button::make('collection')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1 btn-add-payment-collection')
@@ -128,6 +128,7 @@ class BookingPaymentsDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->serverSide()
+            ->stateSave()
             ->processing()
             ->deferRender()
             ->scrollX()

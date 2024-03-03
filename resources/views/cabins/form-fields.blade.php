@@ -234,7 +234,7 @@
 
         <div class="row mb-3">
             <div class="col-lg-12 col-md-12 col-sm-12 position-relative">
-                <label class="form-label" style="font-size: 15px" for="reason">Reason <span class="text-danger">*c</span></label>
+                <label class="form-label" style="font-size: 15px" for="reason">Reason <span class="text-danger">*</span></label>
                 <textarea class="form-control @error('reason') is-invalid @enderror" id="reason"
                     name="reason" placeholder="ex. reason for under maintenance, closed, etc" rows="5">{{ isset($cabin) ? $cabin->reason : old('reason') }}</textarea>
                 @error('reason')
