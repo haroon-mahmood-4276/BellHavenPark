@@ -18,6 +18,19 @@ class CabinController extends Controller
         $this->cabinInterface = $cabinInterface;
     }
 
+    public function index(Request $request)
+    {
+        try {
+            $cabins = [];
+            if ($request->type === 'query' && strlen($request->q) > 1) {
+                $cabins = $this->cabinInterface->search($request->q, per_page: $request->per_page, ignore_ids: ($request->has('ignoredCustomerId') ? $request->ignoredCustomerId : []));
+            }
+            return apiSuccessResponse($cabins);
+        } catch (Exception $ex) {
+            return apiErrorResponse(message: $ex->getMessage(), code: $ex->getCode());
+        }
+    }
+
     public function modalAddToMaintenance(Request $request)
     {
         try {

@@ -36,6 +36,7 @@ class PaymentController extends Controller
 
         $data = [
             'booking_id' => $booking->id,
+            'booking_cabin_id' => $booking->cabin_id,
             'credit_account' => $this->paymentInterface->creditAccountPayment($booking->customer->id),
         ];
 

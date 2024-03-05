@@ -9,6 +9,7 @@ use App\Http\Controllers\{
     CustomerController,
     DashboardController,
     InternationalIdController,
+    MeterReadingController,
     PaymentController,
     PaymentMethodController,
     PermissionController,
@@ -16,7 +17,6 @@ use App\Http\Controllers\{
     SettingController,
     UserController,
 };
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -268,5 +268,22 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'settings', 'as' => 'settings.'], function () {
         Route::get('/', [SettingController::class, 'index'])->name('index');
         Route::put('/update', [SettingController::class, 'update'])->name('update');
+    });
+
+    // Meter Reading Routes
+    Route::prefix('meter-readings')->name('meter-readings.')->controller(MeterReadingController::class)->group(function () {
+        Route::get('/', 'index')->middleware('permission:meter-readings.index')->name('index');
+
+        Route::group(['middleware' => 'permission:meter-readings.create'], function () {
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+        });
+
+        Route::get('delete', 'destroy')->name('destroy');
+
+        Route::group(['prefix' => '/{meter_reading}', 'middleware' => 'permission:meter-readings.edit'], function () {
+            Route::get('edit', 'edit')->name('edit');
+            Route::put('update', 'update')->name('update');
+        });
     });
 });

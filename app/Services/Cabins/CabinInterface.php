@@ -20,4 +20,6 @@ interface CabinInterface
     public function destroy($inputs);
     
     public function setStatus(int|array $id, $status, $reason = '');
+
+    public function search($search, $per_page = 15, $ignore_ids = []);
 }

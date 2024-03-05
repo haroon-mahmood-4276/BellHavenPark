@@ -194,3 +194,19 @@ Breadcrumbs::for('settings.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
     $trail->push('Settings');
 });
+
+// Meter Readings Breadcrumbs
+Breadcrumbs::for('meter-readings.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Meter Readings', route('meter-readings.index'));
+});
+
+Breadcrumbs::for('meter-readings.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('meter-readings.index');
+    $trail->push('Add Meter Reading');
+});
+
+Breadcrumbs::for('meter-readings.edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('meter-readings.index');
+    $trail->push('Edit Meter Reading');
+});

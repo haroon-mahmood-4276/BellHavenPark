@@ -29,6 +29,7 @@ Route::group(['as' => 'ajax.'], function () {
     });
 
     Route::prefix('cabins')->name('cabins.')->controller(CabinController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
         Route::get('modal-add-to-maintenance', 'modalAddToMaintenance')->name('modal.maintenance.add');
         Route::get('modal-remove-from-maintenance', 'modalRemoveFromMaintenance')->name('modal.maintenance.remove');
     });

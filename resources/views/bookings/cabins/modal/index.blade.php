@@ -178,18 +178,14 @@
 
                     <div class="row mb-3">
                         <div class="col-xl-12 col-lg-12 col-md-12 text-center">
-                            <label class="form-label d-block" style="font-size: 15px">Utility Billing</label>
+                            <label class="form-label d-block" style="font-size: 15px">Utility bill for</label>
 
                             <div class="d-flex align-items-center justify-content-around h-75">
                                 <div class="form-check form-check-primary">
-                                    <input type="checkbox" id="check_bill_for_all" class="form-check-input" />
-                                    <label class="form-check-label" for="check_bill_for_all">All</label>
-                                </div>
-
-                                <div class="form-check form-check-primary">
                                     <input type="hidden" name="bill_for_electricity"value="0" />
                                     <input type="checkbox" name="bill_for_electricity"
-                                        id="check_bill_for_electricity" class="form-check-input" value="1" />
+                                        id="check_bill_for_electricity" class="form-check-input" value="1"
+                                        @disabled(!$cabin->electric_meter) />
                                     <label class="form-check-label"
                                         for="check_bill_for_electricity">Electricity</label>
                                 </div>
@@ -197,14 +193,14 @@
                                 <div class="form-check form-check-primary">
                                     <input type="hidden" name="bill_for_gas"value="0" />
                                     <input type="checkbox" name="bill_for_gas" id="check_bill_for_gas"
-                                        class="form-check-input" value="1" />
+                                        class="form-check-input" value="1" @disabled(!$cabin->gas_meter) />
                                     <label class="form-check-label" for="check_bill_for_gas">Gas</label>
                                 </div>
 
                                 <div class="form-check form-check-primary">
                                     <input type="hidden" name="bill_for_water"value="0" />
                                     <input type="checkbox" name="bill_for_water" id="check_bill_for_water"
-                                        class="form-check-input" value="1" />
+                                        class="form-check-input" value="1" @disabled(!$cabin->water_meter) />
                                     <label class="form-check-label" for="check_bill_for_water">Water</label>
                                 </div>
                             </div>
@@ -487,20 +483,6 @@
                 $('#advance_payment').val(0);
                 $('#advance_payment').attr('disabled', true);
                 $('#payment_methods').attr('disabled', true);
-            }
-        });
-
-        $("#check_bill_for_all").change(function() {
-            $('#check_bill_for_electricity').prop('checked', $(this).prop("checked"));
-            $('#check_bill_for_gas').prop('checked', $(this).prop("checked"));
-            $('#check_bill_for_water').prop('checked', $(this).prop("checked"));
-        });
-
-        $("#check_bill_for_electricity, #check_bill_for_gas, #check_bill_for_water").change(function() {
-            $('#check_bill_for_all').prop('checked', false);
-            if ($('#check_bill_for_electricity').prop('checked') && $('#check_bill_for_gas').prop(
-                    'checked') && $('#check_bill_for_water').prop('checked')) {
-                $('#check_bill_for_all').prop('checked', true);
             }
         });
 

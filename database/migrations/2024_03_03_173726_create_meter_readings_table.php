@@ -1,5 +1,6 @@
 <?php
 
+use App\Utils\Enums\MeterTypes;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,10 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('utility_meter_readings', function (Blueprint $table) {
+        Schema::create('meter_readings', function (Blueprint $table) {
             $table->id();
 
-            
+            $table->foreignId('cabin_id')->constrained();
+            $table->unsignedInteger('reading')->default(0);
+            $table->enum('meter_type', MeterTypes::values());
+            $table->text('comments')->nullable();
 
             $table->unsignedInteger('created_at')->nullable();
             $table->unsignedInteger('updated_at')->nullable();
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('utility_meter_readings');
+        Schema::dropIfExists('meter_readings');
     }
 };
