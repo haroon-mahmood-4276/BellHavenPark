@@ -37,6 +37,9 @@ class MeterReadingsDataTable extends DataTable
             ->editColumn('comments', function ($meterReading) {
                 return $meterReading->comments ?? '-';
             })
+            ->editColumn('reading_date', function ($meterReading) {
+                return editDateTimeColumn($meterReading->reading_date);
+            })
             ->editColumn('updated_at', function ($meterReading) {
                 return editDateTimeColumn($meterReading->updated_at);
             })
@@ -135,7 +138,7 @@ class MeterReadingsDataTable extends DataTable
                 'right' => 1,
             ])
             ->orders([
-                [5, 'desc'],
+                [6, 'desc'],
             ]);
     }
 
@@ -157,6 +160,7 @@ class MeterReadingsDataTable extends DataTable
 
             Column::make('cabin.name')->title('Cabin')->addClass('text-nowrap text-center align-middle'),
             Column::make('reading')->addClass('text-nowrap text-center align-middle'),
+            Column::make('reading_date')->addClass('text-nowrap text-center align-middle'),
             Column::make('meter_type')->title('Meter')->addClass('text-nowrap text-center align-middle'),
             Column::make('comments')->width(160)->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),

@@ -13,4 +13,6 @@ interface MeterReadingInterface
     public function update($id, $inputs);
 
     public function destroy($inputs);
+
+    public function previousReading($cabin_id, $meter_type);
 }

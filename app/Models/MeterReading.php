@@ -16,6 +16,7 @@ class MeterReading extends Model
     protected $fillable = [
         'cabin_id',
         'meter_type',
+        'reading_date',
         'reading',
         'comments',
     ];
@@ -23,6 +24,7 @@ class MeterReading extends Model
     protected $casts = [
         'reading' => 'integer',
         'meter_type' => MeterTypes::class,
+        'reading_date' => 'timestamp',
 
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
@@ -32,6 +34,7 @@ class MeterReading extends Model
     public $rules = [
         'cabin_id' => 'required|exists:cabins,id',
         'reading' => 'required|gt:0|max:' . PHP_INT_MAX,
+        'reading_date' => 'required|date',
         'comments' => 'nullable',
     ];
 

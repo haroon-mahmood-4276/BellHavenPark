@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\MeterReadingsDataTable;
 use App\Exceptions\GeneralException;
-use App\Http\Requests\MeterReadings\storeRequest;
+use App\Http\Requests\MeterReadings\{storeRequest, updateRequest};
 use App\Models\MeterReading;
 use App\Services\Cabins\CabinInterface;
 use App\Services\MeterReadings\MeterReadingInterface;
@@ -47,6 +47,7 @@ class MeterReadingController extends Controller
 
         $data = [
             'meter_types' => MeterTypes::array(),
+            'cabins' => $this->cabinInterface->getAll(),
         ];
 
         return view('meter-readings.create', $data);
@@ -99,10 +100,12 @@ class MeterReadingController extends Controller
         abort_if(request()->ajax(), 403);
 
         try {
+
             $data = [
                 'meter_types' => MeterTypes::array(),
-                'meterReading' => $meterReading,
+                'meterReading' => $meterReading->load('cabin'),
                 'cabin' => $this->cabinInterface->getById($meterReading->cabin_id),
+                'previous_reading' => $this->meterReadingInterface->previousReading($meterReading->cabin_id, $meterReading->meter_type),
             ];
 
             return view('meter-readings.edit', $data);
@@ -120,12 +123,12 @@ class MeterReadingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(updateRequest $request, $id)
+    public function update(updateRequest $request, MeterReading $meter_reading)
     {
         abort_if(request()->ajax(), 403);
         try {
             $inputs = $request->validated();
-            $record = $this->customerInterface->update($id, $inputs);
+            $this->meterReadingInterface->update($meter_reading->id, $inputs);
             return redirect()->route('meter-readings.index')->withSuccess('Data saved!');
         } catch (GeneralException $ex) {
             return redirect()->route('meter-readings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
@@ -146,7 +149,7 @@ class MeterReadingController extends Controller
 
             if ($request->has('checkForDelete')) {
 
-                $record = $this->customerInterface->destroy($request->checkForDelete);
+                $record = $this->meterReadingInterface->destroy($request->checkForDelete);
 
                 if (!$record) {
                     return redirect()->route('meter-readings.index')->withDanger('Data not found!');

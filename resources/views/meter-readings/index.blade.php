@@ -48,7 +48,6 @@
 
 @section('custom-js')
     {{ $dataTable->scripts() }}
-    {{ view('layout.libs.rateYo.rateYo') }}
     <script>
 
         function deleteSelected() {

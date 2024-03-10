@@ -11,7 +11,7 @@ if (!function_exists('editDateTimeColumn')) {
         if (($date instanceof Carbon ? $date->timestamp : $date) < 1)
             return '-';
 
-        $date = new Carbon($date);
+        $date = Carbon::parse($date)->setTimezone(config('app.timezone'));
         switch ($order) {
             case 'TD':
                 return "<span>" . $date->format($timeFormat) . "</span> " . ($withBr ? '<br>' : "") . " <span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span>";

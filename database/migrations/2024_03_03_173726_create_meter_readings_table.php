@@ -17,6 +17,7 @@ return new class extends Migration
 
             $table->foreignId('cabin_id')->constrained();
             $table->unsignedInteger('reading')->default(0);
+            $table->unsignedInteger('reading_date')->default(now()->timestamp);
             $table->enum('meter_type', MeterTypes::values());
             $table->text('comments')->nullable();
 

@@ -1,7 +1,10 @@
 <?php
 
-use App\Http\Controllers\Ajax\CabinController;
-use App\Http\Controllers\Ajax\CustomerController;
+use App\Http\Controllers\Ajax\{
+    CabinController,
+    CustomerController,
+    MeterReadingController,
+};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,17 +28,21 @@ Route::group(['as' => 'ajax.'], function () {
         Route::group(['prefix' => '/{customer}'], function () {
             Route::get('comments/modal', 'commentModalIndex')->name('modal.index');
             Route::post('comments/modal', 'commentModalStore')->name('modal.store');
-        });    
+        });
     });
 
     Route::prefix('cabins')->name('cabins.')->controller(CabinController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('modal-add-to-maintenance', 'modalAddToMaintenance')->name('modal.maintenance.add');
         Route::get('modal-remove-from-maintenance', 'modalRemoveFromMaintenance')->name('modal.maintenance.remove');
-    });
 
-    Route::prefix('cabins')->name('cabins.')->controller(CabinController::class)->group(function () {
         Route::get('modal-add-to-needs-cleaning', 'modalAddToNeedsCleaning')->name('modal.needs-cleaning.add');
         Route::get('modal-remove-from-needs-cleaning', 'modalRemoveFromNeedsCleaning')->name('modal.needs-cleaning.remove');
+
+        Route::prefix('{cabin}')->group(function () {
+            Route::prefix('meter-readings')->name('meter-readings.')->controller(MeterReadingController::class)->group(function () {
+                Route::get('previous', 'getPreviousReading')->name('previous');
+            });
+        });
     });
 });

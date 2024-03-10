@@ -4,7 +4,7 @@
     {{ Breadcrumbs::view('breadcrumbs::json-ld', 'meter-readings.edit') }}
 @endsection
 
-@section('page-title', 'Add Meter Reading')
+@section('page-title', 'Edit Reading')
 
 @section('page-vendor')
 @endsection
@@ -17,7 +17,7 @@
 
 @section('breadcrumbs')
     <div class="d-flex justify-content-start align-items-center mb-3">
-        <h2 class="content-header-title float-start mb-0 mx-3">Add Meter Reading</h2>
+        <h2 class="content-header-title float-start mb-0 mx-3">Edit Reading</h2>
         {{ Breadcrumbs::render('meter-readings.edit') }}
     </div>
 @endsection
@@ -41,19 +41,21 @@
                     <div class="card mb-4">
                         <div class="card-body">
                             <div class="row g-3">
-                                <div class="col-md-12">
-                                    <div class="form-check form-check-primary">
-                                        <input type="hidden" name="add_another_reading" value="0" />
-                                        <input type="checkbox" name="add_another_reading" id="check_add_another_reading"
-                                            class="form-check-input" value="1" />
-                                        <label class="form-check-label" for="check_add_another_reading">Add another
-                                            reading</label>
+                                @if (!isset($meterReading))
+                                    <div class="col-md-12">
+                                        <div class="form-check form-check-primary">
+                                            <input type="hidden" name="add_another_reading" value="0" />
+                                            <input type="checkbox" name="add_another_reading" id="check_add_another_reading"
+                                                class="form-check-input" value="1" />
+                                            <label class="form-check-label" for="check_add_another_reading">Add another
+                                                reading</label>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-success w-100  buttonToBlockUI me-1">
                                         <i class="fa-solid fa-floppy-disk icon mx-2"></i>
-                                        Save Meter Reading
+                                        Update Meter Reading
                                     </button>
                                 </div>
                                 <div class="col-md-12">
@@ -94,61 +96,5 @@
 @endsection
 
 @section('custom-js')
-    <script>
-        $(document).ready(function() {
-            cabin_id = $("#cabin_id").wrap('<div class="position-relative"></div>');
-            cabin_id.select2({
-                ajax: {
-                    url: "{{ route('ajax.cabins.index') }}",
-                    dataType: 'json',
-                    delay: 500,
-                    data: function(params) {
-                        return {
-                            q: params.term,
-                            type: "query",
-                            page: params.page,
-                            per_page: 15,
-                        };
-                    },
-                    processResults: function(response, params) {
-                        return {
-                            results: response.data.data,
-                            pagination: {
-                                more: response.data.next_page_url !== null
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Search for Cabin...',
-                dropdownAutoWidth: !0,
-                minimumInputLength: 2,
-                dropdownParent: cabin_id.parent(),
-                width: "100%",
-                containerCssClass: "select-lg",
-                templateResult: function(row) {
-                    if (row.loading) {
-                        return row.text;
-                    }
-                    return row.name || row.text;
-                },
-                templateSelection: function(row) {
-                    console.log(row)
-                    if (row.id == '') {
-                        return row.text;
-                    }
-                    return row.name || row.text;
-                },
-            });
-
-            meter_type = $("#meter_type").wrap('<div class="position-relative"></div>');
-            meter_type.select2({
-                placeholder: 'Select meter',
-                dropdownAutoWidth: !0,
-                dropdownParent: meter_type.parent(),
-                width: "100%",
-                containerCssClass: "select-lg",
-            });
-        });
-    </script>
+    @include('meter-readings.form-fields-js', ['from' => 'edit'])
 @endsection

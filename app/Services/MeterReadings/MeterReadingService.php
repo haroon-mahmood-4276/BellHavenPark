@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class MeterReadingService implements MeterReadingInterface
 {
-
     private function model()
     {
         return new MeterReading();
@@ -30,6 +29,7 @@ class MeterReadingService implements MeterReadingInterface
                 'cabin_id' => $inputs['cabin_id'],
                 'meter_type' => $inputs['meter_type'],
                 'reading' => $inputs['reading'],
+                'reading_date' => Carbon::parse($inputs['reading_date'])->timestamp,
                 'comments' => $inputs['comments'],
             ]);
         });
@@ -39,9 +39,9 @@ class MeterReadingService implements MeterReadingInterface
     {
         return DB::transaction(function () use ($id, $inputs) {
             return $this->model()->find($id)->update([
-                'cabin_id' => $inputs['cabin_id'],
                 'meter_type' => $inputs['meter_type'],
                 'reading' => $inputs['reading'],
+                'reading_date' => Carbon::parse($inputs['reading_date'])->timestamp,
                 'comments' => $inputs['comments'],
             ]);
         });
@@ -59,5 +59,13 @@ class MeterReadingService implements MeterReadingInterface
         });
 
         return $returnData;
+    }
+
+    public function previousReading($cabin_id, $meter_type)
+    {
+        return $this->model()->where([
+            ['cabin_id', '=', $cabin_id],
+            ['meter_type', '=', $meter_type],
+        ])->latest()->first();
     }
 }
