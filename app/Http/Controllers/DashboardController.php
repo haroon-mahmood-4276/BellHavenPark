@@ -19,6 +19,6 @@ class DashboardController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('login.view');
     }
 }

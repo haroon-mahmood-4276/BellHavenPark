@@ -5,7 +5,7 @@
         <div class="w-px-400 mx-auto">
             <h3 class="mb-1 fw-bold">Welcome to {{ settings('app_name') }}! 👋</h3>
             <p class="mb-4">Please sign-in to your account and start the adventure</p>
-            <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="POST">
+            <form id="formAuthentication" class="mb-3" action="{{ route('login.post') }}" method="POST">
 
                 @csrf
 
