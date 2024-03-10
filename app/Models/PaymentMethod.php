@@ -32,9 +32,9 @@ class PaymentMethod extends Model
         'slug' => 'required|string|min:1|max:30|unique:payment_methods,slug',
     ];
 
-    public function __construct()
+    public function __construct(array $attributes = array())
     {
-        parent::boot();
+        parent::__construct($attributes);
 
         $this->rules['linked_account'] = 'nullable|in:' . implode(',', CustomerAccounts::values());
     }

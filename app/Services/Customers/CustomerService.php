@@ -116,15 +116,16 @@ class CustomerService implements CustomerInterface
         return $returnData;
     }
 
-    public function search($search, $ignore_id = 0)
+    public function search($search, $per_page = 15, $ignore_id = 0)
     {
-        $model = $this->model()->search($search);
+        $model = $this->model()
+            ->where(function (QueryBuilder $query) use ($search) {
+                $query->where('first_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+            })
+            ->when($ignore_id > 0, fn (QueryBuilder $query) => $query->whereNot('id', $ignore_id));
 
-        if ($ignore_id > 0) {
-            $model = $model->query(fn (QueryBuilder $query) => $query->whereNot('id', $ignore_id));
-        }
-
-        return $model->get();
+        return $model->simplePaginate($per_page);
     }
 
     public function updateCustomerAverageRating($customer_id = 0)

@@ -25,7 +25,7 @@
                 {{-- Electricity --}}
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h5 class="m-0"><i class="fa-solid fa-fire-flame-simple me-1"></i>Electricity</h5>
+                        <h5 class="m-0"><i class="fa-solid fa-plug-circle-bolt me-1"></i>Electricity</h5>
                     </div>
                     <div class="card-body">
                         <div class="row mb-3">
@@ -92,7 +92,7 @@
                 {{-- Gas --}}
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h5 class="m-0"><i class="fa-solid fa-droplet me-1"></i>Gas</h5>
+                        <h5 class="m-0"><i class="fa-solid fa-fire-flame-simple me-1"></i>Gas</h5>
                     </div>
                     <div class="card-body">
                         <div class="row mb-3">
@@ -156,7 +156,7 @@
                 {{-- Water --}}
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h5 class="m-0"><i class="fa-solid fa-plug-circle-bolt me-1"></i>Water</h5>
+                        <h5 class="m-0"><i class="fa-solid fa-droplet me-1"></i>Water</h5>
                     </div>
                     <div class="card-body">
                         <div class="row mb-3">

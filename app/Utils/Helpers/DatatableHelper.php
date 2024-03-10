@@ -3,6 +3,7 @@
 use App\Utils\Enums\CabinStatus;
 use Carbon\Carbon;
 use App\Utils\Enums\CustomerAccounts;
+use App\Utils\Enums\MeterTypes;
 
 if (!function_exists('editDateTimeColumn')) {
     function editDateTimeColumn($date, $dateFormat = 'Y-m-d', $timeFormat = 'H:i:s', $withBr = true, $order = 'TD')
@@ -10,7 +11,7 @@ if (!function_exists('editDateTimeColumn')) {
         if (($date instanceof Carbon ? $date->timestamp : $date) < 1)
             return '-';
 
-        $date = new Carbon($date);
+        $date = Carbon::parse($date)->setTimezone(config('app.timezone'));
         switch ($order) {
             case 'TD':
                 return "<span>" . $date->format($timeFormat) . "</span> " . ($withBr ? '<br>' : "") . " <span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span>";
@@ -40,7 +41,7 @@ if (!function_exists('editTitleColumn')) {
             return '-';
         } else if (is_string($string)) {
             return Str::of($string)->replace('_', ' ')->title();
-        } else if ($string instanceof CustomerAccounts) {
+        } else if ($string instanceof CustomerAccounts || $string instanceof MeterTypes) {
             return Str::of($string->value)->replace('_', ' ')->title();
         }
     }

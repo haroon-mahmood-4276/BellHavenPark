@@ -115,6 +115,10 @@ class BookingService implements BookingInterface
                 'check_out_date' => 0,
                 'booking_tax_id' => (int)$inputs['booking_tax'],
 
+                'bill_for_electricity' => (bool) $inputs['bill_for_electricity'],
+                'bill_for_gas' => (bool) $inputs['bill_for_gas'],
+                'bill_for_water' => (bool) $inputs['bill_for_water'],
+
                 'comments' => $inputs['comments'],
                 'payment' => $inputs['payment'],
 
@@ -165,7 +169,7 @@ class BookingService implements BookingInterface
     {
         $returnData = DB::transaction(function () use ($id) {
             $booking = $this->model()->find($id);
-            
+
             $data = [
                 'check_out_date' => now()->timestamp,
             ];

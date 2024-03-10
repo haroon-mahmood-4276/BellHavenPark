@@ -364,6 +364,33 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'show_name' => 'Booking Taxes - Can Set Default',
             ],
+
+            // Meter Reading Routes
+            [
+                'name' => 'meter-readings.index',
+                'guard_name' => 'web',
+                'show_name' => 'Meter Reading - Can View',
+            ],
+            [
+                'name' => 'meter-readings.create',
+                'guard_name' => 'web',
+                'show_name' => 'Meter Reading - Can Create',
+            ],
+            [
+                'name' => 'meter-readings.edit',
+                'guard_name' => 'web',
+                'show_name' => 'Meter Reading - Can Edit',
+            ],
+            [
+                'name' => 'meter-readings.destroy',
+                'guard_name' => 'web',
+                'show_name' => 'Meter Reading - Can Delete',
+            ],
+            [
+                'name' => 'meter-readings.export',
+                'guard_name' => 'web',
+                'show_name' => 'Meter Reading - Can Export',
+            ],
         ];
 
         $role = (new Role())->first();

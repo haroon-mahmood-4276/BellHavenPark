@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Services\PaymentMethods\PaymentMethodInterface;
 use App\Utils\Enums\CustomerAccounts;
 use App\Utils\Enums\PaymentStatus;
+use App\Utils\Enums\PaymentType;
 use App\Utils\Enums\TransactionType;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,7 @@ class PaymentService implements PaymentInterface
                 'transaction_type' => TransactionType::CASH,
                 'status' => PaymentStatus::RECEIVED,
                 'comments' => $inputs['comments'],
+                'payment_type' => PaymentType::RENT
             ];
 
             $this->model()->create($data);

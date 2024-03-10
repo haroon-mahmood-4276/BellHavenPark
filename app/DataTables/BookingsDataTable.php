@@ -111,14 +111,27 @@ class BookingsDataTable extends DataTable
                 ]);
         }
 
+        $orders = match ($this->filter) {
+            'checkin' => [
+                [4, 'desc'],
+            ],
+            'checkout' => [
+                [6, 'desc'],
+            ],
+            default => [
+                [9, 'desc'],
+            ],
+        };
+
         return $this->builder()
             ->setTableId('booking-table')
             ->addTableClass('table-borderless table-striped table-hover')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->serverSide()
+            ->stateSave()
             ->processing()
-            ->deferRender()    
+            ->deferRender()
             ->scrollX()
             ->pagingType('full_numbers')
             ->lengthMenu([
@@ -149,9 +162,7 @@ class BookingsDataTable extends DataTable
             //         ]
             //     ],
             // ])
-            ->orders([
-                [9, 'desc'],
-            ]);
+            ->orders($orders);
     }
 
     /**

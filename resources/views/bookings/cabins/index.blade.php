@@ -195,7 +195,7 @@
 
                     if (response.status) {
                         $('#add_booking_' + cabin_id).prop('disabled', false);
-
+                        $('.modal-backdrop').remove();
                         $('#' + response.modalPlace).html(response.modal);
                         $('#' + response.currentModal).modal('show');
                         hideBlockUI();

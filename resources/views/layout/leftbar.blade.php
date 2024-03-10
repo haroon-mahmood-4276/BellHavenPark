@@ -238,6 +238,37 @@
         @endcanany
 
         <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Utilities</span>
+        </li>
+        @canany(['meter-readings.index', 'meter-readings.create'])
+            <li
+                class="menu-item {{ in_array(request()->route()->getName(),['meter-readings.index', 'meter-readings.create'])? 'open active': null }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="fa-solid fa-gauge menu-icon"></i>
+                    <div>Meter Reading</div>
+                </a>
+                <ul class="menu-sub">
+
+                    @can('meter-readings.index')
+                        <li class="menu-item {{ request()->routeIs('meter-readings.index') ? 'active' : null }}">
+                            <a href="{{ route('meter-readings.index') }}" class="menu-link">
+                                <div>View All</div>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('meter-readings.create')
+                        <li class="menu-item {{ request()->routeIs('meter-readings.create') ? 'active' : null }}">
+                            <a href="{{ route('meter-readings.create') }}" class="menu-link">
+                                <div>Add New</div>
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+            </li>
+        @endcanany
+
+        <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Others</span>
         </li>
 

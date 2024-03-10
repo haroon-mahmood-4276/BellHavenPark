@@ -3,16 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\BookingPaymentsDataTable;
-use App\Exceptions\GeneralException;
-
-;
 use App\Models\Booking;
 use App\Services\Payments\PaymentInterface;
 use App\Services\Bookings\BookingInterface;
 use App\Services\BookingTaxes\BookingTaxInterface;
 use App\Services\PaymentMethods\PaymentMethodInterface;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -40,6 +36,7 @@ class PaymentController extends Controller
 
         $data = [
             'booking_id' => $booking->id,
+            'booking_cabin_id' => $booking->cabin_id,
             'credit_account' => $this->paymentInterface->creditAccountPayment($booking->customer->id),
         ];
 
@@ -58,13 +55,20 @@ class PaymentController extends Controller
         ];
 
         $modalData['credit_account'] = $this->paymentInterface->creditAccountPayment($modalData['booking']->customer->id);
-
+        
         $modalData['last_payment_date'] = $this->paymentInterface->lastPaymentDate($booking_id) ?? $modalData['booking']?->booking_from;
-        $modalData['booking_tax'] = $this->bookingTaxInterface->find($modalData['booking']->booking_tax_id);
+        $modalData = array_merge($modalData, match($request->payment_type) {
+            'rent_payment' => [
+                'booking_tax' => $this->bookingTaxInterface->find($modalData['booking']->booking_tax_id),
+            ],
+            // 'electricity_payment' => [
+            //     'previous_reading' => ,
+            //     'payment_type' => PaymentType::ELECTRIC,
+            // ],
+            default => []
+        });
 
         if (request()->ajax()) {
-
-
             if ($modalData['booking'] == null) {
                 $data = [
                     'status' => true,
@@ -85,7 +89,11 @@ class PaymentController extends Controller
                     'prevModal' => $request->prevModal,
                     'modalPlace' => 'modalPlace',
                     'currentModal' => 'basicModal',
-                    'modal' => view('bookings.payments.modal.index', $modalData)->render(),
+                    'modal' => match($request->payment_type) {
+                        'rent_payment' => view('bookings.payments.modal.rent_payment', $modalData)->render(),
+                        'electricity_payment' => view('bookings.payments.modal.electricity_payment', $modalData)->render(),
+                        default => ''
+                    },
                 ];
             }
 
@@ -102,6 +110,8 @@ class PaymentController extends Controller
 
         // try {
             $inputs = $request->input();
+
+        // dd($inputs);
             $record = $this->paymentInterface->storeRentPayment($booking, $inputs);
             return redirect()->route('bookings.payments.index', ['booking' => $booking])->withSuccess('Data saved!');
         // } catch (GeneralException $ex) {

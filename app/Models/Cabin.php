@@ -50,9 +50,9 @@ class Cabin extends Model
         'four_weekly_rate' => 'required|numeric|gt:-1',
     ];
 
-    public function __construct()
+    public function __construct(array $attributes = array())
     {
-        parent::boot();
+        parent::__construct($attributes);
 
         $this->rules['cabin_status'] = 'required|string|in:' . implode(',', CabinStatus::values());
         $this->rules['reason'] = 'required_if:cabin_status,' . implode(',', [CabinStatus::CLOSED_PERMANENTLY->value, CabinStatus::CLOSED_TEMPORARILY->value, CabinStatus::MAINTENANCE->value]);

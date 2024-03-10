@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Laravel\Scout\Searchable;
 
 class Customer extends Model
 {
-    use SoftDeletes, Searchable;
+    use SoftDeletes, HasFactory;
 
     protected $dateFormat = 'U';
 
@@ -84,14 +84,6 @@ class Customer extends Model
     public function international_id(): BelongsTo
     {
         return $this->belongsTo(InternationalId::class);
-    }
-
-    public function toSearchableArray()
-    {
-        return [
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-        ];
     }
 
     public function ratings(): HasMany

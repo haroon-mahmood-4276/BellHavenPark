@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Payment;
+use App\Services\Cabins\CabinInterface;
 use App\Utils\Enums\CustomerAccounts;
 use App\Utils\Enums\PaymentStatus;
 use App\Utils\Enums\TransactionType;
@@ -17,6 +18,13 @@ use Illuminate\Support\Str;
 
 class BookingPaymentsDataTable extends DataTable
 {
+    private $cabinInterface;
+
+    public function __construct(CabinInterface $cabinInterface)
+    {
+        $this->cabinInterface = $cabinInterface;
+    }
+
     /**
      * Build DataTable class.
      *
@@ -76,24 +84,58 @@ class BookingPaymentsDataTable extends DataTable
     {
         $buttons = [];
 
-        if (auth()->user()->can('bookings.payments.create')) {
-            $buttons[] = Button::raw('add-new')
-                ->addClass('btn btn-primary waves-effect waves-float waves-light m-1')
-                ->text('<i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New')
-                ->attr([
-                    'onclick' => 'addNew()',
-                ]);
-        }
+        $cabin = $this->cabinInterface->getById($this->booking_cabin_id);
 
+        // dd($cabin);
+
+        if (auth()->user()->can('bookings.payments.create')) {
+
+            $createButtons = [
+                Button::raw('add-rent-payment')
+                    ->addClass('dropdown-item m-1')
+                    ->text('<i class="fa-solid fa-plus me-1"></i>Add Rent Payment')
+                    ->action('addNew("rent_payment")')
+            ];
+
+            if ($cabin->electric_meter || $cabin->gas_meter || $cabin->gas_meter) {
+                $createButtons[] = '<hr><h4 class="dropdown-header m-2">Utilities</h4>';
+            }
+
+            if ($cabin->electric_meter) {
+                $createButtons[] = Button::raw('add-electricity-payment')
+                    ->addClass('dropdown-item m-1')
+                    ->text('<i class="fa-solid fa-plug-circle-bolt me-1"></i>Electricity Payment')
+                    ->action('addNew("electricity_payment")');
+            }
+
+            if ($cabin->gas_meter) {
+                $createButtons[] = Button::raw('add-gas-payment')
+                    ->addClass('dropdown-item m-1')
+                    ->text('<i class="fa-solid fa-fire-flame-simple me-1"></i>Gas Payment')
+                    ->action('addNew("gas_payment")');
+            }
+
+            if ($cabin->gas_meter) {
+                $createButtons[] = Button::raw('add-water-payment')
+                    ->addClass('dropdown-item m-1')
+                    ->text('<i class="fa-solid fa-droplet me-1"></i>Water Payment')
+                    ->action('addNew("water_payment")');
+            };
+
+            $buttons[] = Button::make('collection')
+                ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1 btn-add-payment-collection')
+                ->text('Add Payment')->autoClose(true)
+                ->buttons($createButtons);
+        }
         if (auth()->user()->can('bookings.payments.export')) {
             $buttons[] = Button::make('export')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1')
                 ->buttons([
-                    Button::make('print')->addClass('dropdown-item')->text('<i class="fa-solid fa-print"></i>&nbsp;&nbsp;Print'),
-                    Button::make('copy')->addClass('dropdown-item')->text('<i class="fa-solid fa-copy"></i>&nbsp;&nbsp;Copy'),
-                    Button::make('csv')->addClass('dropdown-item')->text('<i class="fa-solid fa-file-csv"></i>&nbsp;&nbsp;CSV'),
-                    Button::make('excel')->addClass('dropdown-item')->text('<i class="fa-solid fa-file-excel"></i>&nbsp;&nbsp;Excel'),
-                    Button::make('pdf')->addClass('dropdown-item')->text('<i class="fa-solid fa-file-pdf"></i>&nbsp;&nbsp;PDF'),
+                    Button::make('print')->addClass('dropdown-item')->text('<i class="fa-solid fa-print me-1"></i>Print'),
+                    Button::make('copy')->addClass('dropdown-item')->text('<i class="fa-solid fa-copy me-1"></i>Copy'),
+                    Button::make('csv')->addClass('dropdown-item')->text('<i class="fa-solid fa-file-csv me-1"></i>CSV'),
+                    Button::make('excel')->addClass('dropdown-item')->text('<i class="fa-solid fa-file-excel me-1"></i>Excel'),
+                    Button::make('pdf')->addClass('dropdown-item')->text('<i class="fa-solid fa-file-pdf me-1"></i>PDF'),
                 ]);
         }
 
@@ -108,9 +150,9 @@ class BookingPaymentsDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->serverSide()
+            ->stateSave()
             ->processing()
             ->deferRender()
-            
             ->scrollX()
             ->pagingType('full_numbers')
             ->lengthMenu([
@@ -169,7 +211,7 @@ class BookingPaymentsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'booking_' . date('YmdHis');
+        return 'booking_payments_' . date('YmdHis');
     }
 
     /**

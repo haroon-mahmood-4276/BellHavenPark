@@ -96,9 +96,9 @@ class CabinsDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->serverSide()
+            ->stateSave()
             ->processing()
             ->deferRender()
-
             ->scrollX()
             ->pagingType('full_numbers')
             ->lengthMenu([

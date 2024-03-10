@@ -87,10 +87,11 @@
             }
         }
 
-        function addNew() {
+        function addNew(payment_type) {
 
             const data = {
                 'prevModal': '',
+                'payment_type': payment_type
             };
 
             $.ajax({
@@ -108,6 +109,7 @@
                 success: function(data) {
                     if (data.status) {
                         $('#' + data.prevModal).modal('hide');
+                        $('.modal-backdrop').remove();
                         $('#' + data.modalPlace).html(data.modal);
                         $('#' + data.currentModal).modal('show');
                     } else {

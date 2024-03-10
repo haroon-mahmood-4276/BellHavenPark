@@ -85,6 +85,7 @@ class UsersDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->serverSide()
+            ->stateSave()
             ->processing()
             ->deferRender()
             ->pagingType('full_numbers')

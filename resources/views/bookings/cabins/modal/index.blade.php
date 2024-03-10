@@ -1,6 +1,6 @@
 <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
-    {{-- <div class="modal-dialog modal-dialog-centered modal-lg" role="document"> --}}
+        {{-- <div class="modal-dialog modal-dialog-centered modal-lg" role="document"> --}}
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel1">Create Booking</h5>
@@ -11,16 +11,6 @@
                 <form action="{{ route('bookings.store') }}" method="POST" id="booking_store">
                     @csrf
                     <input type="hidden" name="cabin_id" value="{{ $cabin->id }}">
-
-                    {{-- <div class='d-flex flex-column'>
-                        <div class='d-flex flex-row'>
-                            <div class='fw-bold fs-5'>Customer Name</div>
-                            <div class='dot-divider'></div>
-                            <div class='fw-bold fs-5'>3.5 <i class="fa-solid fa-star-half-stroke"></i></div>
-                        </div>
-                        <div>Email: haroon.mahmood.4276@gmail.com</div>
-                        <div>Phone: +923034243233</div>
-                    </div> --}}
 
                     <div class="row mb-3">
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
@@ -77,10 +67,6 @@
                         <div class="col-xl-8 col-lg-8 col-md-12">
                             <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Rate ($)</p>
                         </div>
-
-                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <p class="form-label m-0" style="font-size: 15px; font-weight: bold;">Less Booking (%)</p>
-                        </div> --}}
                     </div>
 
                     <div class="row">
@@ -97,15 +83,6 @@
                                 <small class="text-muted">Enter daily rate.</small>
                             </p>
                         </div>
-
-                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <input type="number" class="form-control" id="daily_less_booking_percentage"
-                                name="daily_less_booking_percentage" placeholder="Daily Rate" value="0"
-                                step="0.5" min="0" />
-                            <p class="m-0">
-                                <small class="text-muted">Enter daily rate.</small>
-                            </p>
-                        </div> --}}
                     </div>
 
                     <div class="row">
@@ -123,15 +100,6 @@
                                 <small class="text-muted">Enter weekly rate.</small>
                             </p>
                         </div>
-
-                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <input type="number" class="form-control" id="weekly_rate_less_booking_percentage"
-                                name="weekly_rate_less_booking_percentage" placeholder="Daily Rate" value="0"
-                                min="0" {{ $differenceInDays + 1 < 7 ? 'disabled' : '' }} />
-                            <p class="m-0">
-                                <small class="text-muted">Enter daily rate.</small>
-                            </p>
-                        </div> --}}
                     </div>
 
                     <div class="row">
@@ -150,16 +118,6 @@
                                 <small class="text-muted">Enter monthly rate.</small>
                             </p>
                         </div>
-
-
-                        {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                            <input type="number" class="form-control" id="four_weekly_less_booking_percentage"
-                                name="four_weekly_less_booking_percentage" placeholder="Daily Rate" value="0"
-                                min="0" {{ $differenceInDays + 1 < 28 ? 'disabled' : '' }} />
-                            <p class="m-0">
-                                <small class="text-muted">Enter monthly rate.</small>
-                            </p>
-                        </div> --}}
                     </div>
 
                     <div class="row mb-3">
@@ -211,6 +169,39 @@
                                     <input type="radio" name="payment" id="btn_payment_later"
                                         class="form-check-input" value="later" checked />
                                     <label class="form-check-label" for="btn_payment_later">Later</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row mb-3">
+                        <div class="col-xl-12 col-lg-12 col-md-12 text-center">
+                            <label class="form-label d-block" style="font-size: 15px">Utility bill for</label>
+
+                            <div class="d-flex align-items-center justify-content-around h-75">
+                                <div class="form-check form-check-primary">
+                                    <input type="hidden" name="bill_for_electricity"value="0" />
+                                    <input type="checkbox" name="bill_for_electricity"
+                                        id="check_bill_for_electricity" class="form-check-input" value="1"
+                                        @disabled(!$cabin->electric_meter) />
+                                    <label class="form-check-label"
+                                        for="check_bill_for_electricity">Electricity</label>
+                                </div>
+
+                                <div class="form-check form-check-primary">
+                                    <input type="hidden" name="bill_for_gas"value="0" />
+                                    <input type="checkbox" name="bill_for_gas" id="check_bill_for_gas"
+                                        class="form-check-input" value="1" @disabled(!$cabin->gas_meter) />
+                                    <label class="form-check-label" for="check_bill_for_gas">Gas</label>
+                                </div>
+
+                                <div class="form-check form-check-primary">
+                                    <input type="hidden" name="bill_for_water"value="0" />
+                                    <input type="checkbox" name="bill_for_water" id="check_bill_for_water"
+                                        class="form-check-input" value="1" @disabled(!$cabin->water_meter) />
+                                    <label class="form-check-label" for="check_bill_for_water">Water</label>
                                 </div>
                             </div>
                         </div>
@@ -292,16 +283,16 @@
                 return {
                     q: params.term,
                     type: "query",
-                    // page: params.page
+                    page: params.page,
+                    per_page: 15,
                 };
             },
             processResults: function(response, params) {
-                // params.page = params.page || 1;
                 return {
-                    results: response.data,
-                    // pagination: {
-                    //     more: (params.page * 30) < data.total_count
-                    // }
+                    results: response.data.data,
+                    pagination: {
+                        more: response.data.next_page_url !== null
+                    }
                 };
             },
             cache: true
@@ -344,7 +335,7 @@
                 "<div class='fw-bold'>" + (row.name || "") + "</div>" +
                 "<div class='dot-divider mx-0'>-</div>" +
                 "<div class='fw-bold' id='read-only-ratings_" + row.id + "'>&#9733; " + (row
-                    .average_rating || "") + "</div>" +
+                    .average_rating || "0") + "</div>" +
                 "</div>" +
                 "</div>"
             );
@@ -372,7 +363,10 @@
             },
             processResults: function(response, params) {
                 return {
-                    results: response.data,
+                    results: response.data.data,
+                    pagination: {
+                        more: response.data.next_page_url !== null
+                    }
                 };
             },
             cache: true
@@ -381,7 +375,7 @@
         placeholder: 'Search for Customers...',
         dropdownAutoWidth: !0,
         minimumInputLength: 2,
-        dropdownParent: customer.parent(),
+        dropdownParent: tenants.parent(),
         width: "100%",
         containerCssClass: "select-lg",
         templateResult: function(row) {
@@ -416,7 +410,7 @@
                 "<div class='fw-bold'>" + (row.name || "") + "</div>" +
                 "<div class='dot-divider mx-0'>-</div>" +
                 "<div class='fw-bold' id='read-only-ratings_" + row.id + "'>&#9733; " + (row
-                    .average_rating || "") + "</div>" +
+                    .average_rating || "0") + "</div>" +
                 "</div>" +
                 "</div>"
             );

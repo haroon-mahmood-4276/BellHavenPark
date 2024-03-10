@@ -29,6 +29,9 @@ class Booking extends Model
         'check_in',
         'check_in_date',
         'check_out_date',
+        'bill_for_electricity',
+        'bill_for_gas',
+        'bill_for_water',
         'booking_tax_id',
         'status',
         'comments',
@@ -48,6 +51,9 @@ class Booking extends Model
         'check_in' => 'string',
         'check_in_date' => 'integer',
         'check_out_date' => 'integer',
+        'bill_for_electricity' => 'boolean',
+        'bill_for_gas' => 'boolean',
+        'bill_for_water' => 'boolean',
         'status' => 'boolean',
         'comments' => 'string',
         'payment' => 'string',
@@ -83,6 +89,10 @@ class Booking extends Model
 
         'advance_payment' => 'required_if:payment,now|integer|gte:0',
 
+        'bill_for_electricity' => 'required|in:0,1',
+        'bill_for_gas' => 'required|in:0,1',
+        'bill_for_water' => 'required|in:0,1',
+
         'comments' => 'nullable',
 
         'tenants' => 'nullable|array',
@@ -93,9 +103,9 @@ class Booking extends Model
 
     public $rulesAttributes = [];
 
-    public function __construct()
+    public function __construct(array $attributes = array())
     {
-        parent::boot();
+        parent::__construct($attributes);
 
         $this->rules['payment_methods'] = 'required_if:payment,now|integer|exists:payment_methods,id';
     }

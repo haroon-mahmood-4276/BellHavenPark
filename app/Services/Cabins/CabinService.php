@@ -3,8 +3,8 @@
 namespace App\Services\Cabins;
 
 use App\Models\Cabin;
-use App\Utils\Enums\CabinStatus;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class CabinService implements CabinInterface
 {
@@ -133,5 +133,16 @@ class CabinService implements CabinInterface
             }
             return $this->getById($id)->update($data);
         });
+    }
+
+    public function search($search, $per_page = 15, $ignore_ids = [])
+    {
+        $model = $this->model()
+            ->where(function (QueryBuilder $query) use ($search) {
+                $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($search) . '%']);
+            })
+            ->when(count($ignore_ids) > 0, fn (QueryBuilder $query) => $query->whereNotIn('id', $ignore_ids));
+
+        return $model->simplePaginate($per_page);
     }
 }
