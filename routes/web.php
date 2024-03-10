@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{
+    AuthController,
     BookingController,
     BookingSourceController,
     BookingTaxController,
@@ -31,7 +32,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->route('dashboard.index');
+});
+
+Route::group(['middleware' => 'guest:admin'], function () {
+    Route::get('login', [AuthController::class, 'loginView'])->name('login.view');
+    Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
 });
 
 Route::group(['middleware' => 'auth'], function () {
