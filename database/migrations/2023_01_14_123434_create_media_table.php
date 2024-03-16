@@ -9,9 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('media', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
 
-            $table->uuidMorphs('model');
+            $table->morphs('model');
             $table->uuid('uuid')->nullable()->unique();
             $table->string('collection_name');
             $table->string('name');
@@ -26,18 +26,7 @@ return new class extends Migration
             $table->json('responsive_images');
             $table->unsignedInteger('order_column')->nullable()->index();
 
-            $table->unsignedInteger('created_at')->nullable();
-            $table->unsignedInteger('updated_at')->nullable();
+            $table->nullableTimestamps();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('media');
     }
 };
