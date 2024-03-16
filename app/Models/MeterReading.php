@@ -19,6 +19,7 @@ class MeterReading extends Model
         'reading_date',
         'reading',
         'comments',
+        'status'
     ];
 
     protected $casts = [

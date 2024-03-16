@@ -10,7 +10,7 @@
             startFromMonday: true,
             minDate: moment().subtract(7, 'd').format('YYYY/MM/DD'),
             defaultDate: "{{ isset($meterReading) ? Carbon\Carbon::parse($meterReading->reading_date)->toDateString() : now()->toDateString() }}",
-            maxDate: moment().format('YYYY/MM/DD')
+            // maxDate: moment().format('YYYY/MM/DD')
         });
 
         cabin_id = $("#cabin_id").wrap('<div class="position-relative"></div>');

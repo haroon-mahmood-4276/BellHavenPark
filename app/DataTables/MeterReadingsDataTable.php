@@ -38,7 +38,7 @@ class MeterReadingsDataTable extends DataTable
                 return $meterReading->comments ?? '-';
             })
             ->editColumn('reading_date', function ($meterReading) {
-                return editDateTimeColumn($meterReading->reading_date);
+                return editDateColumn($meterReading->reading_date, 'F d, Y');
             })
             ->editColumn('updated_at', function ($meterReading) {
                 return editDateTimeColumn($meterReading->updated_at);
@@ -138,7 +138,7 @@ class MeterReadingsDataTable extends DataTable
                 'right' => 1,
             ])
             ->orders([
-                [6, 'desc'],
+                [3, 'desc'],
             ]);
     }
 

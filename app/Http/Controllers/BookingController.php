@@ -105,7 +105,7 @@ class BookingController extends Controller
 
         try {
             $inputs = $request->validated();
-            $record = $this->bookingInterface->store($inputs);
+            $this->bookingInterface->store($inputs);
             return redirect()->route('bookings.index')->withSuccess('Data saved!');
         } catch (GeneralException $ex) {
             return redirect()->route('bookings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
@@ -132,11 +132,11 @@ class BookingController extends Controller
 
         try {
             $record = $this->bookingInterface->storeCheckIn($booking_id);
-            return redirect()->route('bookings.index')->withSuccess('Data saved!');
+            return redirect()->route('bookings.checkin.index')->withSuccess('Data saved!');
         } catch (GeneralException $ex) {
-            return redirect()->route('bookings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+            return redirect()->route('bookings.checkin.index')->withDanger('Something went wrong! ' . $ex->getMessage());
         } catch (Exception $ex) {
-            return redirect()->route('bookings.index')->withDanger('Something went wrong!');
+            return redirect()->route('bookings.checkin.index')->withDanger('Something went wrong!');
         }
     }
 

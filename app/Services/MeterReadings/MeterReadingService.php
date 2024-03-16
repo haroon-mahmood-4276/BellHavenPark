@@ -3,6 +3,7 @@
 namespace App\Services\MeterReadings;
 
 use App\Models\MeterReading;
+use App\Utils\Enums\UtilityBillsStatus;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -14,8 +15,30 @@ class MeterReadingService implements MeterReadingInterface
         return new MeterReading();
     }
 
-    public function get($ignore = null, $relationships = [], $where = [])
+    public function get($ignore = null, $with = [], $where = [], $sort = [])
     {
+        return $this->model()
+            ->when(
+                is_array($ignore),
+                fn (QueryBuilder $query) => $query->whereNotIn('id', $ignore),
+                fn (QueryBuilder $query) => $query->where('id', '!=', $ignore)
+            )
+            ->when(
+                $with,
+                fn (QueryBuilder $query) => $query->with($with)
+            )
+            ->when(
+                $where,
+                fn (QueryBuilder $query) => $query->where($where)
+            )
+            ->when(
+                $sort,
+                function (QueryBuilder $query, $sort) {
+                    foreach ($sort as $key => $order) {
+                        $query->orderBy($key, $order);
+                    }
+                }
+            )->get();
     }
 
     public function find($id, $relationships = [], $where = [])
@@ -31,6 +54,7 @@ class MeterReadingService implements MeterReadingInterface
                 'reading' => $inputs['reading'],
                 'reading_date' => Carbon::parse($inputs['reading_date'])->timestamp,
                 'comments' => $inputs['comments'],
+                'status' => UtilityBillsStatus::PENDING_GENERATION
             ]);
         });
     }

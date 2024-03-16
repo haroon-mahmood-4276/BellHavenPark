@@ -4,7 +4,7 @@ namespace App\Services\MeterReadings;
 
 interface MeterReadingInterface
 {
-    public function get($ignore = null, $relationships = [], $where = []);
+    public function get($ignore = null, $with = [], $where = [], $sort = []);
 
     public function find($id, $relationships = [], $where = []);
 
