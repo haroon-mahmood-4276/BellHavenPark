@@ -2,18 +2,25 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\{Exceptions, Middleware};
-use Illuminate\Http\Request;
 use Spatie\Permission\Middleware\{PermissionMiddleware, RoleMiddleware, RoleOrPermissionMiddleware};
+use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__ . '/../routes/web.php',
+        using: function () {
+            Route::middleware('web')
+                ->prefix('ajax')
+                ->group(base_path('routes/ajax.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/web.php'));
+        },
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->redirectGuestsTo(fn (Request $request) => route('login.view'))
-            ->redirectUsersTo(fn (Request $request) => route('dashboard.index'))
+        $middleware->redirectGuestsTo(fn () => route('login.view'))
+            ->redirectUsersTo(fn () => route('dashboard.index'))
             ->alias([
                 'role' => RoleMiddleware::class,
                 'permission' => PermissionMiddleware::class,
