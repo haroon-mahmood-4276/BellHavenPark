@@ -2,15 +2,18 @@
 
 namespace App\Services\Bookings;
 
-use App\Models\Booking;
-use App\Models\Payment;
+use App\Models\{Booking, Payment};
 use App\Services\Cabins\CabinInterface;
 use App\Services\Payments\PaymentInterface;
-use App\Utils\Enums\CabinStatus;
-use App\Utils\Enums\CustomerAccounts;
-use App\Utils\Enums\PaymentStatus;
-use App\Utils\Enums\TransactionType;
+use App\Utils\Enums\{
+    CabinStatus,
+    CustomerAccounts,
+    PaymentStatus,
+    PaymentType,
+    TransactionType,
+};
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\DB;
 
 class BookingService implements BookingInterface
@@ -29,17 +32,11 @@ class BookingService implements BookingInterface
         return new Booking();
     }
 
-    public function get($ignore = null, $relationships = [], $only = 'all')
+    public function get($ignore = null, $relationships = [], $only = 'all', $sort = [])
     {
-        $booking = $this->model();
-        if (is_array($ignore)) {
-            $booking = $booking->whereNotIn('id', $ignore);
-        } else if (is_string($ignore)) {
-            $booking = $booking->where('id', '!=', $ignore);
-        }
-        if (count($relationships) > 0) {
-            $booking = $booking->with($relationships);
-        }
+        $booking = $this->model()
+            ->when(is_array($ignore), fn (QueryBuilder $query) => $query->whereNotIn('id', $ignore), fn (QueryBuilder $query) => $query->where('id', '!=', $ignore))
+            ->when($relationships, fn (QueryBuilder $query) => $query->with($relationships));
 
         switch ($only) {
             case 'booked':
@@ -60,8 +57,11 @@ class BookingService implements BookingInterface
                 ]);
         }
 
-        $booking = $booking->get();
-        return $booking;
+        foreach ($sort as $key => $order) {
+            $booking->orderBy($key, $order);
+        }
+
+        return $booking->get();
     }
 
     public function find($id, $relationships = [])
@@ -141,6 +141,7 @@ class BookingService implements BookingInterface
                     'account' => CustomerAccounts::CREDIT_ACCOUNT,
                     'transaction_type' => TransactionType::ADVANCE,
                     'status' => PaymentStatus::RECEIVED,
+                    'payment_type' => PaymentType::RENT,
                     'comments' => 'Advance Payment',
                 ];
 

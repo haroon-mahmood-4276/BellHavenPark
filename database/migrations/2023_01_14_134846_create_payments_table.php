@@ -34,8 +34,6 @@ return new class extends Migration
             $table->enum('transaction_type', TransactionType::values())->nullable();
             $table->enum('status', PaymentStatus::values())->nullable();
             $table->enum('payment_type', PaymentType::values());
-            
-            $table->unsignedInteger('utility_reading')->default(0);
 
             $table->json('additional_data')->nullable();
             

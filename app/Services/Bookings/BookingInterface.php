@@ -4,7 +4,7 @@ namespace App\Services\Bookings;
 
 interface BookingInterface
 {
-    public function get($ignore = null, $relationships = [], $only = []);
+    public function get($ignore = null, $relationships = [], $only = [], $sort = []);
 
     public function find($id, $relationships = []);
 
