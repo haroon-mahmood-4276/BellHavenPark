@@ -63,7 +63,7 @@ class MeterReadingController extends Controller
     {
         abort_if(request()->ajax(), 403);
 
-        try {
+        // try {
             $inputs = $request->validated();
             $this->meterReadingInterface->store($inputs);
 
@@ -71,11 +71,11 @@ class MeterReadingController extends Controller
                 return redirect()->route('meter-readings.create')->withSuccess('Data saved!');
 
             return redirect()->route('meter-readings.index')->withSuccess('Data saved!');
-        } catch (GeneralException $ex) {
-            return redirect()->route('meter-readings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
-        } catch (Exception $ex) {
-            return redirect()->route('meter-readings.index')->withDanger('Something went wrong!');
-        }
+        // } catch (GeneralException $ex) {
+        //     return redirect()->route('meter-readings.index')->withDanger('Something went wrong! ' . $ex->getMessage());
+        // } catch (Exception $ex) {
+        //     return redirect()->route('meter-readings.index')->withDanger('Something went wrong!');
+        // }
     }
 
     /**

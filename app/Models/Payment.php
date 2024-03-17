@@ -29,7 +29,6 @@ class Payment extends Model
         'transaction_type',
         'status',
         'payment_type',
-        'utility_reading',
         'additional_data',
         'comments',
     ];
@@ -47,7 +46,6 @@ class Payment extends Model
         'transaction_type' => TransactionType::class,
         'status' => PaymentStatus::class,
         
-        'utility_reading' => 'integer',
         'additional_data' => 'array',
 
         'created_at' => 'timestamp',

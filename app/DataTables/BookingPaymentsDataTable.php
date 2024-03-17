@@ -36,6 +36,9 @@ class BookingPaymentsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->setRowId('id')
+            ->editColumn('payment_method.name', function ($row) {
+                return $row->payment_method->name ?? '-';
+            })
             ->editColumn('amount', function ($row) {
                 return editPaymentColumn($row->amount, 2);
             })
@@ -52,8 +55,8 @@ class BookingPaymentsDataTable extends DataTable
             ->editColumn('transaction_type', function ($row) {
                 return Str::of($row->transaction_type->value)->replace('_', ' ')->title();
             })
-            ->editColumn('status', function ($row) {
-                return Str::of($row->status->value)->replace('_', ' ')->title();
+            ->editColumn('payment_type', function ($row) {
+                return Str::of($row->payment_type->value)->headline();
             })
             ->editColumn('updated_at', function ($row) {
                 return editDateTimeColumn($row->updated_at);
@@ -198,7 +201,7 @@ class BookingPaymentsDataTable extends DataTable
             Column::make('payment_from')->title('Payment From')->addClass('text-nowrap text-center align-middle'),
             Column::make('payment_to')->title('Payment To')->addClass('text-nowrap text-center align-middle'),
             Column::make('amount')->addClass('text-nowrap text-center align-middle'),
-            Column::make('status')->addClass('text-nowrap text-center align-middle'),
+            Column::make('payment_type')->addClass('text-nowrap text-center align-middle'),
             Column::make('comments')->title('Comments')->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
         ];

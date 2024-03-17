@@ -64,15 +64,25 @@ class BookingService implements BookingInterface
         return $booking->get();
     }
 
-    public function find($id, $relationships = [])
+    public function find($id, $with = [], $where = [], $sort = [])
     {
-        $booking = $this->model();
-
-        if (count($relationships) > 0) {
-            $booking = $booking->with($relationships);
-        }
-
-        return $booking->find($id);
+        return $this->model()->where('id', $id)
+            ->when(
+                $with,
+                fn (QueryBuilder $query) => $query->with($with)
+            )
+            ->when(
+                $where,
+                fn (QueryBuilder $query) => $query->where($where)
+            )
+            ->when(
+                $sort,
+                function (QueryBuilder $query, $sort) {
+                    foreach ($sort as $key => $order) {
+                        $query->orderBy($key, $order);
+                    }
+                }
+            )->latest()->first();
     }
 
     public function getBookedCabinsWithinDates($start_date, $end_date)

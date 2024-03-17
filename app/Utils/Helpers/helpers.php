@@ -18,6 +18,14 @@ if (!function_exists('settings')) {
     }
 }
 
+if (!function_exists('percentageOf')) {
+    function percentageOf(int|float $number, int|float $percentage, int $precision = 2)
+    {
+        $value = round((abs($percentage) / 100) * $number, $precision);
+        return $value - floor($value) != 0 ? $value : (int)$value;
+    }
+}
+
 if (!function_exists('settings_update')) {
     function settings_update(array|string $keys, array|string $values)
     {
