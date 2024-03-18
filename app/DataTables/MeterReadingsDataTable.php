@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\MeterReading;
+use App\Utils\Enums\CustomerAccounts;
 use App\Utils\Traits\DataTableTrait;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -25,9 +26,9 @@ class MeterReadingsDataTable extends DataTable
             })
             ->editColumn('reading', function ($meterReading) {
                 return $meterReading->reading . match ($meterReading->meter_type->value) {
-                    'electric' => ' kWh',
-                    'gas' => ' M<sup>3</sup>',
-                    'water' => ' M<sup>3</sup>',
+                    CustomerAccounts::ELECTRICITY => ' kWh',
+                    CustomerAccounts::GAS => ' M<sup>3</sup>',
+                    CustomerAccounts::WATER => ' M<sup>3</sup>',
                     default => ''
                 };
             })

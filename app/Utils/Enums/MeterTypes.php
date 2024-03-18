@@ -8,7 +8,7 @@ enum MeterTypes: string
 {
     use EnumHelpers;
 
-    case ELECTRIC = 'electric';
+    case ELECTRICITY = 'electricity';
     case GAS = 'gas';
     case WATER = 'water';
 }

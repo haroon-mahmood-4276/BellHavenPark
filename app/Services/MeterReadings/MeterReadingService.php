@@ -6,7 +6,7 @@ use App\Models\MeterReading;
 use App\Services\Bookings\BookingInterface;
 use App\Services\BookingTaxes\BookingTaxInterface;
 use App\Services\Payments\PaymentInterface;
-use App\Utils\Enums\{CustomerAccounts, PaymentStatus, PaymentType, TransactionType, UtilityBillsStatus};
+use App\Utils\Enums\{CustomerAccounts, MeterTypes, PaymentStatus, PaymentType, TransactionType, UtilityBillsStatus};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -64,7 +64,7 @@ class MeterReadingService implements MeterReadingInterface
                 'cabin_id' => $inputs['cabin_id'],
                 'meter_type' => $inputs['meter_type'],
                 'reading' => $inputs['reading'],
-                'reading_date' => Carbon::parse($inputs['reading_date'])->timestamp,
+                'reading_date' => Carbon::parse($inputs['reading_date'] . " " . now()->format('H:i:s'))->timestamp,
                 'comments' => $inputs['comments']
             ]);
 
@@ -81,29 +81,48 @@ class MeterReadingService implements MeterReadingInterface
                 ])->whereBetween('reading_date', [$booking->check_in_date, Carbon::parse($model->reading_date)->timestamp - 1])->latest()->first();
 
                 if ($previousMeterReading) {
-                    $amount = $this->calculateReadingCost($model->reading, $model->reading_date, $previousMeterReading->reading, $previousMeterReading->reading_date, $inputs['meter_type']);
-                    if ($amount > 0) {
+                    $meterData = $this->calculateReadingCost($model->reading, $model->reading_date, $previousMeterReading->reading, $previousMeterReading->reading_date, $inputs['meter_type']);
+                    if ($meterData['amount'] > 0) {
                         $this->paymentInterface->model()->create([
                             'booking_id' => $booking->id,
                             'payment_method_id' => null,
                             'customer_id' => $booking->customer_id,
-                            'payment_from' => 0,
-                            'payment_to' => 0,
-                            'amount' => '-' . $amount,
-                            'account' => match ($inputs['meter_type']) {
-                                'electric' => CustomerAccounts::ELECTRICITY,
-                                'gas' => CustomerAccounts::GAS,
-                                'water' => CustomerAccounts::WATER,
+                            'payment_from' => $previousMeterReading->reading_date,
+                            'payment_to' => $model->reading_date,
+                            'credit_amount' => 0,
+                            'debit_amount' => $meterData['amount'],
+                            'account' => CustomerAccounts::ELECTRICITY,
+                            'additional_data' => array_merge([
+                                'consumed_units' => $meterData['consumed_units'],
+                            ], match ($inputs['meter_type']) {
+                                MeterTypes::ELECTRICITY->value => [
+                                    'electricity_base_rate' => settings('electricity_base_rate'),
+                                    'electricity_tax' => settings('electricity_tax'),
+                                    'electricity_is_percentage' => settings('electricity_is_percentage'),
+                                    'electricity_flat_rate_percentage' => settings('electricity_flat_rate_percentage'),
+                                    'electricity_sac_rate' => settings('electricity_sac_rate'),
+                                ],
+                                MeterTypes::GAS->value => [
+                                    'gas_base_rate' => settings('gas_base_rate'),
+                                    'gas_tax' => settings('gas_tax'),
+                                    'gas_is_percentage' => settings('gas_is_percentage'),
+                                    'gas_flat_rate_percentage' => settings('gas_flat_rate_percentage'),
+                                    'gas_sac_rate' => settings('gas_sac_rate'),
+                                ],
+                                MeterTypes::WATER->value => [
+                                    'water_base_rate' => settings('water_base_rate'),
+                                    'water_tax' => settings('water_tax'),
+                                    'water_is_percentage' => settings('water_is_percentage'),
+                                    'water_flat_rate_percentage' => settings('water_flat_rate_percentage'),
+                                    'water_sac_rate' => settings('water_sac_rate'),
+                                ]
+                            }),
+                            'comments' => "Unit Consumed: " . $meterData['consumed_units'] . " @ $" . settings('electricity_base_rate') . match ($inputs['meter_type']) {
+                                MeterTypes::ELECTRICITY->value => '/kWh',
+                                MeterTypes::GAS->value => '/M<sup>3</sup>',
+                                MeterTypes::WATER->value => '/M<sup>3</sup>',
+                                default => ''
                             },
-                            'transaction_type' => TransactionType::CASH,
-                            'status' => PaymentStatus::RECEIVABLE,
-                            'payment_type' => match ($inputs['meter_type']) {
-                                'electric' => PaymentType::ELECTRIC,
-                                'gas' => PaymentType::GAS,
-                                'water' => PaymentType::WATER,
-                            },
-                            'additional_data' => [],
-                            'comments' => "System Generated Bill",
                         ]);
                     }
                 }
@@ -151,17 +170,17 @@ class MeterReadingService implements MeterReadingInterface
         $previousReadingDate = Carbon::parse($previousReadingDate);
 
         switch ($meterType) {
-            case 'electric':
+            case MeterTypes::ELECTRICITY->value:
                 $baseRate = floatval(settings('electricity_base_rate'));
                 $sacRate = floatval(settings('electricity_sac_rate'));
                 break;
 
-            case 'gas':
+            case MeterTypes::GAS->value:
                 $baseRate = floatval(settings('gas_base_rate'));
                 $sacRate = floatval(settings('gas_sac_rate'));
                 break;
 
-            case 'water':
+            case MeterTypes::WATER->value:
                 $baseRate = floatval(settings('water_base_rate'));
                 $sacRate = floatval(settings('water_sac_rate'));
                 break;
@@ -180,21 +199,24 @@ class MeterReadingService implements MeterReadingInterface
 
         //flat rate/percentage(subtotal) (checkbox to enable else 0)
         $percentageAmount = match ($meterType) {
-            'electric' => boolval(settings('electricity_is_percentage')) ? (percentageOf($subTotal, floatval(settings('electricity_flat_rate_percentage')))) : floatval(settings('electricity_flat_rate_percentage')),
-            'gas' => boolval(settings('gas_is_percentage')) ? (percentageOf($subTotal, floatval(settings('gas_flat_rate_percentage')))) : floatval(settings('gas_flat_rate_percentage')),
-            'water' => boolval(settings('water_is_percentage')) ? (percentageOf($subTotal, floatval(settings('water_flat_rate_percentage')))) : floatval(settings('water_flat_rate_percentage')),
+            MeterTypes::ELECTRICITY->value => boolval(settings('electricity_is_percentage')) ? (percentageOf($subTotal, floatval(settings('electricity_flat_rate_percentage')))) : floatval(settings('electricity_flat_rate_percentage')),
+            MeterTypes::GAS->value => boolval(settings('gas_is_percentage')) ? (percentageOf($subTotal, floatval(settings('gas_flat_rate_percentage')))) : floatval(settings('gas_flat_rate_percentage')),
+            MeterTypes::WATER->value => boolval(settings('water_is_percentage')) ? (percentageOf($subTotal, floatval(settings('water_flat_rate_percentage')))) : floatval(settings('water_flat_rate_percentage')),
         };
 
         // Tax rate
         $taxRate = match ($meterType) {
-            'electric' => $this->bookingTaxInterface->find(intval(settings('electricity_tax'))),
-            'gas' => $this->bookingTaxInterface->find(intval(settings('gas_tax'))),
-            'water' => $this->bookingTaxInterface->find(intval(settings('water_tax'))),
+            MeterTypes::ELECTRICITY->value => $this->bookingTaxInterface->find(intval(settings('electricity_tax'))),
+            MeterTypes::GAS->value => $this->bookingTaxInterface->find(intval(settings('gas_tax'))),
+            MeterTypes::WATER->value => $this->bookingTaxInterface->find(intval(settings('water_tax'))),
         };
 
         $taxRate = $taxRate->is_flat ? $taxRate->amount : (percentageOf($subTotal, floatval($taxRate->amount)));
 
         // Total = subtotal + sac rate + flat rate/percentage + tax rate
-        return array_sum([$subTotal, $sacRate, $percentageAmount, $taxRate]);
+        return [
+            'amount' => array_sum([$subTotal, $sacRate, $percentageAmount, $taxRate]),
+            'consumed_units' => $noOfUnit
+        ];
     }
 }
