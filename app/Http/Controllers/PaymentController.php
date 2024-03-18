@@ -20,8 +20,7 @@ class PaymentController extends Controller
         PaymentInterface $paymentInterface,
         PaymentMethodInterface $paymentMethodInterface,
         BookingTaxInterface $bookingTaxInterface
-    )
-    {
+    ) {
         $this->bookingInterface = $bookingInterface;
         $this->paymentInterface = $paymentInterface;
         $this->paymentMethodInterface = $paymentMethodInterface;
@@ -55,16 +54,16 @@ class PaymentController extends Controller
         ];
 
         $modalData['credit_account'] = $this->paymentInterface->creditAccountPayment($modalData['booking']->customer->id);
-        
+
         $modalData['last_payment_date'] = $this->paymentInterface->lastPaymentDate($booking_id) ?? $modalData['booking']?->booking_from;
-        $modalData = array_merge($modalData, match($request->payment_type) {
+        $modalData = array_merge($modalData, match ($request->payment_type) {
             'rent_payment' => [
                 'booking_tax' => $this->bookingTaxInterface->find($modalData['booking']->booking_tax_id),
             ],
-            // 'electricity_payment' => [
-            //     'previous_reading' => ,
-            //     'payment_type' => PaymentType::ELECTRIC,
-            // ],
+                // 'electricity_payment' => [
+                //     'previous_reading' => ,
+                //     'payment_type' => PaymentType::ELECTRIC,
+                // ],
             default => []
         });
 
@@ -89,7 +88,7 @@ class PaymentController extends Controller
                     'prevModal' => $request->prevModal,
                     'modalPlace' => 'modalPlace',
                     'currentModal' => 'basicModal',
-                    'modal' => match($request->payment_type) {
+                    'modal' => match ($request->payment_type) {
                         'rent_payment' => view('bookings.payments.modal.rent_payment', $modalData)->render(),
                         'electricity_payment' => view('bookings.payments.modal.electricity_payment', $modalData)->render(),
                         default => ''
@@ -109,11 +108,13 @@ class PaymentController extends Controller
         abort_if(request()->ajax(), 403);
 
         // try {
-            $inputs = $request->input();
+        $inputs = $request->input();
 
-        // dd($inputs);
-            $record = $this->paymentInterface->storeRentPayment($booking, $inputs);
-            return redirect()->route('bookings.payments.index', ['booking' => $booking])->withSuccess('Data saved!');
+        match ($inputs['payment_type']) {
+            'rent_payment' => $this->paymentInterface->storeRentPayment($booking, $inputs),
+            'electricity_payment' => $this->paymentInterface->storeUtilityPayment($booking, $inputs),
+        };
+        return redirect()->route('bookings.payments.index', ['booking' => $booking])->withSuccess('Data saved!');
         // } catch (GeneralException $ex) {
         //     return redirect()->route('bookings.payments.index', ['booking' => $booking])->withDanger('Something went wrong! ' . $ex->getMessage());
         // } catch (Exception $ex) {

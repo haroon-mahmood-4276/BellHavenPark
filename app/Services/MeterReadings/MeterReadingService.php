@@ -65,8 +65,7 @@ class MeterReadingService implements MeterReadingInterface
                 'meter_type' => $inputs['meter_type'],
                 'reading' => $inputs['reading'],
                 'reading_date' => Carbon::parse($inputs['reading_date'])->timestamp,
-                'comments' => $inputs['comments'],
-                'status' => UtilityBillsStatus::PENDING_GENERATION
+                'comments' => $inputs['comments']
             ]);
 
             // Check if booking is in on going
@@ -79,8 +78,7 @@ class MeterReadingService implements MeterReadingInterface
                 $previousMeterReading = $this->model()->where([
                     'cabin_id' => $model->cabin_id,
                     'meter_type' => $model->meter_type,
-                    ['reading_date', '<', Carbon::parse($model->reading_date)->timestamp],
-                ])->first();
+                ])->whereBetween('reading_date', [$booking->check_in_date, Carbon::parse($model->reading_date)->timestamp - 1])->latest()->first();
 
                 if ($previousMeterReading) {
                     $amount = $this->calculateReadingCost($model->reading, $model->reading_date, $previousMeterReading->reading, $previousMeterReading->reading_date, $inputs['meter_type']);
@@ -91,13 +89,13 @@ class MeterReadingService implements MeterReadingInterface
                             'customer_id' => $booking->customer_id,
                             'payment_from' => 0,
                             'payment_to' => 0,
-                            'amount' => 100,
+                            'amount' => '-' . $amount,
                             'account' => match ($inputs['meter_type']) {
                                 'electric' => CustomerAccounts::ELECTRICITY,
                                 'gas' => CustomerAccounts::GAS,
                                 'water' => CustomerAccounts::WATER,
                             },
-                            'transaction_type' => TransactionType::ADVANCE,
+                            'transaction_type' => TransactionType::CASH,
                             'status' => PaymentStatus::RECEIVABLE,
                             'payment_type' => match ($inputs['meter_type']) {
                                 'electric' => PaymentType::ELECTRIC,

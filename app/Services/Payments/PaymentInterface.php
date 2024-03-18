@@ -7,6 +7,8 @@ interface PaymentInterface
     public function model();
 
     public function storeRentPayment($booking, $inputs);
+    
+    public function storeUtilityPayment($booking, $inputs);
 
     public function creditAccountPayment($customer_id);
 

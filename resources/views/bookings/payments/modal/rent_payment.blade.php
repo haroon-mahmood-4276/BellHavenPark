@@ -1,5 +1,5 @@
 <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="basicModalLabel1">Add Payments - {{ $booking->cabin->name }}</h4>
@@ -157,7 +157,7 @@
                             <div class="d-flex align-items-center h-100">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="rate_type"
-                                        id="rate_monthly" value="four_weekly_rate" />
+                                        id="rate_monthly" value="monthly_rate" />
                                     <label class="form-check-label" style="font-size: 15px; font-weight: bold;"
                                         for="rate_monthly">Monthly Rate</label>
                                 </div>
@@ -167,8 +167,8 @@
                         <div class="col-xl-6 col-lg-6 col-md-6">
                             <div class="input-group ">
                                 <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" id="txt_four_weekly_rate"
-                                    name="txt_four_weekly_rate" placeholder="monthly Rate"
+                                <input type="text" class="form-control" id="txt_monthly_rate"
+                                    name="txt_monthly_rate" placeholder="monthly Rate"
                                     value="{{ $booking->four_weekly_rate ?? 0 }}" disabled />
                             </div>
                         </div>
@@ -176,8 +176,8 @@
                         <div class="col-xl-3 col-lg-3 col-md-3">
                             <div class="input-group ">
                                 <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" id="txt_four_weekly_total"
-                                    name="txt_four_weekly_total" placeholder="monthly Rate"
+                                <input type="text" class="form-control" id="txt_monthly_total"
+                                    name="txt_monthly_total" placeholder="monthly Rate"
                                     value="{{ $booking->four_weekly_rate ?? 0 }}" disabled />
                             </div>
                         </div>

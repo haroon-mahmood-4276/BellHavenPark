@@ -39,8 +39,11 @@ class BookingPaymentsDataTable extends DataTable
             ->editColumn('payment_method.name', function ($row) {
                 return $row->payment_method->name ?? '-';
             })
-            ->editColumn('amount', function ($row) {
-                return editPaymentColumn($row->amount, 2);
+            ->editColumn('credit_amount', function ($row) {
+                return editPaymentColumn($row->credit_amount);
+            })
+            ->editColumn('debit_amount', function ($row) {
+                return editPaymentColumn($row->debit_amount);
             })
             ->editColumn('payment_from', function ($row) {
                 return editDateColumn($row->payment_from, 'F j, Y');
@@ -52,14 +55,8 @@ class BookingPaymentsDataTable extends DataTable
                 $comments = Str::of($row->comments);
                 return $comments->length() > 0 ? Str::of($row->comments)->words(10) : '-';
             })
-            ->editColumn('transaction_type', function ($row) {
-                return Str::of($row->transaction_type->value)->replace('_', ' ')->title();
-            })
-            ->editColumn('payment_type', function ($row) {
-                return Str::of($row->payment_type->value)->headline();
-            })
-            ->editColumn('updated_at', function ($row) {
-                return editDateTimeColumn($row->updated_at);
+            ->editColumn('created_at', function ($row) {
+                return editDateTimeColumn($row->created_at);
             })
             ->addIndexColumn()
             ->rawColumns(array_merge($columns, ['action', 'check']));
@@ -76,11 +73,7 @@ class BookingPaymentsDataTable extends DataTable
         return $model->newQuery()
             ->select('payments.*')
             ->with(['payment_method'])
-            ->where('payments.booking_id', $this->booking_id)
-            ->where(function (QueryBuilder $query) {
-                $query->where('payments.account', '!=', CustomerAccounts::CREDIT_ACCOUNT)
-                    ->orwhere('payments.status', '!=', PaymentStatus::PAID);
-            });
+            ->where('payments.booking_id', $this->booking_id);
     }
 
     public function html(): HtmlBuilder
@@ -182,9 +175,7 @@ class BookingPaymentsDataTable extends DataTable
             //         ]
             //     ],
             // ])
-            ->orders([
-                [1, 'asc'],
-            ]);
+            ;
     }
 
     /**
@@ -196,14 +187,13 @@ class BookingPaymentsDataTable extends DataTable
     {
         return [
             Column::make('DT_RowIndex')->title('#')->searchable(false)->orderable(false)->addClass('text-nowrap text-center align-middle'),
-            Column::make('transaction_type')->title('Transaction Type')->addClass('text-nowrap text-center align-middle'),
             Column::make('payment_method.name')->title('Payment Method')->addClass('text-nowrap text-center align-middle'),
             Column::make('payment_from')->title('Payment From')->addClass('text-nowrap text-center align-middle'),
             Column::make('payment_to')->title('Payment To')->addClass('text-nowrap text-center align-middle'),
-            Column::make('amount')->addClass('text-nowrap text-center align-middle'),
-            Column::make('payment_type')->addClass('text-nowrap text-center align-middle'),
+            Column::make('credit_amount')->addClass('text-nowrap text-center align-middle'),
+            Column::make('debit_amount')->addClass('text-nowrap text-center align-middle'),
             Column::make('comments')->title('Comments')->addClass('text-nowrap text-center align-middle'),
-            Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
+            Column::make('created_at')->addClass('text-nowrap text-center align-middle'),
         ];
     }
 

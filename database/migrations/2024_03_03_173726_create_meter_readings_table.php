@@ -1,7 +1,6 @@
 <?php
 
 use App\Utils\Enums\MeterTypes;
-use App\Utils\Enums\UtilityBillsStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +20,6 @@ return new class extends Migration
             $table->unsignedInteger('reading_date')->default(now()->timestamp);
             $table->enum('meter_type', MeterTypes::values());
             $table->text('comments')->nullable();
-            $table->enum('status', UtilityBillsStatus::values())->nullable();
 
             $table->unsignedInteger('created_at')->nullable();
             $table->unsignedInteger('updated_at')->nullable();

@@ -39,8 +39,7 @@
                             </div>
 
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                <label class="form-label" style="font-size: 15px" for="electricity_tax">ID
-                                    Type</label>
+                                <label class="form-label" style="font-size: 15px" for="electricity_tax">Tax</label>
                                 <select class="select2-size-lg form-select" id="electricity_tax" name="electricity_tax">
                                     @foreach ($taxes as $tax)
                                         <option data-icon="fa-solid fa-angle-right" value="{{ $tax->id }}"
@@ -105,8 +104,7 @@
                             </div>
 
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                <label class="form-label" style="font-size: 15px" for="gas_tax">ID
-                                    Type</label>
+                                <label class="form-label" style="font-size: 15px" for="gas_tax">Tax</label>
                                 <select class="select2-size-lg form-select" id="gas_tax" name="gas_tax">
                                     @foreach ($taxes as $tax)
                                         <option data-icon="fa-solid fa-angle-right" value="{{ $tax->id }}"
@@ -169,8 +167,7 @@
                             </div>
 
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                <label class="form-label" style="font-size: 15px" for="water_tax">ID
-                                    Type</label>
+                                <label class="form-label" style="font-size: 15px" for="water_tax">Tax</label>
                                 <select class="select2-size-lg form-select" id="water_tax" name="water_tax">
                                     @foreach ($taxes as $tax)
                                         <option data-icon="fa-solid fa-angle-right" value="{{ $tax->id }}"

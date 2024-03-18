@@ -52,10 +52,7 @@ class PaymentService implements PaymentInterface
                 'amount' => $amount,
                 'balance' => 0,
                 'account' => CustomerAccounts::RENT,
-                'transaction_type' => TransactionType::CASH,
-                'status' => PaymentStatus::RECEIVED,
                 'comments' => $inputs['comments'],
-                'payment_type' => PaymentType::RENT
             ];
 
             $this->model()->create($data);
@@ -85,19 +82,76 @@ class PaymentService implements PaymentInterface
         });
     }
 
+    public function storeUtilityPayment($booking, $inputs)
+    {
+        return DB::transaction(function () use ($booking, $inputs) {
+            
+            $data = [
+                'booking_id' => $booking->id,
+                'payment_method_id' => $inputs['payment_methods'],
+                'customer_id' => $booking->customer_id,
+                'payment_from' => 0,
+                'payment_to' => 0,
+                'amount' => $inputs['amount'],
+                'balance' => 0,
+                'account' => match ($inputs['payment_type']) {
+                    'electricity_payment' => CustomerAccounts::ELECTRICITY,
+                    'gas_payment' => CustomerAccounts::GAS,
+                    'water_payment' => CustomerAccounts::WATER,
+                },
+                'transaction_type' => TransactionType::CASH,
+                'status' => PaymentStatus::RECEIVED,
+                'comments' => $inputs['comments'],
+                'payment_type' => match ($inputs['payment_type']) {
+                    'electricity_payment' => PaymentType::ELECTRIC,
+                    'gas_payment' => PaymentType::GAS,
+                    'water_payment' => PaymentType::WATER,
+                }
+            ];
+
+            $this->model()->create($data);
+
+            $isPyamentMethodLinked = $this->paymentMethodInterface->find(intval($inputs['payment_methods']))?->linked_account;
+            if (!is_null($isPyamentMethodLinked)) {
+                $data = [
+                    'booking_id' => $booking->id,
+                    'payment_method_id' => $inputs['payment_methods'],
+                    'customer_id' => $booking->customer_id,
+                    'payment_from' => 0,
+                    'payment_to' => 0,
+                    'amount' => $inputs['amount'],
+                    'balance' => 0,
+                    'transaction_type' => TransactionType::CASH,
+                    'comments' => $inputs['comments'],
+                    'payment_type' => match ($inputs['payment_type']) {
+                        'electricity_payment' => PaymentType::ELECTRIC,
+                        'gas_payment' => PaymentType::GAS,
+                        'water_payment' => PaymentType::WATER,
+                    }
+                ];
+                switch ($isPyamentMethodLinked->value) {
+                    case 'credit_account':
+                        $data['account'] = CustomerAccounts::CREDIT_ACCOUNT;
+                        $data['status'] = PaymentStatus::PAID;
+                        break;
+                }
+
+                $this->model()->create($data);
+            }
+        });
+    }
+
     public function creditAccountPayment($customer_id)
     {
         $total_credit = $this->model()->where([
             'customer_id' => $customer_id,
             'account' => CustomerAccounts::CREDIT_ACCOUNT,
-            'status' => PaymentStatus::RECEIVED
-        ])->sum('amount');
+        ])->sum('credit_amount');
 
         $total_debit = $this->model()->where([
             'customer_id' => $customer_id,
             'account' => CustomerAccounts::CREDIT_ACCOUNT,
-            'status' => PaymentStatus::PAID
-        ])->sum('amount');
+        ])->sum('debit_amount');
 
         return $total_credit - $total_debit;
     }

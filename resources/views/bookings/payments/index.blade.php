@@ -50,7 +50,7 @@
     {{ $dataTable->scripts() }}
     <script>
         $(document).ready(function() {
-            $('div.head-label').html('<h4 class="m-0">Credit Amount: ${{ $credit_account }}</h4>');
+            $('div.head-label').html('<h5 class="m-0">Credit Amount: ${{ $credit_account }}</h5>');
         });
 
         function deleteSelected() {

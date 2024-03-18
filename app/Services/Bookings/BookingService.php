@@ -141,17 +141,15 @@ class BookingService implements BookingInterface
 
             if ($inputs['payment'] == 'now') {
                 $data = [
-                    'customer_id' => $inputs['customer'],
                     'booking_id' => $booking->id,
                     'payment_method_id' => $inputs['payment_methods'],
+                    'customer_id' => $inputs['customer'],
                     'payment_from' => 0,
                     'payment_to' => 0,
-                    'amount' => (float)$inputs['advance_payment'],
-                    'balance' => (float)$inputs['advance_payment'],
+                    'credit_amount' => (float)$inputs['advance_payment'],
+                    'debit_amount' => 0,
                     'account' => CustomerAccounts::CREDIT_ACCOUNT,
-                    'transaction_type' => TransactionType::ADVANCE,
-                    'status' => PaymentStatus::RECEIVED,
-                    'payment_type' => PaymentType::RENT,
+                    'additional_data' => [],
                     'comments' => 'Advance Payment',
                 ];
 

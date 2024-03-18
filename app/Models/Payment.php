@@ -24,35 +24,27 @@ class Payment extends Model
         'customer_id',
         'payment_from',
         'payment_to',
-        'amount',
+        'credit_amount',
+        'debit_amount',
         'account',
-        'transaction_type',
-        'status',
-        'payment_type',
         'additional_data',
         'comments',
     ];
 
     protected $casts = [
         'account' => CustomerAccounts::class,
-        
-        'amount' => 'double',
-        
-        'balance' => 'double',
-        
+
+        'credit_amount' => 'double',
+        'debit_amount' => 'double',
+
         'payment_from' => 'timestamp',
         'payment_to' => 'timestamp',
-        
-        'transaction_type' => TransactionType::class,
-        'status' => PaymentStatus::class,
-        
+
         'additional_data' => 'array',
 
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
-        
-        'payment_type' => PaymentType::class,
     ];
 
     protected $hidden = [];
