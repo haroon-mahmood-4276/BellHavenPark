@@ -10,7 +10,7 @@ interface PaymentInterface
     
     public function storeUtilityPayment($booking, $inputs);
 
-    public function creditAccountPayment($customer_id);
+    public function accountAmount($customer_id, $account);
 
     public function lastPaymentDate($booking);
 }

@@ -8,6 +8,7 @@ use App\Services\Payments\PaymentInterface;
 use App\Services\Bookings\BookingInterface;
 use App\Services\BookingTaxes\BookingTaxInterface;
 use App\Services\PaymentMethods\PaymentMethodInterface;
+use App\Utils\Enums\CustomerAccounts;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -36,7 +37,19 @@ class PaymentController extends Controller
         $data = [
             'booking_id' => $booking->id,
             'booking_cabin_id' => $booking->cabin_id,
-            'credit_account' => $this->paymentInterface->creditAccountPayment($booking->customer->id),
+            'credit_account' => $this->paymentInterface->accountAmount($booking->customer->id, CustomerAccounts::CREDIT_ACCOUNT),
+            'electricity_account' => [
+                'enabled' => $booking->cabin->electric_meter,
+                'amount' => $this->paymentInterface->accountAmount($booking->customer->id, CustomerAccounts::ELECTRICITY)
+            ],
+            'gas_account' => [
+                'enabled' => $booking->cabin->gas_meter,
+                'amount' => $this->paymentInterface->accountAmount($booking->customer->id, CustomerAccounts::GAS)
+            ],
+            'water_account' => [
+                'enabled' => $booking->cabin->water_meter,
+                'amount' => $this->paymentInterface->accountAmount($booking->customer->id, CustomerAccounts::WATER)
+            ],
         ];
 
         if (request()->ajax()) {

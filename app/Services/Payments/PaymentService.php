@@ -5,9 +5,6 @@ namespace App\Services\Payments;
 use App\Models\Payment;
 use App\Services\PaymentMethods\PaymentMethodInterface;
 use App\Utils\Enums\CustomerAccounts;
-use App\Utils\Enums\PaymentStatus;
-use App\Utils\Enums\PaymentType;
-use App\Utils\Enums\TransactionType;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -38,7 +35,7 @@ class PaymentService implements PaymentInterface
 
             $amount = floatval($rate * intval($inputs['text_days_count']));
 
-            $amount += floatval(match(boolval($inputs['tax_flat'])) {
+            $amount += floatval(match (boolval($inputs['tax_flat'])) {
                 true => floatval($inputs['tax']),
                 false => (floatval($amount)  * floatval($inputs['tax'])) / 100,
             });
@@ -85,7 +82,7 @@ class PaymentService implements PaymentInterface
     public function storeUtilityPayment($booking, $inputs)
     {
         return DB::transaction(function () use ($booking, $inputs) {
-            
+
             $data = [
                 'booking_id' => $booking->id,
                 'payment_method_id' => $inputs['payment_methods'],
@@ -141,16 +138,16 @@ class PaymentService implements PaymentInterface
         });
     }
 
-    public function creditAccountPayment($customer_id)
+    public function accountAmount($customer_id, $account)
     {
         $total_credit = $this->model()->where([
             'customer_id' => $customer_id,
-            'account' => CustomerAccounts::CREDIT_ACCOUNT,
+            'account' => $account,
         ])->sum('credit_amount');
 
         $total_debit = $this->model()->where([
             'customer_id' => $customer_id,
-            'account' => CustomerAccounts::CREDIT_ACCOUNT,
+            'account' => $account,
         ])->sum('debit_amount');
 
         return $total_credit - $total_debit;
