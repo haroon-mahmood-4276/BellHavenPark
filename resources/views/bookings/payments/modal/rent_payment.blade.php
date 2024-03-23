@@ -1,5 +1,5 @@
 <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="basicModalLabel1">Add Payments - {{ $booking->cabin->name }}</h4>
@@ -157,7 +157,7 @@
                             <div class="d-flex align-items-center h-100">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="rate_type"
-                                        id="rate_monthly" value="four_weekly_rate" />
+                                        id="rate_monthly" value="monthly_rate" />
                                     <label class="form-check-label" style="font-size: 15px; font-weight: bold;"
                                         for="rate_monthly">Monthly Rate</label>
                                 </div>
@@ -167,8 +167,8 @@
                         <div class="col-xl-6 col-lg-6 col-md-6">
                             <div class="input-group ">
                                 <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" id="txt_four_weekly_rate"
-                                    name="txt_four_weekly_rate" placeholder="monthly Rate"
+                                <input type="text" class="form-control" id="txt_monthly_rate"
+                                    name="txt_monthly_rate" placeholder="monthly Rate"
                                     value="{{ $booking->four_weekly_rate ?? 0 }}" disabled />
                             </div>
                         </div>
@@ -176,8 +176,8 @@
                         <div class="col-xl-3 col-lg-3 col-md-3">
                             <div class="input-group ">
                                 <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" id="txt_four_weekly_total"
-                                    name="txt_four_weekly_total" placeholder="monthly Rate"
+                                <input type="text" class="form-control" id="txt_monthly_total"
+                                    name="txt_monthly_total" placeholder="monthly Rate"
                                     value="{{ $booking->four_weekly_rate ?? 0 }}" disabled />
                             </div>
                         </div>
@@ -226,7 +226,7 @@
                                 Count</label>
                             <input type="number" id="text_days_count" name="text_days_count" class="form-control"
                                 placeholder="Days Count" value="1" min="1"
-                                max="{{ $booking->booking_to->diffInDays($last_payment_date) }}" />
+                                max="{{ $last_payment_date->diffInDays($booking->booking_to) }}" />
                         </div>
                     </div>
 
@@ -419,7 +419,7 @@
         return e.id ? "<i class='" + $(e.element).data("icon") + " me-2'></i>" + e.text : e.text
     }
 
-    var daysLimit = parseInt('{{ $booking->booking_to->diffInDays($booking->booking_from) }}')
+    var daysLimit = parseInt('{{ $booking->booking_from->diffInDays($booking->booking_to) }}')
 
     new dateDropper({
         // overlay: true,
@@ -488,8 +488,8 @@
                     break;
 
                 case 'rate_monthly':
-                    table_rate_amount = parseFloat($('#txt_four_weekly_rate').val());
-                    table_sub_total = parseInt($('#txt_four_weekly_total').val());
+                    table_rate_amount = parseFloat($('#txt_monthly_rate').val());
+                    table_sub_total = parseInt($('#txt_monthly_total').val());
                     break;
 
                 default:

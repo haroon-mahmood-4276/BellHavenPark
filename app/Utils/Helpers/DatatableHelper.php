@@ -153,6 +153,6 @@ if (!function_exists('editCabinStatusColumn')) {
 if (!function_exists('editBadgeColumn')) {
     function editBadgeColumn($value)
     {
-        return "<span class='badge rounded-pill bg-label-primary me-1'>" . $value . "</span>";
+        return "<span class='badge bg-glow bg-primary me-1'>" . $value . "</span>";
     }
 }

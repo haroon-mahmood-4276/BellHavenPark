@@ -10,6 +10,8 @@ enum CustomerAccounts: string
 
     case CREDIT_ACCOUNT = 'credit_account';
     case ELECTRICITY = 'electricity';
+    case GAS = 'gas';
+    case WATER = 'water';
     case RENT = 'rent';
     case LAUNDRY = 'laundry';
 }

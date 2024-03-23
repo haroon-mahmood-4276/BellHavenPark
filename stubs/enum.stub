@@ -1,0 +1,12 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Utils\Enums\Traits\EnumHelpers;
+
+enum {{ class }}
+{
+    use EnumHelpers;
+
+    //
+}

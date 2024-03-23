@@ -64,15 +64,25 @@ class BookingService implements BookingInterface
         return $booking->get();
     }
 
-    public function find($id, $relationships = [])
+    public function find($id, $with = [], $where = [], $sort = [])
     {
-        $booking = $this->model();
-
-        if (count($relationships) > 0) {
-            $booking = $booking->with($relationships);
-        }
-
-        return $booking->find($id);
+        return $this->model()->where('id', $id)
+            ->when(
+                $with,
+                fn (QueryBuilder $query) => $query->with($with)
+            )
+            ->when(
+                $where,
+                fn (QueryBuilder $query) => $query->where($where)
+            )
+            ->when(
+                $sort,
+                function (QueryBuilder $query, $sort) {
+                    foreach ($sort as $key => $order) {
+                        $query->orderBy($key, $order);
+                    }
+                }
+            )->latest()->first();
     }
 
     public function getBookedCabinsWithinDates($start_date, $end_date)
@@ -131,17 +141,15 @@ class BookingService implements BookingInterface
 
             if ($inputs['payment'] == 'now') {
                 $data = [
-                    'customer_id' => $inputs['customer'],
                     'booking_id' => $booking->id,
                     'payment_method_id' => $inputs['payment_methods'],
+                    'customer_id' => $inputs['customer'],
                     'payment_from' => 0,
                     'payment_to' => 0,
-                    'amount' => (float)$inputs['advance_payment'],
-                    'balance' => (float)$inputs['advance_payment'],
+                    'credit_amount' => (float)$inputs['advance_payment'],
+                    'debit_amount' => 0,
                     'account' => CustomerAccounts::CREDIT_ACCOUNT,
-                    'transaction_type' => TransactionType::ADVANCE,
-                    'status' => PaymentStatus::RECEIVED,
-                    'payment_type' => PaymentType::RENT,
+                    'additional_data' => [],
                     'comments' => 'Advance Payment',
                 ];
 

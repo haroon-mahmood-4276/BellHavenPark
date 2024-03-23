@@ -24,6 +24,80 @@
 @endsection
 
 @section('content')
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between">
+                    <h5 class="card-title mb-0">Statistics</h5>
+                    {{-- <small class="text-muted">Updated 1 month ago</small> --}}
+                </div>
+                <div class="card-body pt-2">
+                    <div class="row gy-3">
+                        <div class="col-md-3 col-6">
+                            <div class="d-flex align-items-center">
+                                <div class="badge rounded-pill bg-label-success me-3 p-3"><i
+                                        class="fa-solid fa-dollar-sign fs-4"></i></div>
+                                <div class="card-info">
+                                    <h5 class="mb-0">
+                                        ${{ $credit_account > 0 ? number_format($credit_account) : '(' . number_format(abs($credit_account)) . ')' }}
+                                    </h5>
+                                    <small>Credit Account</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="d-flex align-items-center">
+                                <div class="badge rounded-pill bg-label-primary me-3 p-3"><i
+                                        class="fa-solid fa-plug-circle-bolt fs-4"></i></div>
+                                <div class="card-info">
+                                    <h5 class="mb-0">
+                                        @if ($electricity_account['enabled'])
+                                            ${{ $electricity_account['amount'] > 0 ? number_format($electricity_account['amount']) : '(' . number_format(abs($electricity_account['amount'])) . ')' }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </h5>
+                                    <small>Utility - Electricity Account</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="d-flex align-items-center">
+                                <div class="badge rounded-pill bg-label-primary me-3 p-3"><i
+                                        class="fa-solid fa-fire-flame-simple fs-4"></i></div>
+                                <div class="card-info">
+                                    <h5 class="mb-0">
+                                        @if ($gas_account['enabled'])
+                                            ${{ $gas_account['amount'] > 0 ? number_format($gas_account['amount']) : '(' . number_format(abs($gas_account['amount'])) . ')' }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </h5>
+                                    <small>Utility - Gas Account</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="d-flex align-items-center">
+                                <div class="badge rounded-pill bg-label-primary me-3 p-3"><i
+                                        class="fa-solid fa-droplet fs-4"></i></div>
+                                <div class="card-info">
+                                    <h5 class="mb-0">
+                                        @if ($water_account['enabled'])
+                                            ${{ $water_account['amount'] > 0 ? number_format($water_account['amount']) : '(' . number_format(abs($water_account['amount'])) . ')' }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </h5>
+                                    <small>Utility - Water Account</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -49,10 +123,6 @@
 @section('custom-js')
     {{ $dataTable->scripts() }}
     <script>
-        $(document).ready(function() {
-            $('div.head-label').html('<h4 class="m-0">Credit Amount: ${{ $credit_account }}</h4>');
-        });
-
         function deleteSelected() {
             var selectedCheckboxes = $('.dt-checkboxes:checked').length;
             if (selectedCheckboxes > 0) {
