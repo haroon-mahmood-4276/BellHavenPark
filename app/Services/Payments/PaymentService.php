@@ -30,7 +30,7 @@ class PaymentService implements PaymentInterface
             $rate = match ($inputs['rate_type']) {
                 'daily_rate' => $booking->daily_rate,
                 'weekly_rate' => $booking->weekly_rate,
-                'four_weekly_rate' => $booking->four_weekly_rate,
+                'monthly_rate' => $booking->four_weekly_rate,
             };
 
             $amount = floatval($rate * intval($inputs['text_days_count']));
@@ -46,14 +46,23 @@ class PaymentService implements PaymentInterface
                 'customer_id' => $booking->customer_id,
                 'payment_from' => Carbon::parse($inputs['payment_from'])->timestamp,
                 'payment_to' => Carbon::parse($inputs['payment_to'])->timestamp,
-                'amount' => $amount,
-                'balance' => 0,
+                'credit_amount' => $amount,
+                'debit_amount' => 0,
                 'account' => CustomerAccounts::RENT,
+                'additional_data' => [
+                    'rate_type' => $inputs['rate_type'],
+                    'daily_rate' => $booking->daily_rate,
+                    'weekly_rate' => $booking->weekly_rate,
+                    'monthly_rate' => $booking->four_weekly_rate,
+                    'days_count' => $inputs['text_days_count'],
+                    'tax_flat' => $inputs['tax_flat'],
+                    'tax' => $inputs['tax'],
+                ],
                 'comments' => $inputs['comments'],
             ];
 
             $this->model()->create($data);
-
+            sleep(1);
             $isPyamentMethodLinked = $this->paymentMethodInterface->find(intval($inputs['payment_methods']))?->linked_account;
             if (!is_null($isPyamentMethodLinked)) {
                 $data = [
@@ -62,17 +71,22 @@ class PaymentService implements PaymentInterface
                     'customer_id' => $booking->customer_id,
                     'payment_from' => Carbon::parse($inputs['payment_from'])->timestamp,
                     'payment_to' => Carbon::parse($inputs['payment_to'])->timestamp,
-                    'amount' => $amount,
-                    'balance' => 0,
-                    'transaction_type' => TransactionType::CASH,
-                    'comments' => $inputs['comments'],
+                    'credit_amount' => 0,
+                    'debit_amount' => $amount,
+                    'account' => match ($isPyamentMethodLinked->value) {
+                        'credit_account' => CustomerAccounts::CREDIT_ACCOUNT
+                    },
+                    'additional_data' => [
+                        'rate_type' => $inputs['rate_type'],
+                        'daily_rate' => $booking->daily_rate,
+                        'weekly_rate' => $booking->weekly_rate,
+                        'monthly_rate' => $booking->four_weekly_rate,
+                        'days_count' => $inputs['text_days_count'],
+                        'tax_flat' => $inputs['tax_flat'],
+                        'tax' => $inputs['tax'],
+                    ],
+                    'comments' => "Amount $" . number_format($amount) . " is deducted from credit account for rent. " . $inputs['comments'],
                 ];
-                switch ($isPyamentMethodLinked->value) {
-                    case 'credit_account':
-                        $data['account'] = CustomerAccounts::CREDIT_ACCOUNT;
-                        $data['status'] = PaymentStatus::PAID;
-                        break;
-                }
 
                 $this->model()->create($data);
             }
@@ -155,7 +169,7 @@ class PaymentService implements PaymentInterface
 
     public function lastPaymentDate($booking_id)
     {
-        $epochDate = $this->model()->where(['booking_id' => $booking_id, 'account' => CustomerAccounts::RENT, 'status' => PaymentStatus::RECEIVED])->latest('payment_to')->first()?->payment_to;
+        $epochDate = $this->model()->where(['booking_id' => $booking_id, 'account' => CustomerAccounts::RENT])->where('credit_amount', '>', 0)->latest('payment_to')->first()?->payment_to;
         if (!is_null($epochDate))
             return Carbon::parse($epochDate);
         return null;

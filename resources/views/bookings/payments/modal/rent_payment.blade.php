@@ -226,7 +226,7 @@
                                 Count</label>
                             <input type="number" id="text_days_count" name="text_days_count" class="form-control"
                                 placeholder="Days Count" value="1" min="1"
-                                max="{{ $booking->booking_to->diffInDays($last_payment_date) }}" />
+                                max="{{ $last_payment_date->diffInDays($booking->booking_to) }}" />
                         </div>
                     </div>
 
@@ -419,7 +419,7 @@
         return e.id ? "<i class='" + $(e.element).data("icon") + " me-2'></i>" + e.text : e.text
     }
 
-    var daysLimit = parseInt('{{ $booking->booking_to->diffInDays($booking->booking_from) }}')
+    var daysLimit = parseInt('{{ $booking->booking_from->diffInDays($booking->booking_to) }}')
 
     new dateDropper({
         // overlay: true,
@@ -488,8 +488,8 @@
                     break;
 
                 case 'rate_monthly':
-                    table_rate_amount = parseFloat($('#txt_four_weekly_rate').val());
-                    table_sub_total = parseInt($('#txt_four_weekly_total').val());
+                    table_rate_amount = parseFloat($('#txt_monthly_rate').val());
+                    table_sub_total = parseInt($('#txt_monthly_total').val());
                     break;
 
                 default:

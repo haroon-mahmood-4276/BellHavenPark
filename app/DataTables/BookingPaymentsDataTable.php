@@ -36,6 +36,9 @@ class BookingPaymentsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->setRowId('id')
+            ->editColumn('account', function ($row) {
+                return editBadgeColumn(Str::of($row->account->value)->headline() ?? '-');
+            })
             ->editColumn('payment_method.name', function ($row) {
                 return $row->payment_method->name ?? '-';
             })
@@ -175,7 +178,9 @@ class BookingPaymentsDataTable extends DataTable
             //         ]
             //     ],
             // ])
-            ;
+            ->orders([
+                [8, 'desc'],
+            ]);
     }
 
     /**
@@ -187,6 +192,7 @@ class BookingPaymentsDataTable extends DataTable
     {
         return [
             Column::make('DT_RowIndex')->title('#')->searchable(false)->orderable(false)->addClass('text-nowrap text-center align-middle'),
+            Column::make('account')->addClass('text-nowrap text-center align-middle'),
             Column::make('payment_method.name')->title('Payment Method')->addClass('text-nowrap text-center align-middle'),
             Column::make('payment_from')->title('Payment From')->addClass('text-nowrap text-center align-middle'),
             Column::make('payment_to')->title('Payment To')->addClass('text-nowrap text-center align-middle'),

@@ -66,7 +66,7 @@ class PaymentController extends Controller
             'payment_methods' => $this->paymentMethodInterface->get()
         ];
 
-        $modalData['credit_account'] = $this->paymentInterface->creditAccountPayment($modalData['booking']->customer->id);
+        $modalData['credit_account'] = $this->paymentInterface->accountAmount($modalData['booking']->customer->id, CustomerAccounts::CREDIT_ACCOUNT);
 
         $modalData['last_payment_date'] = $this->paymentInterface->lastPaymentDate($booking_id) ?? $modalData['booking']?->booking_from;
         $modalData = array_merge($modalData, match ($request->payment_type) {
