@@ -32,8 +32,7 @@
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/fonts/flag-icons.css" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="{{ asset('assets') }}/vendor/css/rtl/core.css"
-        class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{ asset('assets') }}/vendor/css/rtl/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/css/rtl/theme-default.css"
         class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('assets') }}/css/demo.min.css" />
@@ -159,6 +158,10 @@
     @yield('page-js')
 
     <script>
+        var currencyFormatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        });
         moment.tz.setDefault("{{ Config::get('app.timezone') }}");
         $.ajaxSetup({
             headers: {

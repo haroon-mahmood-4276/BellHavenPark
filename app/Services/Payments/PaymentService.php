@@ -65,8 +65,30 @@ class PaymentService implements PaymentInterface
             sleep(1);
             $isPyamentMethodLinked = $this->paymentMethodInterface->find(intval($inputs['payment_methods']))?->linked_account;
             if (!is_null($isPyamentMethodLinked)) {
+
+                $this->addCrditAccountAmount(
+                    $booking->customer_id,
+                    $inputs['payment_methods'],
+                    0 - $inputs['amount'],
+                    payment_from: Carbon::parse($inputs['payment_from'])->timestamp,
+                    payment_to: Carbon::parse($inputs['payment_to'])->timestamp,
+                    additional_data: [
+                        'booking_id' => $booking->id,
+                        'rate_type' => $inputs['rate_type'],
+                        'daily_rate' => $booking->daily_rate,
+                        'weekly_rate' => $booking->weekly_rate,
+                        'monthly_rate' => $booking->four_weekly_rate,
+                        'days_count' => $inputs['text_days_count'],
+                        'tax_flat' => $inputs['tax_flat'],
+                        'tax' => $inputs['tax'],
+                    ],
+                    comment: "Amount $" . number_format($inputs['amount']) . " is deducted from credit account for rent. " . $inputs['comments']
+                );
+
+
+
+
                 $data = [
-                    'booking_id' => $booking->id,
                     'payment_method_id' => $inputs['payment_methods'],
                     'customer_id' => $booking->customer_id,
                     'payment_from' => Carbon::parse($inputs['payment_from'])->timestamp,
@@ -77,6 +99,7 @@ class PaymentService implements PaymentInterface
                         'credit_account' => CustomerAccounts::CREDIT_ACCOUNT
                     },
                     'additional_data' => [
+                        'booking_id' => $booking->id,
                         'rate_type' => $inputs['rate_type'],
                         'daily_rate' => $booking->daily_rate,
                         'weekly_rate' => $booking->weekly_rate,
@@ -103,53 +126,58 @@ class PaymentService implements PaymentInterface
                 'customer_id' => $booking->customer_id,
                 'payment_from' => 0,
                 'payment_to' => 0,
-                'amount' => $inputs['amount'],
-                'balance' => 0,
+                'credit_amount' => $inputs['amount'],
+                'debit_amount' => 0,
                 'account' => match ($inputs['payment_type']) {
                     'electricity_payment' => CustomerAccounts::ELECTRICITY,
                     'gas_payment' => CustomerAccounts::GAS,
                     'water_payment' => CustomerAccounts::WATER,
                 },
-                'transaction_type' => TransactionType::CASH,
-                'status' => PaymentStatus::RECEIVED,
-                'comments' => $inputs['comments'],
-                'payment_type' => match ($inputs['payment_type']) {
-                    'electricity_payment' => PaymentType::ELECTRIC,
-                    'gas_payment' => PaymentType::GAS,
-                    'water_payment' => PaymentType::WATER,
-                }
+                'additional_data' => [],
+                'comments' => "Amount $" . number_format($inputs['amount']) . " is paid for Utility. " . $inputs['comments'],
             ];
 
             $this->model()->create($data);
-
+            sleep(1);
             $isPyamentMethodLinked = $this->paymentMethodInterface->find(intval($inputs['payment_methods']))?->linked_account;
             if (!is_null($isPyamentMethodLinked)) {
-                $data = [
-                    'booking_id' => $booking->id,
-                    'payment_method_id' => $inputs['payment_methods'],
-                    'customer_id' => $booking->customer_id,
-                    'payment_from' => 0,
-                    'payment_to' => 0,
-                    'amount' => $inputs['amount'],
-                    'balance' => 0,
-                    'transaction_type' => TransactionType::CASH,
-                    'comments' => $inputs['comments'],
-                    'payment_type' => match ($inputs['payment_type']) {
-                        'electricity_payment' => PaymentType::ELECTRIC,
-                        'gas_payment' => PaymentType::GAS,
-                        'water_payment' => PaymentType::WATER,
-                    }
-                ];
-                switch ($isPyamentMethodLinked->value) {
-                    case 'credit_account':
-                        $data['account'] = CustomerAccounts::CREDIT_ACCOUNT;
-                        $data['status'] = PaymentStatus::PAID;
-                        break;
-                }
 
-                $this->model()->create($data);
+                $this->addCrditAccountAmount(
+                    $booking->customer_id,
+                    $inputs['payment_methods'],
+                    0 - $inputs['amount'],
+                    payment_from: 0,
+                    payment_to: 0,
+                    additional_data: [
+                        'booking_id' => $booking->id,
+                    ],
+                    comment: "Amount $" . number_format($inputs['amount']) . " is deducted from credit account for Utility. " . $inputs['comments']
+                );
             }
         });
+    }
+
+    public function addCrditAccountAmount($customer_id, $payment_method, $amount, $payment_from = 0, $payment_to = 0, $additional_data = [], $comment = '')
+    {
+        $data = [
+            'payment_method_id' => $payment_method,
+            'customer_id' => $customer_id,
+            'payment_from' => $payment_from,
+            'payment_to' => $payment_to,
+            'account' => CustomerAccounts::CREDIT_ACCOUNT,
+            'additional_data' => $additional_data,
+            'comments' => $comment,
+        ];
+
+        if ($amount >= 0) {
+            $data['credit_amount'] = abs($amount);
+            $data['debit_amount'] = 0;
+        } else {
+            $data['credit_amount'] = 0;
+            $data['debit_amount'] = abs($amount);
+        }
+
+        $this->model()->create($data);
     }
 
     public function accountAmount($customer_id, $account)
