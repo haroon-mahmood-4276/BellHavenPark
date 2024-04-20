@@ -20,6 +20,7 @@
         "yajra/laravel-datatables-html": "^11.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.13",
         "barryvdh/laravel-ide-helper": "*",
         "fakerphp/faker": "^1.23",
         "garygreen/pretty-routes": "^1.0",

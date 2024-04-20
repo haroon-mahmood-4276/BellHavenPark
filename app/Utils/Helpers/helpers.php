@@ -12,9 +12,9 @@ if (!function_exists('settings')) {
             return (new Setting())->firstWhere('key', $key)?->value ?? $default;
         }
 
-        return (new Setting())->firstWhere('key', $key)?->value ?? $default;
-        // return Cache::remember($key, now()->addSeconds(env('CACHE_TIME_TO_LIVE', 3600)), function () use ($key, $default) {
-        // });
+        return Cache::remember($key, now()->addSeconds(intval(env('CACHE_TIME_TO_LIVE', 3600))), function () use ($key, $default) {
+            return (new Setting())->firstWhere('key', $key)?->value ?? $default;
+        });
     }
 }
 
