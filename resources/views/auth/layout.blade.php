@@ -30,13 +30,9 @@
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/node-waves/node-waves.css" />
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/typeahead-js/typeahead.css" />
 
-    <link rel="stylesheet" href="{{ asset('assets') }}/vendor/libs/formvalidation/dist/css/formValidation.min.css" />
-
     <link rel="stylesheet" href="{{ asset('assets') }}/vendor/css/pages/page-auth.css">
 
     <script src="{{ asset('assets') }}/vendor/js/helpers.js"></script>
-
-    <script src="{{ asset('assets') }}/vendor/js/template-customizer.js"></script>
 
     <script src="{{ asset('assets') }}/js/config.js"></script>
 </head>
@@ -76,16 +72,8 @@
     <script src="{{ asset('assets') }}/vendor/js/menu.js"></script>
     <!-- endbuild -->
 
-    <!-- Vendors JS -->
-    <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script>
-    <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
-    <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>
-
     <!-- Main JS -->
     <script src="{{ asset('assets') }}/js/main.js"></script>
-
-    <!-- Page JS -->
-    <script src="{{ asset('assets') }}/js/pages-auth.js"></script>
 </body>
 
 </html>
