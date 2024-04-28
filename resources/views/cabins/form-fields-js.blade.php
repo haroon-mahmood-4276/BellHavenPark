@@ -73,6 +73,11 @@
             }
 
         });
+
+        $('#double_bed, #single_bed, #rooms').on('change', function() {
+            $(this).val($(this).val() < 0 || !$(this).val().length ? 0 : $(this).val());
+        });
+
     });
 
     function c(e) {

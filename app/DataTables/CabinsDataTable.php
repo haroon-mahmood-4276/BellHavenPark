@@ -30,6 +30,16 @@ class CabinsDataTable extends DataTable
             ->editColumn('utilities', function ($model) {
                 return "<span class='badge bg-" . ($model->electric_meter ? "success" : "danger") . " bg-glow me-1'>E</span><span class='badge bg-" . ($model->gas_meter ? "success" : "danger") . " bg-glow me-1'>G</span><span class='badge bg-" . ($model->water_meter ? "success" : "danger") . " bg-glow me-1'>W</span>";
             })
+            ->editColumn('beds-rooms', function ($model) {
+                $badges = "<span class='badge bg-primary bg-glow me-1'>R: " . $model->rooms . "</span>";
+                if($model->single_bed == 0 && $model->double_bed == 0) {
+                    $badges .= "<span class='badge bg-primary bg-glow me-1'>Studio Cabin</span>";
+                    return $badges;
+                }
+                $badges .= "<span class='badge bg-primary bg-glow me-1'>SB: " . $model->single_bed . "</span>";
+                $badges .= "<span class='badge bg-primary bg-glow me-1'>DB: " . $model->double_bed . "</span>";
+                return $badges;
+            })
             ->editColumn('cabin_status', function ($model) {
                 return editCabinStatusColumn($model->cabin_status->value);
             })
@@ -154,6 +164,7 @@ class CabinsDataTable extends DataTable
             Column::make('cabin_type.name')->title('Type')->addClass('text-nowrap text-center align-middle'),
             Column::make('long_term')->addClass('text-nowrap text-center align-middle'),
             Column::computed('utilities')->addClass('text-nowrap text-center align-middle'),
+            Column::computed('beds-rooms')->title('Beds/Rooms')->addClass('text-nowrap text-center align-middle'),
             Column::make('updated_at')->addClass('text-nowrap text-center align-middle'),
             Column::computed('actions')->exportable(false)->printable(false)->width(60)->addClass('text-nowrap text-center align-middle'),
         ];

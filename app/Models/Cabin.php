@@ -25,11 +25,20 @@ class Cabin extends Model
         'daily_rate',
         'weekly_rate',
         'four_weekly_rate',
-        'reason'
+        'reason',
+
+        'rooms',
+        'single_bed',
+        'double_bed',
     ];
 
     protected $casts = [
         'cabin_status' => CabinStatus::class,
+
+        'rooms' => 'integer',
+        'single_bed' => 'integer',
+        'double_bed' => 'integer',
+
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
@@ -48,6 +57,9 @@ class Cabin extends Model
         'daily_rate' => 'required|numeric|gt:-1',
         'weekly_rate' => 'required|numeric|gt:-1',
         'four_weekly_rate' => 'required|numeric|gt:-1',
+        'rooms' => 'required|numeric|gt:-1',
+        'single_bed' => 'required|numeric|gt:-1',
+        'double_bed' => 'required|numeric|gt:-1',
     ];
 
     public function __construct(array $attributes = array())
