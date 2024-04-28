@@ -246,5 +246,49 @@
                 @enderror
             </div>
         </div>
+
+        <div class="row mb-3">
+            <div class="col-lg-4 col-md-4 col-sm-4 position-relative">
+                <label class="form-label" style="font-size: 15px" for="rooms">Rooms</label>
+                <input type="number" class="form-control @error('rooms') is-invalid @enderror" id="rooms"
+                    name="rooms" placeholder="Rooms"
+                    value="{{ isset($cabin) ? $cabin->rooms : old('rooms') ?? '0' }}" min="0" />
+                @error('daily_rate')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @else
+                    <p class="m-0">
+                        <small class="text-muted">Enter number of rooms.</small>
+                    </p>
+                @enderror
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 position-relative">
+                <label class="form-label" style="font-size: 15px" for="single_bed">Single Bed</label>
+                <input type="number" class="form-control @error('single_bed') is-invalid @enderror"
+                    id="single_bed" name="single_bed" placeholder="Single Bed"
+                    value="{{ isset($cabin) ? $cabin->single_bed : old('single_bed') ?? '0' }}" min="0" />
+                @error('single_bed')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @else
+                    <p class="m-0">
+                        <small class="text-muted">Enter number of single bed.</small>
+                    </p>
+                @enderror
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 position-relative">
+                <label class="form-label" style="font-size: 15px" for="double_bed">Double Bed</label>
+                <input type="number" class="form-control @error('double_bed') is-invalid @enderror"
+                    id="double_bed" name="double_bed" placeholder="Double Bed"
+                    value="{{ isset($cabin) ? $cabin->double_bed : old('double_bed') ?? '0' }}" min="0" />
+                @error('double_bed')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @else
+                    <p class="m-0">
+                        <small class="text-muted">Enter number of double bed.</small>
+                    </p>
+                @enderror
+            </div>
+        </div>
     </div>
 </div>

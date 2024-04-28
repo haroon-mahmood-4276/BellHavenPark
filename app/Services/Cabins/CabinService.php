@@ -55,6 +55,9 @@ class CabinService implements CabinInterface
                 'weekly_rate' => $inputs['weekly_rate'],
                 'four_weekly_rate' => $inputs['four_weekly_rate'],
                 'reason' => $inputs['reason'],
+                'rooms' => $inputs['rooms'],
+                'single_bed' => $inputs['single_bed'],
+                'double_bed' => $inputs['double_bed'],
             ];
             switch ($inputs['cabin_status']) {
                     // case 'closed_permanently':
@@ -90,6 +93,9 @@ class CabinService implements CabinInterface
                 'weekly_rate' => $inputs['weekly_rate'],
                 'four_weekly_rate' => $inputs['four_weekly_rate'],
                 'reason' => $inputs['reason'],
+                'rooms' => $inputs['rooms'],
+                'single_bed' => $inputs['single_bed'],
+                'double_bed' => $inputs['double_bed'],
             ];
             switch ($inputs['cabin_status']) {
                     // case 'closed_permanently':
