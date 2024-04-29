@@ -7,7 +7,7 @@
 @section('page-title', 'Booking Sources')
 
 @section('page-vendor')
-    {{ view('layout.libs.datatables.css') }}
+    @include('layout.libs.datatables.css')
 @endsection
 
 @section('page-css')
@@ -38,7 +38,7 @@
 @endsection
 
 @section('vendor-js')
-    {{ view('layout.libs.datatables.js') }}
+    @include('layout.libs.datatables.js')
 @endsection
 
 @section('page-js')

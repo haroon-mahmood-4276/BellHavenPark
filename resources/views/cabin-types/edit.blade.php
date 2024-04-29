@@ -32,7 +32,7 @@
                 @csrf
                 @method('PUT')
 
-                {{ view('cabin-types.form-fields', ['cabin_type' => $cabin_type]) }}
+                @include('cabin-types.form-fields', ['cabin_type' => $cabin_type])
 
             </div>
 

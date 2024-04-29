@@ -34,7 +34,7 @@
         {{-- Users --}}
         @canany(['users.index', 'users.create'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['users.index', 'users.create'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(), ['users.index', 'users.create']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-user menu-icon"></i>
                     <div>Users</div>
@@ -63,7 +63,7 @@
         {{-- Roles & Permissions --}}
         @canany(['permissions.index', 'roles.index'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['roles.index', 'permissions.index'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(), ['roles.index', 'permissions.index']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-lock menu-icon"></i>
                     <div>Roles & Permissions</div>
@@ -101,9 +101,11 @@
             <span class="menu-header-text">Booking & Customers</span>
         </li>
 
-        @canany(['booking-taxes.index', 'booking-taxes.create', 'booking-sources.index', 'booking-sources.create', 'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index', 'bookings.calender.index'])
+        @canany(['booking-taxes.index', 'booking-taxes.create', 'booking-sources.index', 'booking-sources.create',
+            'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index',
+            'bookings.calender.index'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['booking-taxes.index', 'booking-taxes.create', 'booking-sources.index', 'booking-sources.create', 'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index', 'bookings.calender.index'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(), ['booking-taxes.index', 'booking-taxes.create', 'booking-sources.index', 'booking-sources.create', 'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index', 'bookings.calender.index']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-bolt menu-icon"></i>
                     <div>Bookings</div>
@@ -152,7 +154,7 @@
 
                     @canany(['booking-sources.index', 'booking-sources.create'])
                         <li
-                            class="menu-item {{ in_array(request()->route()->getName(),['booking-sources.index', 'booking-sources.create'])? 'open active': null }}">
+                            class="menu-item {{ in_array(request()->route()->getName(), ['booking-sources.index', 'booking-sources.create']) ? 'open active' : null }}">
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
                                 <i class="fa-solid fa-bolt menu-icon"></i>
                                 <div>Booking Sources</div>
@@ -180,7 +182,7 @@
 
                     @canany(['booking-taxes.index', 'booking-taxes.create'])
                         <li
-                            class="menu-item {{ in_array(request()->route()->getName(),['booking-taxes.index', 'booking-taxes.create'])? 'open active': null }}">
+                            class="menu-item {{ in_array(request()->route()->getName(), ['booking-taxes.index', 'booking-taxes.create']) ? 'open active' : null }}">
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
                                 <i class="fa-solid fa-bolt menu-icon"></i>
                                 <div>Booking Taxes</div>
@@ -211,7 +213,7 @@
 
         @canany(['customers.index', 'customers.create'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['customers.index', 'customers.create'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(), ['customers.index', 'customers.create']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-user menu-icon"></i>
                     <div>Customers</div>
@@ -238,11 +240,56 @@
         @endcanany
 
         <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Reporting</span>
+        </li>
+
+        @canany(['booking-taxes.index', 'booking-taxes.create', 'booking-sources.index', 'booking-sources.create',
+            'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index',
+            'bookings.calender.index'])
+            <li
+                class="menu-item {{ in_array(request()->route()->getName(), ['booking-taxes.index', 'booking-taxes.create', 'booking-sources.index', 'booking-sources.create', 'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index', 'bookings.calender.index']) ? 'open active' : null }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="fa-regular fa-file-lines menu-icon"></i>
+                    <div>Reports</div>
+                </a>
+                <ul class="menu-sub">
+                    @canany(['booking-taxes.index', 'booking-taxes.create'])
+                        <li
+                            class="menu-item {{ in_array(request()->route()->getName(), ['booking-taxes.index', 'booking-taxes.create']) ? 'open active' : null }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class="fa-solid fa-bolt menu-icon"></i>
+                                <div>Daily Report</div>
+                            </a>
+                            <ul class="menu-sub">
+
+                                @can('booking-taxes.index')
+                                    <li class="menu-item {{ request()->routeIs('booking-taxes.index') ? 'active' : null }}">
+                                        <a href="{{ route('booking-taxes.index') }}" class="menu-link">
+                                            <div>View All</div>
+                                        </a>
+                                    </li>
+                                @endcan
+
+                                @can('booking-taxes.create')
+                                    <li class="menu-item {{ request()->routeIs('booking-taxes.create') ? 'active' : null }}">
+                                        <a href="{{ route('booking-taxes.create') }}" class="menu-link">
+                                            <div>Add New</div>
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcanany
+                </ul>
+            </li>
+        @endcanany
+
+        <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Utilities</span>
         </li>
         @canany(['meter-readings.index', 'meter-readings.create'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['meter-readings.index', 'meter-readings.create'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(), ['meter-readings.index', 'meter-readings.create']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-gauge menu-icon"></i>
                     <div>Meter Reading</div>
@@ -274,7 +321,7 @@
 
         @canany(['payment-methods.index', 'payment-methods.create'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['payment-methods.index', 'payment-methods.create'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(), ['payment-methods.index', 'payment-methods.create']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-dollar-sign menu-icon"></i>
                     <div>Payment Methods</div>
@@ -302,7 +349,7 @@
 
         @canany(['international-ids.index', 'international-ids.create'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['international-ids.index', 'international-ids.create'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(), ['international-ids.index', 'international-ids.create']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-id-card menu-icon"></i>
                     <div>International Ids</div>
@@ -328,9 +375,10 @@
             </li>
         @endcanany
 
-        @canany(['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create', 'cabins.needs-cleaning.update', 'cabins.maintenance.update'])
+        @canany(['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create',
+            'cabins.needs-cleaning.update', 'cabins.maintenance.update'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(),['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create', 'cabins.needs-cleaning.index', 'cabins.maintenance.index'])? 'open active': null }}">
+                class="menu-item {{ in_array(request()->route()->getName(), ['cabins.index', 'cabins.create', 'cabin-types.index', 'cabin-types.create', 'cabins.needs-cleaning.index', 'cabins.maintenance.index']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-solid fa-door-open menu-icon"></i>
                     <div>Cabins</div>
@@ -371,7 +419,7 @@
 
                     @canany(['cabin-types.index', 'cabin-types.create'])
                         <li
-                            class="menu-item {{ in_array(request()->route()->getName(),['cabin-types.index', 'cabin-types.create'])? 'open active': null }}">
+                            class="menu-item {{ in_array(request()->route()->getName(), ['cabin-types.index', 'cabin-types.create']) ? 'open active' : null }}">
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
                                 <i class="fa-solid fa-dollar-sign menu-icon"></i>
                                 <div>Cabin Types</div>

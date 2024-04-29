@@ -32,7 +32,7 @@
                 @csrf
                 @method('PUT')
 
-                {{ view('roles.form-fields', ['roles' => $roles, 'role' => $role]) }}
+                @include('roles.form-fields')
 
             </div>
 

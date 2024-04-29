@@ -7,7 +7,7 @@
 @section('page-title', 'Cabins List')
 
 @section('page-vendor')
-    {{ view('layout.libs.datatables.css') }}
+    @include('layout.libs.datatables.css')
 @endsection
 
 @section('page-css')
@@ -76,13 +76,11 @@
 @endsection
 
 @section('vendor-js')
-    {{ view('layout.libs.datatables.js') }}
+    @include('layout.libs.datatables.js')
 @endsection
 
 @section('page-js')
     <script src="{{ asset('assets') }}/vendor/libs/feligx/datedropper/datedropper.min.js"></script>
-    {{-- <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script> --}}
-    {{-- <script src="{{ asset('assets') }}/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script> --}}
 @endsection
 
 @section('custom-js')

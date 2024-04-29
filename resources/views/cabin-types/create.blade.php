@@ -29,7 +29,7 @@
             <div class="col-lg-9 col-md-9 col-sm-12 position-relative">
 
                 @csrf
-                {{ view('cabin-types.form-fields') }}
+                @include('cabin-types.form-fields')
 
             </div>
 

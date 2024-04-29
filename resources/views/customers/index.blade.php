@@ -7,7 +7,7 @@
 @section('page-title', 'Customers')
 
 @section('page-vendor')
-    {{ view('layout.libs.datatables.css') }}
+    @include('layout.libs.datatables.css')
 @endsection
 
 @section('page-css')
@@ -40,7 +40,7 @@
 @endsection
 
 @section('vendor-js')
-    {{ view('layout.libs.datatables.js') }}
+    @include('layout.libs.datatables.js')
 @endsection
 
 @section('page-js')
@@ -48,7 +48,7 @@
 
 @section('custom-js')
     {{ $dataTable->scripts() }}
-    {{ view('layout.libs.rateYo.rateYo') }}
+    @include('layout.libs.rateYo.rateYo')
     <script>
 
         function deleteSelected() {
