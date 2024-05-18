@@ -4,6 +4,8 @@ use App\Models\{Role, Setting};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\{Collection};
 use Illuminate\Support\Facades\{Cache, Crypt, File};
+use Spatie\LaravelPdf\Facades\Pdf;
+use Spatie\Browsershot\Browsershot;
 
 if (!function_exists('settings')) {
     function settings($key, $default = '', $overrideCache = false)
@@ -15,6 +17,15 @@ if (!function_exists('settings')) {
         return (new Setting())->firstWhere('key', $key)?->value ?? $default;
         // return Cache::remember($key, now()->addSeconds(env('CACHE_TIME_TO_LIVE', 3600)), function () use ($key, $default) {
         // });
+    }
+}
+
+if (!function_exists('browserhsotpdf')) {
+    function browserhsotpdf() {
+        return Pdf::withBrowsershot(function (Browsershot $browsershot) {
+            $browsershot->setNodeBinary(env('NODE_BINARY_PATH'));
+            $browsershot->setNpmBinary(env('NPM_BINARY_PATH'));
+        });
     }
 }
 

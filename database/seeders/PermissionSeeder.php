@@ -391,6 +391,13 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
                 'show_name' => 'Meter Reading - Can Export',
             ],
+
+            // Reports Routes
+            [
+                'name' => 'reports.daily',
+                'guard_name' => 'web',
+                'show_name' => 'Reports - Daily - Can Generate',
+            ],
         ];
 
         $role = (new Role())->first();

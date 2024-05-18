@@ -14,6 +14,7 @@ use App\Http\Controllers\{
     PaymentController,
     PaymentMethodController,
     PermissionController,
+    ReportController,
     RoleController,
     SettingController,
     UserController,
@@ -280,5 +281,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('edit', 'edit')->name('edit');
             Route::put('update', 'update')->name('update');
         });
+    });
+
+    // Reports Routes
+    Route::controller(ReportController::class)->name('reports.')->prefix('reports')->group(function () {
+        Route::get('daily', 'daily')->name('daily');
     });
 });

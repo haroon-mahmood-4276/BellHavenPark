@@ -210,3 +210,13 @@ Breadcrumbs::for('meter-readings.edit', function (BreadcrumbTrail $trail) {
     $trail->parent('meter-readings.index');
     $trail->push('Edit Meter Reading');
 });
+
+Breadcrumbs::for('reports', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Reports');
+});
+
+Breadcrumbs::for('reports.daily', function (BreadcrumbTrail $trail) {
+    $trail->parent('reports');
+    $trail->push('Daily');
+});

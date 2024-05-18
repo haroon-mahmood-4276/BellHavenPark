@@ -4,9 +4,6 @@ namespace App\DataTables;
 
 use App\Models\Payment;
 use App\Services\Cabins\CabinInterface;
-use App\Utils\Enums\CustomerAccounts;
-use App\Utils\Enums\PaymentStatus;
-use App\Utils\Enums\TransactionType;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;

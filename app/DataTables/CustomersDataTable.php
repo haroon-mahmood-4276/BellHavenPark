@@ -10,7 +10,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class CustomersDataTable extends DataTable
 {
@@ -60,7 +59,7 @@ class CustomersDataTable extends DataTable
      */
     public function query(Customer $model): QueryBuilder
     {
-        return $model->newQuery()->with(['international_id']);
+        return $model->newQuery();
     }
 
     public function html(): HtmlBuilder

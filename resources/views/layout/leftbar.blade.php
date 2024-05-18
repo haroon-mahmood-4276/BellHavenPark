@@ -243,43 +243,21 @@
             <span class="menu-header-text">Reporting</span>
         </li>
 
-        @canany(['booking-taxes.index', 'booking-taxes.create', 'booking-sources.index', 'booking-sources.create',
-            'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index',
-            'bookings.calender.index'])
+        @canany(['reports.daily'])
             <li
-                class="menu-item {{ in_array(request()->route()->getName(), ['booking-taxes.index', 'booking-taxes.create', 'booking-sources.index', 'booking-sources.create', 'bookings.index', 'bookings.create', 'bookings.checkin.index', 'bookings.checkout.index', 'bookings.calender.index']) ? 'open active' : null }}">
+                class="menu-item {{ in_array(request()->route()->getName(), ['reports.daily']) ? 'open active' : null }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="fa-regular fa-file-lines menu-icon"></i>
                     <div>Reports</div>
                 </a>
                 <ul class="menu-sub">
-                    @canany(['booking-taxes.index', 'booking-taxes.create'])
-                        <li
-                            class="menu-item {{ in_array(request()->route()->getName(), ['booking-taxes.index', 'booking-taxes.create']) ? 'open active' : null }}">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="fa-solid fa-bolt menu-icon"></i>
-                                <div>Daily Report</div>
-                            </a>
-                            <ul class="menu-sub">
-
-                                @can('booking-taxes.index')
-                                    <li class="menu-item {{ request()->routeIs('booking-taxes.index') ? 'active' : null }}">
-                                        <a href="{{ route('booking-taxes.index') }}" class="menu-link">
-                                            <div>View All</div>
-                                        </a>
-                                    </li>
-                                @endcan
-
-                                @can('booking-taxes.create')
-                                    <li class="menu-item {{ request()->routeIs('booking-taxes.create') ? 'active' : null }}">
-                                        <a href="{{ route('booking-taxes.create') }}" class="menu-link">
-                                            <div>Add New</div>
-                                        </a>
-                                    </li>
-                                @endcan
-                            </ul>
-                        </li>
-                    @endcanany
+                    @can('reports.daily')
+                    <li class="menu-item {{ request()->routeIs('reports.daily') ? 'active' : null }}">
+                        <a href="{{ route('reports.daily') }}" class="menu-link">
+                            <div>Daily</div>
+                        </a>
+                    </li>
+                @endcan
                 </ul>
             </li>
         @endcanany
