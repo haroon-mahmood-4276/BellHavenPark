@@ -64,7 +64,7 @@
 
                     <input type="text" class="form-control @error('closed_permanent_till') is-invalid @enderror"
                         id="closed_permanent_till" placeholder="Permanently Closed Till"
-                        value="{{ isset($cabin) ? \Carbon\Carbon::parse($cabin->closed_to)->format('F j, Y') : now()->format('F j, Y') }}" />
+                        value="{{ isset($cabin) ? \Carbon\Carbon::parse($cabin->closed_to)->format('F j, Y') : now()->format('F d, Y') }}" />
 
                     <input type="hidden" name="closed_permanent_till"
                         value="{{ isset($cabin) ? \Carbon\Carbon::parse($cabin->closed_to)->startOfDay()->timestamp : now()->startOfDay()->timestamp }}">
@@ -84,7 +84,7 @@
 
                     <input type="text" class="form-control @error('closed_temporarily_till') is-invalid @enderror"
                         id="closed_temporarily_till" placeholder="Temporarily Closed Till"
-                        value="{{ isset($cabin) ? \Carbon\Carbon::parse($cabin->closed_from)->format('F j, Y') : now()->format('F j, Y') }} - {{ isset($cabin)? \Carbon\Carbon::parse($cabin->closed_to)->format('F j, Y'): now()->addDay()->format('F j, Y') }}" />
+                        value="{{ isset($cabin) ? \Carbon\Carbon::parse($cabin->closed_from)->format('F j, Y') : now()->format('F d, Y') }} - {{ isset($cabin)? \Carbon\Carbon::parse($cabin->closed_to)->format('F j, Y'): now()->addDay()->format('F j, Y') }}" />
 
                     <input type="hidden" name="closed_temporarily_till_from"
                         value="{{ isset($cabin) ? \Carbon\Carbon::parse($cabin->closed_from)->startOfDay()->timestamp : now()->startOfDay()->timestamp }}">

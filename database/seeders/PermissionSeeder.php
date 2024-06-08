@@ -103,6 +103,33 @@ class PermissionSeeder extends Seeder
                 'show_name' => 'Permissions - Can Edit Own',
             ],
 
+            // Users Permissions
+            // [
+            //     'name' => 'users.index',
+            //     'guard_name' => 'web',
+            //     'show_name' => 'Users - Can View',
+            // ],
+            // [
+            //     'name' => 'users.create',
+            //     'guard_name' => 'web',
+            //     'show_name' => 'Users - Can Create',
+            // ],
+            // [
+            //     'name' => 'users.edit',
+            //     'guard_name' => 'web',
+            //     'show_name' => 'Users - Can Edit',
+            // ],
+            // [
+            //     'name' => 'users.destroy',
+            //     'guard_name' => 'web',
+            //     'show_name' => 'Users - Can Delete',
+            // ],
+            // [
+            //     'name' => 'users.export',
+            //     'guard_name' => 'web',
+            //     'show_name' => 'Users - Can Export',
+            // ],
+
             // Sites Routes
             [
                 'name' => 'cache.flush',
