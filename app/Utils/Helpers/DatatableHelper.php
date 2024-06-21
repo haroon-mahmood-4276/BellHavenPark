@@ -4,31 +4,39 @@ use App\Utils\Enums\CabinStatus;
 use Carbon\Carbon;
 use App\Utils\Enums\CustomerAccounts;
 use App\Utils\Enums\MeterTypes;
+use Illuminate\Support\Str;
 
 if (!function_exists('editDateTimeColumn')) {
     function editDateTimeColumn($date, $dateFormat = 'Y-m-d', $timeFormat = 'H:i:s', $withBr = true, $order = 'TD')
     {
-        if (($date instanceof Carbon ? $date->timestamp : $date) < 1)
+        if (($date instanceof Carbon ? $date->timestamp : $date) < 1) {
             return '-';
+        }
 
         $date = Carbon::parse($date)->setTimezone(config('app.timezone'));
         switch ($order) {
             case 'TD':
-                return "<span>" . $date->format($timeFormat) . "</span> " . ($withBr ? '<br>' : "") . " <span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span>";
+                $formatedDate = "<span>" . $date->format($timeFormat) . "</span> " . ($withBr ? '<br>' : "") . " <span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span>";
                 break;
 
             case 'DT':
-                return "<span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span> " . ($withBr ? '<br>' : "") . " <span>" . $date->format($timeFormat) . "</span>";
+                $formatedDate = "<span class='text-primary fw-bold'>" . $date->format($dateFormat) . "</span> " . ($withBr ? '<br>' : "") . " <span>" . $date->format($timeFormat) . "</span>";
+                break;
+
+            default:
+                $formatedDate = $date->format($timeFormat) . " " . ($withBr ? '<br>' : "") . " " . $date->format($dateFormat);
                 break;
         }
+        return $formatedDate;
     }
 }
 
 if (!function_exists('editPaymentColumn')) {
     function editPaymentColumn($amount, $decimals = 0, $symbol = '$')
     {
-        if ($amount < 1)
+        if ($amount < 1) {
             return '-';
+        }
 
         return $symbol . ' ' . number_format($amount, $decimals);
     }
@@ -39,9 +47,9 @@ if (!function_exists('editTitleColumn')) {
     {
         if (is_null($string)) {
             return '-';
-        } else if (is_string($string)) {
+        } elseif (is_string($string)) {
             return Str::of($string)->replace('_', ' ')->title();
-        } else if ($string instanceof CustomerAccounts || $string instanceof MeterTypes) {
+        } elseif ($string instanceof CustomerAccounts || $string instanceof MeterTypes) {
             return Str::of($string->value)->replace('_', ' ')->title();
         }
     }
@@ -50,8 +58,9 @@ if (!function_exists('editTitleColumn')) {
 if (!function_exists('editTimeColumn')) {
     function editTimeColumn($date)
     {
-        if (($date instanceof Carbon ? $date->timestamp : $date) < 1)
+        if (($date instanceof Carbon ? $date->timestamp : $date) < 1) {
             return '-';
+        }
 
         $date = new Carbon($date);
 
@@ -62,8 +71,9 @@ if (!function_exists('editTimeColumn')) {
 if (!function_exists('editDateColumn')) {
     function editDateColumn($date, $format = 'Y-m-d')
     {
-        if (($date instanceof Carbon ? $date->timestamp : $date) < 1)
+        if (($date instanceof Carbon ? $date->timestamp : $date) < 1) {
             return '-';
+        }
 
         $date = new Carbon($date);
 

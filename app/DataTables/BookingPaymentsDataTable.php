@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Payment;
 use App\Services\Cabins\CabinInterface;
+use App\Utils\Traits\DataTableTrait;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -15,6 +16,8 @@ use Illuminate\Support\Str;
 
 class BookingPaymentsDataTable extends DataTable
 {
+    use DataTableTrait;
+    
     private $cabinInterface;
 
     public function __construct(CabinInterface $cabinInterface)
@@ -33,6 +36,7 @@ class BookingPaymentsDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         return (new EloquentDataTable($query))
             ->setRowId('id')
+            ->addIndexColumn()
             ->editColumn('account', function ($row) {
                 return editBadgeColumn(Str::of($row->account->value)->headline() ?? '-');
             })
@@ -58,7 +62,6 @@ class BookingPaymentsDataTable extends DataTable
             ->editColumn('created_at', function ($row) {
                 return editDateTimeColumn($row->created_at);
             })
-            ->addIndexColumn()
             ->rawColumns(array_merge($columns, ['action', 'check']));
     }
 
@@ -79,16 +82,14 @@ class BookingPaymentsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         $buttons = [];
-
+        $buttonClass = 'dropdown-item m-1';
         $cabin = $this->cabinInterface->getById($this->booking_cabin_id);
-
-        // dd($cabin);
 
         if (auth()->user()->can('bookings.payments.create')) {
 
             $createButtons = [
                 Button::raw('add-rent-payment')
-                    ->addClass('dropdown-item m-1')
+                    ->addClass($buttonClass)
                     ->text('<i class="fa-solid fa-plus me-1"></i>Add Rent Payment')
                     ->action('addNew("rent_payment")')
             ];
@@ -99,24 +100,24 @@ class BookingPaymentsDataTable extends DataTable
 
             if ($cabin->electric_meter) {
                 $createButtons[] = Button::raw('add-electricity-payment')
-                    ->addClass('dropdown-item m-1')
+                    ->addClass($buttonClass)
                     ->text('<i class="fa-solid fa-plug-circle-bolt me-1"></i>Electricity Payment')
                     ->action('addNew("electricity_payment")');
             }
 
             if ($cabin->gas_meter) {
                 $createButtons[] = Button::raw('add-gas-payment')
-                    ->addClass('dropdown-item m-1')
+                    ->addClass($buttonClass)
                     ->text('<i class="fa-solid fa-fire-flame-simple me-1"></i>Gas Payment')
                     ->action('addNew("gas_payment")');
             }
 
             if ($cabin->gas_meter) {
                 $createButtons[] = Button::raw('add-water-payment')
-                    ->addClass('dropdown-item m-1')
+                    ->addClass($buttonClass)
                     ->text('<i class="fa-solid fa-droplet me-1"></i>Water Payment')
                     ->action('addNew("water_payment")');
-            };
+            }
 
             $buttons[] = Button::make('collection')
                 ->addClass('btn btn-primary waves-effect waves-float waves-light dropdown-toggle m-1 btn-add-payment-collection')
@@ -187,37 +188,17 @@ class BookingPaymentsDataTable extends DataTable
      */
     protected function getColumns(): array
     {
+        $class = 'text-nowrap text-center align-middle';
         return [
-            Column::make('DT_RowIndex')->title('#')->searchable(false)->orderable(false)->addClass('text-nowrap text-center align-middle'),
-            Column::make('account')->addClass('text-nowrap text-center align-middle'),
-            Column::make('payment_method.name')->title('Payment Method')->addClass('text-nowrap text-center align-middle'),
-            Column::make('payment_from')->title('Payment From')->addClass('text-nowrap text-center align-middle'),
-            Column::make('payment_to')->title('Payment To')->addClass('text-nowrap text-center align-middle'),
-            Column::make('credit_amount')->addClass('text-nowrap text-center align-middle'),
-            Column::make('debit_amount')->addClass('text-nowrap text-center align-middle'),
-            Column::make('comments')->title('Comments')->addClass('text-nowrap text-center align-middle'),
-            Column::make('created_at')->addClass('text-nowrap text-center align-middle'),
+            Column::make('DT_RowIndex')->title('#')->searchable(false)->orderable(false)->addClass($class),
+            Column::make('account')->addClass($class),
+            Column::make('payment_method.name')->title('Payment Method')->addClass($class),
+            Column::make('payment_from')->title('Payment From')->addClass($class),
+            Column::make('payment_to')->title('Payment To')->addClass($class),
+            Column::make('credit_amount')->addClass($class),
+            Column::make('debit_amount')->addClass($class),
+            Column::make('comments')->title('Comments')->addClass($class),
+            Column::make('created_at')->addClass($class),
         ];
-    }
-
-    /**
-     * Get filename for export.
-     *
-     * @return string
-     */
-    protected function filename(): string
-    {
-        return 'booking_payments_' . date('YmdHis');
-    }
-
-    /**
-     * Export PDF using DOMPDF
-     * @return mixed
-     */
-    public function pdf()
-    {
-        $data = $this->getDataForPrint();
-        $pdf = Pdf::loadView($this->printPreview, ['data' => $data])->setOption(['defaultFont' => 'sans-serif']);
-        return $pdf->download($this->filename() . '.pdf');
     }
 }

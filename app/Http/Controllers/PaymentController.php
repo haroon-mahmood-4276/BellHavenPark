@@ -16,14 +16,12 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    private $bookingTaxInterface, $paymentMethodInterface, $paymentInterface, $bookingInterface;
+    private $bookingTaxInterface;
+    private $paymentMethodInterface;
+    private $paymentInterface;
+    private $bookingInterface;
 
-    public function __construct(
-        BookingInterface $bookingInterface,
-        PaymentInterface $paymentInterface,
-        PaymentMethodInterface $paymentMethodInterface,
-        BookingTaxInterface $bookingTaxInterface
-    ) {
+    public function __construct(BookingInterface $bookingInterface, PaymentInterface $paymentInterface, PaymentMethodInterface $paymentMethodInterface, BookingTaxInterface $bookingTaxInterface) {
         $this->bookingInterface = $bookingInterface;
         $this->paymentInterface = $paymentInterface;
         $this->paymentMethodInterface = $paymentMethodInterface;
@@ -94,14 +92,7 @@ class PaymentController extends Controller
                         'error' => 'Booking not found.'
                     ]
                 ];
-            } elseif ($request->payment_type === 'rent_payment' && Carbon::parse($modalData['booking']->booking_to)->diffInDays($modalData['last_payment_date']) == 0) {
-                $data = [
-                    'status' => false,
-                    'message' => [
-                        'error' => 'Cannot add more payment'
-                    ]
-                ];
-            } elseif (($request->payment_type === 'electricity_payment' && $modalData['electricity_account'] <= 0) || ($request->payment_type === 'gas_payment' && $modalData['gas_account'] <= 0) || ($request->payment_type === 'water_payment' && $modalData['water_account'] <= 0)) {
+            } elseif (($request->payment_type === 'rent_payment' && Carbon::parse($modalData['booking']->booking_to)->diffInDays($modalData['last_payment_date']) == 0) || (($request->payment_type === 'electricity_payment' && $modalData['electricity_account'] <= 0) || ($request->payment_type === 'gas_payment' && $modalData['gas_account'] <= 0) || ($request->payment_type === 'water_payment' && $modalData['water_account'] <= 0))) {
                 $data = [
                     'status' => false,
                     'message' => [

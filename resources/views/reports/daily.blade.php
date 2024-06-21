@@ -26,7 +26,7 @@
 @section('content')
     <div class="card mb-3">
         <div class="card-body">
-            <form action="javascript:void(0);" method="GET">
+            <form action="{{ route('reports.daily') }}" method="GET" id="report_form">
                 <div class="row mb-3">
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                         <label class="form-label" style="font-size: 15px" for="report_date_range">Date Range
@@ -36,15 +36,26 @@
                             placeholder="Month Date, Year - Month Date, Year" />
                     </div>
 
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                    {{-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                         <label class="form-label" style="font-size: 15px" for="customer">Customer</label>
                         <select class="select2-size-lg form-select" id="customer" name="customer"></select>
+                    </div> --}}
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                        <div class="form-check form-check-inline mt-3">
+                            <input type="hidden" name="group_payment_method" value="0">
+                            <input class="form-check-input" type="checkbox" name="group_payment_method"id="group_payment_method" value="1">
+                            <label class="form-check-label" for="group_payment_method">Payment Method Wise</label>
+                        </div>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-xl-2 col-lg-2 col-md-2">
-                        <div class="d-flex justify-content-center align-items-end w-100 h-100">
-                            <button class="btn btn-primary text-nowrap" id="apply_filter" type="button">
+                    <div class="col-xl-12 col-lg-12 col-md-12">
+                        <div class="d-flex justify-content-end align-items-center w-100 h-100">
+                            <button class="btn btn-primary text-nowrap" id="apply_filter" type="submit">
                                 <span>Generate Report</span>
                             </button>
                         </div>

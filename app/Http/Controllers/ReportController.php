@@ -11,27 +11,26 @@ class ReportController extends Controller
 {
     public function daily(Request $request, ReportsDataTable $dataTable)
     {
-        if ($request->has('booking_date_range') && !is_null($request->booking_date_range) && !empty($request->booking_date_range)) {
-            $dates = explode('-', $request->booking_date_range);
+        if ($request->has('report_date_range') && !is_null($request->report_date_range) && !empty($request->report_date_range)) {
+            $dates = explode('~', $request->report_date_range);
             $data = [
-                'booking_from' => Carbon::parse(trim($dates[0])),
-                'booking_to' => Carbon::parse(trim(isset($dates[1]) ? $dates[1] : $dates[0])),
+                'report_from' => Carbon::parse(trim($dates[0]))->startOfDay()->timestamp,
+                'report_to' => Carbon::parse(trim(isset($dates[1]) ? $dates[1] : $dates[0]))->endOfDay()->timestamp,
                 'showDataTable' => true
             ];
         } else {
             $data = [
-                'booking_from' => now(),
-                'booking_to' => now(),
+                'report_from' => now()->startOfDay()->timestamp,
+                'report_to' => now()->endOfDay()->timestamp,
                 'showDataTable' => false
             ];
         }
 
         if (request()->ajax()) {
-            return $dataTable->ajax();
+            return $dataTable->with($data)->ajax();
         }
 
-        return $dataTable->render('reports.daily', $data);
-        return view('reports.daily');
-        return browserhsotpdf()->view('reports.reports.daily')->format(Format::A4)->save('invoice.pdf');
+        return $dataTable->with($data)->render('reports.daily', $data);
+        // return browserhsotpdf()->view('reports.reports.daily')->format(Format::A4)->save('invoice.pdf');
     }
 }

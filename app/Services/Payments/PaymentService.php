@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class PaymentService implements PaymentInterface
 {
-
     private $paymentMethodInterface;
 
     public function __construct(PaymentMethodInterface $paymentMethodInterface)
@@ -69,7 +68,8 @@ class PaymentService implements PaymentInterface
                 $this->addCrditAccountAmount(
                     $booking->customer_id,
                     $inputs['payment_methods'],
-                    0 - $inputs['amount'],
+                    0 - $amount,
+                    booking_id: $booking->id,
                     payment_from: Carbon::parse($inputs['payment_from'])->timestamp,
                     payment_to: Carbon::parse($inputs['payment_to'])->timestamp,
                     additional_data: [
@@ -82,36 +82,8 @@ class PaymentService implements PaymentInterface
                         'tax_flat' => $inputs['tax_flat'],
                         'tax' => $inputs['tax'],
                     ],
-                    comment: "Amount $" . number_format($inputs['amount']) . " is deducted from credit account for rent. " . $inputs['comments']
+                    comment: "Amount $" . number_format($amount) . " is deducted from credit account for rent. " . $inputs['comments']
                 );
-
-
-
-
-                $data = [
-                    'payment_method_id' => $inputs['payment_methods'],
-                    'customer_id' => $booking->customer_id,
-                    'payment_from' => Carbon::parse($inputs['payment_from'])->timestamp,
-                    'payment_to' => Carbon::parse($inputs['payment_to'])->timestamp,
-                    'credit_amount' => 0,
-                    'debit_amount' => $amount,
-                    'account' => match ($isPyamentMethodLinked->value) {
-                        'credit_account' => CustomerAccounts::CREDIT_ACCOUNT
-                    },
-                    'additional_data' => [
-                        'booking_id' => $booking->id,
-                        'rate_type' => $inputs['rate_type'],
-                        'daily_rate' => $booking->daily_rate,
-                        'weekly_rate' => $booking->weekly_rate,
-                        'monthly_rate' => $booking->four_weekly_rate,
-                        'days_count' => $inputs['text_days_count'],
-                        'tax_flat' => $inputs['tax_flat'],
-                        'tax' => $inputs['tax'],
-                    ],
-                    'comments' => "Amount $" . number_format($amount) . " is deducted from credit account for rent. " . $inputs['comments'],
-                ];
-
-                $this->model()->create($data);
             }
         });
     }
@@ -146,6 +118,7 @@ class PaymentService implements PaymentInterface
                     $booking->customer_id,
                     $inputs['payment_methods'],
                     0 - $inputs['amount'],
+                    booking_id: $booking->id,
                     payment_from: 0,
                     payment_to: 0,
                     additional_data: [
@@ -157,9 +130,10 @@ class PaymentService implements PaymentInterface
         });
     }
 
-    public function addCrditAccountAmount($customer_id, $payment_method, $amount, $payment_from = 0, $payment_to = 0, $additional_data = [], $comment = '')
+    public function addCrditAccountAmount($customer_id, $payment_method, $amount, $booking_id = null, $payment_from = 0, $payment_to = 0, $additional_data = [], $comment = '')
     {
         $data = [
+            'booking_id' => $booking_id,
             'payment_method_id' => $payment_method,
             'customer_id' => $customer_id,
             'payment_from' => $payment_from,
@@ -198,8 +172,9 @@ class PaymentService implements PaymentInterface
     public function lastPaymentDate($booking_id)
     {
         $epochDate = $this->model()->where(['booking_id' => $booking_id, 'account' => CustomerAccounts::RENT])->where('credit_amount', '>', 0)->latest('payment_to')->first()?->payment_to;
-        if (!is_null($epochDate))
+        if (!is_null($epochDate)) {
             return Carbon::parse($epochDate);
+        }
         return null;
     }
 }

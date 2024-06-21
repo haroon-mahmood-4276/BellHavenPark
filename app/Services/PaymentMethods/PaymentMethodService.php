@@ -17,7 +17,7 @@ class PaymentMethodService implements PaymentMethodInterface
         $model = $this->model();
         if (is_array($ignore)) {
             $model = $model->whereNotIn('id', $ignore);
-        } else if (is_string($ignore)) {
+        } elseif (is_string($ignore)) {
             $model = $model->where('id', '!=', $ignore);
         }
 

@@ -141,7 +141,7 @@ class BookingService implements BookingInterface
 
             if ($inputs['payment'] == 'now') {
                 $data = [
-                    'booking_id' => $booking->id,
+                    'booking_id' => null,
                     'payment_method_id' => $inputs['payment_methods'],
                     'customer_id' => $inputs['customer'],
                     'payment_from' => 0,
